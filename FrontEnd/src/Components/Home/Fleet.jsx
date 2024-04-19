@@ -1,7 +1,7 @@
 import FleetCard from './FleetCard';
 import fleetBoat1 from '../../assets/Images/fleetBoat1.png';
-import fleetBoat2 from '../../assets/Images/fleetBoat2.png';
-import fleetBoat3 from '../../assets/Images/fleetBoat3.png';
+import fleetBoat2 from '../../assets/Images/fleetBoat2.webp';
+import fleetBoat3 from '../../assets/Images/fleetBoat3.webp';
 
 const Fleet = () => {
   return (

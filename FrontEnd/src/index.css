@@ -16,7 +16,7 @@ body {
 }
 
 .hero-bg {
-  background: url('../src/assets/Images/hero-bg.png');
+  background: url('../src/assets/Images/hero-bg.webp');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -24,7 +24,7 @@ body {
 }
 
 .Services-container {
-  background: url('../src/assets/Images/Services-bg-boat.png');
+  background: url('../src/assets/Images/Services-bg-boat.webp');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -69,5 +69,4 @@ body {
     cursor: pointer;
     z-index: 1001;
   }
-
 }

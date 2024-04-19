@@ -1,7 +1,7 @@
 import { FaPhoneAlt } from 'react-icons/fa';
 import { IoMail } from 'react-icons/io5';
 import { RiWhatsappFill } from 'react-icons/ri';
-import manWithStick from '../../assets/Images/man-with-stick.png';
+import manWithStick from '../../assets/Images/man-with-stick.webp';
 import phoneSaveIcon from '../../assets/Images/phone-save.png';
 
 const HeroSection = () => {
