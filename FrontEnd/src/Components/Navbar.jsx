@@ -72,9 +72,9 @@ const Navbar = () => {
           <button className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
             Login
           </button>
-          <button className="text-white bg-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
+          <Link to={"/book-now"} className="text-white bg-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
             Book Now
-          </button>
+          </Link>
         </div>
       </div>
     </nav>

@@ -22,3 +22,21 @@ body {
   width: 100%;
   height: calc(100svh + 2rem);
 }
+
+@layer components {
+  
+  .heading-book{
+  font-weight: 500; 
+font-size: 1.5rem; 
+color: #000000; 
+  }
+  
+  .para-book {
+    margin-top: 3%; /* Adjust margin based on your design */
+    font-weight: normal;
+    font-size: 1.25rem; /* Equivalent to text-xl */
+    color: #000000; /* Black color */
+    opacity: 0.5; /* 50% opacity */
+    line-height: 1.75; /* Equivalent to leading-7 */
+  }
+}
