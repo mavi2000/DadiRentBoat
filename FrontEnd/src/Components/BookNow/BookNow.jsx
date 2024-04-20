@@ -143,7 +143,7 @@ const BookNow = () => {
                         <p className=' text-sm text-[#676767] text-opacity-70 text-center'>8m</p>
                     </div>
 
-                    <div className='py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-40 md:h-20'>
+                    <div className='py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30  md:w-40 md:h-20'>
                         <div className='flex gap-1 items-center'>
                         <span className=' text-[1.15rem] text-[#CBA557]'><RiRulerLine/></span>
                         <p className=' text-[#676767]'>Fuel Tank</p>
@@ -151,7 +151,7 @@ const BookNow = () => {
                         <p className=' text-sm text-[#676767] text-opacity-70 text-center'>8m</p>
                     </div>
 
-                    <div className='py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-40 md:h-20'>
+                    <div className='py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30  md:w-40 md:h-20'>
                         <div className='flex gap-1 items-center'>
                         <span className=' text-[1.15rem] text-[#CBA557]'><RiRulerLine/></span>
                         <p className=' text-[#676767]'>Fuel Type</p>
