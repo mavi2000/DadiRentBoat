@@ -1,23 +1,25 @@
-import Footer from '../Footer';
-import Navbar from '../Navbar';
 import Fleet from './Fleet';
 import HeroSection from './HeroSection';
+import ISAVideo from './ISAVideo';
 import Precautions from './Precautions';
 import Rates from './Rates';
 import Services from './Services';
+import WhatOurCustomersSay from './WhatOurCustomersSay';
 import WhyChooseUs from './WhyChooseUs';
+import WhereWeAre from './WhereWeAre';
 
 const Home = () => {
   return (
     <>
-      <Navbar />
       <HeroSection />
       <Services />
       <Fleet />
       <Rates />
       <Precautions />
       <WhyChooseUs />
-      <Footer />
+      {/* <ISAVideo /> */}
+      <WhatOurCustomersSay />
+      <WhereWeAre />
     </>
   );
 };
