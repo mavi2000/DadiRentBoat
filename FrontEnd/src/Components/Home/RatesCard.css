@@ -1,0 +1,40 @@
+.rates-card-star-img {
+  background: url("../src/assets/Images/rates-star.png");
+  width: 53px;
+  height: 53px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-top: 0.5rem;
+  margin-bottom: 3rem;
+}
+
+.rate-check-img {
+  background: url("../src/assets/Images/check-outline.png");
+  width: 1rem;
+  height: 1rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.rates-card-container:hover {
+  .rates-card-star-img {
+    background: url("../src/assets/Images/rates-star-filled.png");
+    width: 53px;
+    height: 53px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-top: 0.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .rate-check-img {
+    background: url("../src/assets/Images/check-fill.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .rates-card-btn {
+    background: var(--primary-color);
+    color: white;
+  }
+}

@@ -1,27 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: Poppins, sans-serif;
-}
-
-body {
-  background: #F5F5F5;
-}
-
-.hero-bg {
-  background: url('../src/assets/Images/hero-bg.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 100%;
-  height: calc(100svh + 2rem);
-}
 
 @layer components {
 
@@ -56,5 +38,72 @@ color: #000000;
     color: #000000; 
     opacity: 0.5; 
     line-height: 1.75; 
+  }
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Poppins, sans-serif;
+}
+
+body {
+  background: #F5F5F5;
+}
+
+.hero-bg {
+  background: url('../src/assets/Images/hero-bg.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: calc(100svh + 6rem);
+}
+
+.Services-container {
+  background: url('../src/assets/Images/Services-bg-boat.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: fit-content;
+}
+
+
+.small-devices.show {
+  transform: translateY(0);
+}
+
+.hamburger-main-menu {
+  display: none;
+}
+
+@media screen and (max-width: 840px) {
+
+  .small-devices {
+    transform: translateY(-200%);
+    transition: transform 0.3s ease-in-out;
+    margin-top: 4rem;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: fit-content;
+    width: 100%;
+    /* background: white; */
+    z-index: 1000;
+    margin-left: 0;
+    scroll-behavior: smooth;
+    overflow-y: auto;
+    max-height: 90vh;
+    padding-bottom: 1rem;
+  }
+
+  .hamburger-main-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow-y: auto !important;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 1001;
   }
 }
