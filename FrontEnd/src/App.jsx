@@ -4,7 +4,7 @@ import './assets/styles/variables.css';
 import BookNow from './Components/BookNow/BookNow';
 import Checkout from './Components/Checkout/Checkout';
 import Layout from './Components/Layout';
-import OurFleet from './Components/Fleet/OurFleet';
+import OurFleet from './Components/OurFleet/OurFleet';
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
         />
         <Route
           path="/Our-Fleet"
-          element={<Layout Children={<OurFleet />} isLocation={false} />}
+          element={<Layout Children={<OurFleet />} isLocation={true} />}
         />
       </Routes>
     </BrowserRouter>
