@@ -5,8 +5,10 @@ import BookNow from './Components/BookNow/BookNow';
 import Checkout from './Components/Checkout/Checkout';
 import Layout from './Components/Layout';
 import FAQ from './Components/FAQ/FAQ';
+import Services from './Components/Services/Services';
 import OurFleet from './Components/OurFleet/OurFleet';
-import FarSouth from './Components/Excursions/FarSouth';
+import Excursions from './Components/Excursions/Excursions';
+import StandardPlus from './Components/Excursions/StandardPlus';
 
 function App() {
   return (
@@ -33,9 +35,18 @@ function App() {
           path="/faq"
           element={<Layout Children={<FAQ />} isLocation={true} />}
         />
+
         <Route
-          path="/FarSouth"
-          element={<Layout Children={<FarSouth />} isLocation={true} />}
+          path="/services"
+          element={<Layout Children={<Services />} isLocation={true} />}
+        />
+        <Route
+          path="/Excursions"
+          element={<Layout Children={<Excursions />} isLocation={true} />}
+        />
+        <Route
+          path="/Standard-Plus"
+          element={<Layout Children={<StandardPlus />} isLocation={true} />}
         />
       </Routes>
     </BrowserRouter>
