@@ -6,6 +6,7 @@ import Checkout from './Components/Checkout/Checkout';
 import Layout from './Components/Layout';
 import FAQ from './Components/FAQ/FAQ';
 import OurFleet from './Components/OurFleet/OurFleet';
+import FarSouth from './Components/Excursions/FarSouth';
 
 function App() {
   return (
@@ -31,6 +32,10 @@ function App() {
         <Route
           path="/faq"
           element={<Layout Children={<FAQ />} isLocation={true} />}
+        />
+        <Route
+          path="/FarSouth"
+          element={<Layout Children={<FarSouth />} isLocation={true} />}
         />
       </Routes>
     </BrowserRouter>
