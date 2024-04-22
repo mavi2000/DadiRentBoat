@@ -1,6 +1,5 @@
 import Fleet from './Fleet';
 import HeroSection from './HeroSection';
-import ISAVideo from './ISAVideo';
 import Precautions from './Precautions';
 import Rates from './Rates';
 import Services from './Services';
@@ -17,7 +16,6 @@ const Home = () => {
       <Rates />
       <Precautions />
       <WhyChooseUs />
-      {/* <ISAVideo /> */}
       <WhatOurCustomersSay />
       <WhereWeAre />
       

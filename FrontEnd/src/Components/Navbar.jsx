@@ -99,7 +99,7 @@ const Navbar = () => {
               Services
             </p>
           </Link>
-          <Link to="/">
+          <Link to="/Our-Fleet">
             <p className="hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ">
               Fleet
             </p>
@@ -119,6 +119,7 @@ const Navbar = () => {
               Dadi Boats
             </p>
           </Link>
+
           <Link to="/">
             <p className="hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ">
               Contact Us
@@ -127,9 +128,11 @@ const Navbar = () => {
           <button className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
             Login
           </button>
-          <button className="text-white bg-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
-            Book Now
-          </button>
+          <Link to="/check-out">
+            <button className="text-white bg-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
+              Book Now
+            </button>
+          </Link>
         </div>
       </div>
       {/* mobile navbar  */}

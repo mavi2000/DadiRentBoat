@@ -7,37 +7,41 @@
 
 @layer components {
 
-  .equip-items{
+  .equip-items {
     @apply flex rounded-lg w-1/2 sm:w-1/4 md:w-1/3 gap-1 mt-5
   }
 
-  .input-checkout{
+  .input-checkout {
     @apply px-3 py-4 border border-[#E8E8E8] rounded-md lg:w-[48%] w-full bg-[#CBA557] bg-opacity-10 font-normal text-[12px] text-[#676767]
   }
 
-  .shadow-checkout{
-    box-shadow: 0px 12px 32px 0px rgba(25, 25, 25, 0.1);
-  }
-  
-  .heading-book{
-  font-weight: 500; 
-font-size: 1.5rem; 
-color: #000000; 
+  .btn-5{
+    @apply py-3 px-12 my-[5%] bg-[#CBA557] rounded-[20px] text-lg text-white font-bold
   }
 
-  .min-heading{
+  .shadow-checkout {
+    box-shadow: 0px 12px 32px 0px rgba(25, 25, 25, 0.1);
+  }
+
+  .heading-book {
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: #000000;
+  }
+
+  .min-heading {
     font-size: 20px;
     font-weight: 400;
     color: #000000;
   }
-  
+
   .para-book {
-    margin-top: 3%; 
+    margin-top: 3%;
     font-weight: normal;
-    font-size: 1.25rem; 
-    color: #000000; 
-    opacity: 0.5; 
-    line-height: 1.75; 
+    font-size: 1.25rem;
+    color: #000000;
+    opacity: 0.5;
+    line-height: 1.75;
   }
 }
 
@@ -60,6 +64,30 @@ body {
   height: calc(100svh + 6rem);
 }
 
+.fleet-bg {
+  background: url('../src/assets/Images/our-fleet-bg.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100svh;
+}
+
+.checkout-bg {
+  background: url('../src/assets/Images/checkout-bg.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100svh;
+}
+
+.boat-page-bg {
+  background: url('../src/assets/Images/boat-page-bg.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100svh;
+}
+
 .Services-container {
   background: url('../src/assets/Images/Services-bg-boat.webp');
   background-repeat: no-repeat;
@@ -67,7 +95,6 @@ body {
   width: 100%;
   height: fit-content;
 }
-
 
 .small-devices.show {
   transform: translateY(0);

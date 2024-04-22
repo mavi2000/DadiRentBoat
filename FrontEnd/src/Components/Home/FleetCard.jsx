@@ -3,6 +3,7 @@ import fleetBoat1 from '../../assets/Images/fleetBoat1.png';
 import fleetCardIcon from '../../assets/Images/fleetCardIcon.png';
 import { FaPeopleGroup } from 'react-icons/fa6';
 import { HiOutlineIdentification } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 const FleetCard = ({
   boatImg,
   title,
@@ -51,12 +52,16 @@ const FleetCard = ({
           </tr>
         </table>
         <div className="w-full mt-12 mb-4 flex gap-4">
-          <button className="text-[var(--primary-color)] text-sm font-normal grow rounded-lg border-[1px] border-[var(--primary-color)] uppercase px-4 py-2">
-            Boat PAGE
-          </button>
-          <button className="text-white text-sm font-normal bg-[var(--primary-color)] grow rounded-lg border-[1px] border-[var(--primary-color)] uppercase px-4 py-2">
-            Book Now
-          </button>
+          <Link to="/book-now">
+            <button className="text-[var(--primary-color)] text-sm font-normal grow rounded-lg border-[1px] border-[var(--primary-color)] uppercase px-4 py-2">
+              Boat PAGE
+            </button>
+          </Link>
+          <Link to="/check-out">
+            <button className="text-white text-sm font-normal bg-[var(--primary-color)] grow rounded-lg border-[1px] border-[var(--primary-color)] uppercase px-4 py-2">
+              Book Now
+            </button>
+          </Link>
         </div>
       </div>
     </div>
