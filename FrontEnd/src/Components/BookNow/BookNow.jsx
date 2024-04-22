@@ -11,6 +11,11 @@ import { IoIosArrowUp } from 'react-icons/io';
 import { RiRulerLine } from 'react-icons/ri';
 import { GiSpeedBoat } from 'react-icons/gi';
 import { PiDiamondsFourLight } from 'react-icons/pi';
+import FleetCard from '../Home/FleetCard'
+import fleetBoat1 from '../../assets/Images/fleetBoat1.png';
+import fleetBoat2 from '../../assets/Images/fleetBoat2.webp';
+import fleetBoat3 from '../../assets/Images/fleetBoat3.webp';
+import Prices from './Prices';
 
 const BookNow = () => {
   return (
@@ -608,689 +613,191 @@ const BookNow = () => {
               <h1 className="heading-book">Location</h1>
             </div>
 
-            <div className="mt-[4%]">
-              <h1 className="heading-book">Prices</h1>
-
-              <div className="flex flex-wrap gap-4">
-                {/* January Table */}
-                <table className="border border-[#CBA557] bg-white rounded-lg w-1/2 sm:w-1/3 md:w-1/5 md:h-[294px] ">
-                  <thead>
-                    <tr>
-                      <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#000000]">
-                        January
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-sm font-normal">
-                        <div className="flex justify-between">
-                          <span className="text-[#CBA557]">Normal Day:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Weekend:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <table className="border border-[#CBA557] bg-white rounded-lg w-1/2 sm:w-1/3 md:w-1/5 md:h-[294px] ">
-                  <thead>
-                    <tr>
-                      <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#000000]">
-                        February
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Normal Day:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Weekend:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <table className="border border-[#CBA557] bg-white rounded-lg w-1/2 sm:w-1/3 md:w-1/5 md:h-[294px] ">
-                  <thead>
-                    <tr>
-                      <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#000000]">
-                        March
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Normal Day:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Weekend:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <table className="border border-[#CBA557] bg-white rounded-lg w-1/2 sm:w-1/3 md:w-1/5 md:h-[294px] ">
-                  <thead>
-                    <tr>
-                      <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#000000]">
-                        April
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Normal Day:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Weekend:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <table className="border border-[#CBA557] bg-white rounded-lg w-1/2 sm:w-1/3 md:w-1/5 md:h-[294px] ">
-                  <thead>
-                    <tr>
-                      <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#000000]">
-                        May
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Normal Day:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Weekend:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <table className="border border-[#CBA557] bg-white rounded-lg w-1/2 sm:w-1/3 md:w-1/5 md:h-[294px] ">
-                  <thead>
-                    <tr>
-                      <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#000000]">
-                        June
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Normal Day:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Weekend:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <table className="border border-[#CBA557] bg-white rounded-lg w-1/2 sm:w-1/3 md:w-1/5 md:h-[294px] ">
-                  <thead>
-                    <tr>
-                      <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#000000]">
-                        July
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Normal Day:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Weekend:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <table className="border border-[#CBA557] bg-white rounded-lg w-1/2 sm:w-1/3 md:w-1/5 md:h-[294px] ">
-                  <thead>
-                    <tr>
-                      <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#000000]">
-                        August
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Normal Day:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Weekend:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <table className="border border-[#CBA557] bg-white rounded-lg w-1/2 sm:w-1/3 md:w-1/5 md:h-[294px] ">
-                  <thead>
-                    <tr>
-                      <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#000000]">
-                        September
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Normal Day:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Weekend:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <table className="border border-[#CBA557] bg-white rounded-lg w-1/2 sm:w-1/3 md:w-1/5 md:h-[294px] ">
-                  <thead>
-                    <tr>
-                      <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#000000]">
-                        October
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Normal Day:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Weekend:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <table className="border border-[#CBA557] bg-white rounded-lg w-1/2 sm:w-1/3 md:w-1/5 md:h-[294px] ">
-                  <thead>
-                    <tr>
-                      <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#000000]">
-                        November
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Normal Day:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Weekend:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <table className="border border-[#CBA557] bg-white rounded-lg w-1/2 sm:w-1/3 md:w-1/5 md:h-[294px] ">
-                  <thead>
-                    <tr>
-                      <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#000000]">
-                        December
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Normal Day:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-sm text-[#CBA557] font-normal">
-                        <div className="flex justify-between">
-                          <span>Weekend:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Morning:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Half Day Afternoon:</span>
-                          <span className="text-sm font-normal text-[#676767]">
-                            $30
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
           </div>
         </div>
 
         <div className="right-container">hello ck right</div>
       </div>
+
+      <div className="my-[5%] mx-[6%]">
+      <div className="mt-[4%]">
+              <h1 className="mb-[2%] heading-book">Prices</h1>
+
+              <div className="flex flex-wrap gap-4">
+
+                
+                <Prices
+                month="January"
+                normalDay= "$30"
+                normalHalfMorning= "$30"
+                normalHalfAfternoon= "$30"          
+                weekend="$30"
+                weekendHalfMorning="$30"
+                weekendHalfAfternoon="$30"
+                />
+
+
+                <Prices
+                month="February"
+                normalDay= "$30"
+                normalHalfMorning= "$30"
+                normalHalfAfternoon= "$30"          
+                weekend="$30"
+                weekendHalfMorning="$30"
+                weekendHalfAfternoon="$30"
+                />
+
+
+                <Prices
+                month="March"
+                normalDay= "$30"
+                normalHalfMorning= "$30"
+                normalHalfAfternoon= "$30"          
+                weekend="$30"
+                weekendHalfMorning="$30"
+                weekendHalfAfternoon="$30"
+                />
+
+
+                <Prices
+                month="April"
+                normalDay= "$30"
+                normalHalfMorning= "$30"
+                normalHalfAfternoon= "$30"          
+                weekend="$30"
+                weekendHalfMorning="$30"
+                weekendHalfAfternoon="$30"
+                />
+
+
+                <Prices
+                month="May"
+                normalDay= "$30"
+                normalHalfMorning= "$30"
+                normalHalfAfternoon= "$30"          
+                weekend="$30"
+                weekendHalfMorning="$30"
+                weekendHalfAfternoon="$30"
+                />
+
+
+                <Prices
+                month="June"
+                normalDay= "$30"
+                normalHalfMorning= "$30"
+                normalHalfAfternoon= "$30"          
+                weekend="$30"
+                weekendHalfMorning="$30"
+                weekendHalfAfternoon="$30"
+                />
+
+
+                <Prices
+                month="July"
+                normalDay= "$30"
+                normalHalfMorning= "$30"
+                normalHalfAfternoon= "$30"          
+                weekend="$30"
+                weekendHalfMorning="$30"
+                weekendHalfAfternoon="$30"
+                />
+
+
+                <Prices
+                month="August"
+                normalDay= "$30"
+                normalHalfMorning= "$30"
+                normalHalfAfternoon= "$30"          
+                weekend="$30"
+                weekendHalfMorning="$30"
+                weekendHalfAfternoon="$30"
+                />
+
+
+                <Prices
+                month="September"
+                normalDay= "$30"
+                normalHalfMorning= "$30"
+                normalHalfAfternoon= "$30"          
+                weekend="$30"
+                weekendHalfMorning="$30"
+                weekendHalfAfternoon="$30"
+                />
+
+
+                <Prices
+                month="October"
+                normalDay= "$30"
+                normalHalfMorning= "$30"
+                normalHalfAfternoon= "$30"          
+                weekend="$30"
+                weekendHalfMorning="$30"
+                weekendHalfAfternoon="$30"
+                />
+
+
+                <Prices
+                month="November"
+                normalDay= "$30"
+                normalHalfMorning= "$30"
+                normalHalfAfternoon= "$30"          
+                weekend="$30"
+                weekendHalfMorning="$30"
+                weekendHalfAfternoon="$30"
+                />
+
+
+                <Prices
+                month="December"
+                normalDay= "$30"
+                normalHalfMorning= "$30"
+                normalHalfAfternoon= "$30"          
+                weekend="$30"
+                weekendHalfMorning="$30"
+                weekendHalfAfternoon="$30"
+                />
+
+
+                          
+              </div>
+            </div>
+            </div>
+
+
+      <div className="my-[5%] mx-[6%]">
+      <h1 className="heading-book">Similar Sailboats Nearby</h1>
+      <div className='flex flex-wrap gap-4 justify-center items-center'>
+      <FleetCard
+          boatImg={fleetBoat1}
+          title="Lady Gio - Inflatable Boat Tornado 525 Fasty"
+          numberOfPersons={8}
+          length="5.4 Meters"
+          power="40 HP"
+          licenseRequired="No"
+        />
+
+        <FleetCard
+          boatImg={fleetBoat2}
+          title="Annina Open Sea Boat Ghost 550"
+          numberOfPersons={6}
+          length="5.4 Meters"
+          power="40 HP"
+          licenseRequired="No"
+        />
+        <FleetCard
+          boatImg={fleetBoat3}
+          title="Super Mario Sessa Key Wide 16"
+          numberOfPersons={5}
+          length="5.4 Meters"
+          power="40 HP"
+          licenseRequired="No"
+        />
+        </div>
+      </div>
+
+    
+
+
     </>
   );
 };

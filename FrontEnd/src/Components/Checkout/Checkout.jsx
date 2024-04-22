@@ -207,7 +207,7 @@ const Checkout = () => {
                 </div>
 
                 <div className="">
-                  <button className="py-3 px-12 my-[5%] bg-[#CBA557] rounded-[20px] text-lg text-white font-bold">
+                  <button className="btn-5">
                     Sign Up To Complete Order
                   </button>
                 </div>

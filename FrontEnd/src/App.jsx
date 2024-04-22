@@ -4,6 +4,7 @@ import './assets/styles/variables.css';
 import BookNow from './Components/BookNow/BookNow';
 import Checkout from './Components/Checkout/Checkout';
 import Layout from './Components/Layout';
+import FAQ from './Components/FAQ/FAQ';
 import OurFleet from './Components/OurFleet/OurFleet';
 
 function App() {
@@ -16,15 +17,20 @@ function App() {
         />
         <Route
           path="/book-now"
-          element={<Layout Children={<BookNow />} isLocation={false} />}
+          element={<Layout Children={<BookNow />} isLocation={true} />}
         />
         <Route
           path="/check-out"
-          element={<Layout Children={<Checkout />} isLocation={false} />}
+          element={<Layout Children={<Checkout />} isLocation={true} />}
         />
         <Route
           path="/Our-Fleet"
           element={<Layout Children={<OurFleet />} isLocation={true} />}
+        />
+
+        <Route
+          path="/faq"
+          element={<Layout Children={<FAQ />} isLocation={false} />}
         />
       </Routes>
     </BrowserRouter>
