@@ -30,7 +30,7 @@ function App() {
 
         <Route
           path="/faq"
-          element={<Layout Children={<FAQ />} isLocation={false} />}
+          element={<Layout Children={<FAQ />} isLocation={true} />}
         />
       </Routes>
     </BrowserRouter>
