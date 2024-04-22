@@ -1,12 +1,13 @@
 import Navbar from './Navbar';
 import Footer from './Footer';
+import LocationMap from './LocationMap';
 
 const Layout = ({ Children, isLocation }) => {
   return (
     <>
       <Navbar />
       {Children}
-      {isLocation && 'location goes here'}
+      {isLocation && <LocationMap />}
       <Footer />
     </>
   );

@@ -15,7 +15,7 @@
     @apply px-3 py-4 border border-[#E8E8E8] rounded-md lg:w-[48%] w-full bg-[#CBA557] bg-opacity-10 font-normal text-[12px] text-[#676767]
   }
 
-  .btn-5{
+  .btn-5 {
     @apply py-3 px-12 my-[5%] bg-[#CBA557] rounded-[20px] text-lg text-white font-bold
   }
 
@@ -133,4 +133,9 @@ body {
     cursor: pointer;
     z-index: 1001;
   }
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100vh;
 }

@@ -18,7 +18,6 @@ const Home = () => {
       <WhyChooseUs />
       <WhatOurCustomersSay />
       <WhereWeAre />
-      
     </>
   );
 };
