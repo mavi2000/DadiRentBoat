@@ -11,7 +11,7 @@ const RecommendCard = () => {
         missed with a day on the boat, here's what we recommend for a complete
         experience
       </p>
-      <div className="mt-8 z-0">
+      <div className="mt-8 z-0 excursion-map">
         <MapContainer
           center={[43.5169, 10.3162]}
           zoom={15}

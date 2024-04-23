@@ -104,7 +104,7 @@ const Navbar = () => {
               Fleet
             </p>
           </Link>
-          <Link to="/">
+          <Link to="/Rates">
             <p className="hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ">
               Rates
             </p>

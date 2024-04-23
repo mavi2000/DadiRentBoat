@@ -4,7 +4,7 @@ import ExcursionCard from './ExcursionCard';
 import PersonalisedCard from './PersonalisedCard';
 import RecommendCard from './RecommendCard';
 
-const TheGreatWar = () => {
+const TheSeaInYourVeins = () => {
   return (
     <>
       <div className="Excursions-bg">
@@ -25,9 +25,9 @@ const TheGreatWar = () => {
       <br />
 
       <BoatCard
-        title="Ship Tower- Secche della Meloria- Mugle- Sonnino"
-        duration="Full day"
-        description="Fun, sea, sun, summer... but also a bit of history !In the past, our beloved sea has also been the scene of battles and wars; for this reason we at Dadi Rent have organized this route, able to take you back in time.The tower of the Ship and the shallows of Meloria... the history of our sea!"
+        title="Secche della Meloria - Internal Ditches Route"
+        duration="Half Day"
+        description="We will take you to the heart of our city; Only a trip like this will make you understand why we Livornese are so attached to the sea. We will follow all the internal canals of our city (the famous Fossi) passing from neighborhood to neighborhood, crossing Piazza della Repubblica... the widest bridge in Europe!"
       />
       <br />
       <br />
@@ -50,4 +50,4 @@ const TheGreatWar = () => {
     </>
   );
 };
-export default TheGreatWar;
+export default TheSeaInYourVeins;

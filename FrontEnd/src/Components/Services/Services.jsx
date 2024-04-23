@@ -105,9 +105,11 @@ const Services = () => {
               knowledge and quality equipment to catch unforgettable fish in the
               waters of Livorno.
             </p>
-            <button className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]">
-              Find out More
-            </button>
+            <Link to="/Fishing-Trips">
+              <button className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]">
+                Find out More
+              </button>
+            </Link>
           </div>
         </section>
 
@@ -126,9 +128,11 @@ const Services = () => {
               on board our boats. Delicious appetizers and drinks await you
               while you admire the sunset over the sea.
             </p>
-            <button className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]">
-              Find out More
-            </button>
+            <Link to="/Aperitif">
+              <button className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]">
+                Find out More
+              </button>
+            </Link>
           </div>
           <img
             src={Boat4}

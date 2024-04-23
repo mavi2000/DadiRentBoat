@@ -9,6 +9,12 @@ import Services from './Components/Services/Services';
 import OurFleet from './Components/OurFleet/OurFleet';
 import Excursions from './Components/Excursions/Excursions';
 import StandardPlus from './Components/Excursions/StandardPlus';
+import TheGreatWar from './Components/Excursions/TheGreatWar';
+import IntoTheWild from './Components/Excursions/IntoTheWild';
+import TheSeaInYourVeins from './Components/Excursions/TheSeaInYourVeins';
+import FishingTrips from './Components/Services/FishingTrips';
+import Aperitif from './Components/Services/Aperitif';
+import Rates from './Components/Rates/Rates';
 
 function App() {
   return (
@@ -47,6 +53,32 @@ function App() {
         <Route
           path="/Standard-Plus"
           element={<Layout Children={<StandardPlus />} isLocation={true} />}
+        />
+        <Route
+          path="/The-Great-War"
+          element={<Layout Children={<TheGreatWar />} isLocation={true} />}
+        />
+        <Route
+          path="/Into-The-Wild"
+          element={<Layout Children={<IntoTheWild />} isLocation={true} />}
+        />
+        <Route
+          path="/The-Sea-In-Your-Veins"
+          element={
+            <Layout Children={<TheSeaInYourVeins />} isLocation={true} />
+          }
+        />
+        <Route
+          path="/Fishing-Trips"
+          element={<Layout Children={<FishingTrips />} isLocation={true} />}
+        />
+        <Route
+          path="/Aperitif"
+          element={<Layout Children={<Aperitif />} isLocation={false} />}
+        />
+        <Route
+          path="/Rates"
+          element={<Layout Children={<Rates />} isLocation={false} />}
         />
       </Routes>
     </BrowserRouter>

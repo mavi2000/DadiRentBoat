@@ -4,7 +4,7 @@ import ExcursionCard from './ExcursionCard';
 import PersonalisedCard from './PersonalisedCard';
 import RecommendCard from './RecommendCard';
 
-const TheGreatWar = () => {
+const IntoTheWild = () => {
   return (
     <>
       <div className="Excursions-bg">
@@ -25,9 +25,9 @@ const TheGreatWar = () => {
       <br />
 
       <BoatCard
-        title="Ship Tower- Secche della Meloria- Mugle- Sonnino"
+        title="Gombo Beach - Ship Tower - Secche della Meloria"
         duration="Full day"
-        description="Fun, sea, sun, summer... but also a bit of history !In the past, our beloved sea has also been the scene of battles and wars; for this reason we at Dadi Rent have organized this route, able to take you back in time.The tower of the Ship and the shallows of Meloria... the history of our sea!"
+        description="Anyone who loves marine flora and fauna must choose this itinerary.We will take you as a first stop to the Gombo beach, belonging to the estate of the President of the Republic (San Rossore Park), a protected marine area where fish and other living beings are born and grow unchallenged.Afterwards, the snorkelling will continue in the vast area of grotto with variable depths of 3-7 meters between the shallows of the Meloria and the Ship tower.It's impossible not to have a few memorable encounters!(Gombo beach available only weather and concessions permitting)"
       />
       <br />
       <br />
@@ -50,4 +50,4 @@ const TheGreatWar = () => {
     </>
   );
 };
-export default TheGreatWar;
+export default IntoTheWild;

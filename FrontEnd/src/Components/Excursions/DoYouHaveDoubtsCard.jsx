@@ -8,7 +8,7 @@ const DoYouHaveDoubtsCard = () => {
       </p>
 
       <div className="flex gap-12 flex-col md:flex-row my-8 items-center">
-        <div className="flex flex-col gap-2 grow">
+        <div className="flex w-full flex-col gap-2 grow">
           <label htmlFor="name" className="text-base text-[#383838]">
             Your name
           </label>
@@ -18,7 +18,7 @@ const DoYouHaveDoubtsCard = () => {
             className="rounded bg-[#CBA55714] outline-none w-full border-[1px] border-[#E8E8E8] p-2"
           />
         </div>
-        <div className="flex flex-col gap-2 grow">
+        <div className="flex w-full flex-col gap-2 grow">
           <label htmlFor="email" className="text-base text-[#383838]">
             Your email
           </label>
@@ -30,7 +30,7 @@ const DoYouHaveDoubtsCard = () => {
         </div>
       </div>
       <div className="flex gap-12 flex-col md:flex-row my-8 items-center">
-        <div className="flex flex-col gap-2 grow">
+        <div className="flex w-full flex-col gap-2 grow">
           <label htmlFor="phone" className="text-base text-[#383838]">
             Your phone number
           </label>
@@ -40,7 +40,7 @@ const DoYouHaveDoubtsCard = () => {
             className="rounded bg-[#CBA55714] outline-none w-full border-[1px] border-[#E8E8E8] p-2"
           />
         </div>
-        <div className="flex flex-col gap-2 grow">
+        <div className="flex w-full flex-col gap-2 grow">
           <label htmlFor="subject" className="text-base text-[#383838]">
             Subject
           </label>
