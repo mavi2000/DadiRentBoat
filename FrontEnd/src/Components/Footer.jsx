@@ -16,11 +16,11 @@ const Footer = () => {
         <Link to="/">
           <p className="hover:text-[--primary-color] text-white ">Home</p>
         </Link>
-        <Link to="/">
+        <Link to="/services">
           <p className="hover:text-[--primary-color] text-white ">Services</p>
         </Link>
 
-        <Link to="/">
+        <Link to="/Rates">
           <p className="hover:text-[--primary-color] text-white ">Rates</p>
         </Link>
 

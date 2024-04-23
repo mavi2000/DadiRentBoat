@@ -77,7 +77,7 @@ const Aperitif = () => {
           </Link>
         </div>
       </section>
-      <section className="bg-[#CBA5574D] py-12 px-[3%] md:px-[6%]">
+      <section className="bg-[#CBA5574D] mt-12 py-12 px-[3%] md:px-[6%]">
         <h1 className="text-3xl text-[#383838] font-medium mb-4 uppercase">
           APERITIF ON THE BOAT
         </h1>

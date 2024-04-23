@@ -19,8 +19,11 @@
     @apply py-3 px-12 my-[5%] bg-[#CBA557] rounded-[20px] text-lg text-white font-bold
   }
 
+
   .shadow-checkout {
-    box-shadow: 0px 12px 32px 0px rgba(25, 25, 25, 0.1);
+    /* box-shadow: 0px 12px 32px 0px rgba(25, 25, 25, 0.02); */
+    box-shadow: 0px 12px 32px 0px #1919191A;
+
   }
 
   .heading-book {
@@ -98,6 +101,14 @@ body {
 
 .Services-container {
   background: url('../src/assets/Images/Services-bg-boat.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: fit-content;
+}
+
+.Services-page-bg {
+  background: url('../src/assets/Images/Services-bg-boat.png');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;

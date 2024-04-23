@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 const Services = () => {
   return (
     <div>
-      <div className="Services-container !h-[50svh] md:!h-[100svh]">
+      <div className="Services-page-bg !h-[50svh] md:!h-[100svh]">
         <div className="h-[50svh] md:h-[100svh] flex flex-col justify-center mx-[6%]">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
             Dadi Rent Services
@@ -28,7 +28,7 @@ const Services = () => {
           <img
             src={Boat1}
             alt="man With Stick"
-            className="w-full md:w-[100%] md:-mr-16 z-10"
+            className="w-full md:w-[50%] md:-mr-16 z-10"
           />
           <div className="bg-white z-10 w-full flex items-center gap-4 flex-col justify-center pb-8 self-end rounded-xl mt-5">
             <img
@@ -69,16 +69,17 @@ const Services = () => {
               views to cultural attractions, we offer you an unforgettable and
               informative experience.
             </p>
-            <Link to="/Excursions">
-              <button className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]">
-                Find out More
-              </button>
+            <Link
+              to="/Excursions"
+              className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
+            >
+              <button>Find out More</button>
             </Link>
           </div>
           <img
             src={Boat2}
             alt="man With Stick"
-            className="w-full md:w-[100%] md:-ml-16"
+            className="w-full md:w-[50%] md:-ml-16"
           />
         </section>
 
@@ -86,7 +87,7 @@ const Services = () => {
           <img
             src={Boat3}
             alt="man With Stick"
-            className="w-full md:w-[100%] md:-mr-16 z-10"
+            className="w-full md:w-[50%] md:-mr-16 z-10"
           />
           <div className="bg-white z-10 w-full flex items-center gap-4 flex-col justify-center pb-8 self-end rounded-xl mt-5">
             <img
@@ -105,10 +106,11 @@ const Services = () => {
               knowledge and quality equipment to catch unforgettable fish in the
               waters of Livorno.
             </p>
-            <Link to="/Fishing-Trips">
-              <button className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]">
-                Find out More
-              </button>
+            <Link
+              to="/Fishing-Trips"
+              className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
+            >
+              <button>Find out More</button>
             </Link>
           </div>
         </section>
@@ -128,16 +130,17 @@ const Services = () => {
               on board our boats. Delicious appetizers and drinks await you
               while you admire the sunset over the sea.
             </p>
-            <Link to="/Aperitif">
-              <button className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]">
-                Find out More
-              </button>
+            <Link
+              to="/Aperitif"
+              className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
+            >
+              <button>Find out More</button>
             </Link>
           </div>
           <img
             src={Boat4}
             alt="man With Stick"
-            className="w-full md:w-[100%] md:-ml-16"
+            className="w-full md:w-[50%] md:-ml-16"
           />
         </section>
       </div>

@@ -12,7 +12,7 @@ const FAQ = () => {
 
   return (
     <div>
-      <div className="checkout-bg !h-[50svh] md:!h-[100svh]">
+      <div className="Services-page-bg !h-[50svh] md:!h-[100svh]">
         <div className="h-[50svh] md:h-[100svh] flex flex-col justify-center mx-[6%]">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
             FAQ

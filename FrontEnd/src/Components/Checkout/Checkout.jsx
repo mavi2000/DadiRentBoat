@@ -11,7 +11,7 @@ const Checkout = () => {
           </h1>
         </div>
       </div>
-      <div className=" mx-[6%] mt-[2%]">
+      <div className=" mx-[6%] mt-[3%]">
         <h1 className="font-medium text-3xl text-[#000000]">Check Out</h1>
         <p className="para-book mt-2">
           Book your rental in two simple steps. <br />
@@ -23,8 +23,8 @@ const Checkout = () => {
           that we are able to provide always and in any case.
         </p>
 
-        <div className=" flex space-x-[2%] mt-[2%]">
-          <div className=" w-[35%] bg-white rounded-xl shadow-checkout mb-[1%]">
+        <div className=" flex flex-col md:flex-row md:space-x-[2%] mt-[2%] space-y-[5%]">
+          <div className="md:w-[35%] bg-white rounded-xl shadow-checkout mb-[1%]">
             <div className="py-9 px-12 flex flex-col justify-center items-center">
               <h2 className=" text-xl font-medium leading-7">
                 Booking #240401-104107563
@@ -118,7 +118,7 @@ const Checkout = () => {
             <hr className="border-b border-[#DCDCDC] mb-[5%]" />
           </div>
 
-          <div className="w-[65%] bg-white rounded-xl shadow-checkout mb-[3%] py-9 pl-8 pr-16 h-full">
+          <div className="md:w-[65%] bg-white rounded-xl shadow-checkout mb-[3%] py-9 pl-8 pr-16 h-full">
             <div className="flex flex-col">
               <h2 className=" text-xl font-medium leading-7">
                 General Information
@@ -207,7 +207,7 @@ const Checkout = () => {
                 </div>
 
                 <div className="">
-                  <button className="btn-5">
+                  <button className="md:btn-5 py-2 px-10 my-[5%] bg-[#CBA557] rounded-[20px] text-base text-white font-bold">
                     Sign Up To Complete Order
                   </button>
                 </div>
