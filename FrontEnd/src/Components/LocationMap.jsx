@@ -4,10 +4,10 @@ import 'leaflet/dist/leaflet.css';
 
 const LocationMap = () => {
   return (
-    <div className="">
+    <div className="mt-8">
       <MapContainer
         center={[43.5169, 10.3162]}
-        zoom={4}
+        zoom={15}
         maxZoom={18}
         scrollWheelZoom={false}
       >

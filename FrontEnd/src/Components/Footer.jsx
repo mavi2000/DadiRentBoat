@@ -24,7 +24,7 @@ const Footer = () => {
           <p className="hover:text-[--primary-color] text-white ">Rates</p>
         </Link>
 
-        <Link to="/">
+        <Link to="/faq">
           <p className="hover:text-[--primary-color] text-white ">FAQ</p>
         </Link>
 
