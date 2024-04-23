@@ -9,6 +9,7 @@ import FAQ from './Components/FAQ/FAQ';
 import Services from './Components/Services/Services';
 import OurFleet from './Components/OurFleet/OurFleet';
 import FarSouth from './Components/Excursions/FarSouth';
+import BoatDinghal from './Components/Services/BoatDinghal';
 
 function App() {
   return (
@@ -41,6 +42,10 @@ function App() {
         <Route
           path="/FarSouth"
           element={<Layout Children={<FarSouth />} isLocation={true} />}
+        />
+        <Route
+          path="/boat-dinghal"
+          element={<Layout Children={<BoatDinghal />} isLocation={true} />}
         />
       </Routes>
     </BrowserRouter>

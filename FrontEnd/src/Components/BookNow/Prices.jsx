@@ -13,57 +13,74 @@ weekendHalfAfternoon,
 
 }) => {
   return (
-    <table className="border border-[#CBA557] rounded-xl bg-white w-1/2 sm:w-1/3 md:w-1/5 md:h-[294px] overflow-hidden border-separate">
+    <table className="border border-[#CBA557] rounded-xl bg-white w-[46%] sm:w-1/3 md:w-1/4 lg:w-1/5 overflow-hidden border-separate">
     <thead>
       <tr>
-        <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#000000]">
+        <th className="bg-[#CBA557] bg-opacity-30 text-sm text-[#676767] font-normal text-start px-3 py-2">
           {month}
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td className="text-sm font-normal">
+      <tr className=''>
+        <td className="text-sm font-normal flex flex-col px-4 py-3 gap-3">
+          
           <div className="flex justify-between">
             <span className="text-[#CBA557]">Normal Day:</span>
+          </div>
+
+          
+          <div className="flex justify-between">
+            <span className="text-[#676767]">Full Day:</span>
             <span className="text-sm font-normal text-[#676767]">
             {normalDay}
             </span>
           </div>
+          
           <div className="flex justify-between">
-            <span>Half Day Morning:</span>
+            <span className="text-[#676767]">Half Day Morning:</span>
             <span className="text-sm font-normal text-[#676767]">
             {normalHalfMorning}
             </span>
           </div>
+
+
           <div className="flex justify-between">
-            <span>Half Day Afternoon:</span>
+            <span className="text-[#676767]">Half Day Afternoon:</span>
             <span className="text-sm font-normal text-[#676767]">
               {normalHalfAfternoon}
             </span>
           </div>
-        </td>
-      </tr>
-      <tr>
-        <td className="text-sm text-[#CBA557] font-normal">
+
           <div className="flex justify-between">
-            <span>Weekend:</span>
+            <span className='text-[#CBA557]'>Weekend:</span>
+          </div>
+
+
+          <div className="flex justify-between">
+            <span className='text-[#676767]'>Full Day:</span>
             <span className="text-sm font-normal text-[#676767]">
               {weekend}
             </span>
           </div>
+
+
           <div className="flex justify-between">
-            <span>Half Day Morning:</span>
+            <span className='text-[#676767]'>Half Day Morning:</span>
             <span className="text-sm font-normal text-[#676767]">
               {weekendHalfMorning}
             </span>
           </div>
+
+
           <div className="flex justify-between">
-            <span>Half Day Afternoon:</span>
+            <span className='text-[#676767]'>Half Day Afternoon:</span>
             <span className="text-sm font-normal text-[#676767]">
               {weekendHalfAfternoon}
             </span>
           </div>
+
+
         </td>
       </tr>
     </tbody>

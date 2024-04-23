@@ -17,7 +17,7 @@ import aperitif from '../../assets/Images/aperitif.png'
 const Services = () => {
   return (
     <div>
-    <div className="Services-container !h-[50svh] md:!h-[100svh]">
+    <div className="Services-page-bg !h-[50svh] md:!h-[100svh]">
         <div className="h-[50svh] md:h-[100svh] flex flex-col justify-center mx-[6%]">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
           Dadi Rent Services
@@ -35,7 +35,7 @@ const Services = () => {
         <img
           src={Boat1}
           alt="man With Stick"
-          className="w-full md:w-[100%] md:-mr-16 z-10"
+          className="w-full md:w-[50%] md:-mr-16 z-10"
         />
         <div className="bg-white z-10 w-full flex items-center gap-4 flex-col justify-center pb-8 self-end rounded-xl mt-5" >
           <img
@@ -78,7 +78,7 @@ const Services = () => {
         <img
           src={Boat2}
           alt="man With Stick"
-          className="w-full md:w-[100%] md:-ml-16"
+          className="w-full md:w-[50%] md:-ml-16"
         />
       </section>
 
@@ -90,7 +90,7 @@ const Services = () => {
         <img
           src={Boat3}
           alt="man With Stick"
-          className="w-full md:w-[100%] md:-mr-16 z-10"
+          className="w-full md:w-[50%] md:-mr-16 z-10"
         />
         <div className="bg-white z-10 w-full flex items-center gap-4 flex-col justify-center pb-8 self-end rounded-xl mt-5" >
           <img

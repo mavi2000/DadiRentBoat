@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaLocationDot } from 'react-icons/fa6';
 import { IoShareSocialOutline } from 'react-icons/io5';
 import { IoHeartOutline } from 'react-icons/io5';
@@ -18,11 +18,12 @@ import fleetBoat3 from '../../assets/Images/fleetBoat3.webp';
 import Prices from './Prices';
 
 const BookNow = () => {
+  
   return (
     <>
       <div className="boat-page-bg !h-[50svh] md:!h-[100svh]"></div>
       <div className="container flex mx-[6%] gap-[5%] mt-[2%]">
-        <div className="left-container sm:w-[58vw]">
+        <div className="left-container sm:w-[54%]">
           <div className="top ">
             <h1 className="font-sans font-poppins font-medium text-3xl text-[#000000]">
               Yachts La Corniche
@@ -192,8 +193,8 @@ const BookNow = () => {
               </div>
 
               <div className="mt-[2%]">
-                <div className="flex flex-wrap gap-[4%]">
-                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-40 md:h-20">
+                <div className="flex flex-wrap gap-[2%]">
+                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -205,7 +206,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-40 md:h-20">
+                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -217,7 +218,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-40 md:h-20">
+                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -229,7 +230,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-40 md:h-20">
+                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -241,7 +242,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30  md:w-40 md:h-20">
+                  <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -253,7 +254,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30  md:w-40 md:h-20">
+                  <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -265,7 +266,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-40 md:h-20">
+                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -277,7 +278,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-40 md:h-20">
+                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -616,7 +617,49 @@ const BookNow = () => {
           </div>
         </div>
 
-        <div className="right-container">hello ck right</div>
+        <div className="right-container sm:w-[30%] px-5 py-10 bg-white rounded-xl shadow-checkout flex flex-col gap-[1%]">
+
+          <div className='flex items-center gap-1'>
+            <p className=' text-sm text-[#000000] font-normal'>Total</p>
+            <p className=' text-lg font-bold text-[#CBA557]'>$154.00/ Half Day</p>
+
+          </div>
+
+          <div className=' flex flex-col'>
+            <label className=' text-sm text-[#000000] font-normal mb-[1%]'>Duration</label>
+            <input type="date" name="" id="" placeholder='Choose Date' className=' border border-[#E8E8E8] px-6 py-4 rounded-lg'/>
+
+          </div>
+
+          <div className="flex gap-12 my-[3%]">
+                  <label className="flex items-center gap-2">
+                  <input type="radio" name="payment" className="w-5 h-5" />
+                    <span className=" font-normal text-[#676767] text-sm ">
+                      Half Day
+                    </span>
+                  </label>
+
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="payment" className="w-5 h-5" />
+                    <span className=" font-normal text-[#676767] text-sm ">
+                      Full Day
+                    </span>
+                  </label>
+                </div>
+
+                <div>
+                <select
+                  id="bookingType"
+                  className="border border-[#E8E8E8] px-6 py-4 rounded-lg w-full bg-white"
+
+                >
+                  <option value="">Choose...</option>
+                  <option value="halfDayMorning">Half Day Morning</option>
+                  <option value="halfDayEvening">Full Day Evening</option>
+                </select>
+                </div>
+
+        </div>
       </div>
 
       <div className="my-[5%] mx-[6%]">
