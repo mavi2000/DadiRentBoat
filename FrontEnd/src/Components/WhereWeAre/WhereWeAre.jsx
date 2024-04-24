@@ -18,7 +18,7 @@ const WhereWeAre = () => {
              </div>
         </div>
 
-        <div className=" mx-[6%] mt-[3%]">
+        <div className="mx-[3%] md:mx-[6%] mt-[3%]">
 
         <h1 className="text-3xl font-medium">Collection and delivery of vehicles</h1>
         <br />
@@ -70,6 +70,7 @@ const WhereWeAre = () => {
                 zoom={15}
                 maxZoom={18}
                 scrollWheelZoom={false}
+                style={{height:'95%'}}
                 >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 

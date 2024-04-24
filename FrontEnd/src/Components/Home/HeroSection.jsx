@@ -5,6 +5,7 @@ import manWithStick from '../../assets/Images/man-with-stick.webp';
 import phoneSaveIcon from '../../assets/Images/phone-save.png';
 import React, { useRef, useEffect } from 'react';
 import dadiVideo from '../../assets/Images/Dadi Rent - hero-section.mp4';
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   const videoRef = useRef(null);
@@ -89,9 +90,9 @@ const HeroSection = () => {
             usual, DaDi Rent is the ideal solution for renting boats and dinghys
             in Livorno, whether you are in the company of family or friends.
           </p>
-          <button className="text-white bg-[var(--primary-color)] mb-4 rounded-lg border-[1px] border-[var(--primary-color)] font-bold px-8 py-3">
+          <Link to={'/book-now'} className="text-white bg-[var(--primary-color)] mb-4 rounded-lg border-[1px] border-[var(--primary-color)] font-bold px-8 py-3">
             Book Now
-          </button>
+          </Link>
         </div>
       </section>
     </div>

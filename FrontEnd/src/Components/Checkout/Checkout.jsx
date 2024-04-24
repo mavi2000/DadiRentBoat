@@ -23,7 +23,7 @@ const Checkout = () => {
           that we are able to provide always and in any case.
         </p>
 
-        <div className=" flex flex-col md:flex-row md:space-x-[2%] mt-[2%] space-y-[5%]">
+        <div className=" flex flex-col md:flex-row md:space-x-[2%] mt-[2%] space-y-[5%] md:space-y-[0%]">
           <div className="md:w-[35%] bg-white rounded-xl shadow-checkout mb-[1%]">
             <div className="py-9 px-12 flex flex-col justify-center items-center">
               <h2 className=" text-xl font-medium leading-7">
