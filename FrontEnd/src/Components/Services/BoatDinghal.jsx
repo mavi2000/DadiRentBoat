@@ -23,13 +23,7 @@ const BoatDinghal = () => {
             </p>
           </div>
         </div>
-        {/* <ReuseCard
-    heading="Boat and dinghy rental for professionals and beginners"
-    para1="For those who are having their first experience driving a boat, but would like to try sailing the sea with one of our boats."
-    para2="We will support qualified personnel for a quick lesson lasting approximately 20/25 minutes at the mooring dock."
-    para3="In this way we have the opportunity to explain the main navigation and mooring maneuvers to guarantee a safe exit, in complete relaxation."
-    image={ExcursionImg}
-    /> */}
+
         <ExcursionCard
           title="Boat and dinghy rental for professionals and beginners"
           description={
