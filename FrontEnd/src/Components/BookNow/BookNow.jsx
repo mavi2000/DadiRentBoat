@@ -22,8 +22,8 @@ const BookNow = () => {
   return (
     <>
       <div className="boat-page-bg !h-[50svh] md:!h-[100svh]"></div>
-      <div className="container flex mx-[6%] gap-[5%] mt-[2%]">
-        <div className="left-container sm:w-[54%]">
+      <div className="container flex flex-col md:flex-row mx-[3%] gap-[3%] mt-[2%] md:mx-[6%] md:gap-[5%] md:mt-[2%]">
+        <div className="left-container md:w-[54%]">
           <div className="top ">
             <h1 className="font-sans font-poppins font-medium text-3xl text-[#000000]">
               Yachts La Corniche
@@ -617,7 +617,7 @@ const BookNow = () => {
           </div>
         </div>
 
-        <div className="right-container sm:w-[30%] px-5 py-10 bg-white rounded-xl shadow-checkout flex flex-col gap-[1%]">
+        <div className="right-container md:w-[30%] px-5 py-10 bg-white rounded-xl shadow-checkout flex flex-col gap-[1%]">
 
           <div className='flex items-center gap-1'>
             <p className=' text-sm text-[#000000] font-normal'>Total</p>

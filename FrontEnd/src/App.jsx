@@ -17,6 +17,7 @@ import TheSeaInYourVeins from './Components/Excursions/TheSeaInYourVeins';
 import FishingTrips from './Components/Services/FishingTrips';
 import Aperitif from './Components/Services/Aperitif';
 import Rates from './Components/Rates/Rates';
+import WhereWeAre from './Components/WhereWeAre/WhereWeAre';
 
 function App() {
   return (
@@ -84,6 +85,10 @@ function App() {
         <Route
           path="/Rates"
           element={<Layout Children={<Rates />} isLocation={false} />}
+        />
+        <Route
+          path="/where-we-are"
+          element={<Layout Children={<WhereWeAre />} isLocation={true} />}
         />
       </Routes>
     </BrowserRouter>

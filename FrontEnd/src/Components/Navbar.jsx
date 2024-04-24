@@ -109,7 +109,7 @@ const Navbar = () => {
               Rates
             </p>
           </Link>
-          <Link to="/">
+          <Link to="/where-we-are">
             <p className="hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ">
               Where we are
             </p>
