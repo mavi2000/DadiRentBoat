@@ -17,7 +17,7 @@ import TheSeaInYourVeins from './Components/Excursions/TheSeaInYourVeins';
 import FishingTrips from './Components/Services/FishingTrips';
 import Aperitif from './Components/Services/Aperitif';
 import Rates from './Components/Rates/Rates';
-import ISAVideo from './Components/Home/HeroVideo';
+import WhereWeAre from './Components/WhereWeAre/WhereWeAre';
 import ContactInformation from './Components/ContactInformation';
 
 function App() {
@@ -27,10 +27,6 @@ function App() {
         <Route
           path="/"
           element={<Layout Children={<Home />} isLocation={false} />}
-        />
-        <Route
-          path="/isavideo"
-          element={<Layout Children={<ISAVideo />} isLocation={false} />}
         />
         <Route
           path="/book-now"
@@ -90,6 +86,10 @@ function App() {
         <Route
           path="/Rates"
           element={<Layout Children={<Rates />} isLocation={false} />}
+        />
+        <Route
+          path="/where-we-are"
+          element={<Layout Children={<WhereWeAre />} isLocation={true} />}
         />
         <Route
           path="/Contact-Information"
