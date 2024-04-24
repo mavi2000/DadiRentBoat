@@ -4,16 +4,16 @@ import 'leaflet/dist/leaflet.css';
 
 const LocationMap = () => {
   return (
-    <div className="mt-8">
+    <div className="">
       <MapContainer
-        center={[43.5169, 10.3162]}
-        zoom={15}
-        maxZoom={18}
+        center={[43.52992, 10.3054838]}
+        zoom={20}
+        // maxZoom={1}
         scrollWheelZoom={false}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-        <Marker position={[43.5169, 10.3162]} />
+        <Marker position={[43.52992, 10.3054838]} />
       </MapContainer>
     </div>
   );

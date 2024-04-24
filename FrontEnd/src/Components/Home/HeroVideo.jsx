@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const ISAVideo = ({ ...props }) => {
+const HeroVideo = ({ ...props }) => {
   const [isMuted, setIsMuted] = useState(true);
   const cloudinaryRef = useRef();
   const videoRef = useRef();
@@ -9,25 +9,17 @@ const ISAVideo = ({ ...props }) => {
   useEffect(() => {
     if (!cloudinaryRef.current) {
       cloudinaryRef.current = window.cloudinary;
-      if (cloudinaryRef.current) {
-        cloudinaryRef.current.videoPlayer(videoRef.current, {
-          cloud_name: 'dtknqgojs',
-          // fluid: true, // Optional for responsive video
-          controls: true,
-          muted: isMuted,
-          showJumpControls: true,
-          pictureInPictureToggle: true,
-          autoplay: true,
-          loop: true,
-          aiHighlightsGraph: true,
-          logoOnclickUrl: 'https://isaconsulting.com/',
-          logoImageUrl:
-            'https://res.cloudinary.com/dtknqgojs/image/upload/v1711149659/ISA_Intro_video/xlnohp0vbrhjaccrij8i.svg',
-          info: {
-            title: 'ISA-Consulting',
-          },
-        });
-      }
+      cloudinaryRef.current.videoPlayer(videoRef.current, {
+        cloud_name: 'dqyayxdnq',
+        // fluid: true, // Optional for responsive video
+        controls: false,
+        muted: isMuted,
+        showJumpControls: false,
+        pictureInPictureToggle: true,
+        autoplay: true,
+        loop: true,
+        aiHighlightsGraph: true,
+      });
     }
   }, []);
 
@@ -63,26 +55,18 @@ const ISAVideo = ({ ...props }) => {
       videoRef.current?.pause(); // Pause on touch move for iOS
     };
 
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        videoRef.current?.pause(); // Mute on tab visibility change
-      }
-    };
-
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('touchmove', handleTouchMove);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
   return (
     <>
-      <div className="my-4 h-[50svh] md:min-h-[calc(100vh-5rem)] max-h-[36rem]">
+      <div className="absolute top-0 left-0 h-[100svh] md:min-h-[calc(100vh+6rem)] w-full object-fill max-h-[36rem]">
         <video
           onContextMenu={(e) => e.preventDefault()}
           onLoadedData={() => {
@@ -90,8 +74,8 @@ const ISAVideo = ({ ...props }) => {
           }}
           playsInline
           ref={videoRef}
-          data-cld-public-id="ISA_Intro_video/zii5oaklxdstpai5fbfj"
-          className="cld-video-player cld-video-player-skin-dark w-full h-[50svh] md:min-h-[calc(100vh-5rem)] max-h-[36rem]"
+          data-cld-public-id="Dadi_Rent_-_hero-section_ifd37v"
+          className="cld-video-player cld-video-player-skin-dark w-full h-[100svh] md:min-h-[calc(100vh+6rem)] max-h-[36rem] !object-cover"
         />
       </div>
       <br />
@@ -99,4 +83,4 @@ const ISAVideo = ({ ...props }) => {
   );
 };
 
-export default ISAVideo;
+export default HeroVideo;

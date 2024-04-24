@@ -2,7 +2,7 @@ import WhatOurCustomersSayCard from './WhatOurCustomersSayCard';
 
 const WhatOurCustomersSay = () => {
   return (
-    <section className="flex flex-col items-center justify-center bg-[#CBA55714] py-12 my-12 px-[3%] md:px-[6%]">
+    <section className="flex flex-col items-center justify-center bg-[#CBA55714] py-12 mt-12 px-[3%] md:px-[6%]">
       <h1 className="text-[var(--primary-color)] text-base font-semibold ">
         VELAS EXPERIENCE
       </h1>

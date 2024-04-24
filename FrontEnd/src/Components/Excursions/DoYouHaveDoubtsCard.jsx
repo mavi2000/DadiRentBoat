@@ -1,7 +1,9 @@
-const DoYouHaveDoubtsCard = () => {
+const DoYouHaveDoubtsCard = ({ title }) => {
   return (
-    <section className="mx-[3%] md:mx-[6%] my-12">
-      <h1 className="text-3xl font-medium ">Do you have doubts?</h1>
+    <section className="px-[3%] md:px-[6%] py-12 bg-white">
+      <h1 className="text-3xl font-medium ">
+        {title || 'Do you have doubts?'}
+      </h1>
       <br />
       <p className="text-lg text-[#383838]">
         Our team is always at your service 24H
@@ -44,11 +46,25 @@ const DoYouHaveDoubtsCard = () => {
           <label htmlFor="subject" className="text-base text-[#383838]">
             Subject
           </label>
-          <input
+          <select
+            name="subject"
+            id="subject"
+            className="rounded bg-[#CBA55714] outline-none w-full border-[1px] border-[#E8E8E8] p-2"
+          >
+            <option value=""></option>
+            <option value="Unsuccessful Reservations">
+              Unsuccessful Reservations
+            </option>
+            <option value="Card Payment Error">Card Payment Error</option>
+            <option value="Unsuccessful Login">Unsuccessful Login</option>
+            <option value="cancelled Reservation">cancelled Reservation</option>
+            <option value="Other">Other</option>
+          </select>
+          {/* <input
             type="text"
             id="subject"
             className="rounded bg-[#CBA55714] outline-none w-full border-[1px] border-[#E8E8E8] p-2"
-          />
+          /> */}
         </div>
       </div>
 

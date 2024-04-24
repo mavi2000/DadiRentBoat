@@ -28,7 +28,7 @@ const Footer = () => {
           <p className="hover:text-[--primary-color] text-white ">FAQ</p>
         </Link>
 
-        <Link to="/">
+        <Link to="/Contact-Information">
           <p className="hover:text-[--primary-color] text-white ">Contact Us</p>
         </Link>
       </div>

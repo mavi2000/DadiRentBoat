@@ -1,8 +1,21 @@
+import React from 'react';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 import locationfilled from '../../assets/Images/location-filled.png';
 const WhereWeAre = () => {
   return (
-    <section>
-      <div className="bg-white w-full flex gap-4 flex-col pb-8">
+    <section className="contact-information w-full flex flex-col-reverse md:flex-row">
+      <MapContainer
+        center={[43.52992, 10.3054838]}
+        zoom={20}
+        maxZoom={18}
+        scrollWheelZoom={false}
+      >
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+        <Marker position={[43.52992, 10.3054838]} />
+      </MapContainer>
+      <div className="bg-white md:mt-12 md:-ml-[120px] z-10 grow md:w-2/5 flex gap-4 flex-col pb-8">
         <img
           src={locationfilled}
           alt="phone"

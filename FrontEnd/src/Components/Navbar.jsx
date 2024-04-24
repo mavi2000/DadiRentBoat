@@ -120,7 +120,7 @@ const Navbar = () => {
             </p>
           </Link>
 
-          <Link to="/">
+          <Link to="/Contact-Information">
             <p className="hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ">
               Contact Us
             </p>

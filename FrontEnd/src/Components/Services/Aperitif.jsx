@@ -102,7 +102,7 @@ const Aperitif = () => {
           </button>
         </Link>
       </section>
-      <DoYouHaveDoubtsCard />
+      <DoYouHaveDoubtsCard title="The COOL aperitif" />
     </>
   );
 };

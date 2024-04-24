@@ -3,47 +3,12 @@ import { IoMail } from 'react-icons/io5';
 import { RiWhatsappFill } from 'react-icons/ri';
 import manWithStick from '../../assets/Images/man-with-stick.webp';
 import phoneSaveIcon from '../../assets/Images/phone-save.png';
-import React, { useRef, useEffect } from 'react';
-import dadiVideo from '../../assets/Images/Dadi Rent - hero-section.mp4';
+import HeroVideo from './HeroVideo';
 
 const HeroSection = () => {
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-
-    if (video) {
-      const playPromise = video.play();
-
-      if (playPromise !== undefined) {
-        playPromise
-          .then((_) => {
-            // Autoplay started
-            video.muted = true; // Mute the video
-            video.currentTime = 10; // Start playing from 10 seconds
-            video.loop = true;
-          })
-          .catch((error) => {
-            // Autoplay was prevented
-            console.error('Autoplay was prevented:', error);
-          });
-      }
-    }
-  }, []);
   return (
     <div className="relative">
-      <video
-        className="absolute top-0 !z-0 h-[100svh] md:h-[calc(100svh+6rem)] w-full object-fill"
-        ref={videoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
-        controls={false}
-      >
-        <source src={dadiVideo} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      <HeroVideo />
       <section className=" flex items-center">
         <div className="mx-[3%] md:mx-[6%] z-10 h-[100svh] md:h-[calc(100svh+6rem)] flex flex-col justify-center">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">

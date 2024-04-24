@@ -1,6 +1,3 @@
-import ExcursionCard from '../Excursions/ExcursionCard';
-import DoYouHaveDoubtsCard from '../Excursions/DoYouHaveDoubtsCard';
-import manWithStick from '../../assets/Images/man-with-stick.webp';
 import { Link } from 'react-router-dom';
 import { BsClock, BsFiletypePdf } from 'react-icons/bs';
 import { TbMessageCircleQuestion } from 'react-icons/tb';
