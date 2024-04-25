@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { FaLocationDot } from 'react-icons/fa6';
 import { IoShareSocialOutline } from 'react-icons/io5';
 import { IoHeartOutline } from 'react-icons/io5';
@@ -11,6 +10,7 @@ import { IoIosArrowUp } from 'react-icons/io';
 import { RiRulerLine } from 'react-icons/ri';
 import { PiDiamondsFourLight } from 'react-icons/pi';
 import { RxChevronRight } from 'react-icons/rx';
+import { IoHammerOutline } from 'react-icons/io5';
 import FleetCard from '../Home/FleetCard';
 import fleetBoat1 from '../../assets/Images/fleetBoat1.webp';
 import fleetBoat2 from '../../assets/Images/fleetBoat2.webp';
@@ -37,6 +37,9 @@ import Compass from '../../assets/Images/compass.png';
 import Surbed from '../../assets/Images/surbed.png';
 import UmbrellaRental from '../../assets/Images/umbrella-rental.png';
 import PoolLifeguard from '../../assets/Images/pool-lifeguard.png';
+import Draught from '../../assets/Images/Draught.png';
+import FuelType from '../../assets/Images/FuelType.png';
+import FuelTank from '../../assets/Images/FuelTank.png';
 
 import Prices from './Prices';
 
@@ -44,8 +47,8 @@ const BookNow = () => {
   return (
     <>
       <div className="boat-page-bg !h-[50svh] md:!h-[100svh]"></div>
-      <div className="md:container flex flex-col md:flex-row mx-[3%] gap-[3%] mt-[2%] md:mx-[6%] md:gap-[5%] md:mt-[2%]">
-        <div className="left-container md:w-[54%]">
+      <div className="flex flex-col md:flex-row mx-[3%] gap-[3%] mt-[2%] md:mx-[6%] md:gap-[7%] md:mt-[2%]">
+        <div className="left-container md:w-[60%]">
           <div className="top mt-[3%]">
             <h1 className="font-sans font-poppins font-medium text-3xl text-[#000000]">
               Yachts La Corniche
@@ -78,7 +81,7 @@ const BookNow = () => {
               </div>
             </div>
 
-            <div className="flex mt-[8%] gap-[2%] flex-wrap sm:justify-between border-t border-b border-[#CBA557] border-opacity-30 py-2  items-center space-y-1 justify-center">
+            <div className="flex mt-[8%] gap-[1%] flex-wrap sm:justify-between border-t border-b border-[#CBA557] border-opacity-30 py-2  items-center space-y-1 justify-center">
               <div className="flex justify-center items-center gap-1 bg-[#CBA55726] bg-opacity-15 rounded-3xl py-2 px-4">
                 <span className=" text-[#CBA557]">
                   <HiOutlineUserGroup />
@@ -243,7 +246,7 @@ const BookNow = () => {
                   <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
-                        <RiRulerLine />
+                        <IoHammerOutline />
                       </span>
                       <p className=" text-[#676767]">Draft</p>
                     </div>
@@ -254,9 +257,7 @@ const BookNow = () => {
 
                   <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
-                      <span className=" text-[1.15rem] text-[#CBA557]">
-                        <RiRulerLine />
-                      </span>
+                      <img src={Draught} alt="" className=" w-5 h-5" />
                       <p className=" text-[#676767]">Draught</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
@@ -266,9 +267,7 @@ const BookNow = () => {
 
                   <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
-                      <span className=" text-[1.15rem] text-[#CBA557]">
-                        <RiRulerLine />
-                      </span>
+                      <img src={FuelTank} alt="" className=" w-4 h-5" />
                       <p className=" text-[#676767]">Fuel Tank</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
@@ -278,9 +277,7 @@ const BookNow = () => {
 
                   <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
-                      <span className=" text-[1.15rem] text-[#CBA557]">
-                        <RiRulerLine />
-                      </span>
+                      <img src={FuelType} alt="" className=" w-5 h-5" />
                       <p className=" text-[#676767]">Fuel Type</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
@@ -291,7 +288,7 @@ const BookNow = () => {
                   <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
-                        <RiRulerLine />
+                        <RiAnchorLine />
                       </span>
                       <p className=" text-[#676767]">Power</p>
                     </div>
@@ -303,7 +300,7 @@ const BookNow = () => {
                   <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
-                        <RiRulerLine />
+                        <TbTool />
                       </span>
                       <p className=" text-[#676767]">Built</p>
                     </div>
@@ -595,7 +592,7 @@ const BookNow = () => {
           </div>
         </div>
 
-        <div className="right-container md:w-[30%] px-5 py-10 bg-white rounded-xl shadow-checkout flex flex-col gap-8 md:h-full">
+        <div className="right-container md:w-[35%] px-5 py-10 bg-white rounded-xl shadow-checkout flex flex-col gap-8 md:h-full">
           <div className="flex items-center gap-1">
             <p className=" text-sm text-[#000000] font-normal">Total</p>
             <p className=" text-lg font-bold text-[#CBA557]">
