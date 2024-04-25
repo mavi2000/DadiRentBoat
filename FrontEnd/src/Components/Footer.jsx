@@ -14,22 +14,68 @@ const Footer = () => {
       <p className="uppercase text-base font-medium text-white">Quick Links</p>
       <div className="flex flex-wrap gap-5 items-center justify-between text-sm font-semibold md:w-[50%] my-3">
         <Link to="/">
-          <p className="hover:text-[--primary-color] text-white ">Home</p>
+          <p
+            className={`hover:text-[--primary-color]   ${
+              window.location.pathname.includes('/services') ||
+              window.location.pathname.includes('/Contact-Information') ||
+              window.location.pathname.includes('/Our-Fleet') ||
+              window.location.pathname.includes('/Rates') ||
+              window.location.pathname.includes('/where-we-are') ||
+              window.location.pathname.includes('/Contact-Information') ||
+              window.location.pathname.includes('/faq')
+                ? 'text-white'
+                : 'text-[--primary-color]'
+            }`}
+          >
+            Home
+          </p>
         </Link>
         <Link to="/services">
-          <p className="hover:text-[--primary-color] text-white ">Services</p>
+          <p
+            className={`hover:text-[--primary-color]   ${
+              window.location.pathname.includes('/services')
+                ? 'text-[--primary-color]'
+                : 'text-white'
+            }`}
+          >
+            Services
+          </p>
         </Link>
 
         <Link to="/Rates">
-          <p className="hover:text-[--primary-color] text-white ">Rates</p>
+          <p
+            className={`hover:text-[--primary-color]   ${
+              window.location.pathname.includes('/Rates')
+                ? 'text-[--primary-color]'
+                : 'text-white'
+            }`}
+          >
+            Rates
+          </p>
         </Link>
 
         <Link to="/faq">
-          <p className="hover:text-[--primary-color] text-white ">FAQ</p>
+          <p
+            className={`hover:text-[--primary-color]   ${
+              window.location.pathname.includes('/faq')
+                ? 'text-[--primary-color]'
+                : 'text-white'
+            }`}
+          >
+            FAQ
+          </p>
         </Link>
 
         <Link to="/Contact-Information">
-          <p className="hover:text-[--primary-color] text-white ">Contact Us</p>
+          <p
+            className={`hover:text-[--primary-color]   ${
+              window.location.pathname.includes('/Contact-Information')
+                ? 'text-[--primary-color]'
+                : 'text-white'
+            }`}
+          >
+            Contact Us
+          </p>
         </Link>
       </div>
       <p className=" text-base font-medium text-white">

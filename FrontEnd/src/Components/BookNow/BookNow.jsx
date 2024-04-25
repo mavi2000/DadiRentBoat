@@ -9,27 +9,49 @@ import { TbTool } from 'react-icons/tb';
 import { GrUserPolice } from 'react-icons/gr';
 import { IoIosArrowUp } from 'react-icons/io';
 import { RiRulerLine } from 'react-icons/ri';
-import { GiSpeedBoat } from 'react-icons/gi';
 import { PiDiamondsFourLight } from 'react-icons/pi';
-import FleetCard from '../Home/FleetCard'
-import fleetBoat1 from '../../assets/Images/fleetBoat1.png';
+import { RxChevronRight } from 'react-icons/rx';
+import FleetCard from '../Home/FleetCard';
+import fleetBoat1 from '../../assets/Images/fleetBoat1.webp';
 import fleetBoat2 from '../../assets/Images/fleetBoat2.webp';
 import fleetBoat3 from '../../assets/Images/fleetBoat3.webp';
+import Awning from '../../assets/Images/awning.png';
+import Table1 from '../../assets/Images/table.png';
+import Sundeck from '../../assets/Images/sundeck.png';
+import DeckShower from '../../assets/Images/deckShower.png';
+import FreeParking from '../../assets/Images/freeParking.png';
+import SwimPlatform from '../../assets/Images/swimPlatform.png';
+import OutdoorCushion from '../../assets/Images/outdoorCushion.png';
+import Mp3 from '../../assets/Images/mp3.png';
+import Bluetooth from '../../assets/Images/bluetooth.png';
+import Dvd from '../../assets/Images/dvdPlayer.png';
+import Socket220 from '../../assets/Images/socket220.png';
+import UsbPlug from '../../assets/Images/usbPlug.png';
+import GPS from '../../assets/Images/GPS.png';
+import Sounder from '../../assets/Images/Sounder.png';
+import ElectricWindlass from '../../assets/Images/electric-windlass.png';
+import OutboardEngine from '../../assets/Images/outboard-engine.png';
+import Speedometer from '../../assets/Images/speedometer.png';
+import Anemometer from '../../assets/Images/anemometer.png';
+import Compass from '../../assets/Images/compass.png';
+import Surbed from '../../assets/Images/surbed.png';
+import UmbrellaRental from '../../assets/Images/umbrella-rental.png';
+import PoolLifeguard from '../../assets/Images/pool-lifeguard.png';
+
 import Prices from './Prices';
 
 const BookNow = () => {
-  
   return (
     <>
       <div className="boat-page-bg !h-[50svh] md:!h-[100svh]"></div>
-      <div className="container flex flex-col md:flex-row mx-[3%] gap-[3%] mt-[2%] md:mx-[6%] md:gap-[5%] md:mt-[2%]">
+      <div className="md:container flex flex-col md:flex-row mx-[3%] gap-[3%] mt-[2%] md:mx-[6%] md:gap-[5%] md:mt-[2%]">
         <div className="left-container md:w-[54%]">
-          <div className="top ">
+          <div className="top mt-[3%]">
             <h1 className="font-sans font-poppins font-medium text-3xl text-[#000000]">
               Yachts La Corniche
             </h1>
 
-            <div className="flex my-3 justify-between">
+            <div className="flex my-3 md:justify-between justify-center flex-wrap space-y-3 space-x-3">
               <div className=" flex justify-center items-center">
                 <span className=" mr-1 text-[#B7B7B7]">
                   <FaLocationDot />
@@ -56,7 +78,7 @@ const BookNow = () => {
               </div>
             </div>
 
-            <div className="flex mt-[8%] gap-[2%] flex-wrap justify-between border-t border-b border-[#CBA557] border-opacity-30 py-2">
+            <div className="flex mt-[8%] gap-[2%] flex-wrap sm:justify-between border-t border-b border-[#CBA557] border-opacity-30 py-2  items-center space-y-1 justify-center">
               <div className="flex justify-center items-center gap-1 bg-[#CBA55726] bg-opacity-15 rounded-3xl py-2 px-4">
                 <span className=" text-[#CBA557]">
                   <HiOutlineUserGroup />
@@ -194,7 +216,7 @@ const BookNow = () => {
 
               <div className="mt-[2%]">
                 <div className="flex flex-wrap gap-[2%]">
-                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
+                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -206,7 +228,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
+                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -218,7 +240,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
+                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -230,7 +252,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
+                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -242,7 +264,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
+                  <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -254,7 +276,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
+                  <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -266,7 +288,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
+                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -278,7 +300,7 @@ const BookNow = () => {
                     </p>
                   </div>
 
-                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30  md:w-44 md:h-20">
+                  <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
@@ -299,100 +321,81 @@ const BookNow = () => {
 
               <div className="flex flex-wrap">
                 {/* Awning */}
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={Awning} alt="" className=" w-6 h-6" />
+
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Awning
                   </p>
                 </div>
 
                 {/* Table */}
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={Table1} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Table
                   </p>
                 </div>
 
                 {/* Sundeck */}
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={Sundeck} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Sundeck
                   </p>
                 </div>
 
                 {/* Deck shower */}
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={DeckShower} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Deck shower
                   </p>
                 </div>
 
                 {/* Free parking on site */}
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={FreeParking} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Free parking on site
                   </p>
                 </div>
 
                 {/* Swim platform */}
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={SwimPlatform} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Swim platform
                   </p>
                 </div>
 
                 {/* Outdoor cushions */}
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={OutdoorCushion} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Outdoor cushions
                   </p>
                 </div>
 
                 {/* MP3 player */}
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={Mp3} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     MP3 player
                   </p>
                 </div>
 
                 {/* Bluetooth Connection */}
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={Bluetooth} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Bluetooth Connection
                   </p>
                 </div>
 
                 {/* DVD player */}
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={Dvd} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     DVD player
                   </p>
@@ -401,19 +404,15 @@ const BookNow = () => {
 
               <h2 className="min-heading mt-[2%]">Energy</h2>
               <div className="flex flex-wrap">
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={Socket220} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Socket 220V
                   </p>
                 </div>
 
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={UsbPlug} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     USB plug
                   </p>
@@ -422,64 +421,50 @@ const BookNow = () => {
 
               <h2 className="min-heading mt-[2%]">Navigation</h2>
               <div className="flex flex-wrap">
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={GPS} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     GPS
                   </p>
                 </div>
 
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={Sounder} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Sounder
                   </p>
                 </div>
 
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={ElectricWindlass} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Electric windlass
                   </p>
                 </div>
 
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={OutboardEngine} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Outboard engine
                   </p>
                 </div>
 
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={Speedometer} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Speedometer
                   </p>
                 </div>
 
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={Anemometer} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Anemometer
                   </p>
                 </div>
 
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={Compass} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Compas
                   </p>
@@ -488,28 +473,22 @@ const BookNow = () => {
 
               <h2 className="min-heading mt-[2%]">Services</h2>
               <div className="flex flex-wrap">
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={Surbed} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
-                    Sunbed Rental
+                    Surbed Rental
                   </p>
                 </div>
 
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={UmbrellaRental} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Umbrella Rental
                   </p>
                 </div>
 
-                <div className="equip-items">
-                  <span className="text-[#CBA557]">
-                    <GiSpeedBoat />
-                  </span>
+                <div className="equip-items flex items-center gap-2">
+                  <img src={PoolLifeguard} alt="" className=" w-6 h-6" />
                   <p className="text-[#000000] font-normal text-opacity-50">
                     Swimming pool life guard
                   </p>
@@ -610,237 +589,315 @@ const BookNow = () => {
               </p>
             </div>
 
-            <div className="mt-[4%]">
+            {/* <div className="mt-[4%]">
               <h1 className="heading-book">Location</h1>
-            </div>
-
+            </div> */}
           </div>
         </div>
 
-        <div className="right-container md:w-[30%] px-5 py-10 bg-white rounded-xl shadow-checkout flex flex-col gap-[1%]">
-
-          <div className='flex items-center gap-1'>
-            <p className=' text-sm text-[#000000] font-normal'>Total</p>
-            <p className=' text-lg font-bold text-[#CBA557]'>$154.00/ Half Day</p>
-
+        <div className="right-container md:w-[30%] px-5 py-10 bg-white rounded-xl shadow-checkout flex flex-col gap-8 md:h-full">
+          <div className="flex items-center gap-1">
+            <p className=" text-sm text-[#000000] font-normal">Total</p>
+            <p className=" text-lg font-bold text-[#CBA557]">
+              $154.00/ Half Day
+            </p>
           </div>
 
-          <div className=' flex flex-col'>
-            <label className=' text-sm text-[#000000] font-normal mb-[1%]'>Duration</label>
-            <input type="date" name="" id="" placeholder='Choose Date' className=' border border-[#E8E8E8] px-6 py-4 rounded-lg'/>
-
+          <div className=" flex flex-col">
+            <label className=" text-sm text-[#000000] font-normal mb-[1%]">
+              Duration
+            </label>
+            <input
+              type="date"
+              name=""
+              id=""
+              placeholder="Choose Date"
+              className=" border border-[#E8E8E8] px-6 py-4 rounded-lg"
+            />
           </div>
 
-          <div className="flex gap-12 my-[3%]">
-                  <label className="flex items-center gap-2">
-                  <input type="radio" name="payment" className="w-5 h-5" />
-                    <span className=" font-normal text-[#676767] text-sm ">
-                      Half Day
-                    </span>
-                  </label>
+          <div className="flex gap-12 my-[1%]">
+            <label className="flex items-center gap-2">
+              <input type="radio" name="payment" className="w-5 h-5" />
+              <span className=" font-normal text-[#676767] text-sm ">
+                Half Day
+              </span>
+            </label>
 
-                  <label className="flex items-center gap-2">
-                    <input type="radio" name="payment" className="w-5 h-5" />
-                    <span className=" font-normal text-[#676767] text-sm ">
-                      Full Day
-                    </span>
-                  </label>
-                </div>
+            <label className="flex items-center gap-2">
+              <input type="radio" name="payment" className="w-5 h-5" />
+              <span className=" font-normal text-[#676767] text-sm ">
+                Full Day
+              </span>
+            </label>
+          </div>
 
-                <div>
-                <select
-                  id="bookingType"
-                  className="border border-[#E8E8E8] px-6 py-4 rounded-lg w-full bg-white"
+          <div>
+            <select
+              id="bookingType"
+              className="border border-[#E8E8E8] px-6 py-4 rounded-lg w-full bg-white"
+            >
+              <option value="">Choose...</option>
+              <option value="halfDayMorning">Half Day Morning</option>
+              <option value="halfDayEvening">Full Day Evening</option>
+            </select>
+          </div>
 
-                >
-                  <option value="">Choose...</option>
-                  <option value="halfDayMorning">Half Day Morning</option>
-                  <option value="halfDayEvening">Full Day Evening</option>
-                </select>
-                </div>
+          <div className="flex flex-col gap-4">
+            <label className="flex items-center gap-2">
+              <input type="radio" name="payment" className="w-5 h-5" />
+              <span className=" font-normal text-[#676767] text-sm ">
+                Half Day morning (Prize €65)
+              </span>
+            </label>
 
-        </div>
-      </div>
+            <label className="flex items-center gap-2">
+              <input type="radio" name="payment" className="w-5 h-5" />
+              <span className=" font-normal text-[#676767] text-sm ">
+                Half Day Evening (Prize €55)
+              </span>
+            </label>
 
-      <div className="my-[5%] mx-[6%]">
-      <div className="mt-[4%]">
-              <h1 className="mb-[2%] heading-book">Prices</h1>
+            <label className="flex items-center gap-2">
+              <input type="radio" name="payment" className="w-5 h-5" />
+              <span className=" font-normal text-[#676767] text-sm ">
+                All Day(Prize €250)
+              </span>
+            </label>
+          </div>
 
-              <div className="flex flex-wrap gap-4">
+          <div className="">
+            <h2 className=" text-sm font-normal text-[#000000] mb-[2%]">
+              No of Persons
+            </h2>
+            <select
+              id="bookingType"
+              className="border border-[#E8E8E8] px-6 py-4 rounded-lg w-full bg-white"
+            >
+              <option value="">Select number of persons</option>
+              <option value="halfDayMorning">1</option>
+              <option value="halfDayEvening">2</option>
+              <option value="halfDayEvening">3</option>
+              <option value="halfDayEvening">4</option>
+              <option value="halfDayEvening">5</option>
+              <option value="halfDayEvening">6</option>
+              <option value="halfDayEvening">7</option>
+              <option value="halfDayEvening">8</option>
+              <option value="halfDayEvening">9</option>
+              <option value="halfDayEvening">10</option>
+            </select>
+          </div>
 
-                
-                <Prices
-                month="January"
-                normalDay= "$30"
-                normalHalfMorning= "$30"
-                normalHalfAfternoon= "$30"          
-                weekend="$30"
-                weekendHalfMorning="$30"
-                weekendHalfAfternoon="$30"
-                />
+          <div className=" space-y-4">
+            <h1 className=" font-normal text-lg text-[#000000">
+              Type of Rental
+            </h1>
 
-
-                <Prices
-                month="February"
-                normalDay= "$30"
-                normalHalfMorning= "$30"
-                normalHalfAfternoon= "$30"          
-                weekend="$30"
-                weekendHalfMorning="$30"
-                weekendHalfAfternoon="$30"
-                />
-
-
-                <Prices
-                month="March"
-                normalDay= "$30"
-                normalHalfMorning= "$30"
-                normalHalfAfternoon= "$30"          
-                weekend="$30"
-                weekendHalfMorning="$30"
-                weekendHalfAfternoon="$30"
-                />
-
-
-                <Prices
-                month="April"
-                normalDay= "$30"
-                normalHalfMorning= "$30"
-                normalHalfAfternoon= "$30"          
-                weekend="$30"
-                weekendHalfMorning="$30"
-                weekendHalfAfternoon="$30"
-                />
-
-
-                <Prices
-                month="May"
-                normalDay= "$30"
-                normalHalfMorning= "$30"
-                normalHalfAfternoon= "$30"          
-                weekend="$30"
-                weekendHalfMorning="$30"
-                weekendHalfAfternoon="$30"
-                />
-
-
-                <Prices
-                month="June"
-                normalDay= "$30"
-                normalHalfMorning= "$30"
-                normalHalfAfternoon= "$30"          
-                weekend="$30"
-                weekendHalfMorning="$30"
-                weekendHalfAfternoon="$30"
-                />
-
-
-                <Prices
-                month="July"
-                normalDay= "$30"
-                normalHalfMorning= "$30"
-                normalHalfAfternoon= "$30"          
-                weekend="$30"
-                weekendHalfMorning="$30"
-                weekendHalfAfternoon="$30"
-                />
-
-
-                <Prices
-                month="August"
-                normalDay= "$30"
-                normalHalfMorning= "$30"
-                normalHalfAfternoon= "$30"          
-                weekend="$30"
-                weekendHalfMorning="$30"
-                weekendHalfAfternoon="$30"
-                />
-
-
-                <Prices
-                month="September"
-                normalDay= "$30"
-                normalHalfMorning= "$30"
-                normalHalfAfternoon= "$30"          
-                weekend="$30"
-                weekendHalfMorning="$30"
-                weekendHalfAfternoon="$30"
-                />
-
-
-                <Prices
-                month="October"
-                normalDay= "$30"
-                normalHalfMorning= "$30"
-                normalHalfAfternoon= "$30"          
-                weekend="$30"
-                weekendHalfMorning="$30"
-                weekendHalfAfternoon="$30"
-                />
-
-
-                <Prices
-                month="November"
-                normalDay= "$30"
-                normalHalfMorning= "$30"
-                normalHalfAfternoon= "$30"          
-                weekend="$30"
-                weekendHalfMorning="$30"
-                weekendHalfAfternoon="$30"
-                />
-
-
-                <Prices
-                month="December"
-                normalDay= "$30"
-                normalHalfMorning= "$30"
-                normalHalfAfternoon= "$30"          
-                weekend="$30"
-                weekendHalfMorning="$30"
-                weekendHalfAfternoon="$30"
-                />
-
-
-                          
+            <div className="flex justify-between">
+              <div className=" flex gap-2 items-center">
+                <input type="checkbox" className="w-5 h-5" />
+                <p className=" font-normal text-[#676767] text-sm">
+                  With Skipper
+                </p>
               </div>
+              <p className=" font-normal text-[#676767] text-sm">$10</p>
             </div>
+          </div>
+
+          <div className=" space-y-4">
+            <h1 className=" font-normal text-lg text-[#000000">
+              Extra options
+            </h1>
+
+            <div className="flex justify-between">
+              <div className=" flex gap-2 items-center">
+                <input type="checkbox" className="w-5 h-5" />
+                <p className=" font-normal text-[#676767] text-sm">
+                  Bagni Pancaldi Tickets
+                </p>
+              </div>
+              <p className=" font-normal text-[#676767] text-sm">$10</p>
             </div>
+            <p className="font-normal text-[#FF6347] text-sm">
+              Fuel is excluded
+            </p>
+          </div>
 
+          <p className=" font-normal text-[#676767] text-sm">
+            You will only be charged if your request is confirmed
+          </p>
 
-      <div className="my-[5%] mx-[6%]">
-      <h1 className="heading-book">Similar Sailboats Nearby</h1>
-      <div className='flex flex-wrap gap-4 justify-center items-center'>
-      <FleetCard
-          boatImg={fleetBoat1}
-          title="Lady Gio - Inflatable Boat Tornado 525 Fasty"
-          numberOfPersons={8}
-          length="5.4 Meters"
-          power="40 HP"
-          licenseRequired="No"
-        />
+          <button className="btn-5 flex items-center justify-center space-x-2">
+            <p>Instant Booking</p>
+            <span className=" text-2xl">
+              <RxChevronRight />
+            </span>
+          </button>
 
-        <FleetCard
-          boatImg={fleetBoat2}
-          title="Annina Open Sea Boat Ghost 550"
-          numberOfPersons={6}
-          length="5.4 Meters"
-          power="40 HP"
-          licenseRequired="No"
-        />
-        <FleetCard
-          boatImg={fleetBoat3}
-          title="Super Mario Sessa Key Wide 16"
-          numberOfPersons={5}
-          length="5.4 Meters"
-          power="40 HP"
-          licenseRequired="No"
-        />
+          <p className=" text-center text-lg font-medium text-[#CBA557]">
+            Show price list
+          </p>
         </div>
       </div>
 
-    
+      <div className="my-[5%] mx-[6%]">
+        <div className="mt-[4%]">
+          <h1 className="mb-[2%] heading-book">Prices</h1>
 
+          <div className="flex flex-wrap gap-4">
+            <Prices
+              month="January"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
 
+            <Prices
+              month="February"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+
+            <Prices
+              month="March"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+
+            <Prices
+              month="April"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+
+            <Prices
+              month="May"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+
+            <Prices
+              month="June"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+
+            <Prices
+              month="July"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+
+            <Prices
+              month="August"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+
+            <Prices
+              month="September"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+
+            <Prices
+              month="October"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+
+            <Prices
+              month="November"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+
+            <Prices
+              month="December"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="my-[5%] mx-[6%]">
+        <h1 className="heading-book">Similar Sailboats Nearby</h1>
+        <div className="flex flex-wrap gap-4 justify-center items-center">
+          <FleetCard
+            boatImg={fleetBoat1}
+            title="Lady Gio - Inflatable Boat Tornado 525 Fasty"
+            numberOfPersons={8}
+            length="5.4 Meters"
+            power="40 HP"
+            licenseRequired="No"
+          />
+
+          <FleetCard
+            boatImg={fleetBoat2}
+            title="Annina Open Sea Boat Ghost 550"
+            numberOfPersons={6}
+            length="5.4 Meters"
+            power="40 HP"
+            licenseRequired="No"
+          />
+          <FleetCard
+            boatImg={fleetBoat3}
+            title="Super Mario Sessa Key Wide 16"
+            numberOfPersons={5}
+            length="5.4 Meters"
+            power="40 HP"
+            licenseRequired="No"
+          />
+        </div>
+      </div>
     </>
   );
 };

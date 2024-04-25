@@ -1,6 +1,4 @@
 import React from 'react';
-import ExcursionImg from '../../assets/Images/Excursion-img.png';
-import ReuseCard from './ReuseCard';
 import RentalDriver from '../../assets/Images/RentalDriver.png';
 import RentalSkipper from '../../assets/Images/RentalSkipper.png';
 import WhereIcon from '../../assets/Images/OurMeans.png';

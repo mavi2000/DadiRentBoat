@@ -1,8 +1,8 @@
 import React from 'react';
-import Boat1 from '../../assets/Images/Services-boat-1.jpeg';
-import Boat2 from '../../assets/Images/Services-boat-2.png';
-import Boat3 from '../../assets/Images/Services-boat-3.png';
-import Boat4 from '../../assets/Images/Services-boat-4.png';
+import Boat1 from '../../assets/Images/Services-boat-1.webp';
+import Boat2 from '../../assets/Images/Services-boat-2.webp';
+import Boat3 from '../../assets/Images/Services-boat-3.webp';
+import Boat4 from '../../assets/Images/Services-boat-4.webp';
 import rentIcon from '../../assets/Images/rent.png';
 import fishingIcon from '../../assets/Images/Fishing.png';
 import excursions from '../../assets/Images/excursions.png';
@@ -70,7 +70,7 @@ const Services = () => {
               informative experience.
             </p>
             <Link
-              to="/Excursions"
+              to="/services/Excursions"
               className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
             >
               <button>Find out More</button>
@@ -107,7 +107,7 @@ const Services = () => {
               waters of Livorno.
             </p>
             <Link
-              to="/Fishing-Trips"
+              to="Fishing-Trips"
               className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
             >
               <button>Find out More</button>

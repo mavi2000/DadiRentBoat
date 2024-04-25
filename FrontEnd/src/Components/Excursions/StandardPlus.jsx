@@ -26,6 +26,7 @@ const StandardPlus = () => {
       <br />
 
       <BoatCard
+        active={2}
         title="Shoals of Meloria-Boccale-Sonnino (standard plus addition of Castiglioncello)"
         duration="Standard 1/2 day standard plus full day"
         description={`Experience a day at Livornese DOC! This route manages, in its simplicity, to enclose the essence of the sea... as we live it!`}

@@ -1,5 +1,4 @@
 import { RiAnchorLine, RiRulerLine } from 'react-icons/ri';
-import fleetBoat1 from '../../assets/Images/fleetBoat1.png';
 import fleetCardIcon from '../../assets/Images/fleetCardIcon.png';
 import { FaPeopleGroup } from 'react-icons/fa6';
 import { HiOutlineIdentification } from 'react-icons/hi';

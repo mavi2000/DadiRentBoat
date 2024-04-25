@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Components/Home/Home';
 import './assets/styles/variables.css';
+import './assets/styles/hero-bgs.css';
 import BookNow from './Components/BookNow/BookNow';
 import Checkout from './Components/Checkout/Checkout';
 import Layout from './Components/Layout';
@@ -49,33 +50,33 @@ function App() {
           element={<Layout Children={<Services />} isLocation={true} />}
         />
         <Route
-          path="/Excursions"
+          path="/services/Excursions"
           element={<Layout Children={<Excursions />} isLocation={true} />}
         />
         <Route
-          path="/Standard-Plus"
+          path="/services/Standard-Plus"
           element={<Layout Children={<StandardPlus />} isLocation={true} />}
         />
         <Route
-          path="/The-Great-War"
+          path="/services/The-Great-War"
           element={<Layout Children={<TheGreatWar />} isLocation={true} />}
         />
         <Route
-          path="/Into-The-Wild"
+          path="/services/Into-The-Wild"
           element={<Layout Children={<IntoTheWild />} isLocation={true} />}
         />
         <Route
-          path="/The-Sea-In-Your-Veins"
+          path="/services/The-Sea-In-Your-Veins"
           element={
             <Layout Children={<TheSeaInYourVeins />} isLocation={true} />
           }
         />
         <Route
-          path="/Fishing-Trips"
+          path="/services/Fishing-Trips"
           element={<Layout Children={<FishingTrips />} isLocation={true} />}
         />
         <Route
-          path="/Aperitif"
+          path="/services/Aperitif"
           element={<Layout Children={<Aperitif />} isLocation={false} />}
         />
 

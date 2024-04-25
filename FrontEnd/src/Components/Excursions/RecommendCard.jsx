@@ -13,14 +13,14 @@ const RecommendCard = () => {
       </p>
       <div className="mt-8 z-0 excursion-map">
         <MapContainer
-          center={[43.5169, 10.3162]}
+          center={[43.5435998, 10.3293405]}
           zoom={15}
           maxZoom={18}
           scrollWheelZoom={false}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-          <Marker position={[43.5169, 10.3162]} />
+          <Marker position={[43.5435998, 10.3293405]} />
         </MapContainer>
       </div>
     </section>

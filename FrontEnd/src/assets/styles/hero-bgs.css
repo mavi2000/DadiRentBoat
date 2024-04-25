@@ -1,0 +1,87 @@
+.hero-bg {
+  background: url('../src/assets/Images/hero-bg.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: calc(100svh + 6rem);
+}
+
+.fleet-bg {
+  background: url('../src/assets/Images/our-fleet-bg.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100svh;
+}
+
+.checkout-bg {
+  background: url('../src/assets/Images/checkout-bg.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100svh;
+}
+
+.boat-page-bg {
+  background: url('../src/assets/Images/boat-page-bg.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100svh;
+}
+
+.Excursions-bg {
+  background: url('../src/assets/Images/Excursions-bg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100svh;
+}
+
+.Services-container {
+  background: url('../src/assets/Images/Services-bg-boat.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: fit-content;
+}
+
+.Services-page-bg {
+  background: url('../src/assets/Images/Services-bg-boat.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: fit-content;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+}
+
+.excursion-map .leaflet-container {
+  width: 100%;
+  height: 50vh;
+  z-index: 0;
+}
+
+.contact-information .leaflet-container {
+  width: 60%;
+  height: auto;
+}
+
+.video-js .vjs-tech {
+  object-fit: fill;
+}
+
+@media screen and (max-width: 768px) {
+  .video-js .vjs-tech {
+    object-fit: cover;
+  }
+
+  .contact-information .leaflet-container {
+    width: 100%;
+    height: 60svh;
+  }
+}

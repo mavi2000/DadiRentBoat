@@ -1,5 +1,9 @@
+import Filters from './Filters';
 import OurFleetCard from './OurFleetCard';
 import QuickSearch from './QuickSearch';
+import boat1 from '../../assets/Images/our-fleet-boat1.webp';
+import boat2 from '../../assets/Images/our-fleet-boat2.webp';
+import boat3 from '../../assets/Images/our-fleet-boat3.webp';
 
 const OurFleet = () => {
   return (
@@ -15,23 +19,29 @@ const OurFleet = () => {
         </div>
       </div>
       <QuickSearch />
-      <main className="mx-[3%] md:mx-[6%] mt-12">
-        <div className="flex gap-2 justify-between items-center border-b-[1px] bordr-[#F5F5F5] mb-8 pb-6">
-          <h2 className="text-[#676767] text-base font-semibold">
-            25 <span className="font-normal">Yachts</span>
-          </h2>
-          <div className="text-[#676767] text-base font-normal">
-            Sort by&nbsp;&nbsp;&nbsp;
-            <select
-              name="sortBy"
-              id="sortBy"
-              className="outline-none border-[1px] rounded bg-transparent p-2 "
-            >
-              <option value="Title">Title</option>
-            </select>
+      <main className="mx-[3%] md:mx-[6%] mt-12 flex flex-col-reverse md:flex-row gap-12">
+        <div>
+          <div className="flex gap-2 justify-between items-center border-b-[1px] bordr-[#F5F5F5] mb-8 pb-6">
+            <h2 className="text-[#676767] text-base font-semibold">
+              25 <span className="font-normal">Yachts</span>
+            </h2>
+            <div className="text-[#676767] text-base font-normal">
+              Sort by&nbsp;&nbsp;&nbsp;
+              <select
+                name="sortBy"
+                id="sortBy"
+                className="outline-none border-[1px] rounded bg-transparent p-2 "
+              >
+                <option value="Title">Title</option>
+              </select>
+            </div>
           </div>
+          <OurFleetCard img={boat1} />
+          <OurFleetCard img={boat2} />
+          <OurFleetCard img={boat3} />
+          <OurFleetCard img={boat1} />
         </div>
-        <OurFleetCard />
+        <Filters />
       </main>
     </>
   );

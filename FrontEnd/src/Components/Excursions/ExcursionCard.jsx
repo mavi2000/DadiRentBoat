@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import ExcursionImg from '../../assets/Images/Excursion-img.png';
+import ExcursionImg from '../../assets/Images/Excursion-img.webp';
 
 const ExcursionCard = ({ title, img, p1, p2, p3, description }) => {
   return (
