@@ -12,6 +12,7 @@ import { RiRulerLine } from 'react-icons/ri';
 import { GiSpeedBoat } from 'react-icons/gi';
 import { PiDiamondsFourLight } from 'react-icons/pi';
 import { RxChevronRight } from "react-icons/rx";
+import { IoHammerOutline } from "react-icons/io5";
 import FleetCard from '../Home/FleetCard'
 import fleetBoat1 from '../../assets/Images/fleetBoat1.png';
 import fleetBoat2 from '../../assets/Images/fleetBoat2.webp';
@@ -38,6 +39,10 @@ import Compass from '../../assets/Images/compass.png';
 import Surbed from '../../assets/Images/surbed.png';
 import UmbrellaRental from '../../assets/Images/umbrella-rental.png';
 import PoolLifeguard from '../../assets/Images/pool-lifeguard.png';
+import Draught from '../../assets/Images/Draught.png';
+import FuelType from '../../assets/Images/FuelType.png';
+import FuelTank from '../../assets/Images/FuelTank.png';
+
 
 import Prices from './Prices';
 
@@ -246,7 +251,7 @@ const BookNow = () => {
                   <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
-                        <RiRulerLine />
+                        <IoHammerOutline />
                       </span>
                       <p className=" text-[#676767]">Draft</p>
                     </div>
@@ -257,9 +262,7 @@ const BookNow = () => {
 
                   <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
-                      <span className=" text-[1.15rem] text-[#CBA557]">
-                        <RiRulerLine />
-                      </span>
+                      <img src={Draught} alt="" className=' w-5 h-5'/>
                       <p className=" text-[#676767]">Draught</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
@@ -269,9 +272,7 @@ const BookNow = () => {
 
                   <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
-                      <span className=" text-[1.15rem] text-[#CBA557]">
-                        <RiRulerLine />
-                      </span>
+                    <img src={FuelTank} alt="" className=' w-4 h-5'/>
                       <p className=" text-[#676767]">Fuel Tank</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
@@ -281,9 +282,7 @@ const BookNow = () => {
 
                   <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
-                      <span className=" text-[1.15rem] text-[#CBA557]">
-                        <RiRulerLine />
-                      </span>
+                    <img src={FuelType} alt="" className=' w-5 h-5'/>
                       <p className=" text-[#676767]">Fuel Type</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
@@ -294,7 +293,7 @@ const BookNow = () => {
                   <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
-                        <RiRulerLine />
+                      <RiAnchorLine />
                       </span>
                       <p className=" text-[#676767]">Power</p>
                     </div>
@@ -306,7 +305,7 @@ const BookNow = () => {
                   <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <span className=" text-[1.15rem] text-[#CBA557]">
-                        <RiRulerLine />
+                        <TbTool />
                       </span>
                       <p className=" text-[#676767]">Built</p>
                     </div>
