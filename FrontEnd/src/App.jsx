@@ -1,25 +1,27 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './Components/Home/Home';
-import './assets/styles/variables.css';
-import './assets/styles/hero-bgs.css';
-import BookNow from './Components/BookNow/BookNow';
-import Checkout from './Components/Checkout/Checkout';
-import Layout from './Components/Layout';
-import FAQ from './Components/FAQ/FAQ';
-import Services from './Components/Services/Services';
-import OurFleet from './Components/OurFleet/OurFleet';
-import BoatDinghal from './Components/Services/BoatDinghal';
-import Excursions from './Components/Excursions/Excursions';
-import StandardPlus from './Components/Excursions/StandardPlus';
-import TheGreatWar from './Components/Excursions/TheGreatWar';
-import IntoTheWild from './Components/Excursions/IntoTheWild';
-import TheSeaInYourVeins from './Components/Excursions/TheSeaInYourVeins';
-import FishingTrips from './Components/Services/FishingTrips';
-import Aperitif from './Components/Services/Aperitif';
-import Rates from './Components/Rates/Rates';
-import WhereWeAre from './Components/WhereWeAre/WhereWeAre';
-import ContactInformation from './Components/ContactInformation';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./Components/Home/Home";
+import "./assets/styles/variables.css";
+import "./assets/styles/hero-bgs.css";
+import BookNow from "./Components/BookNow/BookNow";
+import Checkout from "./Components/Checkout/Checkout";
+import Layout from "./Components/Layout";
+import FAQ from "./Components/FAQ/FAQ";
+import Services from "./Components/Services/Services";
+import OurFleet from "./Components/OurFleet/OurFleet";
+import BoatDinghal from "./Components/Services/BoatDinghal";
+import Excursions from "./Components/Excursions/Excursions";
+import StandardPlus from "./Components/Excursions/StandardPlus";
+import TheGreatWar from "./Components/Excursions/TheGreatWar";
+import IntoTheWild from "./Components/Excursions/IntoTheWild";
+import TheSeaInYourVeins from "./Components/Excursions/TheSeaInYourVeins";
+import FishingTrips from "./Components/Services/FishingTrips";
+import Aperitif from "./Components/Services/Aperitif";
+import Rates from "./Components/Rates/Rates";
+import WhereWeAre from "./Components/WhereWeAre/WhereWeAre";
+import ContactInformation from "./Components/ContactInformation";
+import Condition from "./Components/Condition/Condition";
+import Invoice from "./Components/Invoice/Invoice";
 
 function App() {
   return (
@@ -97,6 +99,14 @@ function App() {
           element={
             <Layout Children={<ContactInformation />} isLocation={true} />
           }
+        />
+        <Route
+          path="/booking/conditions"
+          element={<Layout Children={<Condition />} isLocation={false} />}
+        />
+        <Route
+          path="/booking/invoice"
+          element={<Layout Children={<Invoice />} isLocation={false} />}
         />
       </Routes>
     </BrowserRouter>
