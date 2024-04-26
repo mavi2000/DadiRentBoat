@@ -20,6 +20,8 @@ import Aperitif from './Components/Services/Aperitif';
 import Rates from './Components/Rates/Rates';
 import WhereWeAre from './Components/WhereWeAre/WhereWeAre';
 import ContactInformation from './Components/ContactInformation';
+import Booking2 from './Components/AfterLoggedIn/Booking/Booking2';
+import Booking from './Components/AfterLoggedIn/Booking/Booking';
 import Login from './Components/LoginSignupPopups/Login';
 import SignUp from './Components/LoginSignupPopups/SignUp';
 import ForgotPassword from './Components/LoginSignupPopups/ForgotPassword';
@@ -105,6 +107,10 @@ function App() {
             <Layout Children={<ContactInformation />} isLocation={true} />
           }
         />
+
+        <Route path="/user/booking-list" element={<Booking />} />
+
+        <Route path="/user/booking" element={<Booking2 />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<SignUp />} />
         <Route path="/Forgot-Password" element={<ForgotPassword />} />
