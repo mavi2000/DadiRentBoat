@@ -20,6 +20,8 @@ import Aperitif from './Components/Services/Aperitif';
 import Rates from './Components/Rates/Rates';
 import WhereWeAre from './Components/WhereWeAre/WhereWeAre';
 import ContactInformation from './Components/ContactInformation';
+import Booking2 from './Components/AfterLoggedIn/Booking/Booking2';
+import Booking from './Components/AfterLoggedIn/Booking/Booking';
 
 function App() {
   return (
@@ -96,6 +98,20 @@ function App() {
           path="/Contact-Information"
           element={
             <Layout Children={<ContactInformation />} isLocation={true} />
+          }
+        />
+
+        <Route
+          path="/user/booking-list"
+          element={
+            <Booking/>
+          }
+        />
+
+        <Route
+          path="/user/booking"
+          element={
+            <Booking2 />
           }
         />
       </Routes>
