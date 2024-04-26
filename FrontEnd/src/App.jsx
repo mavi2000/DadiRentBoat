@@ -20,6 +20,13 @@ import Aperitif from './Components/Services/Aperitif';
 import Rates from './Components/Rates/Rates';
 import WhereWeAre from './Components/WhereWeAre/WhereWeAre';
 import ContactInformation from './Components/ContactInformation';
+import Login from './Components/LoginSignupPopups/Login';
+import SignUp from './Components/LoginSignupPopups/SignUp';
+import ForgotPassword from './Components/LoginSignupPopups/ForgotPassword';
+import CheckEmail from './Components/LoginSignupPopups/CheckEmail';
+import ResetPassword from './Components/LoginSignupPopups/ResetPassword';
+import TwoStepVerification from './Components/LoginSignupPopups/TwoStepVerification';
+import RecreationalVehicleRentalAgreement from './Components/RecreationalVehicleRentalAgreement';
 
 function App() {
   return (
@@ -97,6 +104,19 @@ function App() {
           element={
             <Layout Children={<ContactInformation />} isLocation={true} />
           }
+        />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Signup" element={<SignUp />} />
+        <Route path="/Forgot-Password" element={<ForgotPassword />} />
+        <Route path="/Check-email" element={<CheckEmail />} />
+        <Route path="/Reset-Password" element={<ResetPassword />} />
+        <Route
+          path="/Two-Step-Verification"
+          element={<TwoStepVerification />}
+        />
+        <Route
+          path="/RecreationalVehicleRentalAgreement"
+          element={<RecreationalVehicleRentalAgreement />}
         />
       </Routes>
     </BrowserRouter>
