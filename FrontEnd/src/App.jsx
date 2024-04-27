@@ -28,7 +28,7 @@ import ForgotPassword from './Components/LoginSignupPopups/ForgotPassword';
 import CheckEmail from './Components/LoginSignupPopups/CheckEmail';
 import ResetPassword from './Components/LoginSignupPopups/ResetPassword';
 import TwoStepVerification from './Components/LoginSignupPopups/TwoStepVerification';
-import RecreationalVehicleRentalAgreement from './Components/RecreationalVehicleRentalAgreement';
+import RecreationalVehicleRentalAgreement from './Components/RecreationalVehicleRentalAgreement/RecreationalVehicleRentalAgreement';
 
 function App() {
   return (
