@@ -2,6 +2,7 @@ import React from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import locationfilled from '../../assets/Images/location-filled.png';
+import { Link } from 'react-router-dom';
 const WhereWeAre = () => {
   return (
     <section className="contact-information w-full flex flex-col-reverse md:flex-row">
@@ -49,9 +50,11 @@ const WhereWeAre = () => {
           </p>
           <br />
           <br />
-          <button className="text-white text-lg bg-[var(--primary-color)] mb-4 rounded-lg border-[1px] border-[var(--primary-color)] font-bold px-8 py-3">
-            Sign up
-          </button>
+          <Link to="/Signup">
+            <button className="text-white text-lg bg-[var(--primary-color)] mb-4 rounded-lg border-[1px] border-[var(--primary-color)] font-bold px-8 py-3">
+              Sign up
+            </button>
+          </Link>
         </div>
       </div>
     </section>

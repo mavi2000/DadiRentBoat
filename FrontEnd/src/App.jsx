@@ -22,6 +22,16 @@ import WhereWeAre from "./Components/WhereWeAre/WhereWeAre";
 import ContactInformation from "./Components/ContactInformation";
 import Condition from "./Components/Condition/Condition";
 import Invoice from "./Components/Invoice/Invoice";
+import Booking2 from './Components/AfterLoggedIn/Booking/Booking2';
+import Booking from './Components/AfterLoggedIn/Booking/Booking';
+import Login from './Components/LoginSignupPopups/Login';
+import SignUp from './Components/LoginSignupPopups/SignUp';
+import ForgotPassword from './Components/LoginSignupPopups/ForgotPassword';
+import CheckEmail from './Components/LoginSignupPopups/CheckEmail';
+import ResetPassword from './Components/LoginSignupPopups/ResetPassword';
+import TwoStepVerification from './Components/LoginSignupPopups/TwoStepVerification';
+import RecreationalVehicleRentalAgreement from './Components/RecreationalVehicleRentalAgreement';
+
 
 function App() {
   return (
@@ -107,6 +117,21 @@ function App() {
         <Route
           path="/booking/invoice"
           element={<Layout Children={<Invoice />} isLocation={false} />}
+
+        <Route path="/user/booking-list" element={<Booking />} />
+        <Route path="/user/booking" element={<Booking2 />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Signup" element={<SignUp />} />
+        <Route path="/Forgot-Password" element={<ForgotPassword />} />
+        <Route path="/Check-email" element={<CheckEmail />} />
+        <Route path="/Reset-Password" element={<ResetPassword />} />
+        <Route
+          path="/Two-Step-Verification"
+          element={<TwoStepVerification />}
+        />
+        <Route
+          path="/RecreationalVehicleRentalAgreement"
+          element={<RecreationalVehicleRentalAgreement />}
         />
       </Routes>
     </BrowserRouter>

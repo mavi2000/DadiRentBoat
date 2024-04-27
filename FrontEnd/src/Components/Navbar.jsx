@@ -169,9 +169,11 @@ const Navbar = () => {
               Contact Us
             </p>
           </Link>
-          <button className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
-            Login
-          </button>
+          <Link to="/Login">
+            <button className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
+              Login
+            </button>
+          </Link>
           <Link to="/book-now">
             <button className="text-white bg-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
               Book Now
