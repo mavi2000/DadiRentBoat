@@ -1,5 +1,9 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './assets/styles/variables.css';
+import './assets/styles/hero-bgs.css';
+import Condition from './Components/Condition/Condition';
+import Invoice from './Components/Invoice/Invoice';
+import React from 'react';
 import Home from './Components/Home/Home';
 import './assets/styles/variables.css';
 import './assets/styles/hero-bgs.css';
@@ -108,6 +112,14 @@ function App() {
           element={
             <Layout Children={<ContactInformation />} isLocation={true} />
           }
+        />
+        <Route
+          path="/booking/conditions"
+          element={<Layout Children={<Condition />} isLocation={false} />}
+        />
+        <Route
+          path="/booking/invoice"
+          element={<Layout Children={<Invoice />} isLocation={false} />}
         />
 
         <Route path="/user/booking-list" element={<Booking />} />
