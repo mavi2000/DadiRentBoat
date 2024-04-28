@@ -28,6 +28,8 @@ import ForgotPassword from './Components/LoginSignupPopups/ForgotPassword';
 import CheckEmail from './Components/LoginSignupPopups/CheckEmail';
 import ResetPassword from './Components/LoginSignupPopups/ResetPassword';
 import TwoStepVerification from './Components/LoginSignupPopups/TwoStepVerification';
+import MyFavourite from './Components/AfterLoggedIn/Favourites/MyFavourite';
+import AccountInfo from './Components/AfterLoggedIn/AccountInfo/AccountInfo';
 import RecreationalVehicleRentalAgreement from './Components/RecreationalVehicleRentalAgreement/RecreationalVehicleRentalAgreement';
 
 function App() {
@@ -111,6 +113,9 @@ function App() {
         <Route path="/user/booking-list" element={<Booking />} />
 
         <Route path="/user/booking" element={<Booking2 />} />
+        <Route path="/user/favourites" element={<MyFavourite />} />
+        <Route path="/user/account-info" element={<AccountInfo />} />
+
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<SignUp />} />
         <Route path="/Forgot-Password" element={<ForgotPassword />} />
