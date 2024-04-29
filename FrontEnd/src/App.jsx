@@ -30,7 +30,7 @@ import ForgotPassword from "./Components/LoginSignupPopups/ForgotPassword";
 import CheckEmail from "./Components/LoginSignupPopups/CheckEmail";
 import ResetPassword from "./Components/LoginSignupPopups/ResetPassword";
 import TwoStepVerification from "./Components/LoginSignupPopups/TwoStepVerification";
-import RecreationalVehicleRentalAgreement from "./Components/RecreationalVehicleRentalAgreement";
+import RecreationalVehicleRentalAgreement from "./Components/RecreationalVehicleRentalAgreement/RecreationalVehicleRentalAgreement";
 import AccountSetting from "./Components/LoginSignupPopups/AccountSetting";
 import MyFavourite from "./Components/AfterLoggedIn/Favourites/MyFavourite";
 import AccountInfo from "./Components/AfterLoggedIn/AccountInfo/AccountInfo";
