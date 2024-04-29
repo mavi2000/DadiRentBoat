@@ -31,6 +31,8 @@ import TwoStepVerification from './Components/LoginSignupPopups/TwoStepVerificat
 import RecreationalVehicleRentalAgreement from './Components/RecreationalVehicleRentalAgreement';
 import MyFavourite from './Components/AfterLoggedIn/Favourites/MyFavourite';
 import AccountInfo from './Components/AfterLoggedIn/AccountInfo/AccountInfo';
+import MyBoats from './Components/Dashboard/MyBoats/MyBoats';
+import Calendar1 from './Components/Dashboard/Calendar/Calendar1';
 
 function App() {
   return (
@@ -129,6 +131,10 @@ function App() {
           path="/RecreationalVehicleRentalAgreement"
           element={<RecreationalVehicleRentalAgreement />}
         />
+
+        <Route path="/dashboard/my-boats" element={<MyBoats />} />
+        <Route path="/dashboard/calendar" element={<Calendar1 />} />
+
       </Routes>
     </BrowserRouter>
   );
