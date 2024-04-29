@@ -1,11 +1,11 @@
-import { IoIosSearch } from 'react-icons/io';
-import Sidebar from './AdminSidebar/Sidebar';
+import { IoIosSearch } from "react-icons/io";
+import Sidebar from "./AdminSidebar/Sidebar";
 
 const DashboardLayout = ({ Childeren }) => {
   return (
     <div className="flex gap-8">
       <Sidebar />
-      <div className="880px:ml-[276px]  mr-4">
+      <div className="w-[50%]  mr-4">
         <div className="flex items-center gap-3 bg-white w-full rounded-b-md shadow p-4 text-[#4b465cb4]">
           <label htmlFor="search">
             <IoIosSearch size={30} />

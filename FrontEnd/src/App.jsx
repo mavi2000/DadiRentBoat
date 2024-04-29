@@ -36,6 +36,7 @@ import MyFavourite from "./Components/AfterLoggedIn/Favourites/MyFavourite";
 import AccountInfo from "./Components/AfterLoggedIn/AccountInfo/AccountInfo";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import DashboardLayout from "./Components/DashboardLayout";
+import Calender from "./Components/Dashboard/Calender";
 
 function App() {
   return (
@@ -179,7 +180,7 @@ function App() {
         />
         <Route
           path="/Dashboard"
-          element={<DashboardLayout Childeren={<Dashboard />} />}
+          element={<DashboardLayout Childeren={<Calender />} />}
         />
       </Routes>
     </BrowserRouter>
