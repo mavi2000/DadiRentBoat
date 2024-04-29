@@ -1,7 +1,22 @@
-import React from 'react';
-import Annina from '../../assets/Images/annina.webp';
+import React, { useState } from "react";
+import Annina from "../../assets/Images/annina.webp";
+import Payment from "./Payment";
+import Greeting from "./Greeting";
+import Details from "./Details";
 
 const Checkout = () => {
+  const [activeComponent, setActiveComponent] = useState("details");
+  const renderComponent = () => {
+    switch (activeComponent) {
+      case "payment":
+        return <Payment />;
+      case "greeting":
+        return <Greeting />;
+      default:
+        return <Details />;
+    }
+  };
+  const isLogin = !!true;
   return (
     <div>
       <div className="checkout-bg !h-[50svh] md:!h-[100svh]">
@@ -40,23 +55,23 @@ const Checkout = () => {
 
               <div className=" flex flex-col gap-1 mt-[3%]">
                 <p>
-                  From:{' '}
+                  From:{" "}
                   <span className=" text-[#676767] font-normal">
                     April 3, 2024 - 7:00 am
                   </span>
                 </p>
                 <p>
-                  To:{' '}
+                  To:{" "}
                   <span className=" text-[#676767] font-normal">
                     April 5, 2024 - 7:00 am
                   </span>
                 </p>
                 <p>
-                  No of persons:{' '}
+                  No of persons:{" "}
                   <span className=" text-[#676767] font-normal">4</span>
                 </p>
                 <p>
-                  With Skipper:{' '}
+                  With Skipper:{" "}
                   <span className=" text-[#676767] font-normal">$10.00</span>
                 </p>
                 <p>Full Day</p>
@@ -117,102 +132,55 @@ const Checkout = () => {
 
             <hr className="border-b border-[#DCDCDC] mb-[5%]" />
           </div>
-
-          <div className="md:w-[65%] bg-white rounded-xl shadow-checkout mb-[3%] py-9 pl-8 pr-16 h-full">
-            <div className="flex flex-col">
-              <h2 className=" text-xl font-medium leading-7">
-                General Information
-              </h2>
-            </div>
-
-            <form className=" mt-[5%]">
-              <div className=" flex flex-wrap gap-4">
-                <input
-                  type="text"
-                  placeholder="First Name*"
-                  className="input-checkout"
-                />
-                <input
-                  type="text"
-                  placeholder="Last Name*"
-                  className="input-checkout"
-                />
-                <input
-                  type="text"
-                  placeholder="Email*"
-                  className="input-checkout"
-                />
-                <input
-                  type="text"
-                  placeholder="Phone Number*"
-                  className="input-checkout"
-                />
-                <input
-                  type="text"
-                  placeholder="Country you were born*"
-                  className="input-checkout"
-                />
-                <input
-                  type="text"
-                  placeholder="City you were born*"
-                  className="input-checkout"
-                />
-                <input
-                  type="text"
-                  placeholder="Date of Birth*"
-                  className="input-checkout"
-                />
-                <input
-                  type="text"
-                  placeholder="Tax code (Only for Italy Residence)"
-                  className="input-checkout"
-                />
-                <textarea
-                  name=""
-                  id=""
-                  cols="30"
-                  rows="5"
-                  placeholder="Write message"
-                  className="input-checkout md:w-[99%] resize-none"
-                ></textarea>
-              </div>
-
-              <div className="mt-[5%]">
-                <h2 className=" text-xl font-medium leading-7">
-                  Payment Method
-                </h2>
-                <div className="flex gap-12 my-[3%]">
-                  <label className="flex items-center gap-2">
-                    <input type="radio" name="payment" className="w-5 h-5" />
-                    <span className=" font-normal text-[#676767] text-sm">
-                      Pay all rent
-                    </span>
-                  </label>
-
-                  <label className="flex items-center gap-2">
-                    <input type="radio" name="payment" className="w-5 h-5" />
-                    <span className=" font-normal text-[#676767] text-sm">
-                      Pay deposit
-                    </span>
-                  </label>
-                </div>
-
-                <div className="mt-[4%]">
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" className="w-5 h-5" />
-                    <span className=" font-normal text-[#676767] text-sm">
-                      I read and agree to the terms & conditions
-                    </span>
-                  </label>
-                </div>
-
-                <div className="">
-                  <button className="md:btn-5 py-2 px-10 my-[5%] bg-[#CBA557] rounded-[20px] text-base text-white font-bold">
-                    Sign Up To Complete Order
+          <div className="flex flex-col w-[100%] gap-5">
+            {isLogin && (
+              <div className="flex items-baseline ml-8">
+                <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557]">
+                  <button
+                    className={`rounded-[50%] h-8 w-8 bg-transparent border-2 border-[#CBA557] ${
+                      activeComponent === "details"
+                        ? "bg-[#cba557] text-white"
+                        : ""
+                    }`}
+                    onClick={() => setActiveComponent("details")}
+                  >
+                    01
                   </button>
+                  <div className=" font-semibold ">Details</div>
+                </div>
+                <div className="w-[10%] h-0.5 bg-gray-400 "></div>
+                <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557]  ">
+                  <button
+                    className={`rounded-[50%] h-8 w-8 bg-transparent border-2 border-[#CBA557] ${
+                      activeComponent === "payment"
+                        ? "bg-[#cba557] text-white"
+                        : ""
+                    }`}
+                    onClick={() => setActiveComponent("payment")}
+                  >
+                    02
+                  </button>
+                  <div className=" font-semibold ">Payment</div>
+                </div>
+                <div className="w-[10%] h-0.5 bg-gray-400 "></div>
+                <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557]  ">
+                  <button
+                    className={`rounded-[50%] h-8 w-8 bg-transparent border-2 border-[#CBA557] ${
+                      activeComponent === "greeting"
+                        ? "bg-[#cba557] text-white"
+                        : ""
+                    }`}
+                    onClick={() => setActiveComponent("greeting")}
+                  >
+                    03
+                  </button>
+                  <div className=" font-semibold ">Thank You</div>
                 </div>
               </div>
-            </form>
+            )}
+            <div className=" w-[95%] bg-white rounded-xl shadow-checkout mb-[3%] py-9 pl-8 pr-16 h-full">
+              {renderComponent()}
+            </div>
           </div>
         </div>
       </div>
