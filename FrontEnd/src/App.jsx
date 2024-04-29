@@ -32,6 +32,10 @@ import ResetPassword from "./Components/LoginSignupPopups/ResetPassword";
 import TwoStepVerification from "./Components/LoginSignupPopups/TwoStepVerification";
 import RecreationalVehicleRentalAgreement from "./Components/RecreationalVehicleRentalAgreement";
 import AccountSetting from "./Components/LoginSignupPopups/AccountSetting";
+import MyFavourite from "./Components/AfterLoggedIn/Favourites/MyFavourite";
+import AccountInfo from "./Components/AfterLoggedIn/AccountInfo/AccountInfo";
+import Dashboard from "./Components/Dashboard/Dashboard";
+import DashboardLayout from "./Components/DashboardLayout";
 
 function App() {
   return (
@@ -135,6 +139,47 @@ function App() {
         <Route
           path="/RecreationalVehicleRentalAgreement"
           element={<RecreationalVehicleRentalAgreement />}
+        />
+        <Route
+          path="/booking/invoice"
+          element={<Layout Children={<Invoice />} isLocation={false} />}
+        />
+
+        <Route
+          path="/user/booking-list"
+          element={<Layout Children={<Booking />} isLocation={false} />}
+        />
+
+        <Route
+          path="/user/booking"
+          element={<Layout Children={<Booking2 />} isLocation={false} />}
+        />
+        <Route
+          path="/user/favourites"
+          element={<Layout Children={<MyFavourite />} isLocation={false} />}
+        />
+
+        <Route
+          path="/user/account-info"
+          element={<Layout Children={<AccountInfo />} isLocation={false} />}
+        />
+
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Signup" element={<SignUp />} />
+        <Route path="/Forgot-Password" element={<ForgotPassword />} />
+        <Route path="/Check-email" element={<CheckEmail />} />
+        <Route path="/Reset-Password" element={<ResetPassword />} />
+        <Route
+          path="/Two-Step-Verification"
+          element={<TwoStepVerification />}
+        />
+        <Route
+          path="/RecreationalVehicleRentalAgreement"
+          element={<RecreationalVehicleRentalAgreement />}
+        />
+        <Route
+          path="/Dashboard"
+          element={<DashboardLayout Childeren={<Dashboard />} />}
         />
       </Routes>
     </BrowserRouter>

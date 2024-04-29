@@ -15,7 +15,7 @@ const PopupsLayout = ({ isSocials = true, content, isBack }) => {
         show ? 'block' : 'hidden'
       }`}
     >
-      <div className="relative bg-white p-8 rounded-md shadow-lg max-h-[95svh] overflow-auto text-[#4b465ccb]">
+      <div className="relative custom-scrollbar bg-white p-8 rounded-md shadow-lg max-h-[95svh] overflow-auto text-[#4b465ccb]">
         <div className="flex sticky top-0 ">
           {isBack && (
             <IoArrowBack
