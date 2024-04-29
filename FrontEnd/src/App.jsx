@@ -35,6 +35,8 @@ import TwoStepVerification from './Components/LoginSignupPopups/TwoStepVerificat
 import MyFavourite from './Components/AfterLoggedIn/Favourites/MyFavourite';
 import AccountInfo from './Components/AfterLoggedIn/AccountInfo/AccountInfo';
 import RecreationalVehicleRentalAgreement from './Components/RecreationalVehicleRentalAgreement/RecreationalVehicleRentalAgreement';
+import Dashboard from './Components/Dashboard/Dashboard';
+import DashboardLayout from './Components/DashboardLayout';
 
 function App() {
   return (
@@ -122,11 +124,24 @@ function App() {
           element={<Layout Children={<Invoice />} isLocation={false} />}
         />
 
-        <Route path="/user/booking-list" element={<Booking />} />
+        <Route
+          path="/user/booking-list"
+          element={<Layout Children={<Booking />} isLocation={false} />}
+        />
 
-        <Route path="/user/booking" element={<Booking2 />} />
-        <Route path="/user/favourites" element={<MyFavourite />} />
-        <Route path="/user/account-info" element={<AccountInfo />} />
+        <Route
+          path="/user/booking"
+          element={<Layout Children={<Booking2 />} isLocation={false} />}
+        />
+        <Route
+          path="/user/favourites"
+          element={<Layout Children={<MyFavourite />} isLocation={false} />}
+        />
+
+        <Route
+          path="/user/account-info"
+          element={<Layout Children={<AccountInfo />} isLocation={false} />}
+        />
 
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<SignUp />} />
@@ -140,6 +155,10 @@ function App() {
         <Route
           path="/RecreationalVehicleRentalAgreement"
           element={<RecreationalVehicleRentalAgreement />}
+        />
+        <Route
+          path="/Dashboard"
+          element={<DashboardLayout Childeren={<Dashboard />} />}
         />
       </Routes>
     </BrowserRouter>

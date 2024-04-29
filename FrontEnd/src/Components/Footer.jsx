@@ -1,5 +1,5 @@
 import { FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa';
-import logo from '../assets/Images/logo.png';
+import logo from '../assets/Images/logo.svg';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
