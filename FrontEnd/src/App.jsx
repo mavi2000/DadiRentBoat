@@ -39,7 +39,7 @@ import CreateList from "./Components/Dashboard/Calendar/CreateList/CreateList";
 import MyBoats from "./Components/Dashboard/MyBoats/MyBoats";
 import Calendar1 from "./Components/Dashboard/Calendar/Calendar1";
 import Calendar2 from "./Components/Dashboard/Calendar/Calendar2";
-import BillingList from "./Components/Dashboard/Biilling/BillingList";
+import BillingList from "./Components/Dashboard/Billing/BillingList";
 import Dashboard from "./Components/Dashboard/Dashboard";
 function App() {
   return (
@@ -195,11 +195,11 @@ function App() {
         />
 
         <Route
-          path="/Calendar"
+          path="/Dashboard/calender/createlist"
           element={<DashboardLayout Childeren={<CreateList />} />}
         />
         <Route
-          path="/billing"
+          path="/dashboard/billing"
           element={<DashboardLayout Childeren={<BillingList />} />}
         />
       </Routes>

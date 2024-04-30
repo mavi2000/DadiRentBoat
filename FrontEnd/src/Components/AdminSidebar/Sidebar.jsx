@@ -34,6 +34,7 @@ const Sidebar = () => {
         Dashboard
       </Link>
       <Link
+        to={"/Dashboard/calender/createlist"}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
           window.location.pathname.includes("/Calendar")
             ? "bg-[--primary-color] text-white"
@@ -63,6 +64,7 @@ const Sidebar = () => {
         Bookings
       </Link>
       <Link
+        to={"/Dashboard/billing"}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
           window.location.pathname.includes("/Billing")
             ? "bg-[--primary-color] text-white"
