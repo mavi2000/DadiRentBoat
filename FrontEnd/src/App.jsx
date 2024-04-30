@@ -35,10 +35,12 @@ import AccountSetting from "./Components/LoginSignupPopups/AccountSetting";
 import MyFavourite from "./Components/AfterLoggedIn/Favourites/MyFavourite";
 import AccountInfo from "./Components/AfterLoggedIn/AccountInfo/AccountInfo";
 import DashboardLayout from "./Components/DashboardLayout";
-import CreateList from "./Components/CreateList/CreateList";
+import Dashboard from "./Components/Dashboard/Dashboard";
+import CreateList from "./Components/Dashboard/Calendar/CreateList/CreateList";
 import MyBoats from "./Components/Dashboard/MyBoats/MyBoats";
 import Calendar1 from "./Components/Dashboard/Calendar/Calendar1";
 import Calendar2 from "./Components/Dashboard/Calendar/Calendar2";
+import BillingList from "./Components/Dashboard/Billing/BillingList";
 
 function App() {
   return (
@@ -187,7 +189,15 @@ function App() {
 
         <Route
           path="/Dashboard"
+          element={<DashboardLayout Childeren={<Dashboard />} />}
+        />
+        <Route
+          path="/calender/creatlist"
           element={<DashboardLayout Childeren={<CreateList />} />}
+        />
+        <Route
+          path="/billing"
+          element={<DashboardLayout Childeren={<BillingList />} />}
         />
       </Routes>
     </BrowserRouter>
