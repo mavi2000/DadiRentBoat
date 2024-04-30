@@ -1,6 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './assets/styles/variables.css';
-import './assets/styles/hero-bgs.css';
 import Condition from './Components/Condition/Condition';
 import Invoice from './Components/Invoice/Invoice';
 import React from 'react';
@@ -34,6 +32,9 @@ import ResetPassword from './Components/LoginSignupPopups/ResetPassword';
 import TwoStepVerification from './Components/LoginSignupPopups/TwoStepVerification';
 import MyFavourite from './Components/AfterLoggedIn/Favourites/MyFavourite';
 import AccountInfo from './Components/AfterLoggedIn/AccountInfo/AccountInfo';
+import MyBoats from './Components/Dashboard/MyBoats/MyBoats';
+import Calendar1 from './Components/Dashboard/Calendar/Calendar1';
+import Calendar2 from './Components/Dashboard/Calendar/Calendar2';
 import RecreationalVehicleRentalAgreement from './Components/RecreationalVehicleRentalAgreement/RecreationalVehicleRentalAgreement';
 import Dashboard from './Components/Dashboard/Dashboard';
 import DashboardLayout from './Components/DashboardLayout';
@@ -156,6 +157,11 @@ function App() {
           path="/RecreationalVehicleRentalAgreement"
           element={<RecreationalVehicleRentalAgreement />}
         />
+
+        <Route path="/dashboard/my-boats" element={<MyBoats />} />
+        <Route path="/dashboard/calendar2" element={<Calendar2 />} />
+        <Route path="/dashboard/calendar" element={<Calendar1 />} />
+
         <Route
           path="/Dashboard"
           element={<DashboardLayout Childeren={<Dashboard />} />}
