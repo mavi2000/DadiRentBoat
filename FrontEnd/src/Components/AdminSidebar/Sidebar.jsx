@@ -33,7 +33,7 @@ const Sidebar = () => {
         <RiHome5Line size={24} />
         Dashboard
       </Link>
-      <Link to={"/Dashboard/calendar"}
+      <Link to={"/Dashboard/calendar2"}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
           window.location.pathname.includes('/Calendar')
             ? 'bg-[--primary-color] text-white'
@@ -52,7 +52,7 @@ const Sidebar = () => {
         <LuDownload size={20} />
         Boats
       </Link>
-      <Link
+      <Link to={"/Dashboard/pending-bookings"}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
           window.location.pathname.includes('/Bookings')
             ? 'bg-[--primary-color] text-white'

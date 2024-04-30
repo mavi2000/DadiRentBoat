@@ -1,12 +1,28 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { IoSearchOutline } from "react-icons/io5";
 import MyBoats1 from '../../../assets/Images/MyBoats1.jpeg'
 import { TiLocation } from "react-icons/ti";
 import { IoIosArrowDown } from "react-icons/io";
 import { ImPlus } from "react-icons/im";
+import { HiOutlineInformationCircle } from "react-icons/hi";
 import CircularBar from './CircularBar';
 
 const MyBoats = () => {
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
+
+    const handleDeleteClick = () => {
+        setShowDeletePopup(true); // Show the delete confirmation popup
+    };
+
+    const handleConfirmDelete = () => {
+        // Add logic to handle delete action
+        // Once delete action is confirmed, you can close the popup
+        setShowDeletePopup(false);
+    };
+
+    const handleCancelDelete = () => {
+        setShowDeletePopup(false); // Close the delete confirmation popup
+    };
   return (
     <div className=' mx-[4%] mt-[3%]'>
 
@@ -89,7 +105,7 @@ const MyBoats = () => {
                         <p className=' text-xs font-bold text-[#07474F]'>• Complete the listing</p>
 
                     </div>
-                    <button className=' self-start text-xs text-[#E77359] font-bold underline'>Delete</button>
+                    <button className=' self-start text-xs text-[#E77359] font-bold underline' onClick={handleDeleteClick}>Delete</button>
 
                 </div>
                 
@@ -160,7 +176,7 @@ const MyBoats = () => {
 
                     </div>
 
-                    <button className=' self-start text-xs text-[#E77359] font-bold underline'>Delete</button>
+                    <button className=' self-start text-xs text-[#E77359] font-bold underline' onClick={handleDeleteClick}>Delete</button>
 
                 </div>
                 
@@ -208,7 +224,22 @@ const MyBoats = () => {
     </div>
 
 
-
+            {/* Delete Popup */}
+            {showDeletePopup && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-8 rounded-md space-y-3">
+                        <div className=' flex gap-2 items-center'>
+                        <HiOutlineInformationCircle className=' text-[#FF6347]'/>
+                        <h2 className="text-[#4B465C] font-bold text-[15px]">Delete Boat</h2>
+                        </div>
+                        <p className="text-[#4B465C] text-[13px] font-normal">Are you sure you want to delete this boat?</p>
+                        <div className="flex gap-3">
+                            <button className=" px-4 py-2 bg-[#FF6347] text-white rounded" onClick={handleConfirmDelete}>Delete</button>
+                            <button className="px-4 py-2 bg-[#A8AAAE] text-[#A8AAAE] bg-opacity-15 rounded" onClick={handleCancelDelete}>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
 
 
