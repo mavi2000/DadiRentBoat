@@ -36,6 +36,9 @@ import MyFavourite from "./Components/AfterLoggedIn/Favourites/MyFavourite";
 import AccountInfo from "./Components/AfterLoggedIn/AccountInfo/AccountInfo";
 import DashboardLayout from "./Components/DashboardLayout";
 import CreateList from "./Components/CreateList/CreateList";
+import MyBoats from "./Components/Dashboard/MyBoats/MyBoats";
+import Calendar1 from "./Components/Dashboard/Calendar/Calendar1";
+import Calendar2 from "./Components/Dashboard/Calendar/Calendar2";
 
 function App() {
   return (
@@ -177,6 +180,11 @@ function App() {
           path="/RecreationalVehicleRentalAgreement"
           element={<RecreationalVehicleRentalAgreement />}
         />
+
+        <Route path="/dashboard/my-boats" element={<MyBoats />} />
+        <Route path="/dashboard/calendar2" element={<Calendar2 />} />
+        <Route path="/dashboard/calendar" element={<Calendar1 />} />
+
         <Route
           path="/Dashboard"
           element={<DashboardLayout Childeren={<CreateList />} />}
