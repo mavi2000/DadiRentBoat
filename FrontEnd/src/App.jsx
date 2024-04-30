@@ -35,13 +35,12 @@ import AccountSetting from "./Components/LoginSignupPopups/AccountSetting";
 import MyFavourite from "./Components/AfterLoggedIn/Favourites/MyFavourite";
 import AccountInfo from "./Components/AfterLoggedIn/AccountInfo/AccountInfo";
 import DashboardLayout from "./Components/DashboardLayout";
-import Dashboard from "./Components/Dashboard/Dashboard";
 import CreateList from "./Components/Dashboard/Calendar/CreateList/CreateList";
 import MyBoats from "./Components/Dashboard/MyBoats/MyBoats";
 import Calendar1 from "./Components/Dashboard/Calendar/Calendar1";
 import Calendar2 from "./Components/Dashboard/Calendar/Calendar2";
-import BillingList from "./Components/Dashboard/Billing/BillingList";
-
+import BillingList from "./Components/Dashboard/Biilling/BillingList";
+import Dashboard from "./Components/Dashboard/Dashboard";
 function App() {
   return (
     <BrowserRouter>
@@ -186,13 +185,17 @@ function App() {
         <Route path="/dashboard/my-boats" element={<MyBoats />} />
         <Route path="/dashboard/calendar2" element={<Calendar2 />} />
         <Route path="/dashboard/calendar" element={<Calendar1 />} />
-
         <Route
           path="/Dashboard"
           element={<DashboardLayout Childeren={<Dashboard />} />}
         />
         <Route
-          path="/calender/creatlist"
+          path="/Billing"
+          element={<DashboardLayout Childeren={<BillingList />} />}
+        />
+
+        <Route
+          path="/Calendar"
           element={<DashboardLayout Childeren={<CreateList />} />}
         />
         <Route
