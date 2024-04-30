@@ -1,107 +1,104 @@
 import React, { useState } from 'react';
-import { IoPersonOutline } from 'react-icons/io5';
-import { FaAngleDown } from 'react-icons/fa6';
-import { LuCalendar } from 'react-icons/lu';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { GrFormPrevious } from "react-icons/gr";
+import { GrFormNext } from "react-icons/gr";
 
-const Calendar1 = () => {
-  const [checkInDate, setCheckInDate] = useState(new Date());
-  const [checkOutDate, setCheckOutDate] = useState(null); // Initially no Check Out date
-  const [isCheckInOpen, setIsCheckInOpen] = useState(false);
-  const [isCheckOutOpen, setIsCheckOutOpen] = useState(false);
 
-  const handleCalendarClick = (isOpenState, setIsOpenState) => () => {
-    if (isCheckInOpen !== isOpenState) setIsCheckInOpen(false);
-    if (isCheckOutOpen !== isOpenState) setIsCheckOutOpen(false);
-    setIsOpenState(!isOpenState);
+const MyCalendar = () => {
+  const [date, setDate] = useState(new Date());
+  
+  // Dummy data for events, replace it with actual data
+  const events = [
+    { date: new Date(2024, 4, 17), title: 'Confirmed', time: '7:00am', deposit: '$40' },
+    { date: new Date(2024, 4, 20), title: 'Confirmed', time: '7:00am', deposit: '$40' }
+  ];
+
+  // Function to format events for a specific date
+  const getEventsForDate = (date) => {
+    return events.filter(event => 
+      event.date.getDate() === date.getDate() &&
+      event.date.getMonth() === date.getMonth() &&
+      event.date.getFullYear() === date.getFullYear()
+    );
   };
 
+  // Function to render day cell with events
+  const renderDay = (props) => {
+    const { date } = props;
+    const eventsForDate = getEventsForDate(date);
+    return (
+      <div className=' mx-[6%] my-[4%]'>
+      <div className="relative h-full border-r border-gray-300">
+        <div className="absolute top-0 left-0 ml-1 mt-1">{date.getDate()}</div>
+        <div className="absolute bottom-0 right-0 mr-1 mb-1 text-xs text-gray-500">{date.getDate()}</div>
+        {eventsForDate.map((event, index) => (
+          <div key={index} className="absolute top-0 left-0 m-1">
+            <div className="flex items-center">
+              <div className="bg-green-500 rounded-full w-4 h-4 mr-2"></div>
+              <div className="bg-yellow-500 rounded-full w-4 h-4 mr-2"></div>
+              <div className="text-sm text-[#4B465C]">+2 more</div>
+            </div>
+            <div className="bg-yellow-300 p-2 rounded mt-2 absolute left-0 top-full z-10">
+              <div className="bg-green-300 p-2 rounded mb-2">Green Box</div>
+              <div className="flex items-center">
+                <div className="bg-yellow-300 rounded-full w-4 h-4 mr-2"></div>
+                <div className="text-[#008000] text-sm">John Doe</div>
+              </div>
+              <div className="text-[#008000] text-sm">Confirmed</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      </div>
+    );
+  };
+
+  // Array of days starting from Sunday to Saturday
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
   return (
-    <section className="bg-[var(--primary-color)]  px-12 py-6 mx-[3%] md:mx-[6%] rounded-2xl -mt-16">
-      <h1 className="text-3xl font-bold text-white mb-5">Quick Search </h1>
-      <div className="flex flex-wrap gap-4">
-        <div className="rounded grow whitespace-nowrap bg-white p-4 relative">
-          <button
-            className="flex gap-2 items-center text-[#5B5B5B] text-sm"
-            onClick={handleCalendarClick(isCheckInOpen, setIsCheckInOpen)}
-          >
-            <LuCalendar size={22} />
-            Check In <FaAngleDown size={20} />
-          </button>
-          {isCheckInOpen && (
-            <div className="calendar-container rounded bg-white p-4 absolute top-full left-0 z-50">
-              <Calendar
-                onChange={setCheckInDate}
-                value={checkInDate}
-                selectRange={true}
-              />
-            </div>
-          )}
-        </div>
+    <div className=' mx-[6%] my-[4%]'>
 
-        {/* checkout calendar */}
-        <div className="rounded grow whitespace-nowrap  bg-white p-4 relative">
-          <button
-            className="flex gap-2 items-center text-[#5B5B5B] text-sm"
-            onClick={handleCalendarClick(isCheckOutOpen, setIsCheckOutOpen)}
-          >
-            <LuCalendar size={22} />
-            <span className="mr-auto block">Check Out</span>
-            <FaAngleDown size={20} className="ml-auto mr-0" />
-          </button>
-          {isCheckOutOpen && (
-            <div className="calendar-container rounded bg-white p-4 absolute top-full left-0 z-50">
-              <Calendar
-                onChange={setCheckOutDate}
-                value={checkOutDate}
-                selectRange={true}
-              />
-            </div>
-          )}
-        </div>
+<div className=' flex justify-between items-center'>
+  
+  <div className=' flex justify-center items-center'>
+    <span><GrFormPrevious/></span>
+    <span><GrFormNext/></span>
+  {new Date().toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  })}
 
-        {/* select day */}
-        <div className="relative grow rounded text-[#5B5B5B] text-sm">
-          <LuCalendar size={22} className="absolute left-4 top-4" />
-          <FaAngleDown size={20} className="absolute right-4 top-4" />
-          <select
-            name="day"
-            id="day"
-            className="rounded w-full bg-white p-4 px-12 outline-none appearance-none"
-          >
-            <option value="Half Day Morning">Half Day Morning</option>
-            <option value="Half Day Afternoon">Half Day Afternoon</option>
-            <option value="Full Day">Full Day</option>
-          </select>
-        </div>
+  </div>
 
-        {/* select persons */}
-        <div className="relative grow rounded text-[#5B5B5B] text-sm">
-          <IoPersonOutline size={22} className="absolute left-4 top-4" />
-          <FaAngleDown size={20} className="absolute right-4 top-4" />
-          <select
-            name="day"
-            id="day"
-            className="rounded w-full bg-white p-4 px-12 outline-none appearance-none"
-          >
-            <option value="No of Persons">No of Persons</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="10">10</option>
-          </select>
-        </div>
+<div className=' flex'>  
+<button className=' py-3 px-5 text-[#CBA557] text-sm text-center bg-[#CBA557] bg-opacity-15 rounded-l-md'>Month</button>
+        <button className=' py-3 px-5 text-[#CBA557] text-sm text-center bg-[#CBA557] bg-opacity-30 rounded-r-md'>Week</button>
+        </div>       
+</div>
 
-        {/* search */}
 
-        <input
-          type="text"
-          className="bg-white h-full p-4 grow w-fit outline-none rounded-full text-[var(--primary-color)] placeholder:text-[var(--primary-color)] text-base font-bold"
-          placeholder="Search"
+
+
+    <div className="w-full flex flex-col items-center justify-center mt-4">
+      <div className="w-full h-full flex flex-col items-center">
+        <Calendar
+          onChange={setDate}
+          value={date}
+          className="mb-6 w-full"
+          renderDay={renderDay}
+          calendarType="US"
+          locale="en-US"
+          formatLongDate={(locale, date) => date.toLocaleDateString(locale, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+          formatShortWeekday={(locale, date) => days[date.getDay()]}
         />
       </div>
-    </section>
+    </div>
+    </div>
+
   );
 };
 
-export default Calendar1;
+export default MyCalendar;

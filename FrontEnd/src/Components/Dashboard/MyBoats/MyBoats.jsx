@@ -129,7 +129,7 @@ const MyBoats = () => {
         <div className=' flex flex-col md:flex-row md:justify-between w-full mt-[3%]'>    
 
             <div className=' flex gap-[3%] flex-grow flex-col md:flex-row items-center'>
-                <div className='md:w-64 py-7 w-1/2 border border-[#07474F] rounded flex items-center justify-center'>
+                <div className='md:w-64 lg:h-48 py-7 w-1/2 border border-[#07474F] rounded flex items-center justify-center'>
                 <div className=' flex flex-col items-center justify-center space-y-4'>
                 <ImPlus className=' text-2xl text-[#07474F]'/>
                 <p className=' text-sm font-bold text-[#07474F]'>Add a photo</p>
