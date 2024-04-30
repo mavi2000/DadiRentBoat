@@ -57,7 +57,7 @@ const MyBoats = () => {
 
         <div className=' flex flex-col md:flex-row md:justify-between w-full mt-[4%]'>    
 
-            <div className=' flex gap-[3%] flex-col md:flex-row md:flex-grow items-center md:items-start'>
+            <div className=' flex gap-[3%] flex-col md:flex-row items-center md:items-start'>
                 <div className='md:w-64 w-1/2'>
                     <img src={MyBoats1} alt="" className=' w-full' />
                 </div>
@@ -151,6 +151,12 @@ const MyBoats = () => {
                             </select>
                             </div>
                         </div>
+
+                    </div>
+
+                    <div className=' flex gap-1 md:whitespace-nowrap'>
+                        <p className=' text-xs font-normal text-[#FAB10A]' style={{visibility:'hidden'}}>This announcement is not complete</p>
+                        <p className=' text-xs font-bold text-[#07474F]'  style={{visibility:'hidden'}}>• Complete the listing</p>
 
                     </div>
 

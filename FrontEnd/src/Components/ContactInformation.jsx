@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import locationfilled from '../assets/Images/location-filled.png';
 import DoYouHaveDoubtsCard from './Excursions/DoYouHaveDoubtsCard';
+import { Link } from 'react-router-dom';
 const ContactInformation = () => {
   return (
     <>
@@ -62,10 +63,11 @@ const ContactInformation = () => {
             <p className="text-[#00000080] text-base border-b-[1px] border-[var(--primary-color)] pb-4">
               dadirent@pec.it
             </p>
-
-            <button className="text-white text-lg bg-[var(--primary-color)] mb-4 rounded-lg border-[1px] border-[var(--primary-color)] font-bold px-8 py-3 mx-auto mt-12 block">
-              Sign up
-            </button>
+            <Link to="/Signup">
+              <button className="text-white text-lg bg-[var(--primary-color)] mb-4 rounded-lg border-[1px] border-[var(--primary-color)] font-bold px-8 py-3 mx-auto mt-12 block">
+                Sign up
+              </button>
+            </Link>
           </div>
         </div>
       </section>
