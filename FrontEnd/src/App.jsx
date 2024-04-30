@@ -34,9 +34,8 @@ import RecreationalVehicleRentalAgreement from "./Components/RecreationalVehicle
 import AccountSetting from "./Components/LoginSignupPopups/AccountSetting";
 import MyFavourite from "./Components/AfterLoggedIn/Favourites/MyFavourite";
 import AccountInfo from "./Components/AfterLoggedIn/AccountInfo/AccountInfo";
-import Dashboard from "./Components/Dashboard/Dashboard";
 import DashboardLayout from "./Components/DashboardLayout";
-import Calender from "./Components/Dashboard/Calender";
+import CreateList from "./Components/CreateList/CreateList";
 
 function App() {
   return (
@@ -180,7 +179,7 @@ function App() {
         />
         <Route
           path="/Dashboard"
-          element={<DashboardLayout Childeren={<Calender />} />}
+          element={<DashboardLayout Childeren={<CreateList />} />}
         />
       </Routes>
     </BrowserRouter>
