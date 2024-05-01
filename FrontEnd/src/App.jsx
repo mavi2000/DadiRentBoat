@@ -32,12 +32,18 @@ import ResetPassword from './Components/LoginSignupPopups/ResetPassword';
 import TwoStepVerification from './Components/LoginSignupPopups/TwoStepVerification';
 import MyFavourite from './Components/AfterLoggedIn/Favourites/MyFavourite';
 import AccountInfo from './Components/AfterLoggedIn/AccountInfo/AccountInfo';
+
 import MyBoats from './Components/Dashboard/MyBoats/MyBoats';
 import Calendar1 from './Components/Dashboard/Calendar/Calendar1';
 import Calendar2 from './Components/Dashboard/Calendar/Calendar2';
 import RecreationalVehicleRentalAgreement from './Components/RecreationalVehicleRentalAgreement/RecreationalVehicleRentalAgreement';
 import Dashboard from './Components/Dashboard/Dashboard';
 import DashboardLayout from './Components/DashboardLayout';
+import PendingBookings from './Components/Dashboard/Bookings/PendingBookings';
+import TodayBooking from './Components/Dashboard/Bookings/TodayBooking';
+import UpcomingBooking from './Components/Dashboard/Bookings/UpcomingBooking';
+import PreviousBooking from './Components/Dashboard/Bookings/PreviousBooking';
+import Calender from './Components/Dashboard/Calendar/Calender';
 
 function App() {
   return (
@@ -158,9 +164,40 @@ function App() {
           element={<RecreationalVehicleRentalAgreement />}
         />
 
-        <Route path="/dashboard/my-boats" element={<MyBoats />} />
-        <Route path="/dashboard/calendar2" element={<Calendar2 />} />
-        <Route path="/dashboard/calendar" element={<Calendar1 />} />
+        <Route
+          path="/Dashboard"
+          element={<DashboardLayout Childeren={<Dashboard />} />}
+        />
+
+        <Route
+          path="/Dashboard/my-boats"
+          element={<DashboardLayout Childeren={<MyBoats />} />}
+        />
+        <Route
+          path="/Dashboard/calendar2"
+          element={<DashboardLayout Childeren={<Calender />} />}
+        />
+        <Route
+          path="/Dashboard/calendar"
+          element={<DashboardLayout Childeren={<Calendar1 />} />}
+        />
+
+        <Route
+          path="/Dashboard/pending-bookings"
+          element={<DashboardLayout Childeren={<PendingBookings />} />}
+        />
+        <Route
+          path="/Dashboard/today-bookings"
+          element={<DashboardLayout Childeren={<TodayBooking />} />}
+        />
+        <Route
+          path="/Dashboard/upcoming-bookings"
+          element={<DashboardLayout Childeren={<UpcomingBooking />} />}
+        />
+        <Route
+          path="/Dashboard/previous-bookings"
+          element={<DashboardLayout Childeren={<PreviousBooking />} />}
+        />
 
         <Route
           path="/Dashboard"

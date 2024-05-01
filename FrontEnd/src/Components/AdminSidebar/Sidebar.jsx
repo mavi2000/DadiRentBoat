@@ -28,14 +28,15 @@ const Sidebar = () => {
             ? 'bg-[--primary-color] text-white'
             : ''
         }`}
-        to="#"
+        to="/Dashboard"
       >
         <RiHome5Line size={24} />
         Dashboard
       </Link>
       <Link
+        to={'/Dashboard/calendar2'}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
-          window.location.pathname.includes('/Calendar')
+          window.location.pathname.includes('/Dashboard/calendar2')
             ? 'bg-[--primary-color] text-white'
             : ''
         }`}
@@ -43,8 +44,9 @@ const Sidebar = () => {
         <SlCalender size={20} /> Calendar
       </Link>
       <Link
+        to={'/Dashboard/my-boats'}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
-          window.location.pathname.includes('/Boats')
+          window.location.pathname.includes('/Dashboard/my-boats')
             ? 'bg-[--primary-color] text-white'
             : ''
         }`}
@@ -53,6 +55,7 @@ const Sidebar = () => {
         Boats
       </Link>
       <Link
+        to={'/Dashboard/pending-bookings'}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
           window.location.pathname.includes('/Bookings')
             ? 'bg-[--primary-color] text-white'

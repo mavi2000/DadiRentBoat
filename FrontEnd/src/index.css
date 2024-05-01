@@ -111,3 +111,11 @@ body {
     z-index: 1001;
   }
 }
+
+
+
+.confirmed-pending-status:hover .show-status {
+  display: inline-block;
+  min-width: fit-content;
+  min-height: fit-content;
+}
