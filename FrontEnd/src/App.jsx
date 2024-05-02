@@ -192,7 +192,6 @@ function App() {
           element={<RecreationalVehicleRentalAgreement />}
         />
 
-        <Route path="/dashboard/my-boats" element={<MyBoats />} />
         <Route
           path="/Dashboard"
           element={<DashboardLayout Childeren={<Dashboard />} />}
