@@ -43,6 +43,9 @@ import PendingBookings from './Components/Dashboard/Bookings/PendingBookings';
 import TodayBooking from './Components/Dashboard/Bookings/TodayBooking';
 import UpcomingBooking from './Components/Dashboard/Bookings/UpcomingBooking';
 import PreviousBooking from './Components/Dashboard/Bookings/PreviousBooking';
+import Reminders from './Components/Dashboard/Remainder/Reminders';
+import BookedBoats from './Components/Dashboard/Remainder/BookedBoats';
+import UnbookedBoats from './Components/Dashboard/Remainder/UnbookedBoats';
 import Calender from './Components/Dashboard/Calendar/Calender';
 
 function App() {
@@ -182,6 +185,34 @@ function App() {
           element={<DashboardLayout Childeren={<Calendar1 />} />}
         />
 
+        <Route
+          path="/Dashboard/pending-bookings"
+          element={<DashboardLayout Childeren={<PendingBookings />} />}
+        />
+        <Route
+          path="/Dashboard/today-bookings"
+          element={<DashboardLayout Childeren={<TodayBooking />} />}
+        />
+        <Route
+          path="/Dashboard/upcoming-bookings"
+          element={<DashboardLayout Childeren={<UpcomingBooking />} />}
+        />
+        <Route
+          path="/Dashboard/previous-bookings"
+          element={<DashboardLayout Childeren={<PreviousBooking />} />}
+        />
+        <Route
+          path="/Dashboard/reminders"
+          element={<DashboardLayout Childeren={<Reminders />} />}
+        />
+        <Route
+          path="/Dashboard/booked-boats"
+          element={<DashboardLayout Childeren={<BookedBoats />} />}
+        />
+        <Route
+          path="/Dashboard/unbooked-boats"
+          element={<DashboardLayout Childeren={<UnbookedBoats />} />}
+        />
         <Route
           path="/Dashboard/pending-bookings"
           element={<DashboardLayout Childeren={<PendingBookings />} />}

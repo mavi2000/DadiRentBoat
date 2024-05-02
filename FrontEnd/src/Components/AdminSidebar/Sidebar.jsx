@@ -74,7 +74,7 @@ const Sidebar = () => {
       >
         <LiaFileInvoiceDollarSolid size={20} /> Billing
       </Link>
-      <Link
+      <Link to={"/Dashboard/reminders"}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
           window.location.pathname.includes('/Remainders')
             ? 'bg-[--primary-color] text-white'
