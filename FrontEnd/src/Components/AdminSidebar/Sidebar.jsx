@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Sidebar.css';
 import { RiHome5Line } from 'react-icons/ri';
 import { SlCalender } from 'react-icons/sl';
@@ -66,6 +66,7 @@ const Sidebar = () => {
         Bookings
       </Link>
       <Link
+        to={'/Dashboard/billing'}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
           window.location.pathname.includes('/Billing')
             ? 'bg-[--primary-color] text-white'
@@ -74,7 +75,8 @@ const Sidebar = () => {
       >
         <LiaFileInvoiceDollarSolid size={20} /> Billing
       </Link>
-      <Link to={"/Dashboard/reminders"}
+      <Link
+        to={'/Dashboard/reminders'}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
           window.location.pathname.includes('/Remainders')
             ? 'bg-[--primary-color] text-white'

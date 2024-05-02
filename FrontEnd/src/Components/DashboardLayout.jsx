@@ -1,12 +1,12 @@
-import { IoIosSearch } from 'react-icons/io';
-import Sidebar from './AdminSidebar/Sidebar';
-import user from '../assets/Images/user.png';
-import { GoBell } from 'react-icons/go';
+import { IoIosSearch } from "react-icons/io";
+import Sidebar from "./AdminSidebar/Sidebar";
+import user from "../assets/Images/user.png";
+import { GoBell } from "react-icons/go";
 const DashboardLayout = ({ Childeren }) => {
   return (
     <div className="flex gap-8 w-full">
       <Sidebar />
-      <div className="ml-4 880px:ml-[276px] mr-4 grow">
+      <div className="ml-[276px] mr-4 grow">
         <div className="flex items-center gap-3 bg-white w-full rounded-b-md shadow px-4 py-2 text-[#4b465cb4]">
           <label htmlFor="search">
             <IoIosSearch size={30} />

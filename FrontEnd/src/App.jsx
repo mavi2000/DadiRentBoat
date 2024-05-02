@@ -1,7 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Condition from './Components/Condition/Condition';
-import Invoice from './Components/Invoice/Invoice';
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Components/Home/Home';
 import './assets/styles/variables.css';
 import './assets/styles/hero-bgs.css';
@@ -22,6 +20,8 @@ import Aperitif from './Components/Services/Aperitif';
 import Rates from './Components/Rates/Rates';
 import WhereWeAre from './Components/WhereWeAre/WhereWeAre';
 import ContactInformation from './Components/ContactInformation';
+import Condition from './Components/Condition/Condition';
+import Invoice from './Components/Invoice/Invoice';
 import Booking2 from './Components/AfterLoggedIn/Booking/Booking2';
 import Booking from './Components/AfterLoggedIn/Booking/Booking';
 import Login from './Components/LoginSignupPopups/Login';
@@ -30,15 +30,18 @@ import ForgotPassword from './Components/LoginSignupPopups/ForgotPassword';
 import CheckEmail from './Components/LoginSignupPopups/CheckEmail';
 import ResetPassword from './Components/LoginSignupPopups/ResetPassword';
 import TwoStepVerification from './Components/LoginSignupPopups/TwoStepVerification';
+import RecreationalVehicleRentalAgreement from './Components/RecreationalVehicleRentalAgreement/RecreationalVehicleRentalAgreement';
+import AccountSetting from './Components/LoginSignupPopups/AccountSetting';
 import MyFavourite from './Components/AfterLoggedIn/Favourites/MyFavourite';
 import AccountInfo from './Components/AfterLoggedIn/AccountInfo/AccountInfo';
-
+import DashboardLayout from './Components/DashboardLayout';
+import CreateList from './Components/Dashboard/Calendar/CreateList/CreateList';
 import MyBoats from './Components/Dashboard/MyBoats/MyBoats';
 import Calendar1 from './Components/Dashboard/Calendar/Calendar1';
 import Calendar2 from './Components/Dashboard/Calendar/Calendar2';
-import RecreationalVehicleRentalAgreement from './Components/RecreationalVehicleRentalAgreement/RecreationalVehicleRentalAgreement';
+import BillingList from './Components/Dashboard/Billing/BillingList';
 import Dashboard from './Components/Dashboard/Dashboard';
-import DashboardLayout from './Components/DashboardLayout';
+
 import PendingBookings from './Components/Dashboard/Bookings/PendingBookings';
 import TodayBooking from './Components/Dashboard/Bookings/TodayBooking';
 import UpcomingBooking from './Components/Dashboard/Bookings/UpcomingBooking';
@@ -106,7 +109,6 @@ function App() {
           path="/services/Aperitif"
           element={<Layout Children={<Aperitif />} isLocation={false} />}
         />
-
         <Route
           path="/boat-dinghal"
           element={<Layout Children={<BoatDinghal />} isLocation={true} />}
@@ -128,6 +130,29 @@ function App() {
         <Route
           path="/booking/conditions"
           element={<Layout Children={<Condition />} isLocation={false} />}
+        />
+        <Route
+          path="/booking/invoice"
+          element={<Layout Children={<Invoice />} isLocation={false} />}
+        />
+        <Route path="/user/booking-list" element={<Booking />} />
+        <Route path="/user/booking" element={<Booking2 />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Signup" element={<SignUp />} />
+        <Route path="/Forgot-Password" element={<ForgotPassword />} />
+        <Route path="/Check-email" element={<CheckEmail />} />
+        <Route path="/Reset-Password" element={<ResetPassword />} />
+        <Route
+          path="/accounts"
+          element={<Layout Children={<AccountSetting />} isLocation={false} />}
+        />
+        <Route
+          path="/Two-Step-Verification"
+          element={<TwoStepVerification />}
+        />
+        <Route
+          path="/RecreationalVehicleRentalAgreement"
+          element={<RecreationalVehicleRentalAgreement />}
         />
         <Route
           path="/booking/invoice"
@@ -167,6 +192,7 @@ function App() {
           element={<RecreationalVehicleRentalAgreement />}
         />
 
+        <Route path="/dashboard/my-boats" element={<MyBoats />} />
         <Route
           path="/Dashboard"
           element={<DashboardLayout Childeren={<Dashboard />} />}
@@ -233,6 +259,19 @@ function App() {
         <Route
           path="/Dashboard"
           element={<DashboardLayout Childeren={<Dashboard />} />}
+        />
+        <Route
+          path="/Billing"
+          element={<DashboardLayout Childeren={<BillingList />} />}
+        />
+
+        <Route
+          path="/Dashboard/calender/createlist"
+          element={<DashboardLayout Childeren={<CreateList />} />}
+        />
+        <Route
+          path="/dashboard/billing"
+          element={<DashboardLayout Childeren={<BillingList />} />}
         />
       </Routes>
     </BrowserRouter>

@@ -1,14 +1,14 @@
-import logo from '../../assets/Images/logo.png';
-import CrewGuestList from './CrewGuestList';
-import CurrentChareges from './CurrentChareges';
-import LastSection from './LastSection';
-import LeaseDuration from './LeaseDuration';
-import LeseGereralInformation from './LeseGereralInformation';
-import Prize from './Prize';
-import SectionBelowTable from './SectionBelowTable';
-import Table from './Table';
-import TakePhoto from './TakePhoto';
-import Verification from './Verification';
+import logo from "../../assets/Images/logo.png";
+import CrewGuestList from "./CrewGuestList";
+import CurrentChareges from "./CurrentChareges";
+import LastSection from "./LastSection";
+import LeaseDuration from "./LeaseDuration";
+import LeseGereralInformation from "./LeseGereralInformation";
+import Prize from "./Prize";
+import SectionBelowTable from "./SectionBelowTable";
+import Table from "./Table";
+import TakePhoto from "./TakePhoto";
+import Verification from "./Verification";
 const RecreationalVehicleRentalAgreement = () => {
   return (
     <div className="bg-white px-[3%] md:px-[6%] py-8 text-[#4B465C]">

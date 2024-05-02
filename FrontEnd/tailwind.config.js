@@ -1,32 +1,34 @@
 /** @type {import('tailwindcss').Config} */
-import colors from 'tailwindcss/colors';
+import colors from "tailwindcss/colors";
 export default {
   content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
     // Path to Tremor module
-    './node_modules/@tremor/**/*.{js,ts,jsx,tsx}',
+    "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    transparent: 'transparent',
-    current: 'currentColor',
+    transparent: "transparent",
+    current: "currentColor",
     extend: {
       screens: {
-        '100px': '100px',
-        '200px': '200px',
-        '300px': '300px',
-        '400px': '400px',
-        '500px': '500px',
-        '600px': '600px',
-        '700px': '700px',
-        '880px': '880px',
-        '900px': '900px',
-        '1000px': '1000px',
-        '1100px': '1100px',
-        '1200px': '1200px',
-        '1300px': '1300px',
-        '1400px': '1400px',
-        '1500px': '1500px',
+        "100px": "100px",
+        "200px": "200px",
+        "300px": "300px",
+        "400px": "400px",
+        "500px": "500px",
+        "550px": "550px",
+
+        "600px": "600px",
+        "700px": "700px",
+        "880px": "880px",
+        "900px": "900px",
+        "1000px": "1000px",
+        "1100px": "1100px",
+        "1200px": "1200px",
+        "1300px": "1300px",
+        "1400px": "1400px",
+        "1500px": "1500px",
       },
       colors: {
         // light mode
@@ -38,22 +40,22 @@ export default {
             DEFAULT: colors.blue[500],
             emphasis: colors.blue[700],
             inverted: colors.white,
-            gold: '#CBA557',
+            gold: "#CBA557",
           },
           background: {
             muted: colors.gray[50],
             subtle: colors.gray[100],
             DEFAULT: colors.white,
             emphasis: colors.gray[700],
-            gold: '#CBA557',
+            gold: "#CBA557",
           },
           border: {
             DEFAULT: colors.gray[200],
-            gold: '#CBA557',
+            gold: "#CBA557",
           },
           ring: {
             DEFAULT: colors.gray[200],
-            gold: '#CBA557',
+            gold: "#CBA557",
           },
           content: {
             subtle: colors.gray[400],
@@ -61,34 +63,34 @@ export default {
             emphasis: colors.gray[700],
             strong: colors.gray[900],
             inverted: colors.white,
-            gold: '#CBA557',
+            gold: "#CBA557",
           },
         },
       },
       boxShadow: {
         // light
-        'tremor-input': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-        'tremor-card':
-          '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-        'tremor-dropdown':
-          '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+        "tremor-input": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        "tremor-card":
+          "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+        "tremor-dropdown":
+          "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
         // dark
-        'dark-tremor-input': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-        'dark-tremor-card':
-          '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-        'dark-tremor-dropdown':
-          '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+        "dark-tremor-input": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        "dark-tremor-card":
+          "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+        "dark-tremor-dropdown":
+          "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
       },
       borderRadius: {
-        'tremor-small': '0.375rem',
-        'tremor-default': '0.5rem',
-        'tremor-full': '9999px',
+        "tremor-small": "0.375rem",
+        "tremor-default": "0.5rem",
+        "tremor-full": "9999px",
       },
       fontSize: {
-        'tremor-label': ['0.75rem', { lineHeight: '1rem' }],
-        'tremor-default': ['0.875rem', { lineHeight: '1.25rem' }],
-        'tremor-title': ['1.125rem', { lineHeight: '1.75rem' }],
-        'tremor-metric': ['1.875rem', { lineHeight: '2.25rem' }],
+        "tremor-label": ["0.75rem", { lineHeight: "1rem" }],
+        "tremor-default": ["0.875rem", { lineHeight: "1.25rem" }],
+        "tremor-title": ["1.125rem", { lineHeight: "1.75rem" }],
+        "tremor-metric": ["1.875rem", { lineHeight: "2.25rem" }],
       },
     },
   },
@@ -96,17 +98,17 @@ export default {
     {
       pattern:
         /^(bg-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-      variants: ['hover', 'ui-selected'],
+      variants: ["hover", "ui-selected"],
     },
     {
       pattern:
         /^(text-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-      variants: ['hover', 'ui-selected'],
+      variants: ["hover", "ui-selected"],
     },
     {
       pattern:
         /^(border-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-      variants: ['hover', 'ui-selected'],
+      variants: ["hover", "ui-selected"],
     },
     {
       pattern:
