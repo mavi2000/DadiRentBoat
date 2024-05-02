@@ -87,8 +87,9 @@ const Sidebar = () => {
         Remainders
       </Link>
       <Link
+        to="/Dashboard/Cash-flow"
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
-          window.location.pathname.includes('Cash Flow')
+          window.location.pathname.includes('/Dashboard/Cash-flow')
             ? 'bg-[--primary-color] text-white'
             : ''
         }`}

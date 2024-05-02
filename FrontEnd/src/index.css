@@ -113,7 +113,6 @@ body {
 }
 
 
-
 .confirmed-pending-status:hover .show-status {
   display: inline-block;
   min-width: fit-content;

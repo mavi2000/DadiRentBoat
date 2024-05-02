@@ -37,8 +37,6 @@ import AccountInfo from './Components/AfterLoggedIn/AccountInfo/AccountInfo';
 import DashboardLayout from './Components/DashboardLayout';
 import CreateList from './Components/Dashboard/Calendar/CreateList/CreateList';
 import MyBoats from './Components/Dashboard/MyBoats/MyBoats';
-import Calendar1 from './Components/Dashboard/Calendar/Calendar1';
-import Calendar2 from './Components/Dashboard/Calendar/Calendar2';
 import BillingList from './Components/Dashboard/Billing/BillingList';
 import Dashboard from './Components/Dashboard/Dashboard';
 
@@ -50,6 +48,8 @@ import Reminders from './Components/Dashboard/Remainder/Reminders';
 import BookedBoats from './Components/Dashboard/Remainder/BookedBoats';
 import UnbookedBoats from './Components/Dashboard/Remainder/UnbookedBoats';
 import Calender from './Components/Dashboard/Calendar/Calender';
+import CashFlow from './Components/Dashboard/CashFlow/CashFlow';
+import BoatDetails from './Components/Dashboard/CashFlow/BoatDetails';
 
 function App() {
   return (
@@ -206,10 +206,6 @@ function App() {
           path="/Dashboard/calendar2"
           element={<DashboardLayout Childeren={<Calender />} />}
         />
-        <Route
-          path="/Dashboard/calendar"
-          element={<DashboardLayout Childeren={<Calendar1 />} />}
-        />
 
         <Route
           path="/Dashboard/pending-bookings"
@@ -272,6 +268,14 @@ function App() {
         <Route
           path="/dashboard/billing"
           element={<DashboardLayout Childeren={<BillingList />} />}
+        />
+        <Route
+          path="/Dashboard/Cash-flow"
+          element={<DashboardLayout Childeren={<CashFlow />} />}
+        />
+        <Route
+          path="/Dashboard/Cash-flow/Boat-detials"
+          element={<DashboardLayout Childeren={<BoatDetails />} />}
         />
       </Routes>
     </BrowserRouter>
