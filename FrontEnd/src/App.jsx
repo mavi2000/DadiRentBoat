@@ -50,6 +50,8 @@ import UnbookedBoats from './Components/Dashboard/Remainder/UnbookedBoats';
 import Calender from './Components/Dashboard/Calendar/Calender';
 import CashFlow from './Components/Dashboard/CashFlow/CashFlow';
 import BoatDetails from './Components/Dashboard/CashFlow/BoatDetails';
+import Customer from './Components/Dashboard/CustomerSupport/Customer';
+import Profile from './Components/Dashboard/Profile/Profile';
 
 function App() {
   return (
@@ -193,6 +195,10 @@ function App() {
         />
 
         <Route
+          path="/dashboard/my-boats"
+          element={<DashboardLayout Childeren={<MyBoats />} />}
+        />
+        <Route
           path="/Dashboard"
           element={<DashboardLayout Childeren={<Dashboard />} />}
         />
@@ -202,7 +208,7 @@ function App() {
           element={<DashboardLayout Childeren={<MyBoats />} />}
         />
         <Route
-          path="/Dashboard/calendar2"
+          path="/Dashboard/calendar"
           element={<DashboardLayout Childeren={<Calender />} />}
         />
 
@@ -275,6 +281,14 @@ function App() {
         <Route
           path="/Dashboard/Cash-flow/Boat-detials"
           element={<DashboardLayout Childeren={<BoatDetails />} />}
+        />
+        <Route
+          path="/Dashboard/customer-support"
+          element={<DashboardLayout Childeren={<Customer />} />}
+        />
+        <Route
+          path="/Dashboard/profile"
+          element={<DashboardLayout Childeren={<Profile />} />}
         />
       </Routes>
     </BrowserRouter>

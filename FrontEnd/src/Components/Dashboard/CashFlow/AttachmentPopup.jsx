@@ -1,9 +1,9 @@
 import { FiUpload } from 'react-icons/fi';
-const AttachmentPopup = ({ setAddAttachment }) => {
+const AttachmentPopup = ({ cancel }) => {
   return (
-    <div className="cursor-default fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="cursor-default fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
       <div className="bg-white p-8 rounded-md space-y-3 max-w-[976px] text-left z-50">
-        <h2 className="text-black text-2xl">Attachment Label</h2>
+        <h2 className="text-black text-2xl">Attachment</h2>
         <div className="border-[1.34px] px-20 text-black border-[#DBDADE] border-dashed flex flex-col items-center justify-center outline-none rounded-md py-8 w-full">
           <div className="bg-[#4B465C14] rounded-md p-1">
             <FiUpload className="text-[#4B465C] opacity-80" size={30} />
@@ -21,7 +21,7 @@ const AttachmentPopup = ({ setAddAttachment }) => {
           <button
             className=" px-4 py-2 bg-[--primary-color] text-white rounded"
             onClick={() => {
-              setAddAttachment(false);
+              cancel(false);
             }}
           >
             Save
@@ -29,7 +29,7 @@ const AttachmentPopup = ({ setAddAttachment }) => {
           <button
             className="px-4 py-2 bg-[#A8AAAE] text-[#A8AAAE] bg-opacity-15 rounded"
             onClick={() => {
-              setAddAttachment(false);
+              cancel(false);
             }}
           >
             Cancel

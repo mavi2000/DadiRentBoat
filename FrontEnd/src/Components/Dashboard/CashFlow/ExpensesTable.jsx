@@ -30,9 +30,7 @@ const ExpensesTable = () => {
           className="rounded-md px-3 py-2 border-[1px] border-[--primary-color] text-[--primary-color] mr-auto ml-0"
         >
           + Add Attachment
-          {addAttachment && (
-            <AttachmentPopup setAddAttachment={setAddAttachment} />
-          )}
+          {addAttachment && <AttachmentPopup cancel={setAddAttachment} />}
         </button>
         <button className="rounded-md px-3 py-2 border-[1px] border-[--primary-color] text-[--primary-color]">
           + &nbsp; Add Row

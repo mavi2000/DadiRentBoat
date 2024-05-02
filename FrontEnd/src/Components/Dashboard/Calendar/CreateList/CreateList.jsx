@@ -14,12 +14,14 @@ const CreateList = () => {
   };
   const isLogin = !!true;
   return (
-    <div className=" w-[100%]   my-3 bg-[#FFFFFF] py-5 flex flex-col justify-center items-center gap-12">
-      <h1 className=" text-3xl font-medium text-center">Create Listing</h1>
+    <div className=" w-[100%]  my-3 bg-[#FFFFFF] py-5 flex flex-col justify-center items-center gap-12">
+      <h1 className=" font-medium text-center 880px:text-3xl 500px:text-xl">
+        Create Listing
+      </h1>
       <div className=" w-[90%] ">
         {isLogin && (
           <div className="flex flex-row justify-center w-[100%] items-baseline  gap-2">
-            <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557] border w-8">
+            <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557]  w-8">
               <button
                 className={`rounded-[50%] h-8 w-8 bg-transparent border-2 border-[#CBA557] ${
                   activeComponent === "boatInformation"
@@ -34,7 +36,7 @@ const CreateList = () => {
                 Boat Information
               </div>
             </div>
-            <div className=" w-20 h-0.5 bg-gray-400 "></div>
+            <div className=" w-[7%] h-0.5 bg-gray-400 "></div>
             <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557] w-8 ">
               <button
                 className={`rounded-[50%] h-8 w-8 bg-transparent border-2 border-[#CBA557] ${
