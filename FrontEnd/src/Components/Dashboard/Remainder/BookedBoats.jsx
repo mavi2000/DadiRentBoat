@@ -9,10 +9,34 @@ import { MdOutlineAttachEmail } from "react-icons/md";
 import Pagination from '../Pagination/Pagination';
 import Boat from '../../../assets/Images/our-fleet-boat1.webp'
 import { TiArrowSortedUp } from "react-icons/ti";
+import { SlCloudDownload } from "react-icons/sl";
+import { RiExpandUpDownLine } from "react-icons/ri";
+import { RiBold } from "react-icons/ri";
+import { FiItalic } from "react-icons/fi";
+import { MdFormatUnderlined } from "react-icons/md";
+import { PiTextStrikethroughBold } from "react-icons/pi";
+import { HiMiniPlusSmall } from "react-icons/hi2";
 
 const BookedBoats = () => {
     const [infoBoxes, setInfoBoxes] = useState({});
     const [infoContent, setInfoContent] = useState("");
+
+    const [showReminderPopup, setShowReminderPopup] = useState(false);
+
+    const handleReminderClick = () => {
+        setShowReminderPopup(true); // Show the Reminder confirmation popup
+    };
+
+    const handleSendReminder = () => {
+        setShowReminderPopup(false);
+    };
+
+    const handleCreateReminder = () => {
+        setShowReminderPopup(false); 
+    };
+    const handleCancelReminder = () => {
+        setShowReminderPopup(false); 
+    };
 
     const handleMouseEnter = (id, content) => {
         setInfoBoxes((prevState) => ({
@@ -31,7 +55,7 @@ const BookedBoats = () => {
   return (
 <>
     <RemainderNavbar/>
-    <div className='mx-[3%] md:mx-[1%] mt-[3%]'>
+    <div className='mx-[3%] md:mx-[1%] mt-[3%]' >
         
         <div className=' flex justify-between'>
           <h1 className=' text-lg font-medium text-[#4B465C]'>Booked Boats</h1>
@@ -97,7 +121,7 @@ const BookedBoats = () => {
           <h2 className="text-sm font-medium">{infoContent}:</h2>
           <p className="text-xs font-normal">Requester Name: Thomas Charles</p>
           <p className="text-xs font-normal">Rental Contract: Completed</p>
-          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]">Send Reminder</button>
+          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]" onClick={handleReminderClick}>Send Reminder</button>
         </div>
       </div>
     )}
@@ -120,7 +144,7 @@ const BookedBoats = () => {
           <h2 className="text-sm font-medium">{infoContent}:</h2>
           <p className="text-xs font-normal">Requester Name: Thomas Charles</p>
           <p className="text-xs font-normal">Rental Contract: Completed</p>
-          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]">Send Reminder</button>
+          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]" onClick={handleReminderClick}>Send Reminder</button>
         </div>
       </div>
     )}
@@ -144,7 +168,7 @@ const BookedBoats = () => {
           <h2 className="text-sm font-medium">{infoContent}:</h2>
           <p className="text-xs font-normal">Requester Name: Thomas Charles</p>
           <p className="text-xs font-normal">Rental Contract: Completed</p>
-          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]">Send Reminder</button>
+          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]" onClick={handleReminderClick}>Send Reminder</button>
         </div>
       </div>
     )}
@@ -180,7 +204,7 @@ const BookedBoats = () => {
           <h2 className="text-sm font-medium">{infoContent}:</h2>
           <p className="text-xs font-normal">Requester Name: Thomas Charles</p>
           <p className="text-xs font-normal">Rental Contract: Completed</p>
-          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]">Send Reminder</button>
+          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]" onClick={handleReminderClick}>Send Reminder</button>
         </div>
       </div>
     )}
@@ -201,7 +225,7 @@ const BookedBoats = () => {
           <h2 className="text-sm font-medium">{infoContent}:</h2>
           <p className="text-xs font-normal">Requester Name: Thomas Charles</p>
           <p className="text-xs font-normal">Rental Contract: Completed</p>
-          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]">Send Reminder</button>
+          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]" onClick={handleReminderClick}>Send Reminder</button>
         </div>
       </div>
     )}
@@ -226,7 +250,7 @@ const BookedBoats = () => {
           <h2 className="text-sm font-medium">{infoContent}:</h2>
           <p className="text-xs font-normal">Requester Name: Thomas Charles</p>
           <p className="text-xs font-normal">Rental Contract: Completed</p>
-          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]">Send Reminder</button>
+          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]" onClick={handleReminderClick}>Send Reminder</button>
         </div>
       </div>
     )}
@@ -247,7 +271,7 @@ const BookedBoats = () => {
           <h2 className="text-sm font-medium">{infoContent}:</h2>
           <p className="text-xs font-normal">Requester Name: Thomas Charles</p>
           <p className="text-xs font-normal">Rental Contract: Completed</p>
-          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]">Send Reminder</button>
+          <button className="py-2 px-[15px] bg-transparent text-[#ffff] font-bold text-[10px] rounded-2xl border-[0.69px] border-[#ffff]" onClick={handleReminderClick}>Send Reminder</button>
         </div>
       </div>
     )}
@@ -437,7 +461,101 @@ const BookedBoats = () => {
    <Pagination/>
 
 
-{/* Additional information box */}
+            {/* Delete Popup */}
+            {showReminderPopup &&  (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" >
+                    <div className="bg-[#FAFAFA] w-[50%] py-10 px-12 rounded-md space-y-3 max-h-[100vh] overflow-auto">
+                        <div className=' border-[1.14px] border-[#EDEDED] rounded-[9px]'>
+                        <div className=' flex gap-2 items-center border-b border-b-[#EDEDED] py-4 w-full pb-2 bg-[#ffff]'>
+                        <h2 className="text-[#404040] font-bold px-4 py-2 text-lg">Reminder</h2>
+                        </div>
+                        
+
+                        <div className="flex grow w-full flex-col space-y-1 gap-2 mx-[1%] my-[2%] px-5 py-2">
+
+                            <select
+                              name="platform"
+                              id="platform"
+                              className="border-[1.14px] px-3 py-2 border-[#DBDADE] w-full text-[#C2C2C2] outline-none rounded-lg bg-[#ffff]"
+                            >
+                              <option value="Select Country">Select Platform(WhatsApp, Email, Text Message)</option>
+                              <option value="Select Country">Whatsapp</option>
+                              <option value="Select Country">Email</option>
+                              <option value="Select Country">Text Message</option>
+                            </select>
+
+                            <input type="text" name="" id="" placeholder='Reminder Title' className='border-[1.14px] px-3 py-2 border-[#DBDADE] w-full text-[#C2C2C2] outline-none rounded-lg bg-[#ffff] placeholder:text-[#C2C2C2]' />
+
+                            <div className=' bg-[#CBA5571A] bg-opacity-10 border border-dashed border-[#78BC6133] border-opacity-20 py-2 px-6 flex flex-col items-center space-y-3'>
+                              <span className=' text-3xl text-[#CBA557]'><SlCloudDownload/></span>
+                              <p className=' text-[#0F0F0F] text-xs font-semibold'>Drag & drop files or <span className=' text-[#CBA557]'>Browse</span>
+                              </p>
+                              <p className=' text-[10px] text-[#676767] font-normal'>Supported formats: JPEG, JPG, PNG, PDF, Excel</p>
+                            </div>
+
+                            <div className=' border-[1.14px] border-[#D2D2D2] rounded-[9px]'>
+                              <div className=' px-2 py-3 flex gap-4 items-center'>
+                                <div className=' flex gap-4 items-center'>
+                                <p>Normal</p>
+                                <span><RiExpandUpDownLine/></span>
+
+                                </div>
+                                <span><RiBold/></span>
+                                <span><FiItalic/></span>
+                                <span><MdFormatUnderlined/></span>
+                                <span><PiTextStrikethroughBold/></span>
+
+                                <div className=' flex gap-2 items-center'>
+                                  <span className=' text-xl'><HiMiniPlusSmall/></span>
+                                  <p className=' font-["Manrope"] text-sm font-normal'>Add Variabel</p>
+                                </div>
+
+
+                              </div>
+
+                              <textarea name="" id="" cols="30" rows="10" placeholder='Enter the text for your Message..' className='border-[1.14px] border-[#D2D2D2] w-full py-4 px-3 placeholder:text-[#C2C2C2] resize-none'>
+
+                              </textarea>
+
+                            </div>
+                            <p className=' text-[#404040] text-sm'>When do you want to send this reminder?</p>
+
+                            <div className="flex gap-12 my-[3%] mx-[1%]">
+                            <label className="flex items-center gap-2">
+                              <input type="radio" name="payment" className="w-5 h-5" />
+                              <span className=" font-normal text-[#676767] text-sm">
+                              Send immediately
+                              </span>
+                            </label>
+
+                            <label className="flex items-center gap-2">
+                              <input type="radio" name="payment" className="w-5 h-5" />
+                              <span className=" font-normal text-[#676767] text-sm">
+                              Send at a specific time
+                              </span>
+                            </label>
+                          </div>
+
+          <div className="flex gap-6 mt-4  flex-wrap md:flex-nowrap">
+              <div className="flex grow flex-col gap-2">
+                  <input type="date" name="" id="" className="border-[1.35px] px-3 py-2 border-[#DBDADE] w-full text-[#4B465C] outline-none rounded-lg bg-[#ffff]" />
+              </div>
+              <div className="flex grow flex-col gap-2">
+              <input type="time" name="" id="" placeholder="Time (00:00)" className="border-[1.35px] px-3 py-2 border-[#DBDADE] w-full text-[#4B465C] outline-none rounded-lg bg-[#ffff]" />
+              </div>
+        </div>
+
+                          </div>
+  
+                        <div className="flex gap-3 justify-end px-5 py-2">
+                            <button className=" px-4 py-2 bg-[#F2F2F2] text-[#B3B3B3] rounded-lg" onClick={handleCreateReminder}>Create</button>
+                            <button className="px-4 py-2 border-[1.14px] border-[#CBA557] text-[#CBA557] bg-opacity-15 rounded-lg" onClick={handleSendReminder}>Send</button>
+                            <button className="px-4 py-2 bg-[#FF6347] text-white rounded" onClick={handleCancelReminder}>Cancel</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            )}
 
 
 
