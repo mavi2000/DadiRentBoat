@@ -50,7 +50,7 @@ const BoatInformation = () => {
           <div className="flex flex-col gap-2 w-1/3">
             <div className="text-[#4B465C] font-light">Type of boat</div>
             <div className="relative w-[80%]">
-              <select class="block appearance-none w-[100%] bg-transparent border border-gray-400 text-gray-400 py-2 px-4 rounded text-sm font-light">
+              <select class=" w-[100%] bg-transparent border border-gray-400 text-gray-400 py-2 px-4 rounded text-sm font-light">
                 <option>Choose a type</option>
                 <option>Option 2</option>
                 <option>Option 3</option>

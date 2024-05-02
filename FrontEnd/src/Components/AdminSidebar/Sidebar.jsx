@@ -94,23 +94,23 @@ const Sidebar = () => {
         Cash Flow
       </Link>
       <Link
+        to={"/Dashboard/customer-support"}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
-          window.location.pathname.includes("Customer Support")
+          window.location.pathname.includes("/customer-support")
             ? "bg-[--primary-color] text-white"
             : ""
         }`}
-        to="#"
       >
         <TfiHeadphoneAlt size={20} />
         Customer Support
       </Link>
       <Link
+        to={"/Dashboard/profile"}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
           window.location.pathname.includes("Profile")
             ? "bg-[--primary-color] text-white"
             : ""
         }`}
-        to="#"
       >
         <PiFolderSimpleStar size={20} />
         Profile

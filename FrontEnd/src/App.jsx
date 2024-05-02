@@ -41,6 +41,9 @@ import Calendar1 from "./Components/Dashboard/Calendar/Calendar1";
 import Calendar2 from "./Components/Dashboard/Calendar/Calendar2";
 import BillingList from "./Components/Dashboard/Billing/BillingList";
 import Dashboard from "./Components/Dashboard/Dashboard";
+import Customer from "./Components/Dashboard/CustomerSupport/Customer";
+import Profile from "./Components/Dashboard/Profile/Profile";
+
 function App() {
   return (
     <BrowserRouter>
@@ -148,12 +151,10 @@ function App() {
           path="/booking/invoice"
           element={<Layout Children={<Invoice />} isLocation={false} />}
         />
-
         <Route
           path="/user/booking-list"
           element={<Layout Children={<Booking />} isLocation={false} />}
         />
-
         <Route
           path="/user/booking"
           element={<Layout Children={<Booking2 />} isLocation={false} />}
@@ -162,12 +163,10 @@ function App() {
           path="/user/favourites"
           element={<Layout Children={<MyFavourite />} isLocation={false} />}
         />
-
         <Route
           path="/user/account-info"
           element={<Layout Children={<AccountInfo />} isLocation={false} />}
         />
-
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<SignUp />} />
         <Route path="/Forgot-Password" element={<ForgotPassword />} />
@@ -181,7 +180,6 @@ function App() {
           path="/RecreationalVehicleRentalAgreement"
           element={<RecreationalVehicleRentalAgreement />}
         />
-
         <Route path="/dashboard/my-boats" element={<MyBoats />} />
         <Route path="/dashboard/calendar2" element={<Calendar2 />} />
         <Route path="/dashboard/calendar" element={<Calendar1 />} />
@@ -189,18 +187,22 @@ function App() {
           path="/Dashboard"
           element={<DashboardLayout Childeren={<Dashboard />} />}
         />
-        <Route
-          path="/Billing"
-          element={<DashboardLayout Childeren={<BillingList />} />}
-        />
 
         <Route
           path="/Dashboard/calender/createlist"
           element={<DashboardLayout Childeren={<CreateList />} />}
         />
         <Route
-          path="/dashboard/billing"
+          path="/Dashboard/billing"
           element={<DashboardLayout Childeren={<BillingList />} />}
+        />
+        <Route
+          path="/Dashboard/customer-support"
+          element={<DashboardLayout Childeren={<Customer />} />}
+        />
+        <Route
+          path="/Dashboard/profile"
+          element={<DashboardLayout Childeren={<Profile />} />}
         />
       </Routes>
     </BrowserRouter>
