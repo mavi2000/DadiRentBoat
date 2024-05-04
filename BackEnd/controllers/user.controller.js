@@ -24,7 +24,6 @@ export const signup = async (req, res, next) => {
 
   try {
     const { username, email, phoneNumber, password } = req.body;
-
     const existingUser = await User.findOne({ email });
 
     if (existingUser !== null) {
@@ -35,7 +34,6 @@ export const signup = async (req, res, next) => {
 
     const salt = await generateSalt();
     const hashPassword = await generatePassword(password, salt);
-
     const user = await User.create({
       username,
       email,
@@ -67,14 +65,9 @@ export const login = async (req, res, next) => {
   }
 
   try {
-    const { identifier, password } = req.body;
-
+    const { email, password } = req.body;
     let user = await User.findOne({
-      $or: [
-        { email: identifier },
-        { username: identifier },
-        { phoneNumber: identifier },
-      ],
+      $or: [{ email: email }, { username: email }, { phoneNumber: email }],
     });
     if (user === null) {
       return res.status(404).json({ message: 'user not found.' });

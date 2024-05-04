@@ -1,28 +1,36 @@
 import { Link, useNavigate } from 'react-router-dom';
 import PopupsLayout from './PopupsLayout';
-import { useEffect, useState } from 'react';
-import axiosBaseUrl from '../../../axios.config.js';
+import baseURL from '../../../axios.config';
+import { useState } from 'react';
 
 const SignUp = () => {
-  const navigate = useNavigate();
-  const [signupData, seSignupData] = useState({
+  const [signupData, setSignupData] = useState({
     username: '',
     email: '',
     phoneNumber: '',
     password: '',
   });
+  const [error, setError] = useState(null);
+  const [signupSuccessful, setSignupSuccessful] = useState(false);
+  const navigate = useNavigate();
 
-  const handleCange = (e) => {
-    seSignupData({ ...signupData, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setSignupData({
+      ...signupData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axiosBaseUrl.post('/signup', signupData);
-      if (response) navigate('/login');
+      const response = await baseURL.post('/signup', signupData);
+      console.log(response.data);
+      setSignupSuccessful(true);
+      navigate('/login');
     } catch (error) {
-      console.log(error);
+      console.log('Signup error: ', error);
+      setError(error.response.data.message);
     }
   };
 
@@ -35,14 +43,13 @@ const SignUp = () => {
           <p className="text-base mb-8">
             Create your account and book you Boat
           </p>
-
           <form onSubmit={handleSubmit}>
-            <label htmlFor="Username">Username* </label>
+            <label htmlFor="username">Username* </label>
             <input
               type="text"
-              id="username"
+              id="Username"
               name="username"
-              onChange={handleCange}
+              onChange={handleChange}
               placeholder="john.doe"
               className="w-full border-[1px] border-[#DBDADE] outline-none rounded-md mt-2 mb-6 px-4 py-2"
             />
@@ -52,7 +59,7 @@ const SignUp = () => {
               type="email"
               id="Email"
               name="email"
-              onChange={handleCange}
+              onChange={handleChange}
               placeholder="john.doe@gmail.com"
               className="w-full border-[1px] border-[#DBDADE] outline-none rounded-md mt-2 mb-6 px-4 py-2"
             />
@@ -60,7 +67,12 @@ const SignUp = () => {
             <label htmlFor="phoneNumber">
               Phone Number*
               <div className="flex mt-2 mb-6">
-                <select className="border-[1px] border-[#DBDADE] text-[#4B465C] outline-none rounded-l-md px-4 py-2">
+                <select
+                  name="phoneNumber"
+                  id="phoneNumber"
+                  onChange={handleChange}
+                  className="border-[1px] border-[#DBDADE] text-[#4B465C] outline-none rounded-l-md px-4 py-2"
+                >
                   <option value="+39">+39</option>
                   <option value="+91">+91</option>
                   <option value="+92">+92</option>
@@ -68,8 +80,8 @@ const SignUp = () => {
                 <input
                   type="tel"
                   name="phoneNumber"
-                  onChange={handleCange}
                   placeholder="313414242"
+                  onChange={handleChange}
                   className="w-full border-[1px] border-[#DBDADE] outline-none rounded-r-md px-4 py-2"
                 />
               </div>
@@ -79,9 +91,9 @@ const SignUp = () => {
             <input
               type="password"
               id="password"
-              name="password"
               autoComplete="off"
-              onChange={handleCange}
+              name="password"
+              onChange={handleChange}
               placeholder="&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;"
               className="w-full border-[1px] border-[#DBDADE] outline-none rounded-md mt-2 mb-6 px-4 py-2"
             />
@@ -90,6 +102,7 @@ const SignUp = () => {
                 type="checkbox"
                 id="agreement"
                 name="agreement"
+                onChange={handleChange}
                 className="w-5 h-5 border-[1.5px] border-[#CBA55733] outline-none rounded-md accent-[--primary-color]"
               />
               <label htmlFor="agreement">
@@ -99,6 +112,11 @@ const SignUp = () => {
                 </span>
               </label>
             </div>
+            {error && <div className="text-red-500">{error}</div>}
+            {signupSuccessful && (
+              <div className="text-green-500">Signup Successful</div>
+            )}
+
             <button
               type="submit"
               className="bg-[--primary-color] px-6 py-3 rounded-md text-white w-full my-6"

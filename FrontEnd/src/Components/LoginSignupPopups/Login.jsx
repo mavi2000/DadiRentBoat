@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PopupsLayout from './PopupsLayout';
-import axiosBaseUrl from '../../../axios.config.js';
+import baseURL from '../../../axios.config';
 import { useState } from 'react';
 
 const Login = () => {
@@ -8,21 +8,29 @@ const Login = () => {
     email: '',
     password: '',
   });
+  const [error, setError] = useState(null);
+  const [loginSuccessful, setLoginSuccessful] = useState(false);
+  const navigate = useNavigate();
 
-  const onChangeHandler = (e) => {
-    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axiosBaseUrl.post('/login', loginData);
+      const response = await baseURL.post('/login', loginData);
       console.log(response.data);
+      setLoginSuccessful(true);
+      navigate('/Our-Fleet');
     } catch (error) {
-      console.log(error);
+      console.log('Login error: ', error);
+      setError(error.response.data.message);
     }
   };
-
   return (
     <PopupsLayout
       isSocials={true}
@@ -32,14 +40,13 @@ const Login = () => {
           <p className="text-base mb-8">
             Please sign in to your account and start the adventure
           </p>
-
           <form onSubmit={handleSubmit}>
             <label htmlFor="email">Email or Username or Phone</label>
             <input
               type="text"
               id="email"
               name="email"
-              onChange={onChangeHandler}
+              onChange={handleChange}
               placeholder="john.doe"
               className="w-full border-[1px] border-[#DBDADE] outline-none rounded-md mt-2 mb-6 px-4 py-2"
             />
@@ -56,8 +63,8 @@ const Login = () => {
               type="password"
               id="password"
               name="password"
-              onChange={onChangeHandler}
               autoComplete="off"
+              onChange={handleChange}
               placeholder="&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183; "
               className="w-full border-[1px] border-[#DBDADE] outline-none rounded-md mt-2 mb-6 px-4 py-2"
             />
@@ -70,6 +77,7 @@ const Login = () => {
               />
               <label htmlFor="rememberMe">Remember Me</label>
             </div>
+            {error && <div className="text-red-500">{error}</div>}
             <button
               type="submit"
               className="bg-[--primary-color] px-6 py-3 rounded-md text-white w-full my-6"
