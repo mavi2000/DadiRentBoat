@@ -1,8 +1,12 @@
-import Joi from "joi"
-import { generateSalt, generatePassword, validatePassword } from "../utils/password.util.js"
-import User from "../models/User.model.js"
-import jwt from 'jsonwebtoken'
-import { upload } from "../utils/cloudinay.util.js"
+import Joi from 'joi';
+import {
+  generateSalt,
+  generatePassword,
+  validatePassword,
+} from '../utils/password.util.js';
+import User from '../models/User.model.js';
+import jwt from 'jsonwebtoken';
+import { upload } from '../utils/cloudinay.util.js';
 
 export const signup = async (req, res, next) => {
   const validation = Joi.object({
@@ -10,80 +14,81 @@ export const signup = async (req, res, next) => {
     email: Joi.string().email().required(),
     phoneNumber: Joi.string().required(),
     password: Joi.string().required(),
-  }).validate(req.body)
+  }).validate(req.body);
 
   if (validation.error) {
     return res
       .status(400)
-      .json({ message: validation.error.details[0].message })
+      .json({ message: validation.error.details[0].message });
   }
 
   try {
-    const { username, email, phoneNumber, password } = req.body
-
-    const existingUser = await User.findOne({ email })
+    const { username, email, phoneNumber, password } = req.body;
+    const existingUser = await User.findOne({ email });
 
     if (existingUser !== null) {
       return res
         .status(400)
-        .json({ message: "user with this email already exists." })
+        .json({ message: 'user with this email already exists.' });
     }
 
-    const salt = await generateSalt()
-    const hashPassword = await generatePassword(password, salt)
-
+    const salt = await generateSalt();
+    const hashPassword = await generatePassword(password, salt);
     const user = await User.create({
       username,
       email,
       phoneNumber,
       password: hashPassword,
-    })
+    });
 
-    const token = jwt.sign({ _id: user._id, email }, process.env.JWT_KEY, { expiresIn: '30d' })
+    const token = jwt.sign({ _id: user._id, email }, process.env.JWT_KEY, {
+      expiresIn: '30d',
+    });
 
-    return res.status(200).json({ user, token, message: 'signup successfull' })
+    return res.status(200).json({ user, token, message: 'signup successfull' });
   } catch (error) {
-    console.log("signup error: ", error)
-    return res.status(500).json({ error: error })
+    console.log('signup error: ', error);
+    return res.status(500).json({ error: error });
   }
-}
+};
 
 export const login = async (req, res, next) => {
   const validation = Joi.object({
     password: Joi.string().required(),
-    email: Joi.string().email().required(),
-  }).validate(req.body)
+    email: Joi.string().required(),
+  }).validate(req.body);
 
   if (validation.error) {
     return res
       .status(400)
-      .json({ message: validation.error.details[0].message })
+      .json({ message: validation.error.details[0].message });
   }
 
   try {
-    
-    const { email, password } = req.body
-
-    let user = await User.findOne({ $or: [{ email }, { username }, { phoneNumber }] })
+    const { email, password } = req.body;
+    let user = await User.findOne({
+      $or: [{ email: email }, { username: email }, { phoneNumber: email }],
+    });
     if (user === null) {
-      return res.status(404).json({ message: "user not found." })
+      return res.status(404).json({ message: 'user not found.' });
     }
 
-    const isPasswordCorrect = validatePassword(password, user.password)
+    const isPasswordCorrect = validatePassword(password, user.password);
     if (!isPasswordCorrect) {
-      return res.status(400).json({ message: 'wrong credentials' })
+      return res.status(400).json({ message: 'wrong credentials' });
     }
-    const token = jwt.sign({ _id: user._id, email }, process.env.JWT_KEY, { expiresIn: '30d' })
+    const token = jwt.sign({ _id: user._id, email }, process.env.JWT_KEY, {
+      expiresIn: '30d',
+    });
 
-    return res.status(200).json({ user, token, message: 'login successfull' })
+    return res.status(200).json({ user, token, message: 'login successfull' });
   } catch (error) {
-    console.log("login error: ", error);
-    return res.status(500).json({ error: error })
+    console.log('login error: ', error);
+    return res.status(500).json({ error: error });
   }
-}
+};
 
 export const updateUser = async (req, res, next) => {
-
   const validation = Joi.object({
     username: Joi.string().required(),
     phoneNumber: Joi.string().required(),
@@ -96,22 +101,37 @@ export const updateUser = async (req, res, next) => {
     gender: Joi.string().required(),
     gstNumber: Joi.string().required(),
     geoPreference: Joi.string().valid('specificRegion', 'globally').required(),
-    geoPreferenceCity: Joi.string().required()
+    geoPreferenceCity: Joi.string().required(),
   }).validate(req.body);
-  
+
   if (validation.error) {
-    return res.status(400).json({ message: validation.error.details[0].message });
+    return res
+      .status(400)
+      .json({ message: validation.error.details[0].message });
   }
 
   try {
-    const { username, phoneNumber, dateOfBirth, languages, country, city, address, detailedDescription, gender, gstNumber, geoPreference, geoPreferenceCity } = req.body;
+    const {
+      username,
+      phoneNumber,
+      dateOfBirth,
+      languages,
+      country,
+      city,
+      address,
+      detailedDescription,
+      gender,
+      gstNumber,
+      geoPreference,
+      geoPreferenceCity,
+    } = req.body;
 
-    const userId = req.user._id
-    let avatar = null
+    const userId = req.user._id;
+    let avatar = null;
 
-    const user = await User.findOne({ _id: userId })
-    if(!user) {
-      return res.status(404).json({message: "user not found."})
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      return res.status(404).json({ message: 'user not found.' });
     }
 
     user.username = username;
@@ -128,17 +148,15 @@ export const updateUser = async (req, res, next) => {
     user.geoPreferenceCity = geoPreferenceCity;
 
     if (req.file) {
-      avatar = await upload(req.file)
-      user.avatar = avatar
+      avatar = await upload(req.file);
+      user.avatar = avatar;
     }
-    
-    await user.save()
-    
-    return res.status(200).json({ message: 'User updated successfully', user})
 
+    await user.save();
+
+    return res.status(200).json({ message: 'User updated successfully', user });
   } catch (error) {
-    console.log("error updating the user: ", error);
-    return res.status(500).json({ error })
+    console.log('error updating the user: ', error);
+    return res.status(500).json({ error });
   }
-
-}
+};

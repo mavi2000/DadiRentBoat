@@ -1,7 +1,36 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PopupsLayout from './PopupsLayout';
+import baseURL from '../../../axios.config';
+import { useState } from 'react';
 
 const Login = () => {
+  const [loginData, setLoginData] = useState({
+    email: '',
+    password: '',
+  });
+  const [error, setError] = useState(null);
+  const [loginSuccessful, setLoginSuccessful] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await baseURL.post('/login', loginData);
+      console.log(response.data);
+      setLoginSuccessful(true);
+      navigate('/Our-Fleet');
+    } catch (error) {
+      console.log('Login error: ', error);
+      setError(error.response.data.message);
+    }
+  };
   return (
     <PopupsLayout
       isSocials={true}
@@ -11,43 +40,51 @@ const Login = () => {
           <p className="text-base mb-8">
             Please sign in to your account and start the adventure
           </p>
-
-          <label htmlFor="email">Email or Username or Phone</label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            placeholder="john.doe"
-            className="w-full border-[1px] border-[#DBDADE] outline-none rounded-md mt-2 mb-6 px-4 py-2"
-          />
-
-          <label htmlFor="password" className="flex gap-3 justify-between">
-            Password
-            <Link to="/Forgot-Password">
-              <span className="text-[--primary-color] cursor-pointer">
-                Forgot Password?
-              </span>
-            </Link>
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183; "
-            className="w-full border-[1px] border-[#DBDADE] outline-none rounded-md mt-2 mb-6 px-4 py-2"
-          />
-          <div className="flex gap-2 items-center">
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="email">Email or Username or Phone</label>
             <input
-              type="checkbox"
-              id="rememberMe"
-              name="rememberMe"
-              className="w-5 h-5 border-[1.5px] border-[#CBA55733] outline-none rounded-md accent-[--primary-color]"
+              type="text"
+              id="email"
+              name="email"
+              onChange={handleChange}
+              placeholder="john.doe"
+              className="w-full border-[1px] border-[#DBDADE] outline-none rounded-md mt-2 mb-6 px-4 py-2"
             />
-            <label htmlFor="rememberMe">Remember Me</label>
-          </div>
-          <button className="bg-[--primary-color] px-6 py-3 rounded-md text-white w-full my-6">
-            Log in
-          </button>
+
+            <label htmlFor="password" className="flex gap-3 justify-between">
+              Password
+              <Link to="/Forgot-Password">
+                <span className="text-[--primary-color] cursor-pointer">
+                  Forgot Password?
+                </span>
+              </Link>
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autoComplete="off"
+              onChange={handleChange}
+              placeholder="&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183;&nbsp;&#183; "
+              className="w-full border-[1px] border-[#DBDADE] outline-none rounded-md mt-2 mb-6 px-4 py-2"
+            />
+            <div className="flex gap-2 items-center">
+              <input
+                type="checkbox"
+                id="rememberMe"
+                name="rememberMe"
+                className="w-5 h-5 border-[1.5px] border-[#CBA55733] outline-none rounded-md accent-[--primary-color]"
+              />
+              <label htmlFor="rememberMe">Remember Me</label>
+            </div>
+            {error && <div className="text-red-500">{error}</div>}
+            <button
+              type="submit"
+              className="bg-[--primary-color] px-6 py-3 rounded-md text-white w-full my-6"
+            >
+              Log in
+            </button>
+          </form>
           <p className="text-center">
             New on our platform?&nbsp;&nbsp;
             <Link to="/Signup">
