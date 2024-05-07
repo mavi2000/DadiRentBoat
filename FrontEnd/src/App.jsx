@@ -52,6 +52,9 @@ import CashFlow from './Components/Dashboard/CashFlow/CashFlow';
 import BoatDetails from './Components/Dashboard/CashFlow/BoatDetails';
 import Customer from './Components/Dashboard/CustomerSupport/Customer';
 import Profile from './Components/Dashboard/Profile/Profile';
+import Overview from './Components/Dashboard/MyBoats/Overview';
+import Photo from './Components/Dashboard/MyBoats/Photo';
+import InfoAccess from './Components/Dashboard/MyBoats/InfoAccess';
 
 function App() {
   return (
@@ -202,6 +205,18 @@ function App() {
         <Route
           path="/Dashboard/my-boats"
           element={<DashboardLayout Childeren={<MyBoats />} />}
+        />
+        <Route
+          path="/Dashboard/my-boats/overview"
+          element={<DashboardLayout Childeren={<Overview />} />}
+        />
+        <Route
+          path="/Dashboard/my-boats/photo"
+          element={<DashboardLayout Childeren={<Photo />} />}
+        />
+        <Route
+          path="/Dashboard/my-boats/info-access"
+          element={<DashboardLayout Childeren={<InfoAccess />} />}
         />
         <Route
           path="/Dashboard/calendar"
