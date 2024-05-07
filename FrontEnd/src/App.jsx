@@ -195,10 +195,6 @@ function App() {
         />
 
         <Route
-          path="/dashboard/my-boats"
-          element={<DashboardLayout Childeren={<MyBoats />} />}
-        />
-        <Route
           path="/Dashboard"
           element={<DashboardLayout Childeren={<Dashboard />} />}
         />
@@ -240,27 +236,7 @@ function App() {
           path="/Dashboard/unbooked-boats"
           element={<DashboardLayout Childeren={<UnbookedBoats />} />}
         />
-        <Route
-          path="/Dashboard/pending-bookings"
-          element={<DashboardLayout Childeren={<PendingBookings />} />}
-        />
-        <Route
-          path="/Dashboard/today-bookings"
-          element={<DashboardLayout Childeren={<TodayBooking />} />}
-        />
-        <Route
-          path="/Dashboard/upcoming-bookings"
-          element={<DashboardLayout Childeren={<UpcomingBooking />} />}
-        />
-        <Route
-          path="/Dashboard/previous-bookings"
-          element={<DashboardLayout Childeren={<PreviousBooking />} />}
-        />
 
-        <Route
-          path="/Dashboard"
-          element={<DashboardLayout Childeren={<Dashboard />} />}
-        />
         <Route
           path="/Billing"
           element={<DashboardLayout Childeren={<BillingList />} />}
@@ -271,7 +247,7 @@ function App() {
           element={<DashboardLayout Childeren={<CreateList />} />}
         />
         <Route
-          path="/dashboard/billing"
+          path="/Dashboard/billing"
           element={<DashboardLayout Childeren={<BillingList />} />}
         />
         <Route
