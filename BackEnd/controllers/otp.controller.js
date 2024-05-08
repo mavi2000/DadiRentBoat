@@ -31,7 +31,7 @@ export const sendOTP = async (email, subject, generatedOTP, duration = 24) => {
       initiated for your account associated with this email address. Please enter the code below to reset your password:
     </p>
     <h2
-      style="Margin:0;line-height:31px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-style:normal;font-weight:bold;color:#313030;">
+      style="Margin:0;line-height:31px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-style:normal;font-weight:bold;color:white;">
       Your One-Time Verification PIN - Valid For ${
         duration * 60
       } Seconds Is</h2>
@@ -66,10 +66,8 @@ export const forgetPasswordStepOne = async (req, res, next) => {
     // return res.status(400).json({ success: false, error: value.error.details[0].message })
     next(createError(400, value.error.details[0].message));
   }
-  console.log(jwtKey);
   try {
     const user = await User.findOne({ email: req.body.email });
-
     if (user) {
       const otp = Math.floor(100000 + Math.random() * 900000);
       const token = jwt.sign(
@@ -120,6 +118,7 @@ export const forgetPasswordStepTwo = async (req, res, next) => {
         jwtKey,
         { expiresIn: '30d' }
       );
+      console.log('step two decoded: ', decoded);
       return res
         .status(200)
         .json({ success: true, message: 'OTP verified', token: newToken });
@@ -131,10 +130,11 @@ export const forgetPasswordStepTwo = async (req, res, next) => {
   }
 };
 
-const createError = (statusCode, message) => {
-  const error = new Error(message);
-  error.statusCode = statusCode;
-  return error;
+export const createError = (status, message) => {
+  const err = new Error();
+  err.status = status;
+  err.message = message;
+  return err;
 };
 
 export const resetPassword = async (req, res, next) => {

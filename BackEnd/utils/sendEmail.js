@@ -7,13 +7,13 @@ export const sendEmail = async (email, subject, html) => {
       port: 587,
       secure: true,
       auth: {
-        user: process.env.SENDER_MAIL,
-        pass: process.env.PASS,
+        user: 'amirsuliman10101@gmail.com',
+        pass: 'xybl bwwm puli ekid',
       },
     });
 
     await transporter.sendMail({
-      from: process.env.SENDER_MAIL,
+      from: 'amirsuliman10101@gmail.com',
       to: email,
       subject: subject,
       html: html,
