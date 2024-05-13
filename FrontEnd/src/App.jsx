@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Components/Home/Home';
-import './assets/styles/variables.css';
-import './assets/styles/hero-bgs.css';
 import BookNow from './Components/BookNow/BookNow';
 import Checkout from './Components/Checkout/Checkout';
 import Layout from './Components/Layout';

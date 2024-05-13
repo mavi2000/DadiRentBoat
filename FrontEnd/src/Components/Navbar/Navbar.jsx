@@ -10,7 +10,7 @@ import NavbarDropDown from './NavbarDropDown';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLogedIn, setIsLogedIn] = useState(true);
+  const [isLogedIn, setIsLogedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
   const homePage =
