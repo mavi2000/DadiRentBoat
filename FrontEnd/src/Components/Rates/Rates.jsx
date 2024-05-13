@@ -4,6 +4,7 @@ import { TbMessageCircleQuestion } from 'react-icons/tb';
 import RatesTable from './RatesTable';
 import { useState } from 'react';
 import RuleOfCunduct from '../RuleOfCunduct';
+import '../../assets/styles/hero-bgs.css';
 
 const Rates = () => {
   const [showRuleOfCunduct, setShowRuleOfConduct] = useState(false);
