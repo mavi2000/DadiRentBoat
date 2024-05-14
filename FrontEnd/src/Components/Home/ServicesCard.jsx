@@ -1,6 +1,4 @@
-import './ServicesCard.css';
-import ExtraServicesIcon from '../../assets/Images/Extra-Services-white-icon.png';
-import ExtraServicesGoldIcon from '../../assets/Images/Extra-Services-gold-icon.png';
+import '../../../styles/ServicesCard.css';
 
 const ServicesCard = ({ frontIcon, title, backIcon, description }) => {
   return (
@@ -14,7 +12,6 @@ const ServicesCard = ({ frontIcon, title, backIcon, description }) => {
         </div>
         <div className="flip-box-back rounded p-4 pt-0">
           <img src={backIcon} alt="Umbrella" className="w-16 ml-auto mr-8" />
-
           <h1 className="text-2xl font-medium mt-2">{title}</h1>
           <p className="font-normal mt-2">{description}</p>
         </div>

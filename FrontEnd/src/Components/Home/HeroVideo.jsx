@@ -70,7 +70,7 @@ const HeroVideo = ({ ...props }) => {
         <video
           onContextMenu={(e) => e.preventDefault()}
           onLoadedData={() => {
-            console.log('ISA intro Video loaded');
+            console.log('Dadi intro Video loaded');
           }}
           playsInline
           ref={videoRef}
