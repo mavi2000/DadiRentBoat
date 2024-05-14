@@ -1,5 +1,5 @@
 .hero-bg {
-  background: url('../src/assets/Images/hero-bg.webp') !important;
+  background: url('../src/assets/Images/hero-bg.webp');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -7,7 +7,7 @@
 }
 
 .fleet-bg {
-  background: url('../src/assets/Images/our-fleet-bg.webp') !important;
+  background: url('../src/assets/Images/our-fleet-bg.webp');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -15,7 +15,7 @@
 }
 
 .checkout-bg {
-  background: url('../src/assets/Images/checkout-bg.webp') !important;
+  background: url('../src/assets/Images/checkout-bg.webp');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -23,7 +23,7 @@
 }
 
 .boat-page-bg {
-  background: url('../src/assets/Images/boat-page-bg.webp') !important;
+  background: url('../src/assets/Images/boat-page-bg.webp');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -31,7 +31,7 @@
 }
 
 .Excursions-bg {
-  background: url('../src/assets/Images/Excursions-bg.png') !important;
+  background: url('../src/assets/Images/Excursions-bg.png');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -39,7 +39,7 @@
 }
 
 .Services-container {
-  background: url('../src/assets/Images/Services-bg-boat.webp') !important;
+  background: url('../src/assets/Images/Services-bg-boat.webp');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -47,7 +47,7 @@
 }
 
 .Services-page-bg {
-  background: url('../src/assets/Images/Services-bg-boat.webp') !important;
+  background: url('../src/assets/Images/Services-bg-boat.webp');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
