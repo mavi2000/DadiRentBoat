@@ -1,15 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
 import PopupsLayout from './PopupsLayout';
-import baseURL from '../../../axios.config';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../../../Context/AuthContext';// Update the path to AuthProvider
 
 const Login = () => {
+  const { login, error } = useContext(AuthContext);
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
   });
-  const [error, setError] = useState(null);
-  const [loginSuccessful, setLoginSuccessful] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,15 +21,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await baseURL.post('/login', loginData);
-      console.log(response.data);
-      setLoginSuccessful(true);
+      await login(loginData);
       navigate('/Our-Fleet');
     } catch (error) {
-      console.log('Login error: ', error);
-      setError(error.response.data.message);
+      console.error('Login error: ', error);
     }
   };
+
   return (
     <PopupsLayout
       isSocials={true}

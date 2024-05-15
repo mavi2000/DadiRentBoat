@@ -52,10 +52,12 @@ import CashFlow from './Components/Dashboard/CashFlow/CashFlow';
 import BoatDetails from './Components/Dashboard/CashFlow/BoatDetails';
 import Customer from './Components/Dashboard/CustomerSupport/Customer';
 import Profile from './Components/Dashboard/Profile/Profile';
+import { AuthProvider } from '../Context/AuthContext';
 
 function App() {
   return (
     <BrowserRouter>
+    <AuthProvider>
       <Routes>
         <Route
           path="/"
@@ -291,6 +293,7 @@ function App() {
           element={<DashboardLayout Childeren={<Profile />} />}
         />
       </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
