@@ -1,12 +1,17 @@
 import mongoose from "mongoose";
 
 const rentalSchema = new mongoose.Schema({
-    boat: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Boat',
-        required: true
+    // boatId: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Boat',
+    //     required: false
+    // },
+
+    BoatName:{
+            type: String,
+            required: true
     },
-    boatModel: {
+    Port: {
         type: String,
         required: true
     },

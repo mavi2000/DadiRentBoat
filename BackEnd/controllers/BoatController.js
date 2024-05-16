@@ -20,6 +20,8 @@ export const  CreateBoat = async (req, res, next) => {
         droughtMeters: Joi.number().min(0).required()
     });
 
+   
+
     const { error, value } = schema.validate(req.body);
 
     if (error) {

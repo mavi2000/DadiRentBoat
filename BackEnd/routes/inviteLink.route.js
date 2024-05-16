@@ -5,8 +5,8 @@ import { auth } from '../middlewares/auth.js'
 
 const router = express.Router()
 
-router.post('/', auth, createLink)
-router.post('/invite/:token', verifyLink)
+router.post('/',createLink)
+router.post('/verify', verifyLink)
 
 
 export default router

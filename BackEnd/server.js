@@ -8,6 +8,8 @@ import  boatRoutes from  "./routes/boatRoutes.js"
 import boatDescriptionRoutes from "./routes/boatDescriptionRoutes.js"
 import boatImageRoute from "./routes/boatImageRoute.js"
 import  boatRentRoutes from "./routes/boatRentRoutes.js"
+import inviteLinkRoute from "./routes/inviteLink.route.js"
+
 
 
 const app = express();
@@ -19,6 +21,7 @@ app.use(cors());
 
 // apis / routes
 app.use('/', UserRoute);
+app.use("/invite",inviteLinkRoute)
 app.use('/', ContactRoute);
 app.use("/boat",boatRoutes)
 app.use("/decription",boatDescriptionRoutes)
@@ -28,10 +31,14 @@ app.use("/rent",boatRentRoutes)
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
-  const errorMessage = err.responseMessage || "Something went wrong!";
+  const errorMessage = err.message || "Something went wrong!";
+  
+
+  console.error(`Error Status: ${errorStatus}, Message: ${errorMessage}`);
+  
+ 
   return res.status(errorStatus).json({ error: errorMessage });
 });
-
 
 mongoose
   .connect(process.env.MONGO)
