@@ -57,6 +57,7 @@ import { AdminProvider } from '../Context/AdminContext';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+//new commit
 function App() {
   return (
     <BrowserRouter>
@@ -84,6 +85,7 @@ function App() {
           path="/faq"
           element={<Layout Children={<FAQ />} isLocation={true} />}
         />
+       
         <Route
           path="/services"
           element={<Layout Children={<Services />} isLocation={true} />}
