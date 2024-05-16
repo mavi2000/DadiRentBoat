@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import baseURL from '../APi/BaseUrl.js'; // Import the base URL from the configuration file
+import baseURL from '../APi/BaseUrl.js'; 
 
 const AuthContext = createContext();
 
@@ -25,7 +25,6 @@ const AuthProvider = ({ children }) => {
       setError(error.response?.data?.message || 'Network Error');
     }
   };
-  console.log("user",user)
 
   // Helper function to handle login
   const login = async (loginData) => {
@@ -38,6 +37,7 @@ const AuthProvider = ({ children }) => {
       throw error;
     }
   };
+
   // Helper function to handle logout
   const logout = async () => {
     try {
@@ -52,7 +52,7 @@ const AuthProvider = ({ children }) => {
   // Helper function to handle forgot password
   const forgotPassword = async (email) => {
     try {
-      await baseURL.post('/forgot-password', { email });
+      await baseURL.post('/invite', { email });
       setError(null);
     } catch (error) {
       setError(error.response.data.message);
@@ -60,11 +60,28 @@ const AuthProvider = ({ children }) => {
   };
 
   // Helper function to handle reset password
-  const resetPassword = async (resetData) => {
+  const resetPassword = async (token, newPassword) => {
     try {
-      await baseURL.post('/reset-password', resetData);
+      // Log the token and new password
+      console.log('Token:', token);
+      console.log('New Password:', newPassword);
+  
+      // Make the API call to reset the password
+      await baseURL.post('/invite/verify', { token,newPassword });
+  
       setError(null);
-      navigate('/login');
+      setSuccessMessage('Password reset successfully');
+      navigate('/Login');
+    } catch (error) {
+      setError(error.response?.data?.message || 'Error resetting password');
+    }
+  };
+
+  // Helper function to invite user
+  const inviteUser = async (email) => {
+    try {
+      await baseURL.post('/invite', { email });
+      setError(null);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -84,7 +101,9 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, error, signUp, login, logout, forgotPassword, resetPassword }}>
+    <AuthContext.Provider
+      value={{ user, error, signUp, login, logout, forgotPassword, resetPassword, inviteUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
