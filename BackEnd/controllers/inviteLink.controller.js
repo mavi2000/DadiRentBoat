@@ -137,6 +137,8 @@ if (!token || !newPassword) {
       return res.status(400).json({ message: "Link not found." });
     }
 
+
+
     const currentDateTime = new Date();
     if (currentDateTime > link.expiryDate) {
       return res.status(400).json({ message: "Link has expired." });

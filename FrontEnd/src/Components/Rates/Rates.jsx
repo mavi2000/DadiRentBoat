@@ -2,7 +2,13 @@ import { Link } from 'react-router-dom';
 import { BsClock, BsFiletypePdf } from 'react-icons/bs';
 import { TbMessageCircleQuestion } from 'react-icons/tb';
 import RatesTable from './RatesTable';
+import { useState } from 'react';
+import RuleOfCunduct from '../RuleOfCunduct';
+import '../../../styles/hero-bgs.css';
+
 const Rates = () => {
+  const [showRuleOfCunduct, setShowRuleOfConduct] = useState(false);
+
   return (
     <>
       <div className="Excursions-bg">
@@ -81,11 +87,17 @@ const Rates = () => {
               FAQ
             </button>
           </Link>
-          <Link to="#">
-            <button className="bg-[var(--primary-color)] flex gap-2 items-center text-white text-base font-bold rounded-lg px-12 py-2">
-              <BsFiletypePdf size={32} /> Rules of conduct
-            </button>
-          </Link>
+
+          <button
+            onClick={() => setShowRuleOfConduct(true)}
+            className="bg-[var(--primary-color)] flex gap-2 items-center text-white text-base font-bold rounded-lg px-12 py-2"
+          >
+            <BsFiletypePdf size={32} /> Rules of conduct
+          </button>
+          {showRuleOfCunduct && (
+            <RuleOfCunduct setShowRuleOfConduct={setShowRuleOfConduct} />
+          )}
+
           <Link to="#">
             <button className="bg-[var(--primary-color)] flex gap-2 items-center text-white text-base font-bold rounded-lg px-12 py-2">
               <BsFiletypePdf size={32} /> Rental Agreement
@@ -112,6 +124,14 @@ const Rates = () => {
       <section className="overflow-auto mx-[3%] md:mx-[6%]">
         <RatesTable />
       </section>
+      <div className="mx-[3%] mt-4 md:mx-[6%] flex gap-2 justify-center items-center">
+        <p className="w-4 h-4 bg-lime-500 rounded-md"></p>
+        <p>Work day</p>
+      </div>
+      <div className="mx-[3%] mb-12 md:mx-[6%] flex gap-2 justify-center items-center">
+        <p className="w-4 h-4 bg-red-400 rounded-md"></p>
+        <p>Weekend</p>
+      </div>
     </>
   );
 };

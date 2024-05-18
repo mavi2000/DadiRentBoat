@@ -9,14 +9,34 @@ const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Helper function to handle signup
+  const saveToken = (token) => {
+    localStorage.setItem('authToken', token);
+  };
+
+  const removeToken = () => {
+    localStorage.removeItem('authToken');
+  };
+
+  const getToken = () => {
+    return localStorage.getItem('authToken');
+  };
+
+  const setAuthToken = (token) => {
+    if (token) {
+      baseURL.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } else {
+      delete baseURL.defaults.headers.common['Authorization'];
+    }
+  };
+
   const signUp = async (signupData) => {
     try {
       const response = await baseURL.post('/signup', signupData);
-      console.log('SignUp response:', response);
-      if (response.data && response.data.user) {
+      if (response.data && response.data.user && response.data.token) {
         setUser(response.data.user);
-        navigate('/Login');
+        saveToken(response.data.token);
+        setAuthToken(response.data.token);
+        navigate('/');
       } else {
         setError('Unexpected response format');
       }
@@ -26,30 +46,35 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Helper function to handle login
   const login = async (loginData) => {
     try {
       const response = await baseURL.post('/login', loginData);
-      setUser(response.data.user);
-      navigate('/Our-Fleet');
+      if (response.data.user && response.data.token) {
+        setUser(response.data.user);
+        saveToken(response.data.token);
+        setAuthToken(response.data.token);
+        navigate('/');
+      } else {
+        setError('Unexpected response format');
+      }
     } catch (error) {
       setError(error.response?.data?.message || 'Login failed');
       throw error;
     }
   };
 
-  // Helper function to handle logout
   const logout = async () => {
     try {
       await baseURL.post('/logout');
       setUser(null);
-      navigate('/login');
+      removeToken();
+      setAuthToken(null);
+      navigate('/Login');
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.response?.data?.message || 'Logout failed');
     }
   };
 
-  // Helper function to handle forgot password
   const forgotPassword = async (email) => {
     try {
       await baseURL.post('/invite', { email });
@@ -59,25 +84,16 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Helper function to handle reset password
   const resetPassword = async (token, newPassword) => {
     try {
-      // Log the token and new password
-      console.log('Token:', token);
-      console.log('New Password:', newPassword);
-  
-      // Make the API call to reset the password
-      await baseURL.post('/invite/verify', { token,newPassword });
-  
+      await baseURL.post('/invite/verify', { token, newPassword });
       setError(null);
-      setSuccessMessage('Password reset successfully');
       navigate('/Login');
     } catch (error) {
       setError(error.response?.data?.message || 'Error resetting password');
     }
   };
 
-  // Helper function to invite user
   const inviteUser = async (email) => {
     try {
       await baseURL.post('/invite', { email });
@@ -87,14 +103,17 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Check if user is authenticated on initial load
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        const response = await baseURL.get('/checkAuth');
-        setUser(response.data.user);
-      } catch (error) {
-        setUser(null);
+      const token = getToken();
+      if (token) {
+        setAuthToken(token);
+        try {
+          const response = await baseURL.get('/checkAuth');
+          setUser(response.data.user);
+        } catch (error) {
+          setUser(null);
+        }
       }
     };
     checkAuth();

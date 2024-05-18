@@ -1,4 +1,4 @@
-import './RatesCard.css';
+import '../../../styles/RatesCard.css';
 
 const RatesCard = ({ title, rate, label, trait1, trait2, trait3, trait4 }) => {
   return (

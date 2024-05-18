@@ -42,8 +42,8 @@ export const sendMail = async (email, link, subject, footerMessage) => {
                 from: `B2B  <${process.env.EMAIL}>`,
                 to: email,
                 subject: subject || 'OTP for B2B',
-                text: `Your OTP is ${link}`,
-                html: `<h1>Your OTP is ${link}</h1>
+                text: `Your Link is ${link}`,
+                html: `<h1>Your Link is ${link}</h1>
                 ${footerMessage ? `<p>${footerMessage}</p>` : ''}`
 
             };

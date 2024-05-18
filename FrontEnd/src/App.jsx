@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Components/Home/Home';
-import './assets/styles/variables.css';
-import './assets/styles/hero-bgs.css';
 import BookNow from './Components/BookNow/BookNow';
 import Checkout from './Components/Checkout/Checkout';
 import Layout from './Components/Layout';
@@ -54,9 +52,12 @@ import Customer from './Components/Dashboard/CustomerSupport/Customer';
 import Profile from './Components/Dashboard/Profile/Profile';
 import { AuthProvider } from '../Context/AuthContext';
 import { AdminProvider } from '../Context/AdminContext';
-
+import Overview from './Components/Dashboard/MyBoats/Overview';
 import { ToastContainer } from 'react-toastify';
+import Photo from './Components/Dashboard/MyBoats/Photo';
 import 'react-toastify/dist/ReactToastify.css';
+import InfoAccess from './Components/Dashboard/MyBoats/InfoAccess.jsx';
+import "../styles/variables.css"
 //new commit
 function App() {
   return (
@@ -204,10 +205,6 @@ function App() {
         />
 
         <Route
-          path="/dashboard/my-boats"
-          element={<DashboardLayout Childeren={<MyBoats />} />}
-        />
-        <Route
           path="/Dashboard"
           element={<DashboardLayout Childeren={<Dashboard />} />}
         />
@@ -215,6 +212,18 @@ function App() {
         <Route
           path="/Dashboard/my-boats"
           element={<DashboardLayout Childeren={<MyBoats />} />}
+        />
+        <Route
+          path="/Dashboard/my-boats/overview"
+          element={<DashboardLayout Childeren={<Overview />} />}
+        />
+        <Route
+          path="/Dashboard/my-boats/photo"
+          element={<DashboardLayout Childeren={<Photo />} />}
+        />
+        <Route
+          path="/Dashboard/my-boats/info-access"
+          element={<DashboardLayout Childeren={<InfoAccess />} />}
         />
         <Route
           path="/Dashboard/calendar"
@@ -249,27 +258,7 @@ function App() {
           path="/Dashboard/unbooked-boats"
           element={<DashboardLayout Childeren={<UnbookedBoats />} />}
         />
-        <Route
-          path="/Dashboard/pending-bookings"
-          element={<DashboardLayout Childeren={<PendingBookings />} />}
-        />
-        <Route
-          path="/Dashboard/today-bookings"
-          element={<DashboardLayout Childeren={<TodayBooking />} />}
-        />
-        <Route
-          path="/Dashboard/upcoming-bookings"
-          element={<DashboardLayout Childeren={<UpcomingBooking />} />}
-        />
-        <Route
-          path="/Dashboard/previous-bookings"
-          element={<DashboardLayout Childeren={<PreviousBooking />} />}
-        />
 
-        <Route
-          path="/Dashboard"
-          element={<DashboardLayout Childeren={<Dashboard />} />}
-        />
         <Route
           path="/Billing"
           element={<DashboardLayout Childeren={<BillingList />} />}
@@ -280,7 +269,7 @@ function App() {
           element={<DashboardLayout Childeren={<CreateList />} />}
         />
         <Route
-          path="/dashboard/billing"
+          path="/Dashboard/billing"
           element={<DashboardLayout Childeren={<BillingList />} />}
         />
         <Route
