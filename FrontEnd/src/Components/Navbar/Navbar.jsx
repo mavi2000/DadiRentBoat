@@ -7,11 +7,23 @@ import SecondNavbar from './SecondNavbar';
 import NavbarLinks from './NavbarLinks';
 import TopNavbar from './TopNavbar';
 import NavbarDropDown from './NavbarDropDown';
+import { AuthContext } from '../../../Context/AuthContext';
+import { useContext } from 'react';
+import {  useNavigate } from 'react-router-dom';
+
 
 const Navbar = () => {
+  const navigate =useNavigate()
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLogedIn, setIsLogedIn] = useState(true);
+  const [isLogedIn, setIsLogedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const { user, logout } = useContext(AuthContext);
+  const handleLogout = () => {
+    logout();
+    navigate('/Login');
+  };
+
 
   const homePage =
     window.location.pathname.includes('/services') ||
@@ -126,11 +138,20 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link to="/Login">
-                  <button className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
-                    Login
-                  </button>
-                </Link>
+                {user ? (
+        <button
+          onClick={handleLogout}
+          className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)] px-4 py-2"
+        >
+          Logout
+        </button>
+      ) : (
+        <Link to="/Login">
+          <button className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)] px-4 py-2">
+            Login
+          </button>
+        </Link>
+      )}
                 <Link to="/Our-Fleet">
                   <button className="text-white bg-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
                     Book Now

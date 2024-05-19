@@ -30,7 +30,7 @@ function valueFormatter(number) {
 
 const RevenueChart = () => {
   return (
-    <div className="bg-white rounded-md shadow-lg px-8 py-4 grow">
+    <div className="bg-white w-full rounded-md shadow-lg px-8 py-4 grow">
       <h2 className="text-[#4b465cd4] font-medium text-lg">Revenue</h2>
       <h1 className="text-[#000] font-medium text-xl my-1">IDR 7.852.000</h1>
       <p className="text-tremor-default text-tremor-content dark:text-dark-tremor-content flex gap-1 items-center">

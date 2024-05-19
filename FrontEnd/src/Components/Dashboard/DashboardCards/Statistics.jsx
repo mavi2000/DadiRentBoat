@@ -26,10 +26,7 @@ const Statistics = () => {
           </div>
           <div>
             <h2 className="text-[#4b465cd4] font-medium text-lg">230</h2>
-            <p className="text-[#4b465cc5] text-xs">
-              {' '}
-              <p className="text-[#4b465cc5] text-xs">Total Trips</p>
-            </p>
+            <p className="text-[#4b465cc5] text-xs">Total Trips</p>
           </div>
         </div>
         <div className="flex gap-2 items-center">

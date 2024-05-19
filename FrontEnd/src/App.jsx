@@ -1,52 +1,70 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./Components/Home/Home";
-import "./assets/styles/variables.css";
-import "./assets/styles/hero-bgs.css";
-import BookNow from "./Components/BookNow/BookNow";
-import Checkout from "./Components/Checkout/Checkout";
-import Layout from "./Components/Layout";
-import FAQ from "./Components/FAQ/FAQ";
-import Services from "./Components/Services/Services";
-import OurFleet from "./Components/OurFleet/OurFleet";
-import BoatDinghal from "./Components/Services/BoatDinghal";
-import Excursions from "./Components/Excursions/Excursions";
-import StandardPlus from "./Components/Excursions/StandardPlus";
-import TheGreatWar from "./Components/Excursions/TheGreatWar";
-import IntoTheWild from "./Components/Excursions/IntoTheWild";
-import TheSeaInYourVeins from "./Components/Excursions/TheSeaInYourVeins";
-import FishingTrips from "./Components/Services/FishingTrips";
-import Aperitif from "./Components/Services/Aperitif";
-import Rates from "./Components/Rates/Rates";
-import WhereWeAre from "./Components/WhereWeAre/WhereWeAre";
-import ContactInformation from "./Components/ContactInformation";
-import Condition from "./Components/Condition/Condition";
-import Invoice from "./Components/Invoice/Invoice";
-import Booking2 from "./Components/AfterLoggedIn/Booking/Booking2";
-import Booking from "./Components/AfterLoggedIn/Booking/Booking";
-import Login from "./Components/LoginSignupPopups/Login";
-import SignUp from "./Components/LoginSignupPopups/SignUp";
-import ForgotPassword from "./Components/LoginSignupPopups/ForgotPassword";
-import CheckEmail from "./Components/LoginSignupPopups/CheckEmail";
-import ResetPassword from "./Components/LoginSignupPopups/ResetPassword";
-import TwoStepVerification from "./Components/LoginSignupPopups/TwoStepVerification";
-import RecreationalVehicleRentalAgreement from "./Components/RecreationalVehicleRentalAgreement/RecreationalVehicleRentalAgreement";
-import AccountSetting from "./Components/LoginSignupPopups/AccountSetting";
-import MyFavourite from "./Components/AfterLoggedIn/Favourites/MyFavourite";
-import AccountInfo from "./Components/AfterLoggedIn/AccountInfo/AccountInfo";
-import DashboardLayout from "./Components/DashboardLayout";
-import CreateList from "./Components/Dashboard/Calendar/CreateList/CreateList";
-import MyBoats from "./Components/Dashboard/MyBoats/MyBoats";
-import Calendar1 from "./Components/Dashboard/Calendar/Calendar1";
-import Calendar2 from "./Components/Dashboard/Calendar/Calendar2";
-import BillingList from "./Components/Dashboard/Billing/BillingList";
-import Dashboard from "./Components/Dashboard/Dashboard";
-import Customer from "./Components/Dashboard/CustomerSupport/Customer";
-import Profile from "./Components/Dashboard/Profile/Profile";
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './Components/Home/Home';
+import BookNow from './Components/BookNow/BookNow';
+import Checkout from './Components/Checkout/Checkout';
+import Layout from './Components/Layout';
+import FAQ from './Components/FAQ/FAQ';
+import Services from './Components/Services/Services';
+import OurFleet from './Components/OurFleet/OurFleet';
+import BoatDinghal from './Components/Services/BoatDinghal';
+import Excursions from './Components/Excursions/Excursions';
+import StandardPlus from './Components/Excursions/StandardPlus';
+import TheGreatWar from './Components/Excursions/TheGreatWar';
+import IntoTheWild from './Components/Excursions/IntoTheWild';
+import TheSeaInYourVeins from './Components/Excursions/TheSeaInYourVeins';
+import FishingTrips from './Components/Services/FishingTrips';
+import Aperitif from './Components/Services/Aperitif';
+import Rates from './Components/Rates/Rates';
+import WhereWeAre from './Components/WhereWeAre/WhereWeAre';
+import ContactInformation from './Components/ContactInformation';
+import Condition from './Components/Condition/Condition';
+import Invoice from './Components/Invoice/Invoice';
+import Booking2 from './Components/AfterLoggedIn/Booking/Booking2';
+import Booking from './Components/AfterLoggedIn/Booking/Booking';
+import Login from './Components/LoginSignupPopups/Login';
+import SignUp from './Components/LoginSignupPopups/SignUp';
+import ForgotPassword from './Components/LoginSignupPopups/ForgotPassword';
+import CheckEmail from './Components/LoginSignupPopups/CheckEmail';
+import ResetPassword from './Components/LoginSignupPopups/ResetPassword';
+import TwoStepVerification from './Components/LoginSignupPopups/TwoStepVerification';
+import RecreationalVehicleRentalAgreement from './Components/RecreationalVehicleRentalAgreement/RecreationalVehicleRentalAgreement';
+import AccountSetting from './Components/LoginSignupPopups/AccountSetting';
+import MyFavourite from './Components/AfterLoggedIn/Favourites/MyFavourite';
+import AccountInfo from './Components/AfterLoggedIn/AccountInfo/AccountInfo';
+import DashboardLayout from './Components/DashboardLayout';
+import CreateList from './Components/Dashboard/Calendar/CreateList/CreateList';
+import MyBoats from './Components/Dashboard/MyBoats/MyBoats';
+import BillingList from './Components/Dashboard/Billing/BillingList';
+import Dashboard from './Components/Dashboard/Dashboard';
 
+import PendingBookings from './Components/Dashboard/Bookings/PendingBookings';
+import TodayBooking from './Components/Dashboard/Bookings/TodayBooking';
+import UpcomingBooking from './Components/Dashboard/Bookings/UpcomingBooking';
+import PreviousBooking from './Components/Dashboard/Bookings/PreviousBooking';
+import Reminders from './Components/Dashboard/Remainder/Reminders';
+import BookedBoats from './Components/Dashboard/Remainder/BookedBoats';
+import UnbookedBoats from './Components/Dashboard/Remainder/UnbookedBoats';
+import Calender from './Components/Dashboard/Calendar/Calender';
+import CashFlow from './Components/Dashboard/CashFlow/CashFlow';
+import BoatDetails from './Components/Dashboard/CashFlow/BoatDetails';
+import Customer from './Components/Dashboard/CustomerSupport/Customer';
+import Profile from './Components/Dashboard/Profile/Profile';
+import { AuthProvider } from '../Context/AuthContext';
+import { AdminProvider } from '../Context/AdminContext';
+import Overview from './Components/Dashboard/MyBoats/Overview';
+import { ToastContainer } from 'react-toastify';
+import Photo from './Components/Dashboard/MyBoats/Photo';
+import 'react-toastify/dist/ReactToastify.css';
+import InfoAccess from './Components/Dashboard/MyBoats/InfoAccess.jsx';
+import "../styles/variables.css"
+//new commit
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer />
+    <AuthProvider>
+      <AdminProvider>
       <Routes>
         <Route
           path="/"
@@ -68,6 +86,7 @@ function App() {
           path="/faq"
           element={<Layout Children={<FAQ />} isLocation={true} />}
         />
+       
         <Route
           path="/services"
           element={<Layout Children={<Services />} isLocation={true} />}
@@ -151,10 +170,12 @@ function App() {
           path="/booking/invoice"
           element={<Layout Children={<Invoice />} isLocation={false} />}
         />
+
         <Route
           path="/user/booking-list"
           element={<Layout Children={<Booking />} isLocation={false} />}
         />
+
         <Route
           path="/user/booking"
           element={<Layout Children={<Booking2 />} isLocation={false} />}
@@ -163,10 +184,12 @@ function App() {
           path="/user/favourites"
           element={<Layout Children={<MyFavourite />} isLocation={false} />}
         />
+
         <Route
           path="/user/account-info"
           element={<Layout Children={<AccountInfo />} isLocation={false} />}
         />
+
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<SignUp />} />
         <Route path="/Forgot-Password" element={<ForgotPassword />} />
@@ -180,12 +203,65 @@ function App() {
           path="/RecreationalVehicleRentalAgreement"
           element={<RecreationalVehicleRentalAgreement />}
         />
-        <Route path="/dashboard/my-boats" element={<MyBoats />} />
-        <Route path="/dashboard/calendar2" element={<Calendar2 />} />
-        <Route path="/dashboard/calendar" element={<Calendar1 />} />
+
         <Route
           path="/Dashboard"
           element={<DashboardLayout Childeren={<Dashboard />} />}
+        />
+
+        <Route
+          path="/Dashboard/my-boats"
+          element={<DashboardLayout Childeren={<MyBoats />} />}
+        />
+        <Route
+          path="/Dashboard/my-boats/overview"
+          element={<DashboardLayout Childeren={<Overview />} />}
+        />
+        <Route
+          path="/Dashboard/my-boats/photo"
+          element={<DashboardLayout Childeren={<Photo />} />}
+        />
+        <Route
+          path="/Dashboard/my-boats/info-access"
+          element={<DashboardLayout Childeren={<InfoAccess />} />}
+        />
+        <Route
+          path="/Dashboard/calendar"
+          element={<DashboardLayout Childeren={<Calender />} />}
+        />
+
+        <Route
+          path="/Dashboard/pending-bookings"
+          element={<DashboardLayout Childeren={<PendingBookings />} />}
+        />
+        <Route
+          path="/Dashboard/today-bookings"
+          element={<DashboardLayout Childeren={<TodayBooking />} />}
+        />
+        <Route
+          path="/Dashboard/upcoming-bookings"
+          element={<DashboardLayout Childeren={<UpcomingBooking />} />}
+        />
+        <Route
+          path="/Dashboard/previous-bookings"
+          element={<DashboardLayout Childeren={<PreviousBooking />} />}
+        />
+        <Route
+          path="/Dashboard/reminders"
+          element={<DashboardLayout Childeren={<Reminders />} />}
+        />
+        <Route
+          path="/Dashboard/booked-boats"
+          element={<DashboardLayout Childeren={<BookedBoats />} />}
+        />
+        <Route
+          path="/Dashboard/unbooked-boats"
+          element={<DashboardLayout Childeren={<UnbookedBoats />} />}
+        />
+
+        <Route
+          path="/Billing"
+          element={<DashboardLayout Childeren={<BillingList />} />}
         />
 
         <Route
@@ -197,6 +273,14 @@ function App() {
           element={<DashboardLayout Childeren={<BillingList />} />}
         />
         <Route
+          path="/Dashboard/Cash-flow"
+          element={<DashboardLayout Childeren={<CashFlow />} />}
+        />
+        <Route
+          path="/Dashboard/Cash-flow/Boat-detials"
+          element={<DashboardLayout Childeren={<BoatDetails />} />}
+        />
+        <Route
           path="/Dashboard/customer-support"
           element={<DashboardLayout Childeren={<Customer />} />}
         />
@@ -205,6 +289,8 @@ function App() {
           element={<DashboardLayout Childeren={<Profile />} />}
         />
       </Routes>
+      </AdminProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

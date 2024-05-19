@@ -1,81 +1,47 @@
 const RatesTable = () => {
   return (
-    <table className=" border-collapse my-12 text-[#676767] text-center">
+    <table className=" border-collapse mt-12 text-[#676767] text-center whitespace-nowrap">
       <tr className="relative text-lg text-white bg-[var(--primary-color)] py-16 font-medium text-center ">
         <th className="font-normal sticky top-0 left-0 py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center bg-[var(--primary-color)]">
           Boat
         </th>
         <th
-          colSpan={4}
+          colSpan={2}
           className="font-normal py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center"
         >
-          January
+          Jan-Feb-Oct-Nov-Dec
         </th>
+
         <th
-          colSpan={4}
+          colSpan={2}
           className="font-normal py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center"
         >
-          February{' '}
+          Mar-April
         </th>
+
         <th
-          colSpan={4}
-          className="font-normal py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center"
-        >
-          March
-        </th>
-        <th
-          colSpan={4}
-          className="font-normal py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center"
-        >
-          April
-        </th>
-        <th
-          colSpan={4}
+          colSpan={2}
           className="font-normal py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center"
         >
           May
         </th>
         <th
-          colSpan={4}
+          colSpan={3}
           className="font-normal py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center"
         >
-          June
+          Jun-Sep
         </th>
         <th
-          colSpan={4}
+          colSpan={3}
           className="font-normal py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center"
         >
-          July
+          July-August
         </th>
         <th
-          colSpan={4}
+          colSpan={3}
           className="font-normal py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center"
         >
-          August
-        </th>
-        <th
-          colSpan={4}
-          className="font-normal py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center"
-        >
-          September
-        </th>
-        <th
-          colSpan={4}
-          className="font-normal py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center"
-        >
-          Octubar
-        </th>
-        <th
-          colSpan={4}
-          className="font-normal py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center"
-        >
-          November
-        </th>
-        <th
-          colSpan={4}
-          className="font-normal py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center"
-        >
-          December
+          14-15-16 Aug
         </th>
       </tr>
 
@@ -90,157 +56,53 @@ const RatesTable = () => {
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
           Half Day
         </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
           Whole day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Weekends <br /> Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          Weekends <br /> Full Day
         </td>
 
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
           Half Day
         </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
           Whole day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Weekends <br /> Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          Weekends <br /> Full Day
         </td>
 
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
           Half Day
         </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
           Whole day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Weekends <br /> Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          Weekends <br /> Full Day
         </td>
 
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Half Day
+          Morning
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Whole day
+          Afternoon
+        </td>
+
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          All day
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Weekends <br /> Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          Weekends <br /> Full Day
+          Morning
         </td>
 
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Half Day
+          Afternoon
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          All day
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Whole day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Weekends <br /> Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          Weekends <br /> Full Day
+          Morning
         </td>
 
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Half Day
+          Afternoon
         </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Whole day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Weekends <br /> Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          Weekends <br /> Full Day
-        </td>
-
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Whole day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Weekends <br /> Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          Weekends <br /> Full Day
-        </td>
-
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Whole day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Weekends <br /> Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          Weekends <br /> Full Day
-        </td>
-
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Whole day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Weekends <br /> Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          Weekends <br /> Full Day
-        </td>
-
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Whole day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Weekends <br /> Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          Weekends <br /> Full Day
-        </td>
-
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Whole day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Weekends <br /> Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          Weekends <br /> Full Day
-        </td>
-
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Whole day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Weekends <br /> Half Day
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          Weekends <br /> Full Day
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          All day
         </td>
       </tr>
 
@@ -253,182 +115,62 @@ const RatesTable = () => {
         </td>
         {/* January */}
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55
-          <br /> Afternoon: €55
+          €55
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          €80
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
           €80
         </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br /> Afternoon: €55
-        </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €80
+          €120
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
+          €100
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          €150
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
+          <span className="text-lime-500"> €110</span>
+          <br />
+          <span className="text-red-400"> €135</span>
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
+          <span className="text-lime-500"> €160</span>
+          <br />
+          <span className="text-red-400"> €190</span>
         </td>
 
-        {/* feburaury */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          <span className="text-lime-500"> €200</span>
+          <br />
+          <span className="text-red-400"> €220</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
+          <span className="text-lime-500"> €120</span>
+          <br />
+          <span className="text-red-400"> €135</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
+          <span className="text-lime-500"> €170</span>
+          <br />
+          <span className="text-red-400"> €200</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* March */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
+          <span className="text-lime-500"> €200</span>
+          <br />
+          <span className="text-red-400"> €260</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
+          €170
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
+          €250
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* April */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* may */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* June */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* July */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* August */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* September */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* Octubar */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* November */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* December */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
+          €350
         </td>
       </tr>
 
@@ -441,182 +183,63 @@ const RatesTable = () => {
         </td>
         {/* January */}
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55
-          <br /> Afternoon: €55
+          €55
         </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
           €80
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br /> Afternoon: €55
+          M€80
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €80
-        </td>
-
-        {/* feburaury */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
+          €120
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
+          €100
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          €150
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
+          <span className="text-lime-500"> €110</span>
+          <br />
+          <span className="text-red-400"> €135</span>
         </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
+          <span className="text-lime-500"> €160</span>
+          <br />
+          <span className="text-red-400"> €190</span>
         </td>
 
         {/* March */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          <span className="text-lime-500"> €200</span>
+          <br />
+          <span className="text-red-400"> €220</span>
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left ">
+          <span className="text-lime-500"> €120</span>
+          <br />
+          <span className="text-red-400"> €135</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
+          <span className="text-lime-500"> €170</span>
+          <br />
+          <span className="text-red-400"> €190</span>
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left ">
+          <span className="text-lime-500"> €200</span>
+          <br />
+          <span className="text-red-400"> €260</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
+          €170
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
+          €250
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* April */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* may */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* June */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* July */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* August */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* September */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* Octubar */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* November */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* December */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
+          €350
         </td>
       </tr>
 
@@ -629,182 +252,63 @@ const RatesTable = () => {
         </td>
         {/* January */}
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55
-          <br /> Afternoon: €55
+          €55
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          €80
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
           €80
         </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br /> Afternoon: €55
-        </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €80
-        </td>
-
-        {/* feburaury */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
+          €120
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
+          €100
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          €150
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
+          <span className="text-lime-500"> €110</span>
+          <br />
+          <span className="text-red-400"> €135</span>
         </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
+          <span className="text-lime-500"> €160</span>
+          <br />
+          <span className="text-red-400"> €190</span>
         </td>
 
         {/* March */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          <span className="text-lime-500"> €200</span>
+          <br />
+          <span className="text-red-400"> €220</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
+          <span className="text-lime-500"> €120</span>
+          <br />
+          <span className="text-red-400"> €135</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
+          <span className="text-lime-500"> €170</span>
+          <br />
+          <span className="text-red-400"> €190</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* April */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
+          <span className="text-lime-500"> €200</span>
+          <br />
+          <span className="text-red-400"> €260</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
+          €170
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
+          €250
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* may */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* June */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* July */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* August */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* September */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* Octubar */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* November */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* December */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
+          €350
         </td>
       </tr>
 
@@ -817,182 +321,63 @@ const RatesTable = () => {
         </td>
         {/* January */}
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55
-          <br /> Afternoon: €55
+          €50
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          €75
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
+          €70
+        </td>
+        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
+          €100
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
           €80
         </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €80
-        </td>
-
-        {/* feburaury */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          €120
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
+          <span className="text-lime-500"> €90</span>
+          <br />
+          <span className="text-red-400"> €120</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
+          <span className="text-lime-500"> €130</span>
+          <br />
+          <span className="text-red-400"> €160</span>
         </td>
 
         {/* March */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
+        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left border-r-[2px] border-r-[var(--primary-color)]">
+          <span className="text-lime-500"> €180</span>
+          <br />
+          <span className="text-red-400"> €200</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
+          <span className="text-lime-500"> €100</span>
+          <br />
+          <span className="text-red-400"> €125</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
+          <span className="text-lime-500"> €150</span>
+          <br />
+          <span className="text-red-400"> €170</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* April */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
+          <span className="text-lime-500"> €200</span>
+          <br />
+          <span className="text-red-400"> €230</span>
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
+          €150
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
+          €220
         </td>
         <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* may */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* June */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* July */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* August */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* September */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* Octubar */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* November */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
-        </td>
-
-        {/* December */}
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €40 <br /> Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          €75
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] whitespace-nowrap text-left">
-          Morning: €55 <br />
-          Afternoon: €55
-        </td>
-        <td className="px-4 py-2 border-[1px] border-[#01365914] border-r-[2px] border-r-[var(--primary-color)] whitespace-nowrap text-left">
-          €75
+          €280
         </td>
       </tr>
     </table>

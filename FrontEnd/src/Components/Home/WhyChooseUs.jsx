@@ -4,7 +4,7 @@ import { FaCheck, FaLocationDot } from 'react-icons/fa6';
 import { GiLighthouse } from 'react-icons/gi';
 import { LuWaves } from 'react-icons/lu';
 import { IoLogoWechat } from 'react-icons/io5';
-import { TbBulbFilled } from 'react-icons/tb';
+// import { TbBulbFilled } from 'react-icons/tb';
 
 const WhyChooseUs = () => {
   return (
@@ -45,7 +45,7 @@ const WhyChooseUs = () => {
           description="Our team is always at your service 24 hours a day. Through all the communication tools available to the customer."
         />
         <WhyChooseUsCard
-          icon={<TbBulbFilled size={60} className="text-[--primary-color]" />}
+          // icon={<TbBulbFilled size={60} className="text-[--primary-color]" />}
           title="Super Ideas"
           description="We don't limit ourselves to rental, we always want to innovate and provide new surprises to our customers. Satisfaction guaranteed."
         />
