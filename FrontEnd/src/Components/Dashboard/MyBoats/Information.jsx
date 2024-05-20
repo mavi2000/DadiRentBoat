@@ -12,7 +12,7 @@ const Information = () => {
         <div className="font-medium">Information</div>
         <div className="flex flex-col gap-2">
           <div>Types of Boat</div>
-          <div className="grid grid-cols-6 gap-4 w-[80%] text-sm">
+          <div className="grid 1400px:grid-cols-6 1200px:grid-cols-4 300px:grid-cols-3 gap-4 w-[88%] text-sm">
             <div className="flex gap-3">
               <input type="checkbox" className="" />
               <div className="font-light">Sail Boat</div>

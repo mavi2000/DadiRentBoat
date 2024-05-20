@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { IoMdAdd } from "react-icons/io";
 import CalenderPopup from "./CalnderPopup";
+import Calendar from "react-calendar";
+import { RiArrowGoBackLine } from "react-icons/ri";
+
 const BoatCalender = () => {
   const [popup, setPopup] = useState(false);
   const handelPopup = (e) => {
@@ -19,7 +22,16 @@ const BoatCalender = () => {
             calendar when your boat is not available. By clicking on 2 dates,
             you will add a period of unavailability of several days
           </div>
-          <div className="w-[100%] shadow-md">Hello</div>
+          <div className="flex flex-col justify-between gap-10 items-center px-10 rounded-lg py-10 shadow-md">
+            <div className="flex justify-between items-center w-[100%]">
+              <Calendar className={"border-none"} />{" "}
+              <Calendar className={"border-none"} />
+            </div>
+            <div className="flex items-center justify-end w-[95%] gap-1">
+              <RiArrowGoBackLine />
+              <div>Reset</div>
+            </div>
+          </div>
           <div className="flex items-center gap-3">
             <div>Select Time Slot</div>
             <select className="border py-2 px-3 w-[15%] rounded-md text-sm text-[#8d87a4]">
@@ -32,11 +44,11 @@ const BoatCalender = () => {
             Unavailable is an extended period of unavailability that will be
             added to your unavailability list and repeated each year.
           </div>
-          <div className=" w-[80%] flex flex-col gap-5">
+          <div className=" w-[80%] flex flex-col">
             <button
               type="button"
               onClick={handelPopup}
-              className="border w-[45%] py-3 border-[#CBA557] text-sm font-semibold rounded-lg text-[#CBA557] justify-center flex items-center gap-3"
+              className="border w-[50%] py-3 border-[#CBA557] text-sm font-semibold rounded-lg text-[#CBA557] justify-center flex items-center gap-2"
             >
               <IoMdAdd className="text-lg" />
               Add winter Unavailable period
