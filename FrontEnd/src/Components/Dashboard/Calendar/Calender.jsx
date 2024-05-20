@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
-import WeeklyCalendar from './WeeklyCalendar';
-import MontlyCalendar from './MontlyCalendar';
+import { useState } from "react";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import WeeklyCalendar from "./WeeklyCalendar";
+import MontlyCalendar from "./MontlyCalendar";
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date()); // Initialize with current date
@@ -23,11 +23,11 @@ const Calendar = () => {
   let month;
   let year;
   const formatDate = (date) => {
-    const options = { day: 'numeric', month: 'long', year: 'numeric' };
-    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
       date
     );
-    [day, month, year] = formattedDate.split(' ');
+    [day, month, year] = formattedDate.split(" ");
     return `${month} ${day} ${year}`;
   };
 
@@ -50,7 +50,7 @@ const Calendar = () => {
               setChangeCalendar(false);
             }}
             className={`py-3 px-5 text-[#CBA557] text-sm text-center bg-[#CBA557] bg-opacity-15 rounded-l-md  ${
-              changeCalendar ? '' : 'bg-opacity-30'
+              changeCalendar ? "" : "bg-opacity-30"
             }`}
           >
             Month
@@ -60,7 +60,7 @@ const Calendar = () => {
               setChangeCalendar(true);
             }}
             className={`py-3 px-5 text-[#CBA557] text-sm text-center bg-[#CBA557]  bg-opacity-15 rounded-r-md ${
-              changeCalendar ? 'bg-opacity-30' : ''
+              changeCalendar ? "bg-opacity-30" : ""
             }`}
           >
             Week
