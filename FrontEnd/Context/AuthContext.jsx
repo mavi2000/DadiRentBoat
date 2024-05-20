@@ -32,7 +32,7 @@ const AuthProvider = ({ children }) => {
   const signUp = async (signupData) => {
     try {
       const response = await baseURL.post('/signup', signupData);
-      if (response.data && response.data.user && response.data.token) {
+      if (response.data?.user && response.data?.token) {
         setUser(response.data.user);
         saveToken(response.data.token);
         setAuthToken(response.data.token);
@@ -49,7 +49,7 @@ const AuthProvider = ({ children }) => {
   const login = async (loginData) => {
     try {
       const response = await baseURL.post('/login', loginData);
-      if (response.data.user && response.data.token) {
+      if (response.data?.user && response.data?.token) {
         setUser(response.data.user);
         saveToken(response.data.token);
         setAuthToken(response.data.token);
@@ -80,7 +80,7 @@ const AuthProvider = ({ children }) => {
       await baseURL.post('/invite', { email });
       setError(null);
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.response?.data?.message || 'Failed to send invite');
     }
   };
 
@@ -99,7 +99,7 @@ const AuthProvider = ({ children }) => {
       await baseURL.post('/invite', { email });
       setError(null);
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.response?.data?.message || 'Failed to invite user');
     }
   };
 
@@ -110,7 +110,7 @@ const AuthProvider = ({ children }) => {
         setAuthToken(token);
         try {
           const response = await baseURL.get('/checkAuth');
-          setUser(response.data.user);
+          setUser(response.data?.user);
         } catch (error) {
           setUser(null);
         }

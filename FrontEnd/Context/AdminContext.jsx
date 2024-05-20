@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import baseURL from '../APi/BaseUrl.js';
@@ -34,7 +34,7 @@ const AdminProvider = ({ children }) => {
     const checkAdminAuth = async () => {
       try {
         const response = await baseURL.get('/admin/checkAuth');
-        setAdmin(response.data.admin);
+        setAdmin(response.data?.admin);
       } catch (error) {
         setAdmin(null);
       }
