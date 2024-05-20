@@ -6,7 +6,7 @@ const boatAccessSchema = new Schema({
   boatId: {
     type: Schema.Types.ObjectId,
     ref: 'Boat',
-    required: true
+    
   },
   accessDetails: [{
     description: {
@@ -26,4 +26,4 @@ const boatAccessSchema = new Schema({
   }]
 });
 
-export default mongoose.model('BoatAccess', boatAccessSchema);
+export default mongoose.model('BoatAccessInformation', boatAccessSchema);

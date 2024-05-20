@@ -6,12 +6,12 @@ import { createError } from "../utils/createError.js";
 export const addCondition = async (req, res, next) => {
     try {
         const { conditionName, description } = req.body;
-        const existingCondition = await Team.findOne({ conditionName });
+        const existingCondition = await TermsAndCondition.findOne({ conditionName });
         if (existingCondition) {
             throw createError(400, 'Condition name already exists');
         }
 
-        const team = new Team({
+        const team = new TermsAndCondition({
             conditionName,
             description
         });
