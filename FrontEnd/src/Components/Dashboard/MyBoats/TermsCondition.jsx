@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { IoMdAdd } from "react-icons/io";
 import ConditionPopup from "./ConditionPopup";
+import { AdminContext } from "../../../../Context/AdminContext";
 const TermsCondition = () => {
+  const { conditions, termCondition } = useContext(AdminContext);
   const [popup, setPopup] = useState(false);
   const handelPopup = (e) => {
     e.preventDefault();
     setPopup(!popup);
+  };
+  const handleAddCondition = async (newCondition) => {
+    try {
+      await termCondition(newCondition);
+    } catch (error) {
+      console.error("Failed to add condition", error);
+    }
   };
   return (
     <div className="flex flex-col gap-3">
@@ -86,27 +95,24 @@ const TermsCondition = () => {
           </div>
         </div>
         <div className=" border-t-2 pt-10">
-          <div className=" w-[80%] flex flex-col gap-5">
-            <div className="flex justify-between">
-              <div>Partial payment online</div>
-              <div className="flex gap-8">
-                <button className="py-1 px-4 border border-[#CBA557] text-[#CBA557] rounded-md text-sm font-medium">
-                  Edit
-                </button>
-                <button className="py-1 px-4 border border-[#FF6347] text-[#FF6347] rounded-md text-sm font-medium">
-                  Delete
-                </button>
+          {conditions.map((condition, index) => (
+            <div className=" w-[80%] flex flex-col gap-5">
+              <div key={index} className="flex justify-between">
+                <div>{condition.conditionName}</div>
+                <div className="flex gap-8">
+                  <button className="py-1 px-4 border border-[#CBA557] text-[#CBA557] rounded-md text-sm font-medium">
+                    Edit
+                  </button>
+                  <button className="py-1 px-4 border border-[#FF6347] text-[#FF6347] rounded-md text-sm font-medium">
+                    Delete
+                  </button>
+                </div>
+              </div>
+              <div className="text-sm text-[#8881a0] flex justify-start">
+                {condition.description}
               </div>
             </div>
-            <div className="text-sm text-[#8881a0] flex justify-start">
-              If activated, this feature allows owners to require the customer
-              to pay only a deposit online via SamBoat; The remaining balance
-              will be paid on site by the customer on the day of rental. This
-              function does not affect in any way the commission applied, which
-              is always calculated on the total rental amount. In case of
-              cancellation by the tenant, only the deposit paid will be retained
-            </div>
-          </div>
+          ))}
         </div>
         <div className=" border-t-2 pt-10">
           <div className=" w-[80%] flex flex-col gap-5">
@@ -123,6 +129,7 @@ const TermsCondition = () => {
                 onClose={() => {
                   setPopup(false);
                 }}
+                onSave={handleAddCondition}
               />
             )}
           </div>
