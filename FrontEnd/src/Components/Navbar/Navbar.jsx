@@ -13,6 +13,9 @@ const Navbar = () => {
   const [isLogedIn, setIsLogedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
+
+  console.log("isLogedIn",isLogedIn)
+
   const homePage =
     window.location.pathname.includes('/services') ||
     window.location.pathname.includes('/Contact-Information') ||
