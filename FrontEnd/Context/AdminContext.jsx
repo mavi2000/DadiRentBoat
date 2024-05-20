@@ -8,7 +8,7 @@ const AdminContext = createContext();
 const AdminProvider = ({ children }) => {
   const [admin, setAdmin] = useState(null);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+ 
 
   const createBoat = async (boatData) => {
     try {
