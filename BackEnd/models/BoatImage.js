@@ -4,7 +4,6 @@ const boatImageSchema = new mongoose.Schema({
     boatId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Boat',
-        required: true
     },
     avatar: {
         type: String,

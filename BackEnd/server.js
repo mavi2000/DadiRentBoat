@@ -9,7 +9,10 @@ import boatDescriptionRoutes from "./routes/boatDescriptionRoutes.js"
 import boatImageRoute from "./routes/boatImageRoute.js"
 import  boatRentRoutes from "./routes/boatRentRoutes.js"
 import inviteLinkRoute from "./routes/inviteLink.route.js"
-
+import bootBookingRoutes from "./routes/boatBookingRoutes.js"
+import boatAccessRoute from  "./routes/boatAccessRoute.js"
+import TermsandCoditionRoute from "./routes/TermsAndConditionRoutes.js"
+import RateRoute from "./routes/RateRoute.js"
 
 
 const app = express();
@@ -27,6 +30,10 @@ app.use("/boat",boatRoutes)
 app.use("/decription",boatDescriptionRoutes)
 app.use("/image",boatImageRoute)
 app.use("/rent",boatRentRoutes)
+app.use("/Booking",bootBookingRoutes)
+app.use("/boatAccess",boatAccessRoute)
+app.use("/condition",TermsandCoditionRoute)
+app.use("/Rate",RateRoute)
 
 
 app.use((err, req, res, next) => {

@@ -5,7 +5,7 @@ const boatBookingSchema = new mongoose.Schema({
     boatId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Boat',
-        required: true
+        
     },
     startDate: {
         type: Date,
