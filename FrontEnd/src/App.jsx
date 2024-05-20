@@ -50,13 +50,21 @@ import CashFlow from './Components/Dashboard/CashFlow/CashFlow';
 import BoatDetails from './Components/Dashboard/CashFlow/BoatDetails';
 import Customer from './Components/Dashboard/CustomerSupport/Customer';
 import Profile from './Components/Dashboard/Profile/Profile';
+import { AuthProvider } from '../Context/AuthContext';
+import { AdminProvider } from '../Context/AdminContext';
 import Overview from './Components/Dashboard/MyBoats/Overview';
+import { ToastContainer } from 'react-toastify';
 import Photo from './Components/Dashboard/MyBoats/Photo';
-import InfoAccess from './Components/Dashboard/MyBoats/InfoAccess';
-
+import 'react-toastify/dist/ReactToastify.css';
+import InfoAccess from './Components/Dashboard/MyBoats/InfoAccess.jsx';
+import "../styles/variables.css"
+//new commit
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer />
+    <AuthProvider>
+      <AdminProvider>
       <Routes>
         <Route
           path="/"
@@ -78,6 +86,7 @@ function App() {
           path="/faq"
           element={<Layout Children={<FAQ />} isLocation={true} />}
         />
+       
         <Route
           path="/services"
           element={<Layout Children={<Services />} isLocation={true} />}
@@ -280,6 +289,8 @@ function App() {
           element={<DashboardLayout Childeren={<Profile />} />}
         />
       </Routes>
+      </AdminProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

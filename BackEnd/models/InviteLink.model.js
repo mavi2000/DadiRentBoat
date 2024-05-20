@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 const { Schema } = mongoose
 
-const userSchema = new Schema(
+const inviteLinkSchema = new Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -34,6 +34,6 @@ const userSchema = new Schema(
   }
 )
 
-const User = mongoose.model("User", userSchema)
+const InviteLink = mongoose.model("InviteLink", inviteLinkSchema)
 
-export default User
+export default InviteLink

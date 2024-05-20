@@ -6,7 +6,10 @@ import {
 } from '../utils/password.util.js';
 import User from '../models/User.model.js';
 import jwt from 'jsonwebtoken';
-import { upload } from '../utils/cloudinay.util.js';
+import { uploadImages } from '../utils/cloudinaryConfig.js';
+
+
+console.log(" process.env.JWT_KEY", process.env.JWT_KEY)
 
 export const signup = async (req, res, next) => {
   const validation = Joi.object({
@@ -51,6 +54,8 @@ export const signup = async (req, res, next) => {
     return res.status(500).json({ error: error });
   }
 };
+
+
 
 export const login = async (req, res, next) => {
   const validation = Joi.object({
@@ -148,7 +153,7 @@ export const updateUser = async (req, res, next) => {
     user.geoPreferenceCity = geoPreferenceCity;
 
     if (req.file) {
-      avatar = await upload(req.file);
+      avatar = await uploadImages(req.file);
       user.avatar = avatar;
     }
 

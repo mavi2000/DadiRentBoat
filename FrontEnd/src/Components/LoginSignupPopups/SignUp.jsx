@@ -1,18 +1,17 @@
-import { Link, useNavigate } from 'react-router-dom';
+// SignUp.jsx
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../../../Context/AuthContext.jsx';
+import { Link } from 'react-router-dom';
 import PopupsLayout from './PopupsLayout';
-import baseURL from '../../../axios.config';
-import { useState } from 'react';
 
 const SignUp = () => {
+  const { signUp, error } = useContext(AuthContext);
   const [signupData, setSignupData] = useState({
     username: '',
     email: '',
     phoneNumber: '',
     password: '',
   });
-  const [error, setError] = useState(null);
-  const [signupSuccessful, setSignupSuccessful] = useState(false);
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setSignupData({
@@ -21,28 +20,19 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await baseURL.post('/signup', signupData);
-      console.log(response.data);
-      setSignupSuccessful(true);
-      navigate('/login');
-    } catch (error) {
-      console.log('Signup error: ', error);
-      setError(error.response.data.message);
-    }
+    signUp(signupData);
   };
 
+  console.log("signupData",signupData)
   return (
     <PopupsLayout
       isSocials={true}
       content={
         <div className="max-w-[450px]">
           <h2 className="text-2xl font-medium">Adventure starts here 🚀</h2>
-          <p className="text-base mb-8">
-            Create your account and book you Boat
-          </p>
+          <p className="text-base mb-8">Create your account and book your Boat</p>
           <form onSubmit={handleSubmit}>
             <label htmlFor="username">Username* </label>
             <input
@@ -113,9 +103,6 @@ const SignUp = () => {
               </label>
             </div>
             {error && <div className="text-red-500">{error}</div>}
-            {signupSuccessful && (
-              <div className="text-green-500">Signup Successful</div>
-            )}
 
             <button
               type="submit"
@@ -137,4 +124,5 @@ const SignUp = () => {
     />
   );
 };
+
 export default SignUp;
