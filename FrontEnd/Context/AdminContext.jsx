@@ -47,12 +47,10 @@ const AdminProvider = ({ children }) => {
         "/condition/Term-condition",
         conditionData
       );
-      toast.success("Condition added successfully");
-      console.log(response.data);
+      // toast.success('Condition added successfully');
       return response.data;
     } catch (error) {
       setError(error.response?.data?.message || "Failed to add condition");
-      console.log(error);
       throw error;
     }
   };
