@@ -33,22 +33,6 @@ const AdminProvider = ({ children }) => {
       throw error;
     }
   };
-  const uploadBoatImage = async (imageData) => {
-    try {
-      const formData = new FormData();
-      formData.append("avatar", imageData);
-
-      const response = await baseURL.post("/image/uploadBoatImages", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      return response.data;
-    } catch (error) {
-      setError(error.response?.data?.message || "Failed to upload image");
-      throw error;
-    }
-  };
 
   const rentBoat = async (rentalData) => {
     try {
