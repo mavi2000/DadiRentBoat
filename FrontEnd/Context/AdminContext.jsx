@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Make sure to import the toastify CSS
 import baseURL from '../APi/BaseUrl.js';
 
 const AdminContext = createContext();
@@ -8,14 +8,16 @@ const AdminContext = createContext();
 const AdminProvider = ({ children }) => {
   const [admin, setAdmin] = useState(null);
   const [error, setError] = useState(null);
- 
 
   const createBoat = async (boatData) => {
     try {
       const response = await baseURL.post('/boat/CreateBoat', boatData);
+      toast.success('Boat created successfully');
       return response.data;
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to create boat');
+      const errorMessage = error.response?.data?.message || 'Failed to create boat';
+      setError(errorMessage);
+      toast.error(errorMessage);
       throw error;
     }
   };
@@ -23,9 +25,12 @@ const AdminProvider = ({ children }) => {
   const rentBoat = async (rentalData) => {
     try {
       const response = await baseURL.post('/rent/RentBoat', rentalData);
+      toast.success('Boat rented successfully');
       return response.data;
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to rent boat');
+      const errorMessage = error.response?.data?.message || 'Failed to rent boat';
+      setError(errorMessage);
+      toast.error(errorMessage);
       throw error;
     }
   };
@@ -33,22 +38,25 @@ const AdminProvider = ({ children }) => {
   const getTermsAndConditions = async () => {
     try {
       const response = await baseURL.get('/condition/get-condition');
-      console.log("response.data", response.data);
+      toast.success('Terms and conditions fetched successfully');
       return response.data;
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to fetch conditions');
+      const errorMessage = error.response?.data?.message || 'Failed to fetch conditions';
+      setError(errorMessage);
+      toast.error(errorMessage);
       throw error;
     }
   };
 
   const addTermAndCondition = async (conditionData) => {
-    console.log("conditionDatassadsadsa", conditionData);
     try {
       const response = await baseURL.post("/condition/Term-condition", conditionData);
-      // toast.success('Condition added successfully');
+      toast.success('Condition added successfully');
       return response.data;
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to add condition');
+      const errorMessage = error.response?.data?.message || 'Failed to add condition';
+      setError(errorMessage);
+      toast.error(errorMessage);
       throw error;
     }
   };
@@ -56,31 +64,52 @@ const AdminProvider = ({ children }) => {
   const createVoucher = async (voucherData) => {
     try {
       const response = await baseURL.post('/voucher/create-voucher', voucherData);
+      toast.success('Voucher created successfully');
       return response.data;
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to create voucher');
+      const errorMessage = error.response?.data?.message || 'Failed to create voucher';
+      setError(errorMessage);
+      toast.error(errorMessage);
       throw error;
     }
   };
 
-  // useEffect(() => {
-  //   const checkAdminAuth = async () => {
-  //     try {
-  //       const response = await baseURL.get('/admin/checkAuth');
-  //       setAdmin(response.data.admin);
-  //     } catch (error) {
-  //       setAdmin(null);
-  //     }
-  //   };
-  //   checkAdminAuth();
-  // }, []);
+  const uploadBoatImages = async (formData) => {
+    try {
+      const response = await baseURL.post('/image/uploadBoatImages', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      toast.success('Image uploaded successfully');
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Failed to upload image';
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+
+  const getUnavailableBoatDates = async (startDate, endDate) => {
+    try {
+      const response = await baseURL.post('/Booking//Book-boat', { startDate, endDate });
+      toast.success('Unavailable boat dates fetched successfully');
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Failed to fetch unavailable boat dates';
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
 
   return (
-    <AdminContext.Provider value={{ admin, error, createBoat, rentBoat, getTermsAndConditions, addTermAndCondition }}>
+    <AdminContext.Provider value={{ admin, error, createBoat, rentBoat, getTermsAndConditions, addTermAndCondition, createVoucher, uploadBoatImages,getUnavailableBoatDates }}>
       {children}
     </AdminContext.Provider>
   );
 };
 
 export { AdminContext, AdminProvider };
-

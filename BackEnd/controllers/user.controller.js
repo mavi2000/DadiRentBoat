@@ -165,3 +165,14 @@ export const updateUser = async (req, res, next) => {
     return res.status(500).json({ error });
   }
 };
+
+
+
+export const logout = async (req, res, next) => {
+  res.clearCookie('accessToken', {
+    sameSite: 'none', 
+    secure: true 
+  });
+
+  res.status(200).send('User has been logged out.');
+}
