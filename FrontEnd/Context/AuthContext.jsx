@@ -79,7 +79,7 @@ const AuthProvider = ({ children }) => {
    
       setUser(null);
     
-      navigate('/Login');
+      navigate('/');
       toast.success('Logout successful!');
     } catch (error) {
       setError(error.response?.data?.message || 'Logout failed');
