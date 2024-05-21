@@ -54,7 +54,7 @@ const Photo = () => {
                 name="avatar"
                 accept="image/*"
                 onChange={handleChange}
-                style={{ display: "none" }}
+                style={{}}
                 id="fileInput"
               />
               <label htmlFor="fileInput">
