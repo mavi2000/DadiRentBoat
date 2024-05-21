@@ -2,31 +2,21 @@ import { FaAngleDown, FaRegBell } from 'react-icons/fa';
 import logo from '../../assets/Images/logo.svg';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import user from '../../assets/Images/user.png';
+import userImage from '../../assets/Images/user.png';
 import SecondNavbar from './SecondNavbar';
 import NavbarLinks from './NavbarLinks';
 import TopNavbar from './TopNavbar';
 import NavbarDropDown from './NavbarDropDown';
-import { AuthContext } from '../../../Context/AuthContext';
 import { useContext } from 'react';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../Context/AuthContext';
 
-//new chages
 const Navbar = () => {
-  const navigate =useNavigate()
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLogedIn, setIsLogedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
   const { user, logout } = useContext(AuthContext);
-  const handleLogout = () => {
-    logout();
-    navigate('/Login');
-  };
-
-
-
-  console.log("isLogedIn",isLogedIn)
 
   const homePage =
     window.location.pathname.includes('/services') ||
@@ -85,6 +75,7 @@ const Navbar = () => {
       document.removeEventListener('click', closeSidebarOnClickOutside);
     };
   }, [showSidebar]);
+
   return (
     <nav className="w-full absolute top-0 z-50">
       <TopNavbar />
@@ -116,13 +107,13 @@ const Navbar = () => {
           {secondNavbar ? <SecondNavbar /> : <NavbarLinks />}
 
           <div className="flex items-center gap-2 justify-end ml-auto mr-0">
-            {isLogedIn ? (
+            {user ? (
               <>
                 <Link to="#">
                   <FaRegBell size={30} className="text-[--primary-color]" />
                 </Link>
                 <img
-                  src={user}
+                  src={userImage}
                   alt="user avatar"
                   className="rounded-full size-[34px]"
                 />
@@ -138,23 +129,20 @@ const Navbar = () => {
                   />
                   {showDropdown && <NavbarDropDown />}
                 </div>
+                <button
+                  onClick={logout}
+                  className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)] px-4 py-2"
+                >
+                  Logout
+                </button>
               </>
             ) : (
               <>
-                {user ? (
-        <button
-          onClick={handleLogout}
-          className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)] px-4 py-2"
-        >
-          Logout
-        </button>
-      ) : (
-        <Link to="/Login">
-          <button className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)] px-4 py-2">
-            Login
-          </button>
-        </Link>
-      )}
+                <Link to="/Login">
+                  <button className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)] px-4 py-2">
+                    Login
+                  </button>
+                </Link>
                 <Link to="/Our-Fleet">
                   <button className="text-white bg-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
                     Book Now
@@ -185,4 +173,5 @@ const Navbar = () => {
     </nav>
   );
 };
+
 export default Navbar;
