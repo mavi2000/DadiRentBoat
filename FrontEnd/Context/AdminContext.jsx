@@ -8,7 +8,6 @@ const AdminContext = createContext();
 const AdminProvider = ({ children }) => {
   const [admin, setAdmin] = useState(null);
   const [conditions, setConditions] = useState([]);
-
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -31,6 +30,22 @@ const AdminProvider = ({ children }) => {
       return response.data;
     } catch (error) {
       setError(error.response?.data?.message || "Failed to add condition");
+      throw error;
+    }
+  };
+  const uploadBoatImage = async (imageData) => {
+    try {
+      const formData = new FormData();
+      formData.append("avatar", imageData);
+
+      const response = await baseURL.post("/image/uploadBoatImages", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      setError(error.response?.data?.message || "Failed to upload image");
       throw error;
     }
   };
@@ -59,7 +74,15 @@ const AdminProvider = ({ children }) => {
 
   return (
     <AdminContext.Provider
-      value={{ admin, error, createBoat, rentBoat, termCondition, conditions }}
+      value={{
+        admin,
+        error,
+        createBoat,
+        rentBoat,
+        termCondition,
+        conditions,
+        uploadBoatImage,
+      }}
     >
       {children}
     </AdminContext.Provider>
