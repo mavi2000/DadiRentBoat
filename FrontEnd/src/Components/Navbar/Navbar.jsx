@@ -7,16 +7,13 @@ import SecondNavbar from './SecondNavbar';
 import NavbarLinks from './NavbarLinks';
 import TopNavbar from './TopNavbar';
 import NavbarDropDown from './NavbarDropDown';
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Context/AuthContext';
-
+import { useContext } from 'react';
 const Navbar = () => {
-  const navigate = useNavigate();
+  const { user, logout } = useContext(AuthContext);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-
-  const { user, logout } = useContext(AuthContext);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const homePage =
     window.location.pathname.includes('/services') ||
@@ -45,22 +42,14 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // --------Hamburger Logic--------------
-  const [showSidebar, setShowSidebar] = useState(false);
-
-  const toggleSidebar = () => {
-    setShowSidebar(!showSidebar);
-  };
-
   useEffect(() => {
-    // Prevent scrolling when the menu is open
     if (showSidebar) {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
     }
+
     const closeSidebarOnClickOutside = (event) => {
-      // Check if the click is outside the sidebar and hamburger menu
       if (
         showSidebar &&
         event.target.closest('.small-devices') === null &&
@@ -165,7 +154,7 @@ const Navbar = () => {
           <img src={logo} alt="logo" className="w-16 h-16 " />
         </Link>
         <div className="flex gap-4">
-          <div className="block z-30" onClick={toggleSidebar}>
+          <div className="block z-30" onClick={() => setShowSidebar(!showSidebar)}>
             {!showSidebar ? '☰' : 'X'}
           </div>
         </div>
