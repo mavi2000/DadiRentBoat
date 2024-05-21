@@ -11,7 +11,7 @@ import { AuthContext } from '../../../Context/AuthContext';
 import { useContext } from 'react';
 import {  useNavigate } from 'react-router-dom';
 
-
+//new chages
 const Navbar = () => {
   const navigate =useNavigate()
   const [isScrolled, setIsScrolled] = useState(false);
