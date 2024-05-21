@@ -25,6 +25,9 @@ const Navbar = () => {
   };
 
 
+
+  console.log("isLogedIn",isLogedIn)
+
   const homePage =
     window.location.pathname.includes('/services') ||
     window.location.pathname.includes('/Contact-Information') ||

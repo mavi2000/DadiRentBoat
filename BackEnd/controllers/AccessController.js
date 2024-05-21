@@ -1,12 +1,14 @@
-import BoatAccess from '../models/BoatAccess.js';
-import Joi from 'joi';
-import { createError } from '../utils/createError.js';
-import { uploadImage } from '../utils/uploadImage.js';
+import Joi from "joi";
+import BoatAccessInformation from "../models/BoatAccessInformation.js";
+import { createError } from "../utils/createError.js";
+
+
+
 
 export const uploadBoatAccess = async (req, res, next) => {
   try {
     const schema = Joi.object({
-      boatId: Joi.string().required(),
+      // boatId: Joi.string().required(),
       description: Joi.string().required(),
     });
 
@@ -18,12 +20,12 @@ export const uploadBoatAccess = async (req, res, next) => {
     }
 
   
-    uploadImage(req, res, async (err) => {
+    uploadImages(req, res, async (err) => {
       if (err) {
         return next(createError(400, 'File upload failed'));
       }
       try {
-        const { boatId, description } = value;
+        const {  description } = value;
         const documents = [];
         const document = {
           documentName: req.file.originalname,
@@ -31,8 +33,8 @@ export const uploadBoatAccess = async (req, res, next) => {
           link: '', 
         };
         documents.push(document);
-        const boatAccess = new BoatAccess({
-          boatId,
+        const boatAccess = new BoatAccessInformation({
+          // boatId,
           description,
           documents,
         });
