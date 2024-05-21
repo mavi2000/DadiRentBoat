@@ -50,7 +50,13 @@ const PopupsLayout = ({ isSocials = true, content, isBack }) => {
               <div className="w-full h-[1.5px] bg-[#DBDADE] "></div>
             </div>
             <div className="flex gap-3 mt-8 items-center justify-center">
-              
+              <div className="bg-white w-[48px] h-[48px] shadow-md rounded-md flex items-center justify-center ">
+                <FaFacebookF
+                  size={25}
+                  color="#3B5999"
+                  className="cursor-pointer"
+                />
+              </div>
               
             </div>
           </div>
