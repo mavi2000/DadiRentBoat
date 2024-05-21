@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { AdminContext } from '../../../../../Context/AdminContext.jsx';
 import { toast } from 'react-toastify';
 
-
 const BoatInformation = () => {
   const { createBoat, error } = useContext(AdminContext);
   const [formData, setFormData] = useState({
@@ -34,21 +33,16 @@ const BoatInformation = () => {
       await createBoat(formData);
       toast.success('Boat created successfully');
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.error) {
-        const errors = error.response.data.error;
-        if (Array.isArray(errors)) {
-          errors.forEach(err => {
-            toast.error(err);
-          });
-        } else {
-          toast.error(errors);
-        }
+      const errors = error?.response?.data?.error;
+      if (Array.isArray(errors)) {
+        errors.forEach(err => {
+          toast.error(err);
+        });
       } else {
-        toast.error('Failed to create boat');
+        toast.error(errors || 'Failed to create boat');
       }
     }
   };
-
 
   return (
     <div className="flex flex-col w-[100%] gap-20">

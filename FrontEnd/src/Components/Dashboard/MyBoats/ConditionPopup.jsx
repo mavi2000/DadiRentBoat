@@ -1,47 +1,54 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 
-const ConditionPopup = ({ onClose, onSave }) => {
-  const { termCondition, error } = useContext(AdminContext);
+const ConditionPopup = ({ onClose }) => {
+  const { addTermAndCondition } = useContext(AdminContext);
   const [conditionData, setConditionData] = useState({
     conditionName: "",
     description: "",
   });
-  const handelChange = (e) => {
-    setConditionData({ ...conditionData, [e.target.name]: e.target.value });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setConditionData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
-  const handelSubmit = async (e) => {
-    e.preventDefault();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
     try {
-      const newCondition = await termCondition(conditionData);
-      toast.success("Condition added Successfully");
-      onSave(newCondition);
+      await addTermAndCondition(conditionData);
+      toast.success("Condition added successfully");
       onClose();
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
         const errorMessage = error.response.data.error;
         toast.error(errorMessage);
       } else {
-        toast.error("Failed to create boat");
+        toast.error("Failed to add condition");
       }
     }
   };
-  const navigate = useNavigate();
+
+  console.log("Condition Data:", conditionData);
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center">
       <div className="bg-white w-[50%] p-8">
-        <form onSubmit={handelSubmit} className="flex flex-col gap-4 ">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>New Condition</div>
           <div className="flex flex-col gap-2 text-sm">
             <label>Condition name</label>
             <select
               name="conditionName"
               value={conditionData.conditionName}
-              onChange={handelChange}
+              onChange={handleChange}
               className="border py-2 rounded-md"
             >
+              <option value="">Select a condition</option>
               <option value="Cancellation Policy">Cancellation Policy</option>
               <option value="Terms of Service">Terms of Service</option>
             </select>
@@ -51,7 +58,7 @@ const ConditionPopup = ({ onClose, onSave }) => {
             <textarea
               name="description"
               value={conditionData.description}
-              onChange={handelChange}
+              onChange={handleChange}
               className="border rounded-md"
               rows={4}
             ></textarea>
@@ -59,11 +66,12 @@ const ConditionPopup = ({ onClose, onSave }) => {
           <div className="flex flex-row gap-5">
             <button
               type="submit"
-              className=" py-2 px-5 rounded-md text-white bg-[#CBA557]"
+              className="py-2 px-5 rounded-md text-white bg-[#CBA557]"
             >
               Save
             </button>
             <button
+              type="button"
               onClick={onClose}
               className="border py-2 px-5 rounded-md bg-[#d6d8dc] text-[#898a8d]"
             >
