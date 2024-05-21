@@ -53,6 +53,16 @@ const AdminProvider = ({ children }) => {
     }
   };
 
+  const createVoucher = async (voucherData) => {
+    try {
+      const response = await baseURL.post('/voucher/create-voucher', voucherData);
+      return response.data;
+    } catch (error) {
+      setError(error.response?.data?.message || 'Failed to create voucher');
+      throw error;
+    }
+  };
+
   // useEffect(() => {
   //   const checkAdminAuth = async () => {
   //     try {
