@@ -1,8 +1,18 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import locationfilled from '../../assets/Images/location-filled.png';
 import { Link } from 'react-router-dom';
+
+// Define the custom icon
+const customIcon = new L.Icon({
+  iconUrl: locationfilled,
+  iconSize: [38, 38], // size of the icon
+  iconAnchor: [19, 38], // point of the icon which will correspond to marker's location
+  popupAnchor: [0, -38], // point from which the popup should open relative to the iconAnchor
+});
+
 const WhereWeAre = () => {
   return (
     <section className="contact-information w-full flex flex-col-reverse md:flex-row">
@@ -14,7 +24,14 @@ const WhereWeAre = () => {
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-        <Marker position={[43.52992, 10.3054838]} />
+        <Marker position={[43.52992, 10.3054838]} icon={customIcon}>
+          <Tooltip direction="top" offset={[0, -38]} opacity={1}>
+            <span>
+              Viale Italia, 62<br />
+              c/o BAGNI PANCALDI IN ACQUAVIVA
+            </span>
+          </Tooltip>
+        </Marker>
       </MapContainer>
       <div className="bg-white md:mt-12 md:-ml-[120px] z-10 grow md:w-2/5 flex gap-4 flex-col pb-8">
         <img
@@ -60,4 +77,4 @@ const WhereWeAre = () => {
     </section>
   );
 };
-export default WhereWeAre;
+export default WhereWeAre;

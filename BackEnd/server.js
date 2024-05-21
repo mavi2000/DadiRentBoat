@@ -13,6 +13,7 @@ import bootBookingRoutes from "./routes/boatBookingRoutes.js"
 import boatAccessRoute from  "./routes/boatAccessRoute.js"
 import TermsandCoditionRoute from "./routes/TermsAndConditionRoutes.js"
 import RateRoute from "./routes/RateRoute.js"
+import voucherRoutes from "./routes/voucherRoutes.js"
 
 
 const app = express();
@@ -20,10 +21,14 @@ const PORT = process.env.PORT || 3800;
 
 // middlewares
 app.use(express.json());
-app.use(cors());
-//new chnages
+app.use(express.json());
+app.use(cors({
+  origin: '*', 
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+}));
 
-// apis / routes
+
 app.use('/', UserRoute);
 app.use("/invite",inviteLinkRoute)
 app.use('/', ContactRoute);
@@ -35,7 +40,7 @@ app.use("/Booking",bootBookingRoutes)
 app.use("/boatAccess",boatAccessRoute)
 app.use("/condition",TermsandCoditionRoute)
 app.use("/Rate",RateRoute)
-
+app.use("/voucher",voucherRoutes)
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
