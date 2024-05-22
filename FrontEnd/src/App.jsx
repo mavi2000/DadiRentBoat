@@ -63,6 +63,11 @@ import TermsCondition from "./Components/Dashboard/MyBoats/TermsCondition.jsx";
 import BoatRates from "./Components/Dashboard/MyBoats/BoatRates.jsx";
 import Voucher from "./Components/Dashboard/MyBoats/Voucher.jsx";
 import BoatCalender from "./Components/Dashboard/MyBoats/BoatCalender.jsx";
+import Deposit from "./Components/Dashboard/MyBoats/Deposit.jsx";
+import ExtraServices from "./Components/Dashboard/MyBoats/ExtraServices.jsx";
+import Insurance from "./Components/Dashboard/MyBoats/Insurance.jsx";
+import Address from "./Components/Dashboard/MyBoats/Address.jsx";
+import Equipments from "./Components/Dashboard/MyBoats/Equipments.jsx";
 
 //new commit
 function App() {
@@ -151,6 +156,10 @@ function App() {
             />
             <Route
               path="/booking/invoice"
+              element={<Layout Children={<Invoice />} isLocation={false} />}
+            />
+            <Route
+              path="/booking/extra-services"
               element={<Layout Children={<Invoice />} isLocation={false} />}
             />
             <Route path="/user/booking-list" element={<Booking />} />
@@ -242,8 +251,28 @@ function App() {
               element={<DashboardLayout Childeren={<TermsCondition />} />}
             />
             <Route
-              path="/Dashboard/my-boats/voucher"
+              path="/Dashboard/my-boats/deposit"
+              element={<DashboardLayout Childeren={<Deposit />} />}
+            />
+            <Route
+              path="/Dashboard/my-boats/promotion"
               element={<DashboardLayout Childeren={<Voucher />} />}
+            />
+            <Route
+              path="/Dashboard/my-boats/insurance"
+              element={<DashboardLayout Childeren={<Insurance />} />}
+            />
+            <Route
+              path="/Dashboard/my-boats/address"
+              element={<DashboardLayout Childeren={<Address />} />}
+            />
+            <Route
+              path="/Dashboard/my-boats/equipments"
+              element={<DashboardLayout Childeren={<Equipments />} />}
+            />
+            <Route
+              path="/Dashboard/my-boats/extra-services"
+              element={<DashboardLayout Childeren={<ExtraServices />} />}
             />
             <Route
               path="/Dashboard/my-boats/calender"

@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { FiEdit3 } from "react-icons/fi";
 import { IoMdAdd } from "react-icons/io";
 import { FiInfo } from "react-icons/fi";
+import RatePopup from "./RatePopup";
 
 const BoatRates = () => {
+  const [popup, setPopup] = useState();
+  const handelPopup = (e) => {
+    e.preventDefault();
+    setPopup(!popup);
+  };
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
@@ -111,10 +117,14 @@ const BoatRates = () => {
               </button>
             </div>
           </div>
-          <button className=" text-[#CBA557] font-semibold flex items-center gap-2 text-[15px] border border-[#CBA557] rounded-md py-2 px-6">
+          <button
+            onClick={handelPopup}
+            className=" text-[#CBA557] font-semibold flex items-center gap-2 text-[15px] border border-[#CBA557] rounded-md py-2 px-6"
+          >
             <IoMdAdd className="text-[18px]" />
             Add Rates
           </button>
+          {popup && <RatePopup />}
         </div>
         <div>Other prices</div>
         <div className="bg-[#CBA55714] p-4 flex items-center gap-3 w-[60%] rounded-md">
