@@ -8,7 +8,8 @@ import Joi from "joi";
 export const addRate = async (req, res, next) => {
     try {
         const schema = Joi.object({
-            date: Joi.date().required(),
+            normalDayDate: Joi.date().required(),
+            weekendDate: Joi.date().required(),
             normalDayRates: Joi.object({
                 morning: Joi.number().required(),
                 evening: Joi.number().required(),
@@ -26,15 +27,16 @@ export const addRate = async (req, res, next) => {
             throw createError(400, error.details[0].message);
         }
 
-        const { date, normalDayRates, weekendRates } = value;
+        const { normalDayDate, weekendDate, normalDayRates, weekendRates } = value;
    
-        const existingRate = await Rate.findOne({ date });
+        const existingRate = await Rate.findOne({ normalDayDate, weekendDate });
         if (existingRate) {
-            throw createError(400, 'Rate already exists for the provided date');
+            throw createError(400, 'Rate already exists for the provided dates');
         }
 
         const rate = new Rate({
-            date,
+            normalDayDate,
+            weekendDate,
             normalDayRates,
             weekendRates
         });
