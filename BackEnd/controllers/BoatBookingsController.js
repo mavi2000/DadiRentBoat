@@ -15,7 +15,6 @@ export const getUnavailableBoatDates = async (req, res, next) => {
         const unavailableDates = getUnavailableDates(new Date(startDate), new Date(endDate));
         console.log("All dates between startDate and endDate:", unavailableDates);
 
-        // Save each date as a booking in the database
         const bookings = unavailableDates.map(date => ({
             startDate: date,
             endDate: date 
@@ -93,3 +92,53 @@ export const deleteBoatBooking = async (req, res, next) => {
         next(error);
     }
 };
+
+
+
+
+
+
+
+
+// const getUnavailableDates = (startDate, endDate) => {
+//     const dates = [];
+//     let currentDate = new Date(startDate);
+//     while (currentDate <= endDate) {
+//       dates.push(new Date(currentDate));
+//       currentDate.setDate(currentDate.getDate() + 1);
+//     }
+//     return dates;
+//   };
+  
+//   export const getUnavailableBoatDates = async (req, res, next) => {
+//     try {
+//       const { startDate, endDate } = req.body;
+  
+//       if (!startDate || !endDate || new Date(startDate) >= new Date(endDate)) {
+//         throw createError(400, 'Invalid request parameters');
+//       }
+  
+//       const unavailableDates = getUnavailableDates(new Date(startDate), new Date(endDate));
+//       const bookings = unavailableDates.map(date => ({
+//         startDate: date,
+//         endDate: date
+//       }));
+  
+//       await BoatBooking.insertMany(bookings);
+  
+//       res.status(200).json({ unavailableDates });
+//     } catch (error) {
+//       next(error);
+//     }
+//   };
+  
+//   // New endpoint to fetch unavailable dates
+//   export const fetchUnavailableDates = async (req, res, next) => {
+//     try {
+//       const bookings = await BoatBooking.find();
+//       const unavailableDates = bookings.map(booking => booking.startDate.toISOString().split('T')[0]);
+//       res.status(200).json({ unavailableDates });
+//     } catch (error) {
+//       next(error);
+//     }
+//   };

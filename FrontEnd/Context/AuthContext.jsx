@@ -73,18 +73,20 @@ const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await baseURL.post('/logout');
-      setUser(null);
       removeToken();
+    
       setAuthToken(null);
+   
+      setUser(null);
+    
+      navigate('/');
       toast.success('Logout successful!');
-      navigate('/Login');
     } catch (error) {
       setError(error.response?.data?.message || 'Logout failed');
       toast.error(error.response?.data?.message || 'Logout failed');
     }
-  };
-
+  }
+  
   const forgotPassword = async (email) => {
     try {
       await baseURL.post('/invite', { email });

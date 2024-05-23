@@ -1,35 +1,83 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { IoMdAdd } from "react-icons/io";
 import CalenderPopup from "./CalnderPopup";
 import Calendar from "react-calendar";
 import { RiArrowGoBackLine } from "react-icons/ri";
+import { AdminContext } from "../../../../Context/AdminContext.jsx";
 
-const BoatCalender = () => {
+const BoatCalendar = () => {
   const [popup, setPopup] = useState(false);
-  const handelPopup = (e) => {
+  const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const [selectedEndDate, setSelectedEndDate] = useState(null);
+  const [highlightedDates, setHighlightedDates] = useState([]);
+  const { getUnavailableBoatDates } = useContext(AdminContext);
+
+  const handleDateDoubleClick = (date) => {
+    if (!selectedStartDate || (selectedStartDate && selectedEndDate)) {
+      setSelectedStartDate(date);
+      setSelectedEndDate(null);
+      setHighlightedDates([]);
+    } else if (!selectedEndDate) {
+      setSelectedEndDate(date);
+      fetchUnavailableDates(selectedStartDate, date);
+    }
+  };
+
+  const fetchUnavailableDates = async (startDate, endDate) => {
+    try {
+      const response = await getUnavailableBoatDates(startDate, endDate);
+      console.log("Unavailable boat dates:", response);
+      setHighlightedDates(response.unavailableDates);
+    } catch (error) {
+      console.error("Failed to fetch unavailable boat dates", error);
+    }
+  };
+
+  const tileClassName = ({ date, view }) => {
+    if (view === "month") {
+      const dateString = date.toISOString().split("T")[0];
+      if (highlightedDates.includes(dateString)) {
+        return "highlight";
+      }
+    }
+    return null;
+  };
+
+  const handlePopup = (e) => {
     e.preventDefault();
     setPopup(!popup);
   };
+
+  const resetSelection = () => {
+    setSelectedStartDate(null);
+    setSelectedEndDate(null);
+    setHighlightedDates([]);
+  };
+
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
-      <form className="bg-white ">
+      <form className="bg-white">
         <div className="mx-8 py-8 flex flex-col gap-6 text-[#4B465C] w-[80%]">
-          <div className="font-medium">Calender</div>
+          <div className="font-medium">Calendar</div>
           <div className="text-sm">
             By default, your boat is always available. Add the dates on your
-            calendar when your boat is not available. By clicking on 2 dates,
-            you will add a period of unavailability of several days
+            calendar when your boat is not available. By clicking on 2 dates,
+            you will add a period of unavailability of several days.
           </div>
           <div className="flex flex-col justify-between gap-10 items-center px-10 rounded-lg py-10 shadow-md">
-            <div className="flex justify-between items-center w-[100%]">
-              <Calendar className={"border-none"} />{" "}
-              <Calendar className={"border-none"} />
-            </div>
+            <Calendar
+              className="border-none"
+              onClickDay={handleDateDoubleClick}
+              value={[selectedStartDate, selectedEndDate]}
+              tileClassName={tileClassName}
+            />
             <div className="flex items-center justify-end w-[95%] gap-1">
-              <RiArrowGoBackLine />
-              <div>Reset</div>
+              <button onClick={resetSelection} className="flex items-center gap-1">
+                <RiArrowGoBackLine />
+                <div>Reset</div>
+              </button>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -44,10 +92,10 @@ const BoatCalender = () => {
             Unavailable is an extended period of unavailability that will be
             added to your unavailability list and repeated each year.
           </div>
-          <div className=" w-[80%] flex flex-col">
+          <div className="w-[80%] flex flex-col">
             <button
               type="button"
-              onClick={handelPopup}
+              onClick={handlePopup}
               className="border w-[50%] py-3 border-[#CBA557] text-sm font-semibold rounded-lg text-[#CBA557] justify-center flex items-center gap-2"
             >
               <IoMdAdd className="text-lg" />
@@ -97,4 +145,4 @@ const BoatCalender = () => {
   );
 };
 
-export default BoatCalender;
+export default BoatCalendar;

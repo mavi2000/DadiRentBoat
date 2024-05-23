@@ -1,31 +1,30 @@
-import { AdminContext } from "../../../../Context/AdminContext";
 import React, { useState, useContext } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { FaPlus } from "react-icons/fa6";
 import Download from "../../../assets/Images/Download-Cloud.png";
+import { AdminContext } from "../../../../Context/AdminContext";
 
 const Photo = () => {
-  const [image, setImage] = useState(null);
-  const { uploadBoatImage } = useContext(AdminContext);
+  const { uploadBoatImages } = useContext(AdminContext); // Destructure the uploadBoatImages function from the context
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleChange = (e) => {
-    setImage(e.target.files[0]);
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!image) {
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("avatar", image);
-
-    try {
-      const response = await uploadBoatImage(formData);
-      console.log(response);
-    } catch (error) {
-      console.error("Upload error: ", error);
+  const handleUpload = async () => {
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("image", selectedFile); // Ensure the key matches server-side
+      try {
+        const response = await uploadBoatImages(formData);
+        console.log("Image uploaded successfully", response);
+        setSelectedFile(null); // Reset the selected file after upload
+      } catch (error) {
+        console.error("Failed to upload image", error);
+      }
+    } else {
+      alert("Please select a file first");
     }
   };
 
@@ -51,24 +50,24 @@ const Photo = () => {
               />
               <input
                 type="file"
-                name="avatar"
-                accept="image/*"
-                onChange={handleChange}
-                style={{}}
+                onChange={handleFileChange}
+                style={{ display: "none" }}
                 id="fileInput"
               />
-              <label htmlFor="fileInput">
-                <button className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px]">
-                  <FaPlus />
-                  <p>Choose a photo</p>
-                </button>
-              </label>
-              {image && (
+              <button
+                onClick={() => document.getElementById("fileInput").click()}
+                className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px]"
+              >
+                <FaPlus />
+                <p>Choose a photo</p>
+              </button>
+              {selectedFile && (
                 <button
-                  className="mt-4 py-2 px-4 bg-[#4B465C] text-white font-bold text-sm rounded-[10px]"
-                  onClick={handleSubmit}
+                  onClick={handleUpload}
+                  className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px] mt-4"
                 >
-                  Upload Photo
+                  <FaPlus />
+                  <p>Upload a photo</p>
                 </button>
               )}
             </div>

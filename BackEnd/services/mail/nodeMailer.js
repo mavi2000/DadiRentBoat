@@ -39,9 +39,9 @@ export const sendMail = async (email, link, subject, footerMessage) => {
             });
 
             const mailOptions = {
-                from: `B2B  <${process.env.EMAIL}>`,
+                from: `DadiRent  <${process.env.EMAIL}>`,
                 to: email,
-                subject: subject || 'OTP for B2B',
+                subject: subject || 'Reset Link fROM DadiRent',
                 text: `Your Link is ${link}`,
                 html: `<h1>Your Link is ${link}</h1>
                 ${footerMessage ? `<p>${footerMessage}</p>` : ''}`
