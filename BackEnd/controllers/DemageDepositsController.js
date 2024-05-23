@@ -8,7 +8,7 @@ import Joi from 'joi';
 export const createDamageDeposit = async (req, res, next) => {
     const schema = Joi.object({
       type: Joi.string().required(),
-      amount: Joi.number().positive().required(),
+      amount: Joi.string().required(),
       // boatId: Joi.string().required(), // Uncomment this line once ready to include boatId
     });
   
