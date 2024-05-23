@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-
-
 const rateSchema = new Schema({
     // boatId: {
     //   type: Schema.Types.ObjectId,
@@ -10,25 +8,37 @@ const rateSchema = new Schema({
     //   required: true
     // },
     date: {
-      type: Date,
-      required: true
+        type: Date,
+        required: true
     },
-    rateType: {
-      type: String,
-      required: true
+    normalDayRates: {
+        morning: {
+            type: Number,
+            required: true
+        },
+        evening: {
+            type: Number,
+            required: true
+        },
+        fullDay: {
+            type: Number,
+            required: true
+        }
     },
-    fullDayRate: {
-      type: Number,
-      required: true
-    },
-    halfDayMorningRate: {
-      type: Number,
-      required: true
-    },
-    halfDayEveningRate: {
-      type: Number,
-      required: true
+    weekendRates: {
+        morning: {
+            type: Number,
+            required: true
+        },
+        evening: {
+            type: Number,
+            required: true
+        },
+        fullDay: {
+            type: Number,
+            required: true
+        }
     }
-  });
+});
 
 export default mongoose.model('Rate', rateSchema);

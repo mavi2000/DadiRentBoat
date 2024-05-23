@@ -4,28 +4,45 @@ import Joi from "joi";
 
 
 
+
 export const addRate = async (req, res, next) => {
     try {
-        const { date, rateType, fullDayRate, halfDayMorningRate, halfDayEveningRate } = req.body;
+        const schema = Joi.object({
+            date: Joi.date().required(),
+            normalDayRates: Joi.object({
+                morning: Joi.number().required(),
+                evening: Joi.number().required(),
+                fullDay: Joi.number().required()
+            }).required(),
+            weekendRates: Joi.object({
+                morning: Joi.number().required(),
+                evening: Joi.number().required(),
+                fullDay: Joi.number().required()
+            }).required()
+        });
+
+        const { error, value } = schema.validate(req.body);
+        if (error) {
+            throw createError(400, error.details[0].message);
+        }
+
+        const { date, normalDayRates, weekendRates } = value;
    
-        const existingRate = await Rate.findOne({ date, rateType });
+        const existingRate = await Rate.findOne({ date });
         if (existingRate) {
-            throw createError(400, 'Rate already exists for the provided date and type');
+            throw createError(400, 'Rate already exists for the provided date');
         }
 
         const rate = new Rate({
-            // boatId, // Uncomment if boatId is provided in the request body
             date,
-            rateType,
-            fullDayRate,
-            halfDayMorningRate,
-            halfDayEveningRate
+            normalDayRates,
+            weekendRates
         });
 
         // Save the rate to the database
         const savedRate = await rate.save();
 
-        res.status(201).json(savedRate);d
+        res.status(201).json(savedRate);
     } catch (error) {
         next(error);
     }
