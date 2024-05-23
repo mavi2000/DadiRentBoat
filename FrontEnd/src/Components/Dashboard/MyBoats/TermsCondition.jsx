@@ -34,24 +34,29 @@ const TermsCondition = () => {
         <div className="font-medium">Terms & Conditions</div>
         <table className="w-full">
           <tbody>
-            {conditions.map((condition, index) => (
-              <tr key={index} className="border-t-2 pt-10">
-                <td className="w-full flex flex-col gap-5 py-4"> {/* Add padding here */}
-                  <div className="flex justify-between">
-                    <div className="font-bold">{condition.conditionName}</div>
-                    <div className="flex gap-8">
-                      <button className="py-1 px-4 border border-[#CBA557] text-[#CBA557] rounded-md text-sm font-medium">
-                        Edit
-                      </button>
-                      <button className="py-1 px-4 border border-[#FF6347] text-[#FF6347] rounded-md text-sm font-medium">
-                        Delete
-                      </button>
+            {Array.isArray(conditions) &&
+              conditions.map((condition, index) => (
+                <tr key={index} className="border-t-2 pt-10">
+                  <td className="w-full flex flex-col gap-5 py-4">
+                    <div className="flex justify-between">
+                      <div className="font-bold">
+                        {condition?.conditionName}
+                      </div>
+                      <div className="flex gap-8">
+                        <button className="py-1 px-4 border border-[#CBA557] text-[#CBA557] rounded-md text-sm font-medium">
+                          Edit
+                        </button>
+                        <button className="py-1 px-4 border border-[#FF6347] text-[#FF6347] rounded-md text-sm font-medium">
+                          Delete
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="text-sm text-[#8881a0]">{condition.description}</div>
-                </td>
-              </tr>
-            ))}
+                    <div className="text-sm text-[#8881a0]">
+                      {condition?.description}
+                    </div>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
         {/* Add new condition form */}
@@ -76,7 +81,10 @@ const TermsCondition = () => {
           </div>
         </div>
         <div className="border-t-2 pt-10">
-          <button type="button" className="border w-[15%] py-3 border-[#CBA557] text-sm font-semibold rounded-lg bg-[#CBA557] text-white justify-center flex items-center gap-3">
+          <button
+            type="button"
+            className="border w-[15%] py-3 border-[#CBA557] text-sm font-semibold rounded-lg bg-[#CBA557] text-white justify-center flex items-center gap-3"
+          >
             Save
           </button>
         </div>

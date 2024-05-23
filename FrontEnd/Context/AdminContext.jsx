@@ -1,7 +1,7 @@
-import React, { createContext, useState } from 'react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Make sure to import the toastify CSS
-import baseURL from '../APi/BaseUrl.js';
+import React, { createContext, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Make sure to import the toastify CSS
+import baseURL from "../APi/BaseUrl.js";
 
 const AdminContext = createContext();
 
@@ -9,8 +9,6 @@ const AdminProvider = ({ children }) => {
   const [admin, setAdmin] = useState(null);
   const [error, setError] = useState(null);
   const [boatId, setBoatId] = useState(null);
-  
-  
 
   const createBoat = async (boatData) => {
     console.log("boatData",boatData)
@@ -24,22 +22,22 @@ const AdminProvider = ({ children }) => {
       }
       return response?.data;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to create boat';
+      const errorMessage =
+        error.response?.data?.message || "Failed to create boat";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
     }
   };
 
-
-  
   const rentBoat = async (rentalData) => {
     try {
-      const response = await baseURL.post('/rent/RentBoat', rentalData);
-      toast.success('Boat rented successfully');
+      const response = await baseURL.post("/rent/RentBoat", rentalData);
+      toast.success("Boat rented successfully");
       return response.data;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to rent boat';
+      const errorMessage =
+        error.response?.data?.message || "Failed to rent boat";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
@@ -48,11 +46,12 @@ const AdminProvider = ({ children }) => {
 
   const getTermsAndConditions = async () => {
     try {
-      const response = await baseURL.get('/condition/get-condition');
-      toast.success('Terms and conditions fetched successfully');
+      const response = await baseURL.get("/condition/get-condition");
+      toast.success("Terms and conditions fetched successfully");
       return response.data;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to fetch conditions';
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch conditions";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
@@ -61,11 +60,15 @@ const AdminProvider = ({ children }) => {
 
   const addTermAndCondition = async (conditionData) => {
     try {
-      const response = await baseURL.post("/condition/Term-condition", conditionData);
-      toast.success('Condition added successfully');
+      const response = await baseURL.post(
+        "/condition/Term-condition",
+        conditionData
+      );
+      toast.success("Condition added successfully");
       return response.data;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to add condition';
+      const errorMessage =
+        error.response?.data?.message || "Failed to add condition";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
@@ -74,11 +77,15 @@ const AdminProvider = ({ children }) => {
 
   const createVoucher = async (voucherData) => {
     try {
-      const response = await baseURL.post('/voucher/create-voucher', voucherData);
-      toast.success('Voucher created successfully');
+      const response = await baseURL.post(
+        "/voucher/create-voucher",
+        voucherData
+      );
+      toast.success("Voucher created successfully");
       return response.data;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to create voucher';
+      const errorMessage =
+        error.response?.data?.message || "Failed to create voucher";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
@@ -87,29 +94,34 @@ const AdminProvider = ({ children }) => {
 
   const uploadBoatImages = async (formData) => {
     try {
-      const response = await baseURL.post('/image/uploadBoatImages', formData, {
+      const response = await baseURL.post("/image/uploadBoatImages", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
-      toast.success('Image uploaded successfully');
+      toast.success("Image uploaded successfully");
       return response.data;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to upload image';
+      const errorMessage =
+        error.response?.data?.message || "Failed to upload image";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
     }
   };
 
-
   const getUnavailableBoatDates = async (startDate, endDate) => {
     try {
-      const response = await baseURL.post('/Booking//Book-boat', { startDate, endDate });
-      toast.success('Unavailable boat dates fetched successfully');
+      const response = await baseURL.post("/Booking//Book-boat", {
+        startDate,
+        endDate,
+      });
+      toast.success("Unavailable boat dates fetched successfully");
       return response.data;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to fetch unavailable boat dates';
+      const errorMessage =
+        error.response?.data?.message ||
+        "Failed to fetch unavailable boat dates";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
@@ -117,7 +129,20 @@ const AdminProvider = ({ children }) => {
   };
 
   return (
-    <AdminContext.Provider value={{ admin, error,boatId, createBoat, rentBoat, getTermsAndConditions, addTermAndCondition, createVoucher, uploadBoatImages,getUnavailableBoatDates }}>
+    <AdminContext.Provider
+      value={{
+        admin,
+        error,
+        boatId,
+        createBoat,
+        rentBoat,
+        getTermsAndConditions,
+        addTermAndCondition,
+        createVoucher,
+        uploadBoatImages,
+        getUnavailableBoatDates,
+      }}
+    >
       {children}
     </AdminContext.Provider>
   );

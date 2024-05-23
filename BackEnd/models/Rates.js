@@ -7,12 +7,16 @@ const rateSchema = new Schema({
     //   ref: 'Boat',
     //   required: true
     // },
-    normalDayDate: {
+    startDate: {
         type: Date,
         required: true
     },
-    weekendDate: {
+    endDate: {
         type: Date,
+        required: true
+    },
+    dates: {
+        type: [Date],
         required: true
     },
     normalDayRates: {

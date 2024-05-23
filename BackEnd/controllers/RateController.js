@@ -3,13 +3,24 @@ import { createError } from "../utils/createError.js";
 import Joi from "joi";
 
 
+const getDatesInRange = (startDate, endDate) => {
+    let dates = [];
+    let currentDate = new Date(startDate);
+    const end = new Date(endDate);
 
+    while (currentDate <= end) {
+        dates.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;
+};
 
 export const addRate = async (req, res, next) => {
     try {
         const schema = Joi.object({
-            normalDayDate: Joi.date().required(),
-            weekendDate: Joi.date().required(),
+            startDate: Joi.date().required(),
+            endDate: Joi.date().required(),
             normalDayRates: Joi.object({
                 morning: Joi.number().required(),
                 evening: Joi.number().required(),
@@ -24,19 +35,30 @@ export const addRate = async (req, res, next) => {
 
         const { error, value } = schema.validate(req.body);
         if (error) {
-            throw createError(400, error.details[0].message);
+            return next(createError(400, error.details[0].message));
         }
 
-        const { normalDayDate, weekendDate, normalDayRates, weekendRates } = value;
+        const { startDate, endDate, normalDayRates, weekendRates } = value;
    
-        const existingRate = await Rate.findOne({ normalDayDate, weekendDate });
-        if (existingRate) {
-            throw createError(400, 'Rate already exists for the provided dates');
+        // Check for existing rates within the date range
+        const existingRates = await Rate.find({
+            $or: [
+                { startDate: { $lte: endDate }, endDate: { $gte: startDate } },
+                { startDate: { $gte: startDate }, endDate: { $lte: endDate } }
+            ]
+        });
+
+        if (existingRates.length > 0) {
+            return next(createError(400, 'Rate already exists within the provided date range'));
         }
+
+        // Get dates in range
+        const datesInRange = getDatesInRange(startDate, endDate);
 
         const rate = new Rate({
-            normalDayDate,
-            weekendDate,
+            startDate,
+            endDate,
+            dates: datesInRange,
             normalDayRates,
             weekendRates
         });
@@ -44,12 +66,15 @@ export const addRate = async (req, res, next) => {
         // Save the rate to the database
         const savedRate = await rate.save();
 
-        res.status(201).json(savedRate);
+        res.status(201).json({
+            success: true,
+            message: "Rate created successfully",
+            rate: savedRate
+        });
     } catch (error) {
         next(error);
     }
 };
-
 // Controller to retrieve all rates
 export const getAllRates = async (req, res, next) => {
     try {
