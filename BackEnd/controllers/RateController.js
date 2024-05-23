@@ -25,7 +25,7 @@ export const addRate = async (req, res, next) => {
         // Save the rate to the database
         const savedRate = await rate.save();
 
-        res.status(201).json(savedRate);
+        res.status(201).json(savedRate);d
     } catch (error) {
         next(error);
     }

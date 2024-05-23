@@ -8,10 +8,12 @@ import { createError } from '../utils/createError.js';
 
 
 export const RentBoat =async (req,res,next)=>{
+
+    console.log(req.body)
     try {
         
         const rentalSchema = Joi.object({
-            // boatId: Joi.string().allow(''),
+            boatId: Joi.string().required(),
             BoatName: Joi.string().required(),
             Port: Joi.string().required(),
             city: Joi.string().required(),

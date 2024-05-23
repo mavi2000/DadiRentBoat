@@ -8,12 +8,19 @@ const AdminContext = createContext();
 const AdminProvider = ({ children }) => {
   const [admin, setAdmin] = useState(null);
   const [error, setError] = useState(null);
+  const [boatId, setBoatId] = useState(null);
+  
+  
 
   const createBoat = async (boatData) => {
     try {
       const response = await baseURL.post('/boat/CreateBoat', boatData);
       toast.success('Boat created successfully');
-      return response.data;
+      const boatId= response?.data
+      if(boatId){
+        setBoatId(response?.data.boat._id)
+      }
+      return response?.data;
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Failed to create boat';
       setError(errorMessage);
@@ -22,6 +29,8 @@ const AdminProvider = ({ children }) => {
     }
   };
 
+
+  
   const rentBoat = async (rentalData) => {
     try {
       const response = await baseURL.post('/rent/RentBoat', rentalData);
@@ -106,7 +115,7 @@ const AdminProvider = ({ children }) => {
   };
 
   return (
-    <AdminContext.Provider value={{ admin, error, createBoat, rentBoat, getTermsAndConditions, addTermAndCondition, createVoucher, uploadBoatImages,getUnavailableBoatDates }}>
+    <AdminContext.Provider value={{ admin, error,boatId, createBoat, rentBoat, getTermsAndConditions, addTermAndCondition, createVoucher, uploadBoatImages,getUnavailableBoatDates }}>
       {children}
     </AdminContext.Provider>
   );
