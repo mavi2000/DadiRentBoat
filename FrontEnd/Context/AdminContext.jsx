@@ -18,6 +18,15 @@ const AdminProvider = ({ children }) => {
       throw error;
     }
   };
+  const AddRate = async () => {
+    try {
+      const responce = await baseURL.post("/Rate/add-Rates");
+      return responce.data;
+    } catch (error) {
+      setError(error.response?.data?.message || "Failed to Add Rate");
+      throw error;
+    }
+  };
 
   const rentBoat = async (rentalData) => {
     try {
@@ -57,10 +66,13 @@ const AdminProvider = ({ children }) => {
 
   const createVoucher = async (voucherData) => {
     try {
-      const response = await baseURL.post('/voucher/create-voucher', voucherData);
+      const response = await baseURL.post(
+        "/voucher/create-voucher",
+        voucherData
+      );
       return response.data;
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to create voucher');
+      setError(error.response?.data?.message || "Failed to create voucher");
       throw error;
     }
   };
@@ -83,6 +95,7 @@ const AdminProvider = ({ children }) => {
         admin,
         error,
         createBoat,
+        AddRate,
         rentBoat,
         getTermsAndConditions,
         addTermAndCondition,
