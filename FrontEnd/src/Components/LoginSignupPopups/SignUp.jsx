@@ -1,4 +1,3 @@
-// SignUp.jsx
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../../Context/AuthContext.jsx';
 import { Link } from 'react-router-dom';
@@ -12,20 +11,28 @@ const SignUp = () => {
     phoneNumber: '',
     password: '',
   });
+  const [isAgreementChecked, setIsAgreementChecked] = useState(false);
 
   const handleChange = (e) => {
-    setSignupData({
-      ...signupData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value, type, checked } = e.target;
+    if (type === 'checkbox') {
+      setIsAgreementChecked(checked);
+    } else {
+      setSignupData({
+        ...signupData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signUp(signupData);
+    if (isAgreementChecked) {
+      signUp(signupData);
+    }
   };
 
-  console.log("signupData",signupData)
+  console.log("signupData", signupData);
   return (
     <PopupsLayout
       isSocials={true}
@@ -37,17 +44,17 @@ const SignUp = () => {
             <label htmlFor="username">Username* </label>
             <input
               type="text"
-              id="Username"
+              id="username"
               name="username"
               onChange={handleChange}
               placeholder="john.doe"
               className="w-full border-[1px] border-[#DBDADE] outline-none rounded-md mt-2 mb-6 px-4 py-2"
             />
 
-            <label htmlFor="Email">Email*</label>
+            <label htmlFor="email">Email*</label>
             <input
               type="email"
-              id="Email"
+              id="email"
               name="email"
               onChange={handleChange}
               placeholder="john.doe@gmail.com"
@@ -58,8 +65,8 @@ const SignUp = () => {
               Phone Number*
               <div className="flex mt-2 mb-6">
                 <select
-                  name="phoneNumber"
-                  id="phoneNumber"
+                  name="countryCode"
+                  id="countryCode"
                   onChange={handleChange}
                   className="border-[1px] border-[#DBDADE] text-[#4B465C] outline-none rounded-l-md px-4 py-2"
                 >
@@ -92,6 +99,7 @@ const SignUp = () => {
                 type="checkbox"
                 id="agreement"
                 name="agreement"
+                checked={isAgreementChecked}
                 onChange={handleChange}
                 className="w-5 h-5 border-[1.5px] border-[#CBA55733] outline-none rounded-md accent-[--primary-color]"
               />
@@ -106,7 +114,8 @@ const SignUp = () => {
 
             <button
               type="submit"
-              className="bg-[--primary-color] px-6 py-3 rounded-md text-white w-full my-6"
+              className={`bg-[--primary-color] px-6 py-3 rounded-md text-white w-full my-6 ${!isAgreementChecked && 'opacity-50 cursor-not-allowed'}`}
+              disabled={!isAgreementChecked}
             >
               Sign up
             </button>

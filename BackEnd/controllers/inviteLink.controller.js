@@ -78,7 +78,7 @@ const generateToken = () => {
 // }
 
 
-console.log("",process.env.BASE_URL)
+console.log("sdssada",process.env.BASE_URL)
 
 
 export const createLink = async (req, res) => {
