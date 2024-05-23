@@ -14,7 +14,8 @@ import boatAccessRoute from  "./routes/boatAccessRoute.js"
 import TermsandCoditionRoute from "./routes/TermsAndConditionRoutes.js"
 import RateRoute from "./routes/RateRoute.js"
 import voucherRoutes from "./routes/voucherRoutes.js"
-
+import  demageDepositsRoute from "./routes/demageDepositsRoute.js"
+import ExtraServiceRoute from "./routes/ExtraServiceRoute.js"
 
 const app = express();
 const PORT = process.env.PORT || 3800;
@@ -41,6 +42,8 @@ app.use("/boatAccess",boatAccessRoute)
 app.use("/condition",TermsandCoditionRoute)
 app.use("/Rate",RateRoute)
 app.use("/voucher",voucherRoutes)
+app.use("/demage",demageDepositsRoute)
+app.use("/service",ExtraServiceRoute)
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

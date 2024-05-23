@@ -1,18 +1,26 @@
-import React, { useState, useContext } from "react";
+
+import React, { useState, useContext, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { AdminContext } from '../../../../../Context/AdminContext.jsx';
 import { toast } from 'react-toastify';
 
 const RentalInformation = () => {
-  const { rentBoat, error } = useContext(AdminContext);
+  const { rentBoat, error, boatId } = useContext(AdminContext);
   const [rentalData, setRentalData] = useState({
-    // boatId: "",
+    boatId: "",
     BoatName: "",
     Port: "",
     city: "",
     minPrice: "",
     duration: "",
   });
+
+  useEffect(() => {
+    setRentalData(prevState => ({
+      ...prevState,
+      boatId: boatId
+    }));
+  }, [boatId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
