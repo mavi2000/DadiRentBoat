@@ -4,7 +4,7 @@ import createError from 'http-errors';
 
 export const createBoatDescription = async (req, res, next) => {
     const schema = Joi.object({
-        boatId: Joi.string().required(),
+        // boatId: Joi.string().required(),
         boatType: Joi.string().required(),
         rentalType: Joi.object({
             bareBoat: Joi.boolean().required(),
