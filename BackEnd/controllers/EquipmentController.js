@@ -1,5 +1,5 @@
-import { createError } from "../utils/createError";
-import Euipment from "../models/Euipment";
+import { createError } from "../utils/createError.js";
+import Euipment from "../models/Euipment.js";
 import Joi from 'joi';
 
 
