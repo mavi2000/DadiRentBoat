@@ -1,62 +1,118 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { FiInfo } from "react-icons/fi";
 import { IoAddOutline } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
+import { AdminContext } from "../../../../Context/AdminContext";
+import { toast } from "react-toastify";
 
 const Information = () => {
+  const { boatDescription } = useContext(AdminContext);
+  const [descriptionData, setDescriptionData] = useState({
+    boatType: "",
+    rentalType: { bareBoat: false, withoutSkipper: false },
+    details: {
+      modelOrName: "",
+      descriptionItalian: "",
+      descriptionEnglish: "",
+    },
+    capacity: {
+      boardingCapacity: 0,
+      brand: "",
+      model: "",
+      year: 2000,
+      geographicArea: "",
+    },
+    motorization: { numberOfEngines: 0, enginePowerHP: 0 },
+    fuel: { gas: false, electric: false, diesel: false, ethanol: false },
+    fuelCapacityLiters: 0,
+    draftMeters: 0,
+    widthMeters: 0,
+    lengthMeters: 0,
+  });
+  const handelNestedChange = (e, group) => {
+    const { name, value, type, checked } = e.target;
+    setDescriptionData((prevState) => ({
+      ...prevState,
+      [group]: {
+        ...prevState[group],
+        [name]: type === "checkbox" ? checked : value,
+      },
+    }));
+  };
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setDescriptionData((prevState) => ({
+      ...prevState,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+  const handelSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await boatDescription(descriptionData);
+      toast.success("Insurance successfully saved");
+    } catch (error) {
+      if (error.response) {
+        console.error("Error Response:", error.response);
+        toast.error(`Error: ${error.response.data.message || error.message}`);
+      } else {
+        console.error("Error:", error);
+        toast.error("An unexpected error occurred");
+      }
+    }
+  };
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
-      <form className="bg-white mx-2 py-8 px-12 flex flex-col gap-10 text-[#4B465C]">
+      <form
+        onSubmit={handelSubmit}
+        className="bg-white mx-2 py-8 px-12 flex flex-col gap-10 text-[#4B465C]"
+      >
         <div className="font-medium">Information</div>
         <div className="flex flex-col gap-2">
           <div>Types of Boat</div>
           <div className="grid 1400px:grid-cols-6 1200px:grid-cols-4 300px:grid-cols-3 gap-4 w-[88%] text-sm">
-            <div className="flex gap-3">
-              <input type="checkbox" className="" />
-              <div className="font-light">Sail Boat</div>
-            </div>
-            <div className="flex gap-3">
-              <input type="checkbox" className="" />
-              <div className="font-light">Motorboat</div>
-            </div>
-            <div className="flex gap-3">
-              <input type="checkbox" className="" />
-              <div className="font-light">Ruber dinghy</div>
-            </div>
-            <div className="flex gap-3">
-              <input type="checkbox" className="" />
-              <div className="font-light">Jet Skis</div>
-            </div>
-            <div className="flex gap-3">
-              <input type="checkbox" className="" />
-              <div className="font-light">Luxury yachts</div>
-            </div>
-            <div className="flex gap-3">
-              <input type="checkbox" className="" />
-              <div className="font-light">Houseboat/Riverboat</div>
-            </div>
-            <div className="flex gap-3">
-              <input type="checkbox" className="" />
-              <div className="font-light">Catamaran/Trimaran</div>
-            </div>
+            {[
+              "Sail Boat",
+              "Motorboat",
+              "Ruber dinghy",
+              "Jet Skis",
+              "Luxury yachts",
+              "Houseboat/Riverboat",
+              "Catamaran/Trimaran",
+            ].map((boat, index) => (
+              <div key={index} className="flex gap-3">
+                <input type="checkbox" className="" name={`boatType${index}`} />
+                <div className="font-light">{boat}</div>
+              </div>
+            ))}
           </div>
         </div>
         <div className="flex flex-col gap-2 w-[80%]">
           <label>Type of boat</label>
-          <select className="border py-3 rounded-md px-3 font-light">
+          <select
+            name="boatType"
+            value={descriptionData.boatType}
+            onChange={handleChange}
+            className="border py-3 rounded-md px-3 font-light"
+          >
             <option>Choose a type</option>
-            <option>Sail Boat</option>
-            <option>Motorboat</option>
-            <option>Ruber dinghy</option>
-            <option>Jet Skis</option>
+            <option value="Sail Boat">Sail Boat</option>
+            <option value="Motorboat">Motorboat</option>
+            <option value="Ruber dinghy">Ruber dinghy</option>
+            <option value="Jet Skis">Jet Skis</option>
           </select>
         </div>
         <div className="flex flex-col gap-6">
           <div>Type of Rental</div>
           <div className="flex flex-row gap-3 items-start">
-            <input type="checkbox" className="mt-1" />
+            <input
+              name="bareBoat"
+              onChange={(e) => handelNestedChange(e, "rentalType")}
+              type="checkbox"
+              className="mt-1"
+            />
             <div className="text-sm">
               <div>Bear Boat (without skipper)</div>
               <div className="font-light">
@@ -67,7 +123,12 @@ const Information = () => {
             </div>
           </div>
           <div className="flex flex-row gap-3 items-start">
-            <input type="checkbox" className="mt-1" />
+            <input
+              name="withoutSkipper"
+              onChange={(e) => handelNestedChange(e, "rentalType")}
+              type="checkbox"
+              className="mt-1"
+            />
             <div className="text-sm">
               <div>With skipper</div>
               <div className="font-light">
@@ -92,13 +153,22 @@ const Information = () => {
           <div className="flex flex-col gap-3">
             <label>Model or name of the boat</label>
             <input
+              name="modelOrName"
+              value={descriptionData.details.modelOrName}
+              onChange={(e) => handelNestedChange(e, "details")}
               placeholder="Write boat name"
               className="border p-3 rounded-md"
             />
           </div>
           <div className="flex flex-col gap-3">
             <label>Description Italian</label>
-            <textarea rows={4} className="border rounded-md"></textarea>
+            <textarea
+              name="descriptionItalian"
+              value={descriptionData.details.descriptionItalian}
+              onChange={(e) => handelNestedChange(e, "details")}
+              rows={4}
+              className="border rounded-md"
+            ></textarea>
             <div className="text-xs">
               your description is automatically translated based on the user's
               country of origin. You can still add your own translation, which
@@ -124,7 +194,13 @@ const Information = () => {
             </div>
             <div className="flex flex-col gap-3">
               <label>Description English (US)</label>
-              <textarea rows={4} className="border rounded-md"></textarea>
+              <textarea
+                name="descriptionEnglish"
+                value={descriptionData.details.descriptionEnglish}
+                onChange={(e) => handelNestedChange(e, "details")}
+                rows={4}
+                className="border rounded-md"
+              ></textarea>
             </div>
           </div>
           <div className="flex flex-col gap-6">
@@ -135,6 +211,9 @@ const Information = () => {
             <div className="flex flex-col gap-2">
               <label>Boarding capacity</label>
               <input
+                name="boardingCapacity"
+                value={descriptionData.capacity.boardingCapacity}
+                onChange={(e) => handelNestedChange(e, "capacity")}
                 type="number"
                 placeholder="Enter"
                 className="border w-[47%] p-3 rounded-md font-light"
@@ -143,34 +222,49 @@ const Information = () => {
             <div className="grid grid-cols-2 gap-9">
               <div className="flex flex-col gap-2">
                 <label>Brand of the boat</label>
-                <select className="border  p-3 rounded-md font-light">
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
+                <select
+                  name="brand"
+                  value={descriptionData.capacity.brand}
+                  onChange={(e) => handelNestedChange(e, "capacity")}
+                  className="border p-3 rounded-md font-light"
+                >
+                  <option>Mitsubishi</option>
+                  <option>Honda</option>
+                  <option>Jakoba</option>
                 </select>
               </div>
               <div className="flex flex-col gap-2">
                 <label>Model</label>
-                <select className="border p-3 rounded-md font-light">
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
+                <select
+                  name="model"
+                  value={descriptionData.capacity.model}
+                  onChange={(e) => handelNestedChange(e, "capacity")}
+                  className="border p-3 rounded-md font-light"
+                >
+                  <option>2020</option>
+                  <option>2021</option>
+                  <option>2022</option>
+                  <option>2023</option>
                 </select>
               </div>
               <div className="flex flex-col gap-2">
                 <label>Year</label>
-                <select className="border  p-3 rounded-md font-light">
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
-                </select>
+                <input
+                  name="year"
+                  type="number"
+                  value={descriptionData.capacity.year}
+                  onChange={(e) => handelNestedChange(e, "capacity")}
+                  className="border p-3 rounded-md font-light"
+                />
               </div>
               <div className="flex flex-col gap-2">
                 <label>Geographic area</label>
-                <select className="border  p-3 rounded-md font-light">
+                <select
+                  name="geographicArea"
+                  value={descriptionData.capacity.geographicArea}
+                  onChange={(e) => handelNestedChange(e, "capacity")}
+                  className="border p-3 rounded-md font-light"
+                >
                   <option>Select</option>
                   <option>Select</option>
                   <option>Select</option>
@@ -187,20 +281,30 @@ const Information = () => {
             <div className="grid grid-cols-2 gap-9">
               <div className="flex flex-col gap-2">
                 <label>Number of engines</label>
-                <select className="border p-3 rounded-md font-light">
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
+                <select
+                  name="numberOfEngines"
+                  value={descriptionData.motorization.numberOfEngines}
+                  onChange={(e) => handelNestedChange(e, "motorization")}
+                  className="border p-3 rounded-md font-light"
+                >
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
                 </select>
               </div>
               <div className="flex flex-col gap-2">
                 <label>Engine power (hp)</label>
-                <select className="border  p-3 rounded-md font-light">
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
+                <select
+                  name="enginePowerHP"
+                  value={descriptionData.motorization.enginePowerHP}
+                  onChange={(e) => handelNestedChange(e, "motorization")}
+                  className="border p-3 rounded-md font-light"
+                >
+                  <option>200</option>
+                  <option>300</option>
+                  <option>400</option>
+                  <option>500</option>
                 </select>
               </div>
             </div>
@@ -208,26 +312,29 @@ const Information = () => {
           <div className="flex flex-col gap-6">
             <div>Fuel</div>
             <div className="grid grid-cols-4  w-[50%] text-sm">
-              <div className="flex gap-3">
-                <input type="checkbox" className="" />
-                <div className="font-light">Gas</div>
-              </div>
-              <div className="flex gap-3">
-                <input type="checkbox" className="" />
-                <div className="font-light">Electric</div>
-              </div>
-              <div className="flex gap-3">
-                <input type="checkbox" className="" />
-                <div className="font-light">Diesel</div>
-              </div>
-              <div className="flex gap-3">
-                <input type="checkbox" className="" />
-                <div className="font-light">Ethanol</div>
-              </div>
+              {["gas", "electric", "diesel", "ethanol"].map(
+                (fuelType, index) => (
+                  <div key={index} className="flex gap-3">
+                    <input
+                      name={fuelType}
+                      checked={descriptionData.fuel[fuelType]}
+                      onChange={(e) => handelNestedChange(e, "fuel")}
+                      type="checkbox"
+                      className=""
+                    />
+                    <div className="font-light">
+                      {fuelType.charAt(0).toUpperCase() + fuelType.slice(1)}
+                    </div>
+                  </div>
+                )
+              )}
             </div>
             <div className="flex flex-col gap-2">
               <label>Fuel capacity (in L)</label>
               <input
+                name="fuelCapacityLiters"
+                value={descriptionData.fuelCapacityLiters}
+                onChange={handleChange}
                 type="number"
                 placeholder="Enter"
                 className="border w-[47%] p-3 rounded-md font-light"
@@ -241,30 +348,42 @@ const Information = () => {
             <div className="flex flex-col gap-2">
               <label>Draft (in metres)</label>
               <input
+                name="draftMeters"
+                value={descriptionData.draftMeters}
+                onChange={handleChange}
                 type="number"
                 placeholder="Enter"
-                className="border  p-3 rounded-md font-light"
+                className="border p-3 rounded-md font-light"
               />
             </div>
             <div className="flex flex-col gap-2">
               <label>Width (in meters)</label>
               <input
+                name="widthMeters"
+                value={descriptionData.widthMeters}
+                onChange={handleChange}
                 type="number"
                 placeholder="Enter"
-                className="border  p-3 rounded-md font-light"
+                className="border p-3 rounded-md font-light"
               />
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[48%]">
             <label>Length (in meters)</label>
             <input
+              name="lengthMeters"
+              value={descriptionData.lengthMeters}
+              onChange={handleChange}
               type="number"
               placeholder="Enter"
-              className="border  p-3 rounded-md font-light"
+              className="border p-3 rounded-md font-light"
             />
           </div>
         </div>
-        <button className="bg-[#CBA557] w-[15%] py-4 rounded-lg text-white">
+        <button
+          type="submit"
+          className="bg-[#CBA557] w-[15%] py-4 rounded-lg text-white"
+        >
           Save
         </button>
       </form>

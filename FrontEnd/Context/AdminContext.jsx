@@ -106,6 +106,21 @@ const AdminProvider = ({ children }) => {
       throw error;
     }
   };
+  const boatDescription = async (boatDescription) => {
+    try {
+      const response = await baseURL.post(
+        "/decription/add-Description",
+        boatDescription
+      );
+      toast.success("discription added successfully");
+      return response.data;
+    } catch (error) {
+      error.response?.data?.message || "Failed to add description";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
   const getTermsAndConditions = async () => {
     try {
       const response = await baseURL.get("/condition/get-condition");
@@ -309,6 +324,7 @@ const AdminProvider = ({ children }) => {
         createEquipment,
         ExtraServices,
         getExtraServices,
+        boatDescription,
       }}
     >
       {children}
