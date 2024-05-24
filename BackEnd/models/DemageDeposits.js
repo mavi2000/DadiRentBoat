@@ -9,7 +9,6 @@ const damageDepositSchema = new Schema({
   // },
   type: {
     type: String,
-    enum: ["cash", "check", "card preauthorization", "other"],
     required: true,
   },
   amount: {

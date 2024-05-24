@@ -8,7 +8,7 @@ const Deposit = () => {
   const [checkbox, setCheckbox] = useState(false);
   const [depositData, setDepositData] = useState({
     type: "",
-    amount: "",
+    amount: "", // Keeping amount as a string
   });
 
   const handleChange = (e) => {
@@ -20,7 +20,7 @@ const Deposit = () => {
         setDepositData({ ...depositData, [name]: "" });
       }
     } else if (name === "amount") {
-      setDepositData({ ...depositData, [name]: parseInt(value, 10) });
+      setDepositData({ ...depositData, [name]: value.toString() }); // Convert amount to string
     } else {
       setDepositData({ ...depositData, [name]: value });
     }
@@ -36,6 +36,8 @@ const Deposit = () => {
     try {
       await damageDeposit(depositData);
       toast.success("Deposit amount successfully saved");
+      setDepositData({ type: "", amount: "" });
+      setCheckbox(false);
     } catch (error) {
       if (error.response) {
         console.error("Error Response:", error.response); // Log the error response for debugging
@@ -54,7 +56,11 @@ const Deposit = () => {
         <div className="font-medium">Damage Deposit</div>
         <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
           <div className="flex items-center gap-3">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              checked={checkbox}
+              onChange={(e) => setCheckbox(e.target.checked)}
+            />
             <div className="text-sm">No damage deposit required</div>
           </div>
           <div className="flex flex-col gap-2">
@@ -72,7 +78,7 @@ const Deposit = () => {
               <input
                 className="px-3 w-[80%] py-3 bg-transparent"
                 name="amount"
-                type="number"
+                type="text" // Keep type as text
                 placeholder="Enter"
                 value={depositData.amount}
                 onChange={handleChange}
@@ -105,7 +111,7 @@ const Deposit = () => {
                   onChange={handleChange}
                   checked={depositData.type === "Check"}
                 />
-                <div>Check</div>
+                <label>Check</label>
               </div>
               <div className="flex items-center gap-3">
                 <input
@@ -115,7 +121,7 @@ const Deposit = () => {
                   onChange={handleChange}
                   checked={depositData.type === "Cash"}
                 />
-                <div>Cash</div>
+                <label>Cash</label>
               </div>
               <div className="flex items-center gap-3">
                 <input
@@ -125,7 +131,7 @@ const Deposit = () => {
                   onChange={handleChange}
                   checked={depositData.type === "Card preauthorization"}
                 />
-                <div>Card preauthorization</div>
+                <label>Card preauthorization</label>
               </div>
               <div className="flex items-center gap-3">
                 <input
@@ -135,7 +141,7 @@ const Deposit = () => {
                   onChange={handleChange}
                   checked={depositData.type === "Other"}
                 />
-                <div>Other</div>
+                <label>Other</label>
               </div>
             </div>
           )}

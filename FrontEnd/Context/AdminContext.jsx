@@ -1,4 +1,6 @@
 import React, { createContext, useState } from "react";
+import axios from "axios";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Make sure to import the toastify CSS
 import baseURL from "../APi/BaseUrl.js";
@@ -11,14 +13,13 @@ const AdminProvider = ({ children }) => {
   const [boatId, setBoatId] = useState(null);
 
   const createBoat = async (boatData) => {
-    console.log("boatData",boatData)
+    console.log("boatData", boatData);
     try {
-
-      const response = await baseURL.post('/boat/CreateBoat', boatData);
-      toast.success('Boat created successfully');
-      const boatId= response?.data
-      if(boatId){
-        setBoatId(response?.data.boat._id)
+      const response = await baseURL.post("/boat/CreateBoat", boatData);
+      toast.success("Boat created successfully");
+      const boatId = response?.data;
+      if (boatId) {
+        setBoatId(response?.data.boat._id);
       }
       return response?.data;
     } catch (error) {
@@ -91,6 +92,41 @@ const AdminProvider = ({ children }) => {
       throw error;
     }
   };
+  const editTermsAndConditions = async (conditionData) => {
+    try {
+      const response = await baseURL.put(
+        "/condition/edit-condition",
+        conditionData
+      );
+      toast.success("Terms and conditions updated successfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to update conditions";
+      setError(errorMessage);
+      toast.error(errorMessage);
+
+      throw error;
+    }
+  };
+  const deleteCondition = async (conditionId) => {
+    console.log(conditionId);
+    try {
+      const response = await baseURL.delete(
+        "/condition/delete-condition",
+        conditionId
+      );
+      toast.success("Condition deleted successfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to delete condition";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
   const getRate = async () => {
     try {
       const response = await baseURL.get("/Rates/get-Rates");
@@ -187,6 +223,8 @@ const AdminProvider = ({ children }) => {
         addRate,
         getRate,
         damageDeposit,
+        editTermsAndConditions,
+        deleteCondition,
       }}
     >
       {children}

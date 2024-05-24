@@ -5,9 +5,11 @@ import ConditionPopup from "./ConditionPopup";
 import { AdminContext } from "../../../../Context/AdminContext";
 
 const TermsCondition = () => {
-  const { getTermsAndConditions } = useContext(AdminContext);
+  const { getTermsAndConditions, editTermCondition, deleteCondition } =
+    useContext(AdminContext);
   const [popup, setPopup] = useState(false);
   const [conditions, setConditions] = useState([]);
+  const [editConditionId, setEditConditionId] = useState(null);
 
   const handelPopup = () => {
     setPopup(!popup);
@@ -21,11 +23,27 @@ const TermsCondition = () => {
       console.error("Error fetching conditions:", error);
     }
   };
-
-  // Fetch conditions on component mount
   useEffect(() => {
     fetchConditions();
   }, []);
+
+  const handleEditCondition = async (conditionId, updatedData) => {
+    try {
+      await editTermCondition(conditionId, updatedData);
+      fetchConditions();
+      setEditConditionId(null);
+    } catch (error) {
+      console.error("Error editing condition:", error);
+    }
+  };
+  const handleDeleteCondition = async (conditionId) => {
+    try {
+      await deleteCondition(conditionId);
+      fetchConditions();
+    } catch (error) {
+      console.error("Error deleting condition:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -43,10 +61,16 @@ const TermsCondition = () => {
                         {condition?.conditionName}
                       </div>
                       <div className="flex gap-8">
-                        <button className="py-1 px-4 border border-[#CBA557] text-[#CBA557] rounded-md text-sm font-medium">
+                        <button
+                          onClick={handelPopup}
+                          className="py-1 px-4 border border-[#CBA557] text-[#CBA557] rounded-md text-sm font-medium"
+                        >
                           Edit
                         </button>
-                        <button className="py-1 px-4 border border-[#FF6347] text-[#FF6347] rounded-md text-sm font-medium">
+                        <button
+                          onClick={() => handleDeleteCondition(condition.id)}
+                          className="py-1 px-4 border border-[#FF6347] text-[#FF6347] rounded-md text-sm font-medium"
+                        >
                           Delete
                         </button>
                       </div>
