@@ -61,6 +61,21 @@ const AdminProvider = ({ children }) => {
       throw error;
     }
   };
+  const Insurances = async (InsuranceData) => {
+    try {
+      const response = await baseURL.post(
+        "/insurence/add-Insurence",
+        InsuranceData
+      );
+      toast.success("deposit amount successfully");
+      return response.data;
+    } catch (error) {
+      error.response?.data?.message || "Failed to deposit amount";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
 
   const getTermsAndConditions = async () => {
     try {
@@ -225,6 +240,7 @@ const AdminProvider = ({ children }) => {
         damageDeposit,
         editTermsAndConditions,
         deleteCondition,
+        Insurances,
       }}
     >
       {children}
