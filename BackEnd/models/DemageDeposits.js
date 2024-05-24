@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const damageDepositSchema = new Schema({
@@ -9,21 +9,21 @@ const damageDepositSchema = new Schema({
   // },
   type: {
     type: String,
-    enum: ['cash', 'check', 'card preauthorization', 'other'],
-    required: true
+    enum: ["cash", "check", "card preauthorization", "other"],
+    required: true,
   },
   amount: {
     type: Number,
-    required: true
+    required: true,
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   updatedAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-export default mongoose.model('DamageDeposit', damageDepositSchema);
+export default mongoose.model("DamageDeposit", damageDepositSchema);

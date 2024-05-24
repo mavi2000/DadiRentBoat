@@ -1,14 +1,10 @@
-
-
-import express from 'express';
+import express from "express";
 const router = express.Router();
-import multer from 'multer';
-const upload = multer({ dest: 'uploads/' });
-import { addRate } from '../controllers/RateController.js';
+import multer from "multer";
+const upload = multer({ dest: "uploads/" });
+import { addRate, getAllRates } from "../controllers/RateController.js";
 
-
-router.post("/add-Rates",addRate)
-
+router.post("/add-Rates", addRate);
+router.post("/get-Rates", getAllRates);
 
 export default router;
-

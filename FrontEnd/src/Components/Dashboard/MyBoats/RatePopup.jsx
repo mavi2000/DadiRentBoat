@@ -4,22 +4,29 @@ import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 
 const RatePopup = ({ onClose }) => {
-  const { error, AddRate } = useContext(AdminContext);
-  const [formData, setFormData] = useState({
-    date: "",
-    rateType: "",
-    fullDayRate: "",
-    halfDayMorningRate: "",
-    halfDayEveningRate: "",
+  const { AddRate } = useContext(AdminContext);
+  const [rateData, setRateData] = useState({
+    normalDayDate: "",
+    weekendDate: "",
+    normalDayRates: {
+      morning: "",
+      evening: "",
+      fullDay: "",
+    },
+    weekendRates: {
+      morning: "",
+      evening: "",
+      fullDay: "",
+    },
   });
   const handelChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setRateData({ ...rateData, [name]: value });
   };
   const handelSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await AddRate(formData);
+      await AddRate(rateData);
       if (response.success) {
         toast.success("Rate Added successfully");
         onClose();
@@ -33,7 +40,7 @@ const RatePopup = ({ onClose }) => {
           toast.error(err);
         });
       } else {
-        toast.error(errors || "Failed to create boat");
+        toast.error(errors || "Failed to create rate");
       }
     }
   };
@@ -44,8 +51,16 @@ const RatePopup = ({ onClose }) => {
           <div className="text-lg font-medium">Add Period</div>
           <div className="text-sm font-light">Choose Date</div>
           <div className="flex items-center justify-between bg-white shadow-md rounded-md">
-            <Calendar className="border-none bg-transparent" />
-            <Calendar className="border-none bg-transparent" />
+            <Calendar
+              className="border-none bg-transparent"
+              onChange={handelChange}
+              value={rateData.normalDayDate}
+            />
+            <Calendar
+              className="border-none bg-transparent"
+              onChange={handelChange}
+              value={rateData.weekendDate}
+            />
           </div>
           <div className="grid grid-cols-2 text-sm gap-5">
             <div className="flex flex-col gap-5 font-light text-sm">
@@ -67,7 +82,7 @@ const RatePopup = ({ onClose }) => {
                       className="px-3 w-[75%] py-3 bg-transparent"
                       type="number"
                       name="fullDayRate"
-                      value={formData.fullDayRate}
+                      value={rateData.normalDayRates.fullDay}
                       onChange={handelChange}
                       placeholder="Enter"
                     />
@@ -92,7 +107,7 @@ const RatePopup = ({ onClose }) => {
                       type="number"
                       placeholder="Enter"
                       name="halfDayMorningRate"
-                      value={formData.halfDayMorningRate}
+                      value={rateData.normalDayRates.morning}
                       onChange={handelChange}
                     />
                   </div>
@@ -116,7 +131,7 @@ const RatePopup = ({ onClose }) => {
                       type="number"
                       name="halfDayEveningRate"
                       placeholder="Enter"
-                      value={formData.halfDayEveningRate}
+                      value={rateData.normalDayRates.evening}
                       onChange={handelChange}
                     />
                   </div>
@@ -142,7 +157,7 @@ const RatePopup = ({ onClose }) => {
                       className="px-3 w-[75%] py-3 bg-transparent"
                       type="number"
                       name="fullDayRate"
-                      value={formData.fullDayRate}
+                      value={rateData.weekendRates.fullDay}
                       onChange={handelChange}
                       placeholder="Enter"
                     />
@@ -167,7 +182,7 @@ const RatePopup = ({ onClose }) => {
                       type="number"
                       placeholder="Enter"
                       name="halfDayMorningRate"
-                      value={formData.halfDayMorningRate}
+                      value={rateData.weekendRates.morning}
                       onChange={handelChange}
                     />
                   </div>
@@ -191,7 +206,7 @@ const RatePopup = ({ onClose }) => {
                       type="number"
                       name="halfDayEveningRate"
                       placeholder="Enter"
-                      value={formData.halfDayEveningRate}
+                      value={rateData.weekendRates.evening}
                       onChange={handelChange}
                     />
                   </div>

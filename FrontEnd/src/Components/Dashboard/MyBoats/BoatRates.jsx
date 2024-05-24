@@ -1,21 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { FiEdit3 } from "react-icons/fi";
 import { IoMdAdd } from "react-icons/io";
 import { FiInfo } from "react-icons/fi";
 import RatePopup from "./RatePopup";
+import { AdminContext } from "../../../../Context/AdminContext";
 
 const BoatRates = () => {
+  const { getRates } = useContext(AdminContext);
+  const [rates, setRates] = useState([]);
+
   const [popup, setPopup] = useState();
   const handelPopup = (e) => {
     e.preventDefault();
     setPopup(!popup);
   };
+  const fetchRates = async () => {
+    try {
+      const data = await getRates();
+      setRates(data);
+    } catch (error) {
+      console.error("Error fetching rates:", error);
+    }
+  };
+  useEffect(() => {
+    fetchRates();
+  }, []);
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
       <form className="bg-white mx-2 py-8 px-8 flex flex-col gap-10 text-[#4B465C]">
         <div>Rates</div>
+
         <div className=" mx-4 w-[85%]">
           <div className=" my-4 flex items-center text-sm w-[100%] border-b py-8">
             <div className=" w-[30%] flex flex-col gap-1">

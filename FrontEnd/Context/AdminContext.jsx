@@ -41,6 +41,23 @@ const AdminProvider = ({ children }) => {
       throw error;
     }
   };
+  const damageDeposit = async (depositData) => {
+    try {
+      const response = await baseURL.post(
+        "/demage/Demage-Deposits",
+        depositData
+      );
+      console.log(response);
+      toast.success("deposit amount successfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to deposit amount";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
 
   const getTermsAndConditions = async () => {
     try {
@@ -67,6 +84,32 @@ const AdminProvider = ({ children }) => {
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "Failed to add condition";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+  const getRate = async () => {
+    try {
+      const response = await baseURL.get("/Rates/get-Rates");
+      toast.success("Rates fetched successfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch rates";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+  const addRate = async (rateData) => {
+    try {
+      const response = await baseURL.post("/Rate/add-Rates", rateData);
+      toast.success("Rate added successfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to add rate";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
@@ -139,6 +182,9 @@ const AdminProvider = ({ children }) => {
         createVoucher,
         uploadBoatImages,
         getUnavailableBoatDates,
+        addRate,
+        getRate,
+        damageDeposit,
       }}
     >
       {children}
