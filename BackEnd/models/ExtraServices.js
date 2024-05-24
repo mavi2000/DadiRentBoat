@@ -10,6 +10,11 @@ const extraServiceSchema = new Schema({
         type: Number,
         required: true
     },
+    isObligatory: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     createdAt: {
         type: Date,
         default: Date.now

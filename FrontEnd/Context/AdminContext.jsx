@@ -230,6 +230,41 @@ const AdminProvider = ({ children }) => {
     }
   };
 
+  const createLocation = async (locationData) => {
+    console.log("locationData", locationData);
+    try {
+      const response = await baseURL.post(
+        "/location/add-location",
+        locationData
+      );
+      toast.success("Location created successfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to create location";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+  const createEquipment = async (equipmentData) => {
+    try {
+      const response = await baseURL.post(
+        "/equipment/Add-Equipment",
+        equipmentData
+      );
+      toast.success("Equipment created successfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to create equipment";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
   return (
     <AdminContext.Provider
       value={{
@@ -249,6 +284,8 @@ const AdminProvider = ({ children }) => {
         editTermsAndConditions,
         deleteCondition,
         Insurances,
+        createLocation,
+        createEquipment,
       }}
     >
       {children}
