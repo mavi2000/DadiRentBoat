@@ -33,100 +33,76 @@ const BoatRates = () => {
         <div>Rates</div>
 
         <div className=" mx-4 w-[85%]">
-          <div className=" my-4 flex items-center text-sm w-[100%] border-b py-8">
-            <div className=" w-[30%] flex flex-col gap-1">
+          <div className=" my-4 flex items-center justify-between text-sm w-[100%] border-b py-8">
+            <div className=" flex flex-col gap-1">
               <div className="font-medium">Base price</div>
               <div className="font-normal">low season</div>
               <div className="font-light">Default rate</div>
             </div>
-            <div className="w-[25%] flex flex-col gap-1 ">
-              <div>Conditions</div>
-              <div>Minimum: 1 day</div>
-            </div>
-            <div className="w-[15%]  flex flex-col gap-1">
-              <div>Day</div>
+
+            <div className="  flex flex-col gap-1">
+              <div>Price</div>
               <div className="font-bold">€54</div>
             </div>
-            <div className="w-[15%]  flex flex-col gap-1">
-              <div>Week</div>
-              <div>-</div>
-            </div>
-            <div className="w-[15%]">
+
+            <div className="">
               <button className=" text-[#CBA557] font-semibold flex items-center gap-2 text-[15px] border border-[#CBA557] rounded-md py-2 px-4">
                 <FiEdit3 />
                 Edit
               </button>
             </div>
           </div>
-          <div className=" my-4 flex items-center text-sm w-[100%] border-b py-8">
-            <div className=" w-[30%] flex flex-col gap-1">
-              <div className="font-medium">May 1st - June 30th</div>
-              <div className="font-normal">Tariff 1</div>
-              <div className="font-light">Clear Period</div>
+          <div className=" my-4 flex items-center justify-between text-sm w-[100%] border-b py-8">
+            <div className=" flex flex-col gap-1">
+              <div className="font-medium">Base price</div>
+              <div className="font-normal">low season</div>
+              <div className="font-light">Default rate</div>
             </div>
-            <div className="w-[25%] flex flex-col gap-1 ">
-              <div>Conditions</div>
-              <div>Minimum: 1 day</div>
-            </div>
-            <div className="w-[15%]  flex flex-col gap-1">
-              <div>Day</div>
+
+            <div className="  flex flex-col gap-1">
+              <div>Price</div>
               <div className="font-bold">€54</div>
             </div>
-            <div className="w-[15%]  flex flex-col gap-1">
-              <div>Week</div>
-              <div>-</div>
-            </div>
-            <div className="w-[15%]">
+
+            <div className="">
               <button className=" text-[#CBA557] font-semibold flex items-center gap-2 text-[15px] border border-[#CBA557] rounded-md py-2 px-4">
                 <FiEdit3 />
                 Edit
               </button>
             </div>
           </div>
-          <div className=" my-4 flex items-center text-sm w-[100%] border-b py-8">
-            <div className=" w-[30%] flex flex-col gap-1">
-              <div className="font-medium">May 1st - June 30th</div>
-              <div className="font-normal">Tariff 1</div>
-              <div className="font-light">Clear Period</div>
+          <div className=" my-4 flex items-center justify-between text-sm w-[100%] border-b py-8">
+            <div className=" flex flex-col gap-1">
+              <div className="font-medium">Base price</div>
+              <div className="font-normal">low season</div>
+              <div className="font-light">Default rate</div>
             </div>
-            <div className="w-[25%] flex flex-col gap-1 ">
-              <div>Conditions</div>
-              <div>Minimum: 1 day</div>
-            </div>
-            <div className="w-[15%]  flex flex-col gap-1">
-              <div>Day</div>
+
+            <div className="  flex flex-col gap-1">
+              <div>Price</div>
               <div className="font-bold">€54</div>
             </div>
-            <div className="w-[15%]  flex flex-col gap-1">
-              <div>Week</div>
-              <div>-</div>
-            </div>
-            <div className="w-[15%]">
+
+            <div className="">
               <button className=" text-[#CBA557] font-semibold flex items-center gap-2 text-[15px] border border-[#CBA557] rounded-md py-2 px-4">
                 <FiEdit3 />
                 Edit
               </button>
             </div>
           </div>
-          <div className=" my-4 flex items-center text-sm w-[100%] border-b py-8">
-            <div className=" w-[30%] flex flex-col gap-1">
-              <div className="font-medium">May 1st - June 30th</div>
-              <div className="font-normal">Tariff 1</div>
-              <div className="font-light">Clear Period</div>
+          <div className=" my-4 flex items-center justify-between text-sm w-[100%] border-b py-8">
+            <div className=" flex flex-col gap-1">
+              <div className="font-medium">Base price</div>
+              <div className="font-normal">low season</div>
+              <div className="font-light">Default rate</div>
             </div>
-            <div className="w-[25%] flex flex-col gap-1 ">
-              <div>Conditions</div>
-              <div>Minimum: 1 day</div>
-            </div>
-            <div className="w-[15%]  flex flex-col gap-1">
-              <div>Day</div>
+
+            <div className="  flex flex-col gap-1">
+              <div>Price</div>
               <div className="font-bold">€54</div>
             </div>
-            <div className="w-[15%]  flex flex-col gap-1">
-              <div>Week</div>
-              <div>-</div>
-            </div>
-            <div className="w-[15%]">
+
+            <div className="">
               <button className=" text-[#CBA557] font-semibold flex items-center gap-2 text-[15px] border border-[#CBA557] rounded-md py-2 px-4">
                 <FiEdit3 />
                 Edit

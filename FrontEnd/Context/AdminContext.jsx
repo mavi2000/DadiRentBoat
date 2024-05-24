@@ -70,13 +70,21 @@ const AdminProvider = ({ children }) => {
       toast.success("deposit amount successfully");
       return response.data;
     } catch (error) {
+      error.response?.data?.message || "Failed to add Insurance";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+  const ExtraServices = async (servicesData) => {
+    try {
+    } catch (error) {
       error.response?.data?.message || "Failed to deposit amount";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
     }
   };
-
   const getTermsAndConditions = async () => {
     try {
       const response = await baseURL.get("/condition/get-condition");

@@ -8,7 +8,7 @@ const Deposit = () => {
   const [checkbox, setCheckbox] = useState(false);
   const [depositData, setDepositData] = useState({
     type: "",
-    amount: "", // Keeping amount as a string
+    amount: "",
   });
 
   const handleChange = (e) => {
