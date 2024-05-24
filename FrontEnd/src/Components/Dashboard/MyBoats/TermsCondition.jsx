@@ -18,6 +18,7 @@ const TermsCondition = () => {
   const fetchConditions = async () => {
     try {
       const data = await getTermsAndConditions();
+
       setConditions(data);
     } catch (error) {
       console.error("Error fetching conditions:", error);

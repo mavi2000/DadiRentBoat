@@ -78,8 +78,29 @@ const AdminProvider = ({ children }) => {
   };
   const ExtraServices = async (servicesData) => {
     try {
+      const response = await baseURL.post(
+        "/service/Extra-Service",
+        servicesData
+      );
+      toast.success("services added successfully");
+      return response.data;
     } catch (error) {
-      error.response?.data?.message || "Failed to deposit amount";
+      error.response?.data?.message || "Failed to add services";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+  const getExtraServices = async (getServicesData) => {
+    try {
+      const response = await baseURL.get(
+        "/service/Extra-Service",
+        getServicesData
+      );
+      toast.success("displayed services successfully");
+      return response.data;
+    } catch (error) {
+      error.response?.data?.message || "Failed to display services";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
@@ -286,6 +307,8 @@ const AdminProvider = ({ children }) => {
         Insurances,
         createLocation,
         createEquipment,
+        ExtraServices,
+        getExtraServices,
       }}
     >
       {children}
