@@ -6,7 +6,6 @@ export const createDamageDeposit = async (req, res, next) => {
   const schema = Joi.object({
     type: Joi.string().required(),
     amount: Joi.string().required(),
-    // boatId: Joi.string().required(), // Uncomment this line once ready to include boatId
   });
 
   const { error, value } = schema.validate(req.body);
@@ -17,13 +16,33 @@ export const createDamageDeposit = async (req, res, next) => {
 
   try {
     const newDamageDeposit = await DemageDeposits.create(value);
-    //   newDamageDeposit.save()
-    res.status(201).json({
-      success: true,
-      message: "Damage deposit created successfully",
-      damageDeposit: newDamageDeposit,
-    });
+
+    res
+      .status(201)
+      .json({
+        success: true,
+        message: "Damage deposit created successfully",
+        damageDeposit: newDamageDeposit,
+      });
   } catch (err) {
     next(err);
   }
 };
+
+const { error, value } = schema.validate(req.body);
+
+if (error) {
+  return next(createError(400, error.details[0].message));
+}
+
+try {
+  const newDamageDeposit = await DemageDeposits.create(value);
+  //   newDamageDeposit.save()
+  res.status(201).json({
+    success: true,
+    message: "Damage deposit created successfully",
+    damageDeposit: newDamageDeposit,
+  });
+} catch (err) {
+  next(err);
+}
