@@ -11,12 +11,14 @@ const AdminProvider = ({ children }) => {
   const [boatId, setBoatId] = useState(null);
 
   const createBoat = async (boatData) => {
+    console.log("boatData",boatData)
     try {
-      const response = await baseURL.post("/boat/CreateBoat", boatData);
-      toast.success("Boat created successfully");
-      const boatId = response?.data;
-      if (boatId) {
-        setBoatId(response?.data.boat._id);
+
+      const response = await baseURL.post('/boat/CreateBoat', boatData);
+      toast.success('Boat created successfully');
+      const boatId= response?.data
+      if(boatId){
+        setBoatId(response?.data.boat._id)
       }
       return response?.data;
     } catch (error) {
