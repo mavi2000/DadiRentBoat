@@ -121,6 +121,22 @@ const AdminProvider = ({ children }) => {
       throw error;
     }
   };
+  const InfoAccess = async (infoAccess) => {
+    try {
+      const response = await baseURL.post(
+        "/boatAccess/Boat-Access",
+        infoAccess
+      );
+      console.log(response);
+      toast.success("Information added successfully");
+      return response.data;
+    } catch (error) {
+      error.response?.data?.message || "Failed to add Information";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
   const getTermsAndConditions = async () => {
     try {
       const response = await baseURL.get("/condition/get-condition");
@@ -224,6 +240,7 @@ const AdminProvider = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       });
+      console.log(response);
       toast.success("Image uploaded successfully");
       return response.data;
     } catch (error) {
@@ -306,7 +323,13 @@ const AdminProvider = ({ children }) => {
   const addAccessInformation = async (rateData) => {
     console.log("rateData", rateData);
     try {
-      const response = await baseURL.post("/boatAccess//Boat-Access", rateData);
+      const response = await baseURL.post("/boatAccess/Boat-Access", rateData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response);
+
       toast.success("acces information added successfully");
       return response.data;
     } catch (error) {
@@ -342,6 +365,7 @@ const AdminProvider = ({ children }) => {
         ExtraServices,
         getExtraServices,
         boatDescription,
+        InfoAccess,
         addRate,
         addAccessInformation,
       }}
