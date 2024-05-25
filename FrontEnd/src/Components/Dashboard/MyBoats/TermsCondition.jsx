@@ -6,49 +6,51 @@ import { AdminContext } from "../../../../Context/AdminContext";
 import DeletePopup from "./DeletePopup";
 
 const TermsCondition = () => {
-  const { getTermsAndConditions, editTermCondition, deleteCondition } =
-    useContext(AdminContext);
+  const { getTermsAndConditions, deleteCondition } = useContext(AdminContext);
   const [popup, setPopup] = useState(false);
   const [deletePopup, setDeletePopup] = useState(false);
+  const [editPopup, setEditPopup] = useState(false);
+  const [conditionData, setConditionData] = useState(null);
   const [conditions, setConditions] = useState([]);
-  const [editConditionId, setEditConditionId] = useState(null);
-  const handelDeletePopup = () => {
-    setDeletePopup(!deletePopup);
+  const [deleteConditionId, setDeleteConditionId] = useState(null);
+
+  const handelDeletePopup = (conditionId) => {
+    setDeleteConditionId(conditionId);
+    setDeletePopup(true);
   };
+
+  const handelEditPopup = (condition) => {
+    setConditionData(condition);
+    setEditPopup(true);
+  };
+
   const handelPopup = () => {
-    setPopup(!popup);
+    setConditionData(null);
+    setPopup(true);
   };
 
   const fetchConditions = async () => {
     try {
       const data = await getTermsAndConditions();
-
       setConditions(data);
     } catch (error) {
       console.error("Error fetching conditions:", error);
     }
   };
+
   useEffect(() => {
     fetchConditions();
   }, []);
 
-  // const handleEditCondition = async (conditionId, updatedData) => {
-  //   try {
-  //     await editTermCondition(conditionId, updatedData);
-  //     fetchConditions();
-  //     setEditConditionId(null);
-  //   } catch (error) {
-  //     console.error("Error editing condition:", error);
-  //   }
-  // };
-  // const handleDeleteCondition = async (conditionId) => {
-  //   try {
-  //     await deleteCondition(conditionId);
-  //     fetchConditions();
-  //   } catch (error) {
-  //     console.error("Error deleting condition:", error);
-  //   }
-  // };
+  const handleDeleteCondition = async () => {
+    try {
+      await deleteCondition(deleteConditionId);
+      fetchConditions();
+      setDeletePopup(false);
+    } catch (error) {
+      console.error("Error deleting condition:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -67,25 +69,17 @@ const TermsCondition = () => {
                       </div>
                       <div className="flex gap-8">
                         <button
-                          onClick={handelPopup}
+                          onClick={() => handelEditPopup(condition)}
                           className="py-1 px-4 border border-[#CBA557] text-[#CBA557] rounded-md text-sm font-medium"
                         >
                           Edit
                         </button>
                         <button
-                          onClick={handelDeletePopup}
+                          onClick={() => handelDeletePopup(condition.id)}
                           className="py-1 px-4 border border-[#FF6347] text-[#FF6347] rounded-md text-sm font-medium"
                         >
                           Delete
                         </button>
-                        {deletePopup && (
-                          <DeletePopup
-                            onClose={() => {
-                              handelDeletePopup(false);
-                              fetchConditions();
-                            }}
-                          />
-                        )}
                       </div>
                     </div>
                     <div className="text-sm text-[#8881a0]">
@@ -96,7 +90,6 @@ const TermsCondition = () => {
               ))}
           </tbody>
         </table>
-        {/* Add new condition form */}
         <div className="border-t-2 pt-10">
           <div className="w-[80%] flex flex-col gap-5">
             <button
@@ -107,14 +100,6 @@ const TermsCondition = () => {
               <IoMdAdd className="text-lg" />
               Add a new Condition
             </button>
-            {popup && (
-              <ConditionPopup
-                onClose={() => {
-                  setPopup(false);
-                  fetchConditions(); // Refetch conditions after adding a new one
-                }}
-              />
-            )}
           </div>
         </div>
         <div className="border-t-2 pt-10">
@@ -126,6 +111,32 @@ const TermsCondition = () => {
           </button>
         </div>
       </div>
+
+      {editPopup && (
+        <ConditionPopup
+          condition={conditionData}
+          onClose={() => {
+            setEditPopup(false);
+            fetchConditions();
+          }}
+        />
+      )}
+
+      {deletePopup && (
+        <DeletePopup
+          onDelete={handleDeleteCondition}
+          onClose={() => setDeletePopup(false)}
+        />
+      )}
+
+      {popup && (
+        <ConditionPopup
+          onClose={() => {
+            setPopup(false);
+            fetchConditions();
+          }}
+        />
+      )}
     </div>
   );
 };
