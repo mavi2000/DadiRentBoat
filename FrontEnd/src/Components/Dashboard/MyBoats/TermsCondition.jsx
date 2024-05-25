@@ -3,14 +3,18 @@ import BoatsNavbar from "./BoatsNavbar";
 import { IoMdAdd } from "react-icons/io";
 import ConditionPopup from "./ConditionPopup";
 import { AdminContext } from "../../../../Context/AdminContext";
+import DeletePopup from "./DeletePopup";
 
 const TermsCondition = () => {
   const { getTermsAndConditions, editTermCondition, deleteCondition } =
     useContext(AdminContext);
   const [popup, setPopup] = useState(false);
+  const [deletePopup, setDeletePopup] = useState(false);
   const [conditions, setConditions] = useState([]);
   const [editConditionId, setEditConditionId] = useState(null);
-
+  const handelDeletePopup = () => {
+    setDeletePopup(!deletePopup);
+  };
   const handelPopup = () => {
     setPopup(!popup);
   };
@@ -28,23 +32,23 @@ const TermsCondition = () => {
     fetchConditions();
   }, []);
 
-  const handleEditCondition = async (conditionId, updatedData) => {
-    try {
-      await editTermCondition(conditionId, updatedData);
-      fetchConditions();
-      setEditConditionId(null);
-    } catch (error) {
-      console.error("Error editing condition:", error);
-    }
-  };
-  const handleDeleteCondition = async (conditionId) => {
-    try {
-      await deleteCondition(conditionId);
-      fetchConditions();
-    } catch (error) {
-      console.error("Error deleting condition:", error);
-    }
-  };
+  // const handleEditCondition = async (conditionId, updatedData) => {
+  //   try {
+  //     await editTermCondition(conditionId, updatedData);
+  //     fetchConditions();
+  //     setEditConditionId(null);
+  //   } catch (error) {
+  //     console.error("Error editing condition:", error);
+  //   }
+  // };
+  // const handleDeleteCondition = async (conditionId) => {
+  //   try {
+  //     await deleteCondition(conditionId);
+  //     fetchConditions();
+  //   } catch (error) {
+  //     console.error("Error deleting condition:", error);
+  //   }
+  // };
 
   return (
     <div className="flex flex-col gap-3">
@@ -69,11 +73,19 @@ const TermsCondition = () => {
                           Edit
                         </button>
                         <button
-                          onClick={() => handleDeleteCondition(condition.id)}
+                          onClick={handelDeletePopup}
                           className="py-1 px-4 border border-[#FF6347] text-[#FF6347] rounded-md text-sm font-medium"
                         >
                           Delete
                         </button>
+                        {deletePopup && (
+                          <DeletePopup
+                            onClose={() => {
+                              handelDeletePopup(false);
+                              fetchConditions();
+                            }}
+                          />
+                        )}
                       </div>
                     </div>
                     <div className="text-sm text-[#8881a0]">
