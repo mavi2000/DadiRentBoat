@@ -160,6 +160,41 @@ const AdminProvider = ({ children }) => {
     }
   };
 
+
+  const addRate = async (rateData) => {
+
+    console.log("rateData",rateData)
+    try {
+      const response = await baseURL.post("/Rate/add-Rates", rateData);
+      toast.success("Rate created successfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to create rate";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+
+
+
+  const addAccessInformation = async (rateData) => {
+    console.log("rateData", rateData);
+    try {
+      const response = await baseURL.post("/boatAccess//Boat-Access", rateData);
+      toast.success("acces information added successfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to create rate";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+  
   return (
     <AdminContext.Provider
       value={{
@@ -174,7 +209,9 @@ const AdminProvider = ({ children }) => {
         uploadBoatImages,
         getUnavailableBoatDates,
         createLocation,
-        createEquipment
+        createEquipment,
+        addRate,
+        addAccessInformation
       }}
     >
       {children}

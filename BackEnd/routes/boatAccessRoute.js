@@ -1,10 +1,12 @@
 
 import express from 'express';
 const router = express.Router();
-import { uploadBoatAccess } from '../controllers/AccessController.js';
+import multer from 'multer';
+const upload = multer({ dest: 'uploads/' });
+import { addBoatAccessInformation } from '../controllers/AccessController.js';
 
 
+router.post("/Boat-Access",upload.array("accessDetails[0][pdf]"),addBoatAccessInformation)
 
-router.post("/Boat-Access",uploadBoatAccess)
 
 export default router;
