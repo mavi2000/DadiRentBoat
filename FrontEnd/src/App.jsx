@@ -239,7 +239,7 @@ function App() {
               element={<DashboardLayout Childeren={<Photo />} />}
             />
             <Route
-              path="/Dashboard/my-boats/info-access"
+              path="/Dashboard/my-boats/gu"
               element={<DashboardLayout Childeren={<InfoAccess />} />}
             />
             <Route

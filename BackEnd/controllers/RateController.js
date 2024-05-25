@@ -22,17 +22,16 @@ export const addRate = async (req, res, next) => {
             startDate: Joi.date().required(),
             endDate: Joi.date().required(),
             normalDayRates: Joi.object({
-                morning: Joi.number().required(),
-                evening: Joi.number().required(),
+                halfDayMorning: Joi.number().required(),
+                halfDayEvening: Joi.number().required(),
                 fullDay: Joi.number().required()
             }).required(),
             weekendRates: Joi.object({
-                morning: Joi.number().required(),
-                evening: Joi.number().required(),
+                halfDayMorning: Joi.number().required(),
+                halfDayEvening: Joi.number().required(),
                 fullDay: Joi.number().required()
             }).required()
         });
-
         const { error, value } = schema.validate(req.body);
         if (error) {
             return next(createError(400, error.details[0].message));
@@ -76,6 +75,9 @@ export const addRate = async (req, res, next) => {
     }
 };
 // Controller to retrieve all rates
+
+
+
 export const getAllRates = async (req, res, next) => {
     try {
         const rates = await Rate.find();

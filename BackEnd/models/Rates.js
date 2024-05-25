@@ -20,11 +20,11 @@ const rateSchema = new Schema({
         required: true
     },
     normalDayRates: {
-        morning: {
+        halfDayMorning: {
             type: Number,
             required: true
         },
-        evening: {
+        halfDayEvening: {
             type: Number,
             required: true
         },
@@ -34,11 +34,11 @@ const rateSchema = new Schema({
         }
     },
     weekendRates: {
-        morning: {
+        halfDayMorning: {
             type: Number,
             required: true
         },
-        evening: {
+        halfDayEvening: {
             type: Number,
             required: true
         },
