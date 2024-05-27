@@ -138,6 +138,22 @@ const AdminProvider = ({ children }) => {
       throw error;
     }
   };
+  const InfoAccess = async (infoAccess) => {
+    try {
+      const response = await baseURL.post(
+        "/boatAccess/Boat-Access",
+        infoAccess
+      );
+      console.log(response);
+      toast.success("Information added successfully");
+      return response.data;
+    } catch (error) {
+      error.response?.data?.message || "Failed to add Information";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
 
   const getTermsAndConditions = async () => {
     try {

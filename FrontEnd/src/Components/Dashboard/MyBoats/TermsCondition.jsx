@@ -6,7 +6,12 @@ import { AdminContext } from "../../../../Context/AdminContext";
 import DeletePopup from "./DeletePopup";
 import EditConditionPopup from "./EditConditionPopup";
 const TermsCondition = () => {
-  const { getTermsAndConditions, deleteCondition,EditTermAndCondition , DeleteTermAndCondition } = useContext(AdminContext);
+  const {
+    getTermsAndConditions,
+    deleteCondition,
+    EditTermAndCondition,
+    DeleteTermAndCondition,
+  } = useContext(AdminContext);
   const [popup, setPopup] = useState(false);
   const [deletePopup, setDeletePopup] = useState(false);
   const [editPopup, setEditPopup] = useState(false);
@@ -19,7 +24,6 @@ const TermsCondition = () => {
     setDeleteConditionId(conditionId);
     setDeletePopup(true);
   };
-
 
   const handelEditPopup = (condition) => {
     setConditionData(condition);
@@ -55,9 +59,7 @@ const TermsCondition = () => {
     }
   };
 
-
-
-  console.log("conditions",conditions)
+  console.log("conditions", conditions);
 
   return (
     <div className="flex flex-col gap-3">
@@ -118,7 +120,14 @@ const TermsCondition = () => {
           </button>
         </div>
       </div>
-
+      {popup && (
+        <ConditionPopup
+          onClose={() => {
+            setPopup(false);
+            fetchConditions();
+          }}
+        />
+      )}
       {editPopup && (
         <EditConditionPopup
           condition={conditionData}
@@ -133,15 +142,6 @@ const TermsCondition = () => {
         <DeletePopup
           onDelete={handleDeleteCondition}
           onClose={() => setDeletePopup(false)}
-        />
-      )}
-
-      {popup && (
-        <ConditionPopup
-          onClose={() => {
-            setPopup(false);
-            fetchConditions();
-          }}
         />
       )}
     </div>
