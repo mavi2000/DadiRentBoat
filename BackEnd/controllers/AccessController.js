@@ -11,16 +11,17 @@ const accessDetailSchema = Joi.object({
 });
 
 const boatAccessSchema = Joi.object({
+  boatId: Joi.string().required(),
   accessDetails: Joi.array().items(accessDetailSchema).required(),
 });
 
 export const addBoatAccessInformation = async (req, res, next) => {
-  console.log("Backend", req.body);
   try {
     const { error, value } = boatAccessSchema.validate(req.body);
     if (error) {
       throw createError(400, error.details[0].message);
     }
+
     const uploadResults = await Promise.all(
       req.files.map(async (file) => {
         return await uploadImages(file);
@@ -33,6 +34,7 @@ export const addBoatAccessInformation = async (req, res, next) => {
     }));
 
     const boatAccessInfo = new BoatAccessInformation({
+      boatId: value.boatId,
       accessDetails,
     });
 

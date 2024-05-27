@@ -1,57 +1,102 @@
-import React, { useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import BoatsNavbar from "./BoatsNavbar";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import { AdminContext } from "../../../../Context/AdminContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const InfoAccess = () => {
-  const { addAccessInformation } = useContext(AdminContext);
-  const [inputCount, setInputCount] = React.useState(1);
+  const { addBoatAccessInformation, boatId } = useContext(AdminContext);
+  const [accessInfo, setAccessInfo] = useState([
+    {
+      description: "",
+      documentName: "",
+      uploadDocument: null,
+      documentLink: "",
+    },
+  ]);
+  const navigate = useNavigate(); // Initialize useNavigate
 
-  const handleAddNewInfoAccess = (e) => {
-    e.preventDefault();
-    setInputCount(inputCount + 1);
+  useEffect(() => {
+    setAccessInfo((prevState) =>
+      prevState.map((info) => ({ ...info, boatId }))
+    );
+  }, [boatId]);
+
+  const handleInputChange = (index, field, value) => {
+    const updatedAccessInfo = [...accessInfo];
+    updatedAccessInfo[index][field] = value;
+    setAccessInfo(updatedAccessInfo);
   };
 
-  const handleRemoveInfoAccess = (e, index) => {
-    e.preventDefault();
-    setInputCount(inputCount - 1);
+  const handleAddNewInfoAccess = () => {
+    setAccessInfo([
+      ...accessInfo,
+      {
+        description: "",
+        documentName: "",
+        uploadDocument: null,
+        documentLink: "",
+      },
+    ]);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const accessDetails = [];
-    for (let i = 0; i < inputCount; i++) {
-      const description = formData.get(`description${i}`);
-      const documentName = formData.get(`documentName${i}`);
-      const uploadDocument = formData.get(`uploadDocument${i}`);
-      const documentLink = formData.get(`documentLink${i}`);
+  const handleRemoveInfoAccess = (index) => {
+    const updatedAccessInfo = accessInfo.filter((_, i) => i !== index);
+    setAccessInfo(updatedAccessInfo);
+  };
 
-      accessDetails.push({
-        description,
-        documentName,
-        uploadDocument,
-        documentLink,
-      });
-    }
+  const handleSave = async () => {
+    const formData = new FormData();
+
+    accessInfo.forEach((info, index) => {
+      formData.append(`accessDetails[${index}][description]`, info.description);
+      formData.append(
+        `accessDetails[${index}][documentName]`,
+        info.documentName
+      );
+      if (info.uploadDocument) {
+        formData.append(
+          `accessDetails[${index}][uploadDocument]`,
+          info.uploadDocument
+        );
+      }
+      formData.append(
+        `accessDetails[${index}][documentLink]`,
+        info.documentLink
+      );
+    });
+    formData.append("boatId", boatId);
+
     try {
-      const accessData = {
-        accessDetails,
-      };
-      console.log("checking it ", accessData);
-      const response = await addAccessInformation(accessData);
-      console.log(response);
+      for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+
+      await addBoatAccessInformation(formData);
+      toast.success("Access information added successfully");
+      setAccessInfo([
+        {
+          description: "",
+          documentName: "",
+          uploadDocument: null,
+          documentLink: "",
+        },
+      ]);
+      navigate(`/Dashboard/my-boats/calender/${boatId}`); // Navigate to the calendar route
     } catch (error) {
-      console.error(error);
+      console.error("Error adding access information:", error);
+      toast.error("Failed to add access information");
     }
   };
 
   const renderAdditionalInputs = () => {
-    return Array.from({ length: inputCount }, (_, index) => (
+    return accessInfo.map((info, index) => (
       <div key={index} className="relative">
         <button
           className="delete-btn"
-          onClick={(e) => handleRemoveInfoAccess(e, index)}
+          onClick={() => handleRemoveInfoAccess(index)}
         >
           <FaTimes style={{ color: "red" }} />
         </button>
@@ -59,7 +104,10 @@ const InfoAccess = () => {
           Information & access
         </h1>
         <textarea
-          name={`description${index}`}
+          value={info.description}
+          onChange={(e) =>
+            handleInputChange(index, "description", e.target.value)
+          }
           cols="20"
           rows="5"
           placeholder="You will find my boat at the port of"
@@ -69,9 +117,13 @@ const InfoAccess = () => {
           Documents sent automatically
         </h1>
         <select
-          name={`documentName${index}`}
-          id={`documentName${index}`}
-          className="border-[1.35px] px-3 py-2 border-[#DBDADE] w-[90%] text-[#C2C2C2] outline-none rounded-lg bg-[#ffff] mt-[1%]"
+          value={info.documentName}
+          onChange={(e) =>
+            handleInputChange(index, "documentName", e.target.value)
+          }
+          name={`docName${index}`}
+          id={`docName${index}`}
+          className="border-[1.35px] px-3 py-2 border-[#DBDADE] w-full text-[#C2C2C2] outline-none rounded-lg bg-[#ffff] mt-[1%]"
         >
           <option value="">Select Document</option>
           <option value="Access map">Access map</option>
@@ -81,7 +133,7 @@ const InfoAccess = () => {
         <div className="w-[90%] flex justify-between my-[2%] flex-wrap space-y-2 md:space-y-0">
           <div className="flex flex-col gap-8 w-1/3">
             <label
-              htmlFor={`uploadDocument${index}`}
+              htmlFor={`uploadDoc${index}`}
               className="text-[#4B465C] font-normal"
             >
               Upload a document
@@ -89,12 +141,14 @@ const InfoAccess = () => {
             <div className="flex items-center gap-3">
               <input
                 type="file"
-                id={`uploadDocument${index}`}
-                name={`uploadDocument${index}`}
+                id={`uploadDoc${index}`}
                 className="hidden"
+                onChange={(e) =>
+                  handleInputChange(index, "uploadDocument", e.target.files[0])
+                }
               />
               <label
-                htmlFor={`uploadDocument${index}`}
+                htmlFor={`uploadDoc${index}`}
                 className="py-4 px-16 flex gap-3 text-[#CBA557] font-bold text-sm justify-center items-center border border-[#CBA557] rounded-[10px] cursor-pointer"
               >
                 <span>
@@ -111,15 +165,18 @@ const InfoAccess = () => {
           </div>
           <div className="flex flex-col gap-8 w-1/3">
             <label
-              htmlFor={`documentLink${index}`}
+              htmlFor={`docLink${index}`}
               className="text-[#4B465C] font-normal"
             >
               Link to a document
             </label>
             <input
               type="text"
-              id={`documentLink${index}`}
-              name={`documentLink${index}`}
+              id={`docLink${index}`}
+              value={info.documentLink}
+              onChange={(e) =>
+                handleInputChange(index, "documentLink", e.target.value)
+              }
               placeholder="www.abc.com"
               className="border-[1.35px] border-[#DBDADE] rounded-md px-4 py-4"
             />
@@ -134,35 +191,31 @@ const InfoAccess = () => {
       <BoatsNavbar />
       <div className="mx-[1%] my-[1%] bg-white py-3">
         <div className="mx-[4%]">
-          <form onSubmit={handleSubmit}>
-            {renderAdditionalInputs()}
-            <p className="text-[#4B465C] font-normal text-xs mb-[2%]">
-              Size limit: 8MB – Accepted formats: JPEG, JPG, PNG or PDF
-            </p>
-
-            <div className="py-2">
-              <hr className="text-[#B7B7B7] mb-[2%]" />
-              <button
-                className="py-4 px-16 flex gap-3 text-[#CBA557] font-bold text-sm justify-center items-center border border-[#CBA557] rounded-[10px]"
-                onClick={handleAddNewInfoAccess}
-              >
-                <span>
-                  <FaPlus />
-                </span>
-                <p>Add a new Information & Access</p>
-              </button>
-              <hr className="text-[#B7B7B7] mt-[2%]" />
-            </div>
-
-            <div className="mt-[3%]">
-              <button
-                type="submit"
-                className="py-[10px] px-12 flex justify-center items-center bg-[#CBA557] text-white rounded-[10px]"
-              >
-                Save
-              </button>
-            </div>
-          </form>
+          {renderAdditionalInputs()}
+          <p className="text-[#4B465C] font-normal text-xs mb-[2%]">
+            Size limit: 8MB – Accepted formats: JPEG, JPG, PNG or PDF
+          </p>
+          <div className="py-2">
+            <hr className="text-[#B7B7B7] mb-[2%]" />
+            <button
+              className="py-4 px-16 flex gap-3 text-[#CBA557] font-bold text-sm justify-center items-center border border-[#CBA557] rounded-[10px]"
+              onClick={handleAddNewInfoAccess}
+            >
+              <span>
+                <FaPlus />
+              </span>
+              <p>Add a new Information & Access</p>
+            </button>
+            <hr className="text-[#B7B7B7] mt-[2%]" />
+          </div>
+          <div className="mt-[3%]">
+            <button
+              className="py-[10px] px-12 flex justify-center items-center bg-[#CBA557] text-white rounded-[10px]"
+              onClick={handleSave}
+            >
+              Save
+            </button>
+          </div>
         </div>
       </div>
     </>

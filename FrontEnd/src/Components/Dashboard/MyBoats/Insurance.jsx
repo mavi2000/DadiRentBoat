@@ -1,26 +1,37 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
+
 const Insurance = () => {
-  const { Insurances } = useContext(AdminContext);
+  const { Insurances, boatId } = useContext(AdminContext);
   const [insuranceData, setInsuranceData] = useState({
+    boatId: "",
     currentInsurer: "",
     amountDeductible: "",
     insuredValueOfBoat: "",
     boatRegistration: "",
   });
 
+  useEffect(() => {
+    setInsuranceData((prevState) => ({
+      ...prevState,
+      boatId: boatId,
+    }));
+  }, [boatId]);
+
   const handelChange = (e) => {
     const { name, value } = e.target;
     setInsuranceData({ ...insuranceData, [name]: value });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await Insurances(insuranceData);
       toast.success("Insurance successfully saved");
       setInsuranceData({
+        boatId: boatId,
         currentInsurer: "",
         amountDeductible: "",
         insuredValueOfBoat: "",
@@ -35,7 +46,7 @@ const Insurance = () => {
         toast.error("An unexpected error occurred");
       }
     }
-  };
+  }
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />

@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const locationSchema = new Schema({
-    // boatId: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Boat',
-    //   required: true
-    // },
+    boatId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Boat',
+      required: true
+    },
     place: {
         type: String,
         required: true

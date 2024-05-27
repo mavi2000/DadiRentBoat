@@ -3,11 +3,11 @@ import { createError } from '../utils/createError.js';
 import ExtraServices from '../models/ExtraServices.js';
 
 const extraServiceValidationSchema = Joi.object({
+    boatId: Joi.string().required(), // Add boatId validation
     serviceName: Joi.string().required(),
     pricePerPerson: Joi.number().required(),
-    isObligatory: Joi.boolean().default(false) // Add the isObligatory field
+    isObligatory: Joi.boolean().default(false)
 });
-
 // Create Extra Service
 export const createExtraService = async (req, res, next) => {
     // Validate the request body against the schema
@@ -19,7 +19,7 @@ export const createExtraService = async (req, res, next) => {
 
     try {
         // Create the new extra service with the validated data
-        const newExtraService = await ExtraServices.create(value);
+        const newExtraService = await ExtraService.create(value);
         res.status(201).json({ success: true, message: "Extra Service created successfully", extraService: newExtraService });
     } catch (err) {
         next(err);

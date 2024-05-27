@@ -16,9 +16,12 @@ const getDatesInRange = (startDate, endDate) => {
     return dates;
 };
 
+
 export const addRate = async (req, res, next) => {
     try {
+        // Define the validation schema
         const schema = Joi.object({
+            boatId: Joi.string().required(), // Validate boatId as required
             startDate: Joi.date().required(),
             endDate: Joi.date().required(),
             normalDayRates: Joi.object({
@@ -32,32 +35,37 @@ export const addRate = async (req, res, next) => {
                 fullDay: Joi.number().required()
             }).required()
         });
+
+        // Validate the request body
         const { error, value } = schema.validate(req.body);
+
+        // Handle validation errors
         if (error) {
             return next(createError(400, error.details[0].message));
         }
 
-        const { startDate, endDate, normalDayRates, weekendRates } = value;
-   
-        // Check for existing rates within the date range
+        // Destructure validated data
+        const { boatId, startDate, endDate, normalDayRates, weekendRates } = value;
+
+        // Check for existing rates within the date range for the same boat
         const existingRates = await Rate.find({
+            boatId,
             $or: [
                 { startDate: { $lte: endDate }, endDate: { $gte: startDate } },
                 { startDate: { $gte: startDate }, endDate: { $lte: endDate } }
             ]
         });
 
+        // If there are existing rates, return an error
         if (existingRates.length > 0) {
-            return next(createError(400, 'Rate already exists within the provided date range'));
+            return next(createError(400, 'Rate already exists within the provided date range for the same boat'));
         }
 
-        // Get dates in range
-        const datesInRange = getDatesInRange(startDate, endDate);
-
+        // Create a new Rate instance
         const rate = new Rate({
+            boatId,
             startDate,
             endDate,
-            dates: datesInRange,
             normalDayRates,
             weekendRates
         });
@@ -65,12 +73,15 @@ export const addRate = async (req, res, next) => {
         // Save the rate to the database
         const savedRate = await rate.save();
 
+        // Send response with the saved rate
         res.status(201).json({
             success: true,
             message: "Rate created successfully",
             rate: savedRate
         });
+
     } catch (error) {
+        // Handle errors
         next(error);
     }
 };

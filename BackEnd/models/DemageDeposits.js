@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const damageDepositSchema = new Schema({
-  // boatId: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'Boat',
-  //   required: true
-  // },
+  boatId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Boat',
+    required: true
+  },
   type: {
     type: String,
     required: true,

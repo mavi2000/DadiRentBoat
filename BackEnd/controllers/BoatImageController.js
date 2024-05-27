@@ -6,6 +6,7 @@ export const uploadBoatImages = async (req, res, next) => {
     console.log("hello")
   
     console.log("req.body", req.body)
+    const {boatId} =req.body
     try {
         if (!req.file) {
             throw createError(400, 'No file was uploaded');
@@ -19,7 +20,7 @@ export const uploadBoatImages = async (req, res, next) => {
         const avatarUrl = imageUrl.secure_url;
 
         const imageInstance = new BoatImage({
-            // boatId: boatId,
+            boatId: boatId,
             avatar: avatarUrl 
         });
 

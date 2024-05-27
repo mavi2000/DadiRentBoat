@@ -5,7 +5,7 @@ import Joi from 'joi';
 
 
 const equipmentValidationSchema = Joi.object({
-    // boatId: Joi.string().required(), // Uncomment this line once ready to include boatId
+    boatId: Joi.string().required(), // Uncomment this line once ready to include boatId
     comfort: Joi.array().items(Joi.string()).required(),
     navigation: Joi.array().items(Joi.string()).required(),
     services: Joi.array().items(Joi.string()).required(),

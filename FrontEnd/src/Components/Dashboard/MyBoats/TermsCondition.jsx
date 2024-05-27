@@ -6,7 +6,7 @@ import { AdminContext } from "../../../../Context/AdminContext";
 import DeletePopup from "./DeletePopup";
 import EditConditionPopup from "./EditConditionPopup";
 const TermsCondition = () => {
-  const { getTermsAndConditions, deleteCondition } = useContext(AdminContext);
+  const { getTermsAndConditions, deleteCondition,EditTermAndCondition , DeleteTermAndCondition } = useContext(AdminContext);
   const [popup, setPopup] = useState(false);
   const [deletePopup, setDeletePopup] = useState(false);
   const [editPopup, setEditPopup] = useState(false);
@@ -15,9 +15,11 @@ const TermsCondition = () => {
   const [deleteConditionId, setDeleteConditionId] = useState(null);
 
   const handelDeletePopup = (conditionId) => {
+    console.log("Condition ID to delete:", conditionId); // Log the condition ID
     setDeleteConditionId(conditionId);
     setDeletePopup(true);
   };
+
 
   const handelEditPopup = (condition) => {
     setConditionData(condition);
@@ -43,14 +45,19 @@ const TermsCondition = () => {
   }, []);
 
   const handleDeleteCondition = async () => {
+    console.log("Deleting condition with ID:", deleteConditionId); // Log the delete condition ID
     try {
-      await deleteCondition(deleteConditionId);
+      await DeleteTermAndCondition(deleteConditionId);
       fetchConditions();
       setDeletePopup(false);
     } catch (error) {
       console.error("Error deleting condition:", error);
     }
   };
+
+
+
+  console.log("conditions",conditions)
 
   return (
     <div className="flex flex-col gap-3">
@@ -75,7 +82,7 @@ const TermsCondition = () => {
                           Edit
                         </button>
                         <button
-                          onClick={() => handelDeletePopup(condition.id)}
+                          onClick={() => handelDeletePopup(condition._id)}
                           className="py-1 px-4 border border-[#FF6347] text-[#FF6347] rounded-md text-sm font-medium"
                         >
                           Delete
