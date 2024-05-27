@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const rateSchema = new Schema({
-    // boatId: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Boat',
-    //   required: true
-    // },
+    boatId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Boat', // Reference to the Boat model
+        required: true
+    },
     startDate: {
         type: Date,
         required: true
@@ -15,10 +15,7 @@ const rateSchema = new Schema({
         type: Date,
         required: true
     },
-    dates: {
-        type: [Date],
-        required: true
-    },
+    dates: [Date], // Array of dates within the range
     normalDayRates: {
         halfDayMorning: {
             type: Number,
@@ -46,6 +43,14 @@ const rateSchema = new Schema({
             type: Number,
             required: true
         }
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
     }
 });
 

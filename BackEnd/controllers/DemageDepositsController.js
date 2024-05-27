@@ -6,7 +6,7 @@ export const createDamageDeposit = async (req, res, next) => {
   const schema = Joi.object({
     type: Joi.string().required(),
     amount: Joi.string().required(),
-    // boatId: Joi.string().required(), // Uncomment this line once ready to include boatId
+    boatId: Joi.string().required(), // Uncomment this line once ready to include boatId
   });
 
   const { error, value } = schema.validate(req.body);

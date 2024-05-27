@@ -6,7 +6,7 @@ import Joi from 'joi';
 
 
 const locationValidationSchema = Joi.object({
-    // boatId: Joi.string().required(), // Uncomment this line once ready to include boatId
+    boatId: Joi.string().required(), // Uncomment this line once ready to include boatId
     place: Joi.string().required(),
     city: Joi.string().required(),
     exactLocation: Joi.object({

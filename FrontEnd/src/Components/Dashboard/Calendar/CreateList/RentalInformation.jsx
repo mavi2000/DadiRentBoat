@@ -1,8 +1,10 @@
-
 import React, { useState, useContext, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { AdminContext } from '../../../../../Context/AdminContext.jsx';
 import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
+
+
 
 const RentalInformation = () => {
   const { rentBoat, error, boatId } = useContext(AdminContext);
@@ -14,6 +16,8 @@ const RentalInformation = () => {
     minPrice: "",
     duration: "",
   });
+
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
     setRentalData(prevState => ({
@@ -35,6 +39,7 @@ const RentalInformation = () => {
     try {
       await rentBoat(rentalData);
       toast.success('Rent created successfully');
+    navigate(`/Dashboard/my-boats/photo/${boatId}`); // Use the navigate function to redirect
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
         const errorMessage = error.response.data.error;

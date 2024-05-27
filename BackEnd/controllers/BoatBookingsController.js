@@ -3,21 +3,23 @@ import BoatBooking from "../models/BoatBooking.js";
 
 export const getUnavailableBoatDates = async (req, res, next) => {
     try {
-        const { startDate, endDate } = req.body;
+        const { startDate, endDate, boatId } = req.body; // Retrieve boatId from request body
 
         console.log("Received startDate:", startDate);
         console.log("Received endDate:", endDate);
 
-        if (!startDate || !endDate || new Date(startDate) >= new Date(endDate)) {
+        if (!startDate || !endDate || new Date(startDate) >= new Date(endDate) || !boatId) { // Check if boatId is provided
             throw createError(400, 'Invalid request parameters');
         }
 
         const unavailableDates = getUnavailableDates(new Date(startDate), new Date(endDate));
         console.log("All dates between startDate and endDate:", unavailableDates);
 
+        // Create BoatBooking entries with boatId
         const bookings = unavailableDates.map(date => ({
             startDate: date,
-            endDate: date 
+            endDate: date,
+            boatId: boatId // Assign boatId to each booking
         }));
 
         await BoatBooking.insertMany(bookings);

@@ -1,13 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { FaPlus } from "react-icons/fa6";
 import Download from "../../../assets/Images/Download-Cloud.png";
 import { AdminContext } from "../../../../Context/AdminContext";
 
 const Photo = () => {
-  const { uploadBoatImages } = useContext(AdminContext); // Destructure the uploadBoatImages function from the context
+  const { uploadBoatImages, boatId } = useContext(AdminContext); // Destructure the uploadBoatImages function and boatId from the context
   const [selectedFile, setSelectedFile] = useState(null);
 
+  console.log("boatId",boatId)
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -16,6 +17,7 @@ const Photo = () => {
     if (selectedFile) {
       const formData = new FormData();
       formData.append("image", selectedFile); // Ensure the key matches server-side
+      formData.append("boatId", boatId); // Append boatId to the form data
       try {
         const response = await uploadBoatImages(formData);
         console.log("Image uploaded successfully", response);

@@ -4,7 +4,6 @@ import { createError } from "../utils/createError.js";
 import { uploadImages } from "../utils/cloudinaryConfig.js";
 
 
-
 const accessDetailSchema = Joi.object({
   description: Joi.string().required(),
   documentName: Joi.string(),
@@ -13,39 +12,41 @@ const accessDetailSchema = Joi.object({
 });
 
 const boatAccessSchema = Joi.object({
+  boatId: Joi.string().required(),
   accessDetails: Joi.array().items(accessDetailSchema).required()
 });
 
 export const addBoatAccessInformation = async (req, res, next) => {
-    try {
-        const { error, value } = boatAccessSchema.validate(req.body);
-        if (error) {
-            throw createError(400, error.details[0].message);
-        }
-
-        const uploadResults = await Promise.all(req.files.map(async (file) => {
-            return await uploadImages(file);
-        }));
-
-        const accessDetails = value.accessDetails.map((detail, index) => ({
-            ...detail,
-            uploadDocument: uploadResults[index]?.url || null
-        }));
-
-        const boatAccessInfo = new BoatAccessInformation({
-            accessDetails
-        });
-
-        const savedBoatAccessInfo = await boatAccessInfo.save();
-
-        res.status(201).json({
-            success: true,
-            message: "Boat access information created successfully",
-            boatAccessInfo: savedBoatAccessInfo
-        });
-    } catch (error) {
-        next(error);
+  try {
+    const { error, value } = boatAccessSchema.validate(req.body);
+    if (error) {
+      throw createError(400, error.details[0].message);
     }
+
+    const uploadResults = await Promise.all(req.files.map(async (file) => {
+      return await uploadImages(file);
+    }));
+
+    const accessDetails = value.accessDetails.map((detail, index) => ({
+      ...detail,
+      uploadDocument: uploadResults[index]?.url || null
+    }));
+
+    const boatAccessInfo = new BoatAccessInformation({
+      boatId: value.boatId,
+      accessDetails
+    });
+
+    const savedBoatAccessInfo = await boatAccessInfo.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Boat access information created successfully",
+      boatAccessInfo: savedBoatAccessInfo
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 

@@ -4,7 +4,7 @@ import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 
 const Deposit = () => {
-  const { damageDeposit } = useContext(AdminContext);
+  const { damageDeposit, boatId } = useContext(AdminContext);
   const [checkbox, setCheckbox] = useState(false);
   const [depositData, setDepositData] = useState({
     type: "",
@@ -34,7 +34,7 @@ const Deposit = () => {
     e.preventDefault();
     console.log("Payload:", depositData); // Log the payload for debugging
     try {
-      await damageDeposit(depositData);
+      await damageDeposit({ ...depositData, boatId });
       toast.success("Deposit amount successfully saved");
       setDepositData({ type: "", amount: "" });
       setCheckbox(false);
@@ -48,7 +48,6 @@ const Deposit = () => {
       }
     }
   };
-
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />

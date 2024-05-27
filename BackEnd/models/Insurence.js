@@ -2,6 +2,11 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const insuranceSchema = new Schema({
+    boatId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Boat', // Reference to the Boat model
+        required: true
+    },
     currentInsurer: {
         type: String,
         required: true

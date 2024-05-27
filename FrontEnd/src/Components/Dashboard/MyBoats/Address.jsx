@@ -5,7 +5,7 @@ import { TbAlertCircleFilled } from "react-icons/tb";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { AdminContext } from "../../../../Context/AdminContext";
+import { AdminContext ,boatId} from "../../../../Context/AdminContext";
 
 // Import the Leaflet icons
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
@@ -46,7 +46,7 @@ const Address = () => {
 
     try {
       await createLocation(locationData); // Use context function to save location
-      alert('Location saved successfully');
+   
     } catch (error) {
       console.error(error);
       alert('Failed to save location');

@@ -3,7 +3,9 @@ import BoatsNavbar from "./BoatsNavbar";
 import { AdminContext } from "../../../../Context/AdminContext";
 
 const Equipments = () => {
-  const { createEquipment } = useContext(AdminContext); // Use the context
+  const { createEquipment, boatId } = useContext(AdminContext); // Use the context and destructure boatId
+ console.log("boatId",boatId)
+ 
   const [equipment, setEquipment] = useState({
     comfort: [],
     navigation: [],
@@ -23,7 +25,7 @@ const Equipments = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createEquipment(equipment);
+      await createEquipment({ ...equipment, boatId });
     } catch (error) {
       console.error(error);
     }

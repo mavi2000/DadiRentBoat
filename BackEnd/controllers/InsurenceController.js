@@ -3,9 +3,11 @@ import Insurence from "../models/Insurence.js";
 import Joi from 'joi';
 
 
+
 export const addInsurance = async (req, res, next) => {
     try {
         const schema = Joi.object({
+            boatId: Joi.string().required(), // Add boatId validation
             currentInsurer: Joi.string().required(),
             amountDeductible: Joi.number().positive().required(),
             insuredValueOfBoat: Joi.number().positive().required(),
@@ -17,16 +19,16 @@ export const addInsurance = async (req, res, next) => {
             return next(createError(400, error.details[0].message));
         }
 
-        const { currentInsurer, amountDeductible, insuredValueOfBoat, boatRegistration } = value;
+        const { boatId, currentInsurer, amountDeductible, insuredValueOfBoat, boatRegistration } = value;
 
-        const newInsurance = new Insurence({
+        const newInsurance = new Insurance({
+            boatId,
             currentInsurer,
             amountDeductible,
             insuredValueOfBoat,
             boatRegistration
         });
 
-    
         const savedInsurance = await newInsurance.save();
 
         res.status(201).json({
@@ -38,7 +40,6 @@ export const addInsurance = async (req, res, next) => {
         next(error);
     }
 };
-
 
 export const updateInsurance = async (req, res, next) => {
     try {

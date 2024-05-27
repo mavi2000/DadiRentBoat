@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const BoatRates = () => {
   const [popup, setPopup] = useState(false);
-  const { addRate } = useContext(AdminContext);
+  const { addRate, boatId } = useContext(AdminContext);
 
   const initialFormData = {
     startDate: "",
@@ -39,14 +39,14 @@ const BoatRates = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value, checked, type } = e.target;
+    const { name, value, type } = e.target;
     const [field, subField] = name.split(".");
 
     setFormData((prevFormData) => ({
       ...prevFormData,
       [field]: {
         ...prevFormData[field],
-        [subField]: type === "checkbox" ? checked : value,
+        [subField]: type === "checkbox" ? e.target.checked : value,
       },
     }));
   };
@@ -54,8 +54,9 @@ const BoatRates = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await addRate(formData);
-      setSelectedDates(response.dates);
+      await addRate({ ...formData, boatId });
+      toast.success("Rates added successfully");
+      setSelectedDates([formData.startDate, formData.endDate]);
       setPopup(false);
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
@@ -70,6 +71,8 @@ const BoatRates = () => {
   const handlePopup = () => {
     setPopup(!popup);
   };
+
+  
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />

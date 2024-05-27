@@ -1,22 +1,24 @@
-import React from "react";
+import React from 'react';
 
-const DeletePopup = ({ onClose }) => {
+const DeletePopup = ({ onDelete, onClose }) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center">
-      <div className="w-[45%] bg-white flex items-center justify-center border  py-16">
-        <div className="w-[80%]  flex flex-col gap-10">
-          <div>Are you sure you want to delete?</div>
-          <div className="flex gap-5">
-            <button className="bg-red-500 text-white py-1 px-3 rounded-lg">
-              Delete
-            </button>
-            <button
-              onClick={onClose}
-              className="bg-gray-200 text-gray-500 py-1 px-3 rounded-lg"
-            >
-              Cancel
-            </button>
-          </div>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+        <h2 className="text-2xl mb-4">Delete Condition</h2>
+        <p>Are you sure you want to delete this condition?</p>
+        <div className="flex justify-end gap-4 mt-4">
+          <button
+            onClick={onClose}
+            className="py-2 px-4 bg-gray-300 rounded"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onDelete}
+            className="py-2 px-4 bg-red-600 text-white rounded"
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>

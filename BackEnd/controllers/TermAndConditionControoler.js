@@ -2,30 +2,32 @@ import TermsAndCondition from "../models/TermsAndCondition.js";
 import { createError } from "../utils/createError.js";
 
 
-
 export const addCondition = async (req, res, next) => {
-    console.log("req.body",req.body)
     try {
-        const { conditionName, description } = req.body;
-        const existingCondition = await TermsAndCondition.findOne({ conditionName });
+        const { boatId, conditionName, description } = req.body;
+        
+        // Check if the condition name already exists for the same boat
+        const existingCondition = await TermsAndCondition.findOne({ boatId, conditionName });
         if (existingCondition) {
             throw createError(400, 'Condition name already exists');
         }
 
-        const team = new TermsAndCondition({
+        // Create a new TermAndCondition instance
+        const newCondition = new TermsAndCondition({
+            boatId,
             conditionName,
             description
         });
 
-      
-        const savedTeam = await team.save();
+        // Save the new condition to the database
+        const savedCondition = await newCondition.save();
 
-        res.status(201).json(savedTeam);
+        // Send the saved condition in the response
+        res.status(201).json(savedCondition);
     } catch (error) {
         next(error);
     }
 };
-
 
 
 export const getAllConditions = async (req, res, next) => {

@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const boatDescriptionSchema = new  mongoose.Schema({
-    // boatId: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Boat',
-    //     required: true
-    // },
+    boatId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Boat',
+        required: true
+    },
     boatType: {
         type: String,
         required: true
