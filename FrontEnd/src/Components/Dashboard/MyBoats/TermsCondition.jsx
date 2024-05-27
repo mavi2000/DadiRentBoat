@@ -4,7 +4,7 @@ import { IoMdAdd } from "react-icons/io";
 import ConditionPopup from "./ConditionPopup";
 import { AdminContext } from "../../../../Context/AdminContext";
 import DeletePopup from "./DeletePopup";
-
+import EditConditionPopup from "./EditConditionPopup";
 const TermsCondition = () => {
   const { getTermsAndConditions, deleteCondition } = useContext(AdminContext);
   const [popup, setPopup] = useState(false);
@@ -113,7 +113,7 @@ const TermsCondition = () => {
       </div>
 
       {editPopup && (
-        <ConditionPopup
+        <EditConditionPopup
           condition={conditionData}
           onClose={() => {
             setEditPopup(false);

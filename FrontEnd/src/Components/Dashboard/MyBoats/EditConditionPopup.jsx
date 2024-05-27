@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 
-const ConditionPopup = ({ condition, onClose }) => {
+const EditConditionPopup = ({ condition, onClose }) => {
   const { addTermAndCondition } = useContext(AdminContext);
   const { conditionName, description } = condition || {};
 
@@ -23,14 +23,14 @@ const ConditionPopup = ({ condition, onClose }) => {
     e.preventDefault();
     try {
       await addTermAndCondition(conditionData);
-      toast.success("Condition added successfully");
+      toast.success("Condition updated successfully");
       onClose();
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
         const errorMessage = error.response.data.error;
         toast.error(errorMessage);
       } else {
-        toast.error("Failed to add condition");
+        toast.error("Failed to update condition");
       }
     }
   };
@@ -40,7 +40,7 @@ const ConditionPopup = ({ condition, onClose }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center">
       <div className="bg-white w-[50%] p-8">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <h2>New Condition</h2>
+          <h2>Edit Condition</h2>
           <div className="flex flex-col gap-2 text-sm">
             <label>Condition name</label>
             <select
@@ -85,4 +85,4 @@ const ConditionPopup = ({ condition, onClose }) => {
   );
 };
 
-export default ConditionPopup;
+export default EditConditionPopup;
