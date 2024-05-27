@@ -6,9 +6,9 @@ import { uploadImages } from "../utils/cloudinaryConfig.js";
 
 const accessDetailSchema = Joi.object({
   description: Joi.string().required(),
-  documentName: Joi.string(),
-  uploadDocument: Joi.string(),
-  documentLink: Joi.string()
+  documentName: Joi.string().allow(''),
+  uploadDocument: Joi.string().allow(''),
+  documentLink: Joi.string().allow('')
 });
 
 const boatAccessSchema = Joi.object({
@@ -17,6 +17,7 @@ const boatAccessSchema = Joi.object({
 });
 
 export const addBoatAccessInformation = async (req, res, next) => {
+  console.log("req body:", req.body);
   try {
     const { error, value } = boatAccessSchema.validate(req.body);
     if (error) {

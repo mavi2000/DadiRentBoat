@@ -3,11 +3,11 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const boatAccessSchema = new Schema({
-  boatId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Boat',
-    required: true
-  },
+  // boatId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Boat',
+  //   required: true
+  // },
   accessDetails: [{
     description: {
       type: String

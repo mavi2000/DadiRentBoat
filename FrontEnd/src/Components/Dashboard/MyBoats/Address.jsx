@@ -5,7 +5,7 @@ import { TbAlertCircleFilled } from "react-icons/tb";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { AdminContext ,boatId} from "../../../../Context/AdminContext";
+import { AdminContext} from "../../../../Context/AdminContext";
 
 // Import the Leaflet icons
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
@@ -22,7 +22,7 @@ L.Icon.Default.mergeOptions({
 const center = [51.505, -0.09]; // Default center point
 
 const Address = () => {
-  const { createLocation, boatId } = useContext(AdminContext); // Access context functions and state
+  const { createLocation} = useContext(AdminContext); // Access context functions and state
   const [place, setPlace] = useState('');
   const [city, setCity] = useState('');
   const [latitude, setLatitude] = useState(center[0]);

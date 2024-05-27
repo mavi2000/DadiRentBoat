@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import BoatsNavbar from './BoatsNavbar';
 import { FaPlus, FaTimes } from "react-icons/fa";
 import { AdminContext } from '../../../../Context/AdminContext';
@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 const InfoAccess = () => {
   const { addBoatAccessInformation, boatId } = useContext(AdminContext);
   const [accessInfo, setAccessInfo] = useState([{ description: '', documentName: '', uploadDocument: null, documentLink: '' }]);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     setAccessInfo(prevState => prevState.map(info => ({ ...info, boatId })));
@@ -32,12 +32,12 @@ const InfoAccess = () => {
 
   const handleSave = async () => {
     const formData = new FormData();
-  
+
     accessInfo.forEach((info, index) => {
       formData.append(`accessDetails[${index}][description]`, info.description);
       formData.append(`accessDetails[${index}][documentName]`, info.documentName);
       if (info.uploadDocument) {
-        formData.append(`accessDetails[${index}][uploadDocument]`, info.uploadDocument);
+        formData.append(`accessDetails[${index}][pdf]`, info.uploadDocument);
       }
       formData.append(`accessDetails[${index}][documentLink]`, info.documentLink);
     });
@@ -51,7 +51,7 @@ const InfoAccess = () => {
       await addBoatAccessInformation(formData);
       toast.success("Access information added successfully");
       setAccessInfo([{ description: '', documentName: '', uploadDocument: null, documentLink: '' }]);
-      navigate(`/Dashboard/my-boats/calender/${boatId}`); // Navigate to the calendar route
+
     } catch (error) {
       console.error("Error adding access information:", error);
       toast.error("Failed to add access information");

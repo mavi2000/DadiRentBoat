@@ -39,7 +39,7 @@ const RentalInformation = () => {
     try {
       await rentBoat(rentalData);
       toast.success('Rent created successfully');
-    navigate(`/Dashboard/my-boats/photo/${boatId}`); // Use the navigate function to redirect
+    navigate("/Dashboard/my-boats/photo"); // Use the navigate function to redirect
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
         const errorMessage = error.response.data.error;
