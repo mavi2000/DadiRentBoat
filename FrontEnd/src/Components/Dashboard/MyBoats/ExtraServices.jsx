@@ -4,26 +4,28 @@ import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 
 const ExtraServices = () => {
-  const { ExtraServices, getExtraServices } = useContext(AdminContext);
+  const { ExtraServices, getExtraServices, boatId } = useContext(AdminContext);
   const [services, setServices] = useState([]);
   const [servicesData, setServicesData] = useState({
     serviceName: "",
     pricePerPerson: "",
-    isObligatory: "",
+    isObligatory: false, // Initialize as boolean
   });
+
   const fetchServices = async () => {
     try {
       const data = await getExtraServices();
       console.log("Data fetched from API:", data); // Log the data received
-
       setServices(data.extraServices);
     } catch (error) {
       console.error("Error fetching conditions:", error);
     }
   };
+
   useEffect(() => {
     fetchServices();
   }, []);
+
   const handelChange = (e) => {
     const { name, value, type, checked } = e.target;
     setServicesData({
@@ -31,10 +33,16 @@ const ExtraServices = () => {
       [name]: type === "checkbox" ? checked : value,
     });
   };
+
   const handelSubmit = async (e) => {
     e.preventDefault();
+    // Include boatId in the payload
+    const payload = {
+      ...servicesData,
+      boatId,
+    };
     try {
-      await ExtraServices(servicesData);
+      await ExtraServices(payload);
       toast.success("Services added successfully");
 
       setServicesData({
@@ -52,10 +60,11 @@ const ExtraServices = () => {
       }
     }
   };
+
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
-      <div className="bg-white rounded-md   text-[#4B465C]">
+      <div className="bg-white rounded-md text-[#4B465C]">
         <form
           onSubmit={handelSubmit}
           className="flex flex-col gap-8 w-[80%] mx-2 py-8 px-12"
@@ -74,12 +83,11 @@ const ExtraServices = () => {
               value={servicesData.serviceName}
               name="serviceName"
               onChange={handelChange}
-              className="border p-3 rounded-md "
+              className="border p-3 rounded-md"
             >
-              <option>Name of the extra</option>
-              <option>Snorkeling Gear Rental</option>
-              <option>WiFi Service</option>
-              <option>Name of the extra</option>
+              <option value="" disabled>Select the extra service</option>
+              <option value="Snorkeling Gear Rental">Snorkeling Gear Rental</option>
+              <option value="WiFi Service">WiFi Service</option>
             </select>
             <div>0 / 50</div>
           </div>
@@ -92,7 +100,7 @@ const ExtraServices = () => {
               <input
                 type="checkbox"
                 name="isObligatory"
-                value={servicesData.isObligatory}
+                checked={servicesData.isObligatory}
                 onChange={handelChange}
               />
               <div>Obligatory</div>
@@ -104,11 +112,10 @@ const ExtraServices = () => {
           </div>
           <div className="flex flex-col gap-2">
             <div>Price</div>
-            <div className="border w-[30%]  rounded-md">
+            <div className="border w-[30%] rounded-md">
               <select className="border-r py-3 px-2 w-[20%] bg-transparent">
                 <option>€</option>
                 <option>$</option>
-                <option>€</option>
               </select>
               <input
                 className="px-3 w-[80%] py-3 bg-transparent"
@@ -138,14 +145,14 @@ const ExtraServices = () => {
           {Array.isArray(services) &&
             services.map((service, index) => (
               <div key={index} className="text-sm flex">
-                <div className=" py-5 px-4 font-medium w-[35%]">
+                <div className="py-5 px-4 font-medium w-[35%]">
                   {service.serviceName}
                 </div>
-                <div className=" py-5 px-4 w-[30%] font-light ">
-                  <span className="font-medium">{service.pricePerPerson} </span>
+                <div className="py-5 px-4 w-[30%] font-light">
+                  <span className="font-medium">{service.pricePerPerson} </span>
                   / rental
                 </div>
-                <div className=" flex gap-7 py-5 px-4 w-[35%] text-sm">
+                <div className="flex gap-7 py-5 px-4 w-[35%] text-sm">
                   <button className="border border-[#CBA557] px-4 py-1 rounded-lg text-[#CBA557]">
                     Edit
                   </button>

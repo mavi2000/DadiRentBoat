@@ -1,4 +1,4 @@
-import React, { createContext, useState,useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
 import { toast } from "react-toastify";
@@ -24,14 +24,11 @@ const AdminProvider = ({ children }) => {
     sessionStorage.setItem("boatId", id);
   };
 
-
-
-  
   const createBoat = async (boatData) => {
     console.log("boatData", boatData);
     try {
       const response = await baseURL.post("/boat/CreateBoat", boatData);
-      toast.success("Boat created successfully");
+      // toast.success("Boat created successfully");
       const boatId = response?.data;
       if (boatId) {
         setBoatId(response?.data.boat._id);
@@ -49,7 +46,7 @@ const AdminProvider = ({ children }) => {
   const rentBoat = async (rentalData) => {
     try {
       const response = await baseURL.post("/rent/RentBoat", rentalData);
-      toast.success("Boat rented successfully");
+      // toast.success("Boat rented successfully");
       return response.data;
     } catch (error) {
       const errorMessage =
@@ -60,7 +57,6 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-
   const damageDeposit = async (depositData) => {
     try {
       const response = await baseURL.post(
@@ -68,7 +64,7 @@ const AdminProvider = ({ children }) => {
         depositData
       );
       console.log(response);
-      toast.success("deposit amount successfully");
+      // toast.success("deposit amount successfully");
       return response.data;
     } catch (error) {
       const errorMessage =
@@ -79,15 +75,13 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-
-
   const Insurances = async (InsuranceData) => {
     try {
       const response = await baseURL.post(
         "/insurence/add-Insurence",
         InsuranceData
       );
-      toast.success("deposit amount successfully");
+      // toast.success("deposit amount successfully");
       return response.data;
     } catch (error) {
       error.response?.data?.message || "Failed to add Insurance";
@@ -97,15 +91,14 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-
-
   const ExtraServices = async (servicesData) => {
+    console.log("servicesData",servicesData)
     try {
       const response = await baseURL.post(
         "/service/Extra-Service",
         servicesData
       );
-      toast.success("services added successfully");
+      // toast.success("services added successfully");
       return response.data;
     } catch (error) {
       error.response?.data?.message || "Failed to add services";
@@ -115,15 +108,13 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-
-
   const getExtraServices = async (getServicesData) => {
     try {
       const response = await baseURL.get(
         "/service/Extra-Service",
         getServicesData
       );
-      toast.success("displayed services successfully");
+      // toast.success("displayed services successfully");
       return response.data;
     } catch (error) {
       error.response?.data?.message || "Failed to display services";
@@ -133,15 +124,14 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-
-
   const boatDescription = async (boatDescription) => {
+    console.log("boatDescription",boatDescription)
     try {
       const response = await baseURL.post(
         "/decription/add-Description",
         boatDescription
       );
-      toast.success("discription added successfully");
+      // toast.success("discription added successfully");
       return response.data;
     } catch (error) {
       error.response?.data?.message || "Failed to add description";
@@ -152,6 +142,23 @@ const AdminProvider = ({ children }) => {
   };
 
 
+  
+  const InfoAccess = async (infoAccess) => {
+    try {
+      const response = await baseURL.post(
+        "/boatAccess/Boat-Access",
+        infoAccess
+      );
+      console.log(response);
+      // toast.success("Information added successfully");
+      return response.data;
+    } catch (error) {
+      error.response?.data?.message || "Failed to add Information";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
 
   const getTermsAndConditions = async () => {
     try {
@@ -173,7 +180,7 @@ const AdminProvider = ({ children }) => {
         "/condition/Term-condition",
         conditionData
       );
-      toast.success("Condition added successfully");
+      // toast.success("Condition added successfully");
       return response.data;
     } catch (error) {
       const errorMessage =
@@ -184,15 +191,10 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-
-
-
-
-
   const getRate = async () => {
     try {
       const response = await baseURL.get("/Rates/get-Rates");
-      toast.success("Rates fetched successfully");
+      // toast.success("Rates fetched successfully");
       return response.data;
     } catch (error) {
       const errorMessage =
@@ -204,12 +206,13 @@ const AdminProvider = ({ children }) => {
   };
 
   const createVoucher = async (voucherData) => {
+    console.log("voucherData",voucherData)
     try {
       const response = await baseURL.post(
-        "/voucher/create-voucher",
+        "/voucher//create-vouchers",
         voucherData
       );
-      toast.success("Voucher created successfully");
+      // toast.success("Voucher created successfully");
       return response.data;
     } catch (error) {
       const errorMessage =
@@ -220,8 +223,6 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-
-
   const uploadBoatImages = async (formData) => {
     try {
       const response = await baseURL.post("/image/uploadBoatImages", formData, {
@@ -229,6 +230,7 @@ const AdminProvider = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       });
+      console.log(response);
       toast.success("Image uploaded successfully");
       return response.data;
     } catch (error) {
@@ -240,15 +242,13 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-
-
   const getUnavailableBoatDates = async (startDate, endDate) => {
     try {
       const response = await baseURL.post("/Booking//Book-boat", {
         startDate,
         endDate,
       });
-      toast.success("Unavailable boat dates fetched successfully");
+      // toast.success("Unavailable boat dates fetched successfully");
       return response.data;
     } catch (error) {
       const errorMessage =
@@ -259,8 +259,6 @@ const AdminProvider = ({ children }) => {
       throw error;
     }
   };
-
-
 
   const createLocation = async (locationData) => {
     console.log("locationData", locationData);
@@ -280,8 +278,6 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-
-
   const createEquipment = async (equipmentData) => {
     try {
       const response = await baseURL.post(
@@ -299,13 +295,11 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-
-
   const addRate = async (rateData) => {
     console.log("rateData", rateData);
     try {
       const response = await baseURL.post("/Rate/add-Rates", rateData);
-      toast.success("Rate created successfully");
+      // toast.success("Rate created successfully");
       return response.data;
     } catch (error) {
       const errorMessage =
@@ -316,13 +310,12 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-
-
-
   const EditTermAndCondition = async (condition) => {
-   
     try {
-      const response = await baseURL.put("/condition/edit-condition", condition);
+      const response = await baseURL.put(
+        "/condition/edit-condition",
+        condition
+      );
       toast.success("Condition Edited successfully");
       return response.data;
     } catch (error) {
@@ -333,14 +326,14 @@ const AdminProvider = ({ children }) => {
       throw error;
     }
   };
- 
-
 
   const DeleteTermAndCondition = async (conditionId) => {
-    console.log("conditionId",conditionId)
+    console.log("conditionId", conditionId);
     try {
-      const response = await baseURL.delete('/condition/delete-condition', { data: { conditionId } });
-      toast.success("Condition deleted successfully");
+      const response = await baseURL.delete("/condition/delete-condition", {
+        data: { conditionId },
+      });
+      // toast.success("Condition deleted successfully");
       return response.data;
     } catch (error) {
       const errorMessage =
@@ -350,25 +343,58 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-
   const addBoatAccessInformation = async (formData) => {
-    console.log("formData",formData)
+    console.log("formData", formData);
     try {
       const response = await baseURL.post("/boatAccess/Boat-Access", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      toast.success("Access information added successfully");
+      // toast.success("Access information added successfully");
       return response.data;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Failed to add access information";
+      const errorMessage =
+        error.response?.data?.message || "Failed to add access information";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
     }
   };
-  
+
+
+
+  const getBoats = async () => {
+    try {
+      const response = await baseURL.get("/boat/get-boat");
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch boats";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+
+  const deleteBoat = async (boatId) => {
+
+    console.log("boatId",boatId)
+    try {
+      const response = await baseURL.delete('/boat/delete-boat', {
+        data: { id: boatId } // Pass the boat ID in the request body
+      });
+      toast.success("Boat deleted successfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to delete boat";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
   return (
     <AdminContext.Provider
       value={{
@@ -392,10 +418,13 @@ const AdminProvider = ({ children }) => {
         ExtraServices,
         getExtraServices,
         boatDescription,
+        InfoAccess,
         addRate,
         EditTermAndCondition,
         DeleteTermAndCondition,
-        addBoatAccessInformation
+        addBoatAccessInformation,
+        getBoats,
+        deleteBoat
       }}
     >
       {children}

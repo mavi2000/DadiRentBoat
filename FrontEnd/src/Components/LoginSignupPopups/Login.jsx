@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import PopupsLayout from './PopupsLayout';
 import { useState, useContext } from 'react';
-import { AuthContext } from '../../../Context/AuthContext';// Update the path to AuthProvider
+import { AuthContext } from '../../../Context/AuthContext'; // Update the path to AuthProvider
 
 const Login = () => {
   const { login, error } = useContext(AuthContext);
@@ -21,8 +21,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(loginData);
-      navigate('/Our-Fleet');
+      const role = await login(loginData);
+      if (role === 'admin') {
+        navigate('/Dashboard/my-boats');
+      } else {
+        navigate('/');
+      }
     } catch (error) {
       console.error('Login error: ', error);
     }
@@ -95,4 +99,5 @@ const Login = () => {
     />
   );
 };
+
 export default Login;

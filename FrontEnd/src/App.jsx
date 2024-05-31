@@ -97,7 +97,6 @@ function App() {
               path="/faq"
               element={<Layout Children={<FAQ />} isLocation={true} />}
             />
-
             <Route
               path="/services"
               element={<Layout Children={<Services />} isLocation={true} />}
@@ -187,12 +186,10 @@ function App() {
               path="/booking/invoice"
               element={<Layout Children={<Invoice />} isLocation={false} />}
             />
-
             <Route
               path="/user/booking-list"
               element={<Layout Children={<Booking />} isLocation={false} />}
             />
-
             <Route
               path="/user/booking"
               element={<Layout Children={<Booking2 />} isLocation={false} />}
@@ -201,12 +198,10 @@ function App() {
               path="/user/favourites"
               element={<Layout Children={<MyFavourite />} isLocation={false} />}
             />
-
             <Route
               path="/user/account-info"
               element={<Layout Children={<AccountInfo />} isLocation={false} />}
             />
-
             <Route path="/Login" element={<Login />} />
             <Route path="/Signup" element={<SignUp />} />
             <Route path="/Forgot-Password" element={<ForgotPassword />} />
@@ -220,12 +215,10 @@ function App() {
               path="/RecreationalVehicleRentalAgreement"
               element={<RecreationalVehicleRentalAgreement />}
             />
-
             <Route
               path="/Dashboard"
               element={<DashboardLayout Childeren={<Dashboard />} />}
             />
-
             <Route
               path="/Dashboard/my-boats"
               element={<DashboardLayout Childeren={<MyBoats />} />}
@@ -245,6 +238,10 @@ function App() {
             <Route
               path="/Dashboard/my-boats/information"
               element={<DashboardLayout Childeren={<Information />} />}
+            />{" "}
+            <Route
+              path="/Dashboard/my-boats/info-access"
+              element={<DashboardLayout Childeren={<InfoAccess />} />}
             />
             <Route
               path="/Dashboard/my-boats/termscondition"
@@ -286,7 +283,6 @@ function App() {
               path="/Dashboard/calendar"
               element={<DashboardLayout Childeren={<Calender />} />}
             />
-
             <Route
               path="/Dashboard/pending-bookings"
               element={<DashboardLayout Childeren={<PendingBookings />} />}
@@ -315,12 +311,10 @@ function App() {
               path="/Dashboard/unbooked-boats"
               element={<DashboardLayout Childeren={<UnbookedBoats />} />}
             />
-
             <Route
               path="/Billing"
               element={<DashboardLayout Childeren={<BillingList />} />}
             />
-
             <Route
               path="/Dashboard/calender/createlist"
               element={<DashboardLayout Childeren={<CreateList />} />}

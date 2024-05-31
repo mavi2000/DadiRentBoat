@@ -21,7 +21,7 @@ export const addInsurance = async (req, res, next) => {
 
         const { boatId, currentInsurer, amountDeductible, insuredValueOfBoat, boatRegistration } = value;
 
-        const newInsurance = new Insurance({
+        const newInsurance = new Insurence({
             boatId,
             currentInsurer,
             amountDeductible,

@@ -56,20 +56,21 @@ const AuthProvider = ({ children }) => {
       const response = await baseURL.post('/login', loginData);
       if (response.data?.user && response.data?.token) {
         setUser(response.data.user);
-        saveToken(response.data.token);
-        setAuthToken(response.data.token);
-        toast.success('Login successful!');
-        navigate('/');
+        const role = response.data.user.roles;
+        localStorage.setItem('token', response.data.token);
+        toast.success('Loginup successful!');
+        return role; // Return the role for navigation purposes
       } else {
         setError('Unexpected response format');
-        toast.error('Unexpected response format');
+        throw new Error('Unexpected response format');
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Login failed');
-      toast.error(error.response?.data?.message || 'Login failed');
       throw error;
     }
   };
+
+
 
   const logout = async () => {
     try {

@@ -1,6 +1,17 @@
 import Boat from "../models/Boat.js"
+import mongoose from "mongoose";
 import Joi from 'joi';
 import { createError } from "../utils/createError.js";
+import Location from "../models/Location.js";
+import BoatDescription from "../models/BoatDescription.js";
+import BoatAccessInformation from "../models/BoatAccessInformation.js";
+import BoatImage from "../models/BoatImage.js";
+import Rates from "../models/Rates.js";
+import Rent from "../models/Rent.js";
+import ExtraServices from "../models/ExtraServices.js";
+import Insurence from "../models/Insurence.js";
+import  Equipment from "../models/Euipment.js"
+import voucher from "../models/voucher.js";
 
 
 
@@ -35,3 +46,193 @@ export const  CreateBoat = async (req, res, next) => {
         next(err);
     }
 };
+
+
+
+
+
+
+
+// const getBoatDetailsById = async (boatId) => {
+//     try {
+//       const boatObjectId =new  mongoose.Types.ObjectId(boatId);
+//   console.log("boatObjectId",boatObjectId)
+//       const boatPromise = Boat.findById(boatObjectId).exec();
+    //   const boatAccessInformationPromise = BoatAccessInformation.find({ boatId: boatObjectId }).exec();
+    //   const boatBookingPromise = BoatBooking.find({ boatId: boatObjectId }).exec();
+    //   const boatDescriptionPromise = BoatDescription.find({ boatId: boatObjectId }).exec();
+    //   const boatImagePromise = BoatImage.find({ boatId: boatObjectId }).exec();
+    //   const damageDepositPromise = DamageDeposit.find({ boatId: boatObjectId }).exec();
+    //   const equipmentPromise = Equipment.find({ boatId: boatObjectId }).exec();
+    //   const extraServicePromise = ExtraServices.find({ boatId: boatObjectId }).exec();
+    //   const insurancePromise = Insurence.find({ boatId: boatObjectId }).exec();
+    //   const locationPromise = Location.find({ boatId: boatObjectId }).exec();
+    //   const ratePromise = Rates.find({ boatId: boatObjectId }).exec();
+    //   const rentPromise = Rent.find({ boatId: boatObjectId }).exec();
+    //   const voucherPromise = voucher.find({ boatId: boatObjectId }).exec();
+  
+    //   const [
+    //     boat,
+        // boatAccessInformation,
+        // boatBookings,
+        // boatDescription,
+        // boatImages,
+        // damageDeposits,
+        // equipment,
+        // extraServices,
+        // insurance,
+        // location,
+        // rates,
+        // rents,
+        // vouchers
+    //   ] = await Promise.all([
+    //     boatPromise,
+        // boatAccessInformationPromise,
+        // boatBookingPromise,
+        // boatDescriptionPromise,
+        // boatImagePromise,
+        // damageDepositPromise,
+        // equipmentPromise,
+        // extraServicePromise,
+        // insurancePromise,
+        // locationPromise,
+        // ratePromise,
+        // rentPromise,
+        // voucherPromise
+    //   ]);
+  
+    //   return {
+    //     boat,
+        // boatAccessInformation,
+        // // boatBookings,
+        // boatDescription,
+        // boatImages,
+        // damageDeposits,
+        // equipment,
+        // extraServices,
+        // insurance,
+        // location,
+        // rates,
+        // rents,
+        // vouchers
+//       };
+//     } catch (error) {
+//       console.error('Error fetching boat details:', error);
+//       throw error;
+//     }
+//   };
+  
+//   // Function to get details for all boats
+//   export const getAllBoatsDetails = async () => {
+//     try {
+//       const boats = await Boat.find().exec();
+//       const allBoatDetails = await Promise.all(boats.map(boat => getBoatDetailsById(boat._id)));
+//       return allBoatDetails;
+//     } catch (error) {
+//       console.error('Error fetching all boats details:', error);
+//       throw error;
+//     }
+//   };
+
+
+
+const getBoatDetailsById = async (boatId) => {
+    try {
+      const boatObjectId = new mongoose.Types.ObjectId(boatId);
+
+  
+      const boatPromise = Boat.findById(boatObjectId).exec();
+      const boatImagePromise = BoatImage.find({ boatId: boatObjectId }).exec();
+      const locationPromise = Location.find({ boatId: boatObjectId }).exec();
+      const voucherPromise = voucher.find({ boatId: boatObjectId }).exec();
+  
+      const [
+        boat,
+        boatImages,
+        location,
+        vouchers
+      ] = await Promise.all([
+        boatPromise,
+        boatImagePromise,
+        locationPromise,
+        voucherPromise
+      ]);
+  
+      return {
+        boat,
+        boatImages,
+        location,
+        vouchers
+      };
+    } catch (error) {
+      console.error('Error fetching boat details:', error);
+      throw error;
+    }
+  };
+  
+
+const getAllBoatsDetails = async () => {
+    try {
+      const boats = await Boat.find().exec();
+
+  
+      const allBoatDetails = await Promise.all(boats.map(boat => getBoatDetailsById(boat._id)));
+      return allBoatDetails;
+    } catch (error) {
+      console.error('Error fetching all boats details:', error);
+      throw error;
+    }
+  };
+
+
+  export const getAllDetail =async(req,res)=>{
+    try {
+        const boatDetails = await getAllBoatsDetails();
+        res.json(boatDetails);
+      } catch (error) {
+        console.error('Error in /boats route:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    }
+  
+
+
+    const deleteBoatById = async (boatId) => {
+        try {
+
+            console.log("boatId",boatId)
+            // Find and delete the boat
+            const deletedBoat = await Boat.findByIdAndDelete(boatId).exec();
+            if (!deletedBoat) {
+                throw new Error('Boat not found');
+            }
+    
+            // Delete associated boat images
+            await BoatImage.deleteMany({ boatId: deletedBoat._id }).exec();
+    
+            // Delete associated locations
+            await Location.deleteMany({ boatId: deletedBoat._id }).exec();
+    
+            // Delete associated vouchers
+            await voucher.deleteMany({ boatId: deletedBoat._id }).exec();
+    
+            return deletedBoat;
+        } catch (error) {
+            console.error('Error deleting boat and associated records:', error);
+            throw error;
+        }
+    };
+    
+    export const deleteBoat = async (req, res) => {
+        const { id: boatId } = req.body; // Extracting the id from the request body
+    
+        console.log("boatId", boatId);
+    
+        try {
+            const deletedBoat = await deleteBoatById(boatId);
+            res.json({ message: 'Boat deleted successfully', deletedBoat });
+        } catch (error) {
+            console.error('Error deleting boat:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    };

@@ -7,7 +7,7 @@ import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 
 const Information = () => {
-  const { boatDescription } = useContext(AdminContext);
+  const { boatDescription,boatId } = useContext(AdminContext);
   const [descriptionData, setDescriptionData] = useState({
     boatType: "",
     rentalType: { bareBoat: false, withoutSkipper: false },
@@ -50,8 +50,12 @@ const Information = () => {
   const handelSubmit = async (e) => {
     e.preventDefault();
     try {
-      await boatDescription(descriptionData);
-      toast.success("Insurance successfully saved");
+      const payload = {
+        ...descriptionData,
+        boatId, // Include boatId in the payload
+      };
+      await boatDescription(payload);
+      toast.success("Information successfully saved");
     } catch (error) {
       if (error.response) {
         console.error("Error Response:", error.response);
@@ -220,7 +224,7 @@ const Information = () => {
               />
             </div>
             <div className="grid grid-cols-2 gap-9">
-              <div className="flex flex-col gap-2">
+              {/* <div className="flex flex-col gap-2">
                 <label>Brand of the boat</label>
                 <select
                   name="brand"
@@ -232,45 +236,53 @@ const Information = () => {
                   <option>Honda</option>
                   <option>Jakoba</option>
                 </select>
-              </div>
+              </div> */}
               <div className="flex flex-col gap-2">
-                <label>Model</label>
+                <label>Brand of the boat</label>
                 <select
-                  name="model"
-                  value={descriptionData.capacity.model}
+                  name="brand"
+                  value={descriptionData.capacity.brand}
                   onChange={(e) => handelNestedChange(e, "capacity")}
                   className="border p-3 rounded-md font-light"
                 >
-                  <option>2020</option>
-                  <option>2021</option>
-                  <option>2022</option>
-                  <option>2023</option>
+                  <option value="">Select</option> {/* Default option */}
+                  <option value="Mitsubishi">Mitsubishi</option>
+                  <option value="Honda">Honda</option>
+                  <option value="Jakoba">Jakoba</option>
                 </select>
               </div>
-              <div className="flex flex-col gap-2">
-                <label>Year</label>
-                <input
-                  name="year"
-                  type="number"
-                  value={descriptionData.capacity.year}
-                  onChange={(e) => handelNestedChange(e, "capacity")}
-                  className="border p-3 rounded-md font-light"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Geographic area</label>
-                <select
-                  name="geographicArea"
-                  value={descriptionData.capacity.geographicArea}
-                  onChange={(e) => handelNestedChange(e, "capacity")}
-                  className="border p-3 rounded-md font-light"
-                >
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
-                </select>
-              </div>
+                          <div className="flex flex-col gap-2">
+              <label>Model</label>
+              <select
+                name="model"
+                value={descriptionData.capacity.model}
+                onChange={(e) => handelNestedChange(e, "capacity")}
+                className="border p-3 rounded-md font-light"
+              >
+                <option value="">Select</option> {/* Default option */}
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+              </select>
+            </div>
+                        <div className="flex flex-col gap-2">
+              <label>Geographic area</label>
+              <select
+                name="geographicArea"
+                value={descriptionData.capacity.geographicArea}
+                onChange={(e) => handelNestedChange(e, "capacity")}
+                className="border p-3 rounded-md font-light"
+              >
+                <option value="">Select</option> {/* Default option */}
+                <option value="Mediterranean">Mediterranean</option>
+                <option value="Caribbean">Caribbean</option>
+                <option value="South Pacific">South Pacific</option>
+                <option value="Baltic Sea">Baltic Sea</option>
+                <option value="Indian Ocean">Indian Ocean</option>
+                <option value="Atlantic Ocean">Atlantic Ocean</option>
+              </select>
+            </div>
             </div>
           </div>
           <div className="flex flex-col gap-6">
@@ -279,7 +291,7 @@ const Information = () => {
               <MdDelete className="text-xl text-[#CBA557]" />
             </div>
             <div className="grid grid-cols-2 gap-9">
-              <div className="flex flex-col gap-2">
+                          <div className="flex flex-col gap-2">
                 <label>Number of engines</label>
                 <select
                   name="numberOfEngines"
@@ -287,10 +299,11 @@ const Information = () => {
                   onChange={(e) => handelNestedChange(e, "motorization")}
                   className="border p-3 rounded-md font-light"
                 >
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
+                  <option value="">Select</option> {/* Default option */}
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
                 </select>
               </div>
               <div className="flex flex-col gap-2">
@@ -301,10 +314,11 @@ const Information = () => {
                   onChange={(e) => handelNestedChange(e, "motorization")}
                   className="border p-3 rounded-md font-light"
                 >
-                  <option>200</option>
-                  <option>300</option>
-                  <option>400</option>
-                  <option>500</option>
+                  <option value="">Select</option> {/* Default option */}
+                  <option value="200">200</option>
+                  <option value="300">300</option>
+                  <option value="400">400</option>
+                  <option value="500">500</option>
                 </select>
               </div>
             </div>

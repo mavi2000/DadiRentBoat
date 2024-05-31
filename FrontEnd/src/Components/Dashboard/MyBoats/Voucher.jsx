@@ -1,11 +1,72 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import BoatsNavbar from "./BoatsNavbar";
+import { AdminContext } from "../../../../Context/AdminContext";
+import { toast } from 'react-toastify'; // Assuming you use react-toastify for notifications
 
 const Voucher = () => {
+  const { createVoucher,boatId } = useContext(AdminContext); // Access context function
+  const [voucherName, setVoucherName] = useState("");
+  const [totalDiscount, setTotalDiscount] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [isActivated, setIsActivated] = useState(false);
+  
+  
+  const [promotion, setPromotion] = useState({
+    startDate: "",
+    endDate: "",
+    discountPercentage: "",
+    weekdaysOnly: false,
+    endDateCondition: "",
+    rentalDuration: "",
+    lastMinuteValidity: "",
+    lastMinuteReduction: "",
+    lastMinuteActivated: false
+  });
+
+  const handleSubmit = async (e) => {
+    console.log("isActivated",isActivated)
+    e.preventDefault();
+    if (isActivated) {
+      const voucherData = {
+        voucherName,
+        totalDiscount,
+        startDate,
+        endDate,
+        isActivated,
+        boatId
+      };
+
+      
+
+      try {
+        console.log("voucherData",voucherData)
+        await createVoucher(voucherData); // Use context function to create voucher
+        toast.success("Voucher created successfully");
+      } catch (error) {
+        toast.error("Failed to create voucher");
+      }
+    }
+  };
+
+  const handlePromotionChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setPromotion(prevState => ({
+      ...prevState,
+      [name]: type === "checkbox" ? checked : value
+    }));
+  };
+
+  const handlePromotionSubmit = async (e) => {
+    e.preventDefault();
+    // handle promotion creation API call here if needed
+    toast.success("Promotion added successfully");
+  };
+
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
-      <form className="bg-white ">
+      <form className="bg-white" onSubmit={handleSubmit}>
         <div className="mx-8 py-8 flex flex-col gap-10 text-[#4B465C] w-[80%]">
           <div className="font-medium">Voucher</div>
           <div className="text-sm">You can create voucher for customers.</div>
@@ -16,31 +77,60 @@ const Voucher = () => {
                 type="text"
                 placeholder="Name"
                 className="border py-2 px-3 rounded-md"
+                value={voucherName}
+                onChange={(e) => setVoucherName(e.target.value)}
               />
             </div>
             <div className="flex flex-col gap-2">
               <label>Total Discount Percentage</label>
-              <select className="border py-2 px-3 rounded-md">
-                <option>Select</option>
-                <option>Select</option>
-                <option>Select</option>
-                <option>Select</option>
+              <select
+                className="border py-2 px-3 rounded-md"
+                value={totalDiscount}
+                onChange={(e) => setTotalDiscount(e.target.value)}
+              >
+                <option value="">Select</option>
+                <option value="10">10%</option>
+                <option value="20">20%</option>
+                <option value="30">30%</option>
+                <option value="40">40%</option>
               </select>
             </div>
             <div className="flex flex-col gap-2">
               <label>Start Date - End Date</label>
               <input
-                type="text"
+                type="date"
                 placeholder="Choose a date"
                 className="border py-2 px-3 rounded-md"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+              <input
+                type="date"
+                placeholder="Choose a date"
+                className="border py-2 px-3 rounded-md"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
               />
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <input type="checkbox" />
-            <div>Activate?</div>
+            <input
+              type="checkbox"
+              checked={isActivated}
+              onChange={(e) => setIsActivated(e.target.checked)}
+            />
+            <div>Activate voucher?</div>
           </div>
+          <button
+            type="submit"
+            className="bg-[#CBA557] w-[15%] py-2 rounded-lg text-white font-semibold"
+          >
+            Create Voucher
+          </button>
         </div>
+      </form>
+
+      <form className="bg-white" onSubmit={handlePromotionSubmit}>
         <div className="w-[100%] h-0.5 bg-[#E8E8E8]"></div>
         <div className="mx-8 py-8 flex flex-col gap-5 text-[#4B465C] w-[80%]">
           <div className="flex flex-col gap-4">
@@ -56,17 +146,34 @@ const Voucher = () => {
                 <label>Start Date - End Date</label>
                 <input
                   type="date"
+                  name="startDate"
                   placeholder="Choose a date"
                   className="border py-2 px-3 rounded-md text-[#4B465C] text-sm font-light"
+                  value={promotion.startDate}
+                  onChange={handlePromotionChange}
+                />
+                <input
+                  type="date"
+                  name="endDate"
+                  placeholder="Choose a date"
+                  className="border py-2 px-3 rounded-md text-[#4B465C] text-sm font-light"
+                  value={promotion.endDate}
+                  onChange={handlePromotionChange}
                 />
               </div>
               <div className="flex flex-col gap-2">
                 <label>Discount Percentage</label>
-                <select className="border py-2 px-3 rounded-md text-[#4B465C] text-sm font-light">
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
+                <select
+                  name="discountPercentage"
+                  className="border py-2 px-3 rounded-md text-[#4B465C] text-sm font-light"
+                  value={promotion.discountPercentage}
+                  onChange={handlePromotionChange}
+                >
+                  <option value="">Select</option>
+                  <option value="10">10%</option>
+                  <option value="20">20%</option>
+                  <option value="30">30%</option>
+                  <option value="40">40%</option>
                 </select>
               </div>
             </div>
@@ -75,7 +182,12 @@ const Voucher = () => {
                 Add Conditions
               </div>
               <div className="flex items-center gap-3">
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  name="weekdaysOnly"
+                  checked={promotion.weekdaysOnly}
+                  onChange={handlePromotionChange}
+                />
                 <div className="text-sm">
                   Apply only during the week (weekends excluded)
                 </div>
@@ -86,17 +198,25 @@ const Voucher = () => {
                 <label>Add an end date</label>
                 <input
                   type="date"
+                  name="endDateCondition"
                   placeholder="Choose a date"
-                  className="border py-2 px-3 rounded-md text-[#4B465C]  font-light"
+                  className="border py-2 px-3 rounded-md text-[#4B465C] font-light"
+                  value={promotion.endDateCondition}
+                  onChange={handlePromotionChange}
                 />
               </div>
               <div className="flex flex-col gap-2 text-sm">
                 <label>Rental duration</label>
-                <select className="border py-2 px-3 rounded-md text-[#4B465C] text-sm font-light">
-                  <option>Half Day Morning/Evening, Full Day</option>
-                  <option>Select</option>
-                  <option>Select</option>
-                  <option>Select</option>
+                <select
+                  name="rentalDuration"
+                  className="border py-2 px-3 rounded-md text-[#4B465C] text-sm font-light"
+                  value={promotion.rentalDuration}
+                  onChange={handlePromotionChange}
+                >
+                  <option value="">Select</option>
+                  <option value="Half Day Morning/Evening, Full Day">
+                    Half Day Morning/Evening, Full Day
+                  </option>
                 </select>
               </div>
             </div>
@@ -170,24 +290,40 @@ const Voucher = () => {
           <div className="w-[80%] grid grid-cols-2 gap-8">
             <div className="flex flex-col gap-1">
               <label>Validity of the promotion</label>
-              <select className="border py-2 px-3 rounded-md text-[#4B465C] text-sm font-light">
-                <option>Select</option>
-                <option>Select</option>
-                <option>Select</option>
-                <option>Select</option>
+              <select
+                name="lastMinuteValidity"
+                className="border py-2 px-3 rounded-md text-[#4B465C] text-sm font-light"
+                value={promotion.lastMinuteValidity}
+                onChange={handlePromotionChange}
+              >
+                <option value="">Select</option>
+                <option value="1 week">1 week</option>
+                <option value="2 weeks">2 weeks</option>
+                <option value="1 month">1 month</option>
               </select>
             </div>
             <div className="flex flex-col gap-1">
               <label>Reduction percentage</label>
-              <select className="border py-2 px-3 rounded-md text-[#4B465C] text-sm font-light">
-                <option>Select</option>
-                <option>Select</option>
-                <option>Select</option>
-                <option>Select</option>
+              <select
+                name="lastMinuteReduction"
+                className="border py-2 px-3 rounded-md text-[#4B465C] text-sm font-light"
+                value={promotion.lastMinuteReduction}
+                onChange={handlePromotionChange}
+              >
+                <option value="">Select</option>
+                <option value="10%">10%</option>
+                <option value="20%">20%</option>
+                <option value="30%">30%</option>
+                <option value="40%">40%</option>
               </select>
             </div>
             <div className="flex items-center gap-3">
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                name="lastMinuteActivated"
+                checked={promotion.lastMinuteActivated}
+                onChange={handlePromotionChange}
+              />
               <div>Activate?</div>
             </div>
           </div>

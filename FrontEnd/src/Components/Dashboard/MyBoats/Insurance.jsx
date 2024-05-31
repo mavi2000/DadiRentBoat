@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 const Insurance = () => {
   const { Insurances, boatId } = useContext(AdminContext);
   const [insuranceData, setInsuranceData] = useState({
-    boatId: "",
     currentInsurer: "",
     amountDeductible: "",
     insuredValueOfBoat: "",

@@ -2,15 +2,15 @@ import React, { useState, useContext } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { MdCancel } from "react-icons/md";
 import { TbAlertCircleFilled } from "react-icons/tb";
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-import { AdminContext} from "../../../../Context/AdminContext";
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import { AdminContext } from "../../../../Context/AdminContext";
 
 // Import the Leaflet icons
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
 // Fix the default marker icon issue with React Leaflet
 L.Icon.Default.mergeOptions({
@@ -22,9 +22,9 @@ L.Icon.Default.mergeOptions({
 const center = [51.505, -0.09]; // Default center point
 
 const Address = () => {
-  const { createLocation} = useContext(AdminContext); // Access context functions and state
-  const [place, setPlace] = useState('');
-  const [city, setCity] = useState('');
+  const { createLocation, boatId } = useContext(AdminContext); // Access context functions and state
+  const [place, setPlace] = useState("");
+  const [city, setCity] = useState("");
   const [latitude, setLatitude] = useState(center[0]);
   const [longitude, setLongitude] = useState(center[1]);
 
@@ -40,16 +40,16 @@ const Address = () => {
       city,
       exactLocation: {
         latitude,
-        longitude
-      }
+        longitude,
+      },
+      boatId,
     };
 
     try {
       await createLocation(locationData); // Use context function to save location
-   
     } catch (error) {
       console.error(error);
-      alert('Failed to save location');
+      alert("Failed to save location");
     }
   };
 
@@ -99,7 +99,7 @@ const Address = () => {
                 />
                 <MdCancel
                   className="text-xl text-[#CBA557] flex w-[15%] items-center justify-center"
-                  onClick={() => setCity('')}
+                  onClick={() => setCity("")}
                 />
               </div>
             </div>
@@ -110,7 +110,11 @@ const Address = () => {
             <TbAlertCircleFilled className="text-lg" />
           </div>
           <div className="mx-2 mt-8">
-            <MapContainer center={center} zoom={13} style={{ height: "400px", width: "100%" }}>
+            <MapContainer
+              center={center}
+              zoom={13}
+              style={{ height: "400px", width: "100%" }}
+            >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

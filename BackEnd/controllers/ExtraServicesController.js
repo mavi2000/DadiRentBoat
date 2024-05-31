@@ -19,7 +19,7 @@ export const createExtraService = async (req, res, next) => {
 
     try {
         // Create the new extra service with the validated data
-        const newExtraService = await ExtraService.create(value);
+        const newExtraService = await ExtraServices.create(value);
         res.status(201).json({ success: true, message: "Extra Service created successfully", extraService: newExtraService });
     } catch (err) {
         next(err);
