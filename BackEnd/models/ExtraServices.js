@@ -2,6 +2,11 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const extraServiceSchema = new Schema({
+    boatId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Boat',
+        required: true
+    },
     serviceName: {
         type: String,
         required: true
@@ -9,6 +14,11 @@ const extraServiceSchema = new Schema({
     pricePerPerson: {
         type: Number,
         required: true
+    },
+    isObligatory: {
+        type: Boolean,
+        required: true,
+        default: false
     },
     createdAt: {
         type: Date,

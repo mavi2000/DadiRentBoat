@@ -2,26 +2,40 @@ import Joi from 'joi';
 import { createError } from '../utils/createError.js';
 import ExtraServices from '../models/ExtraServices.js';
 
+const extraServiceValidationSchema = Joi.object({
+    boatId: Joi.string().required(), // Add boatId validation
+    serviceName: Joi.string().required(),
+    pricePerPerson: Joi.number().required(),
+    isObligatory: Joi.boolean().default(false)
+});
+// Create Extra Service
 export const createExtraService = async (req, res, next) => {
-    const schema = Joi.object({
-        serviceName: Joi.string().required(),
-        pricePerPerson: Joi.number().positive().required()
-    });
-
-    const { error, value } = schema.validate(req.body);
+    // Validate the request body against the schema
+    const { error, value } = extraServiceValidationSchema.validate(req.body);
 
     if (error) {
         return next(createError(400, error.details[0].message));
     }
 
     try {
+        // Create the new extra service with the validated data
         const newExtraService = await ExtraServices.create(value);
-        res.status(201).json({ success: true, message: "Extra service created successfully", extraService: newExtraService });
+        res.status(201).json({ success: true, message: "Extra Service created successfully", extraService: newExtraService });
     } catch (err) {
         next(err);
     }
 };
 
+
+export const getAllExtraServices = async (req, res, next) => {
+    try {
+        // Fetch all extra services from the database
+        const extraServices = await ExtraServices.find();
+        res.status(200).json({ success: true, extraServices });
+    } catch (err) {
+        next(err);
+    }
+};
 export const updateExtraService = async (req, res, next) => {
     const { id } = req.params;
 

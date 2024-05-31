@@ -13,7 +13,15 @@ export const uploadImages = async (file) => {
         throw new Error('No file provided');
     }
 
-    const uploadOptions = { folder: "games" };
+    const uploadOptions = { folder: "uploads" };
 
-    return await cloudinary.v2.uploader.upload(file.path, uploadOptions);
-};
+    // Check if the file is an image or a PDF
+    const isImage = file.mimetype.startsWith('image');
+    const isPDF = file.mimetype === 'application/pdf';
+
+    if (isImage || isPDF) {
+        return await cloudinary.v2.uploader.upload(file.path, uploadOptions);
+    } else {
+        throw new Error('Unsupported file type. Only images and PDFs are supported.');
+    }
+}

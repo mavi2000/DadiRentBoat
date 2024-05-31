@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const voucherSchema = new mongoose.Schema({
-  name: {
+  voucherName: {
     type: String,
     required: true
   },
-  totalDiscountPercentage: {
+  totalDiscount: {
     type: Number,
     required: true
   },
@@ -21,10 +21,10 @@ const voucherSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
-  // boatId: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Boat',
-  // },
+  boatId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Boat',
+  },
 });
 
 export default mongoose.model('Voucher', voucherSchema);

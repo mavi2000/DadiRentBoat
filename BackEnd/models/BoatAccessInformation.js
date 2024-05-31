@@ -6,16 +6,14 @@ const boatAccessSchema = new Schema({
   boatId: {
     type: Schema.Types.ObjectId,
     ref: 'Boat',
-    
+    required: true
   },
   accessDetails: [{
     description: {
-      type: String,
-      required: true
+      type: String
     },
     documentName: {
-      type: String,
-      required: true
+      type: String
     },
     uploadDocument: {
       type: String  

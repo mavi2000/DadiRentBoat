@@ -1,52 +1,106 @@
 import Joi from "joi";
 import BoatAccessInformation from "../models/BoatAccessInformation.js";
 import { createError } from "../utils/createError.js";
+import { uploadImages } from "../utils/cloudinaryConfig.js";
 
+const accessDetailSchema = Joi.object({
+  description: Joi.string().required(),
+  documentName: Joi.string().allow(''),
+  uploadDocument: Joi.string().allow(''),
+  documentLink: Joi.string().allow('')
+});
 
+const boatAccessSchema = Joi.object({
+  boatId: Joi.string().required(),
+  accessDetails: Joi.array().items(accessDetailSchema).required(),
+});
 
-
-export const uploadBoatAccess = async (req, res, next) => {
+export const addBoatAccessInformation = async (req, res, next) => {
+  console.log("req body:", req.body);
   try {
-    const schema = Joi.object({
-      // boatId: Joi.string().required(),
-      description: Joi.string().required(),
-    });
-
-
-    const { error, value } = schema.validate(req.body);
-
+    const { error, value } = boatAccessSchema.validate(req.body);
     if (error) {
-      return next(createError(400, error.details[0].message));
+      throw createError(400, error.details[0].message);
     }
 
-  
-    uploadImages(req, res, async (err) => {
-      if (err) {
-        return next(createError(400, 'File upload failed'));
-      }
-      try {
-        const {  description } = value;
-        const documents = [];
-        const document = {
-          documentName: req.file.originalname,
-          upload: req.file.path,
-          link: '', 
-        };
-        documents.push(document);
-        const boatAccess = new BoatAccessInformation({
-          // boatId,
-          description,
-          documents,
-        });
-        await boatAccess.save();
-        res.status(201).json({ success: true, message: 'Boat access information uploaded successfully' });
-      } catch (error) {
-      
-        next(createError(500, 'Internal Server Error'));
-      }
+    const uploadResults = await Promise.all(
+      req.files.map(async (file) => {
+        return await uploadImages(file);
+      })
+    );
+
+    const accessDetails = value.accessDetails.map((detail, index) => ({
+      ...detail,
+      uploadDocument: uploadResults[index]?.url || null,
+    }));
+
+    const boatAccessInfo = new BoatAccessInformation({
+      boatId: value.boatId,
+      accessDetails,
+    });
+
+    const savedBoatAccessInfo = await boatAccessInfo.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Boat access information created successfully",
+      boatAccessInfo: savedBoatAccessInfo,
     });
   } catch (error) {
-   
-    next(createError(500, 'Internal Server Error'));
+    next(error);
+  }
+};
+
+export const getAllBoatAccessInformation = async (req, res, next) => {
+  try {
+    const boatAccessInfo = await BoatAccessInformation.find();
+    res.json(boatAccessInfo);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getBoatAccessInformationById = async (req, res, next) => {
+  try {
+    const boatAccessInfo = await BoatAccessInformation.findById(req.params.id);
+    if (!boatAccessInfo) {
+      throw createError(404, "Boat access information not found");
+    }
+    res.json(boatAccessInfo);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateBoatAccessInformation = async (req, res, next) => {
+  try {
+    const { description, documentName, documentLink } = req.body;
+    const updatedBoatAccessInfo = await BoatAccessInformation.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: { accessDetails: { description, documentName, documentLink } },
+      },
+      { new: true }
+    );
+    if (!updatedBoatAccessInfo) {
+      throw createError(404, "Boat access information not found");
+    }
+    res.json(updatedBoatAccessInfo);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteBoatAccessInformation = async (req, res, next) => {
+  try {
+    const deletedBoatAccessInfo = await BoatAccessInformation.findByIdAndDelete(
+      req.params.id
+    );
+    if (!deletedBoatAccessInfo) {
+      throw createError(404, "Boat access information not found");
+    }
+    res.json({ message: "Boat access information deleted successfully" });
+  } catch (error) {
+    next(error);
   }
 };

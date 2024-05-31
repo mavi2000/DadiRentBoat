@@ -1,16 +1,18 @@
 import Voucher from "../models/voucher.js";
 
 export const createVoucher = async (req, res) => {
-    const { name, totalDiscountPercentage, startDate, endDate, isActive /*, boatId*/ } = req.body;
+    const { voucherName, totalDiscount, startDate, endDate, isActive , boatId } = req.body;
+
+    console.log("req.body",req.body)
     
     try {
       const newVoucher = new Voucher({
-        name,
-        totalDiscountPercentage,
+        voucherName,
+        totalDiscount,
         startDate,
         endDate,
         isActive,
-        // boatId
+        boatId
       });
       
       const savedVoucher = await newVoucher.save();

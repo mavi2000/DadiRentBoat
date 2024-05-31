@@ -11,12 +11,14 @@ import { uploadImages } from '../utils/cloudinaryConfig.js';
 
 console.log(" process.env.JWT_KEY", process.env.JWT_KEY)
 
+
 export const signup = async (req, res, next) => {
   const validation = Joi.object({
     username: Joi.string().required(),
     email: Joi.string().email().required(),
     phoneNumber: Joi.string().required(),
     password: Joi.string().required(),
+    roles: Joi.string().valid('user', 'admin').default('user')
   }).validate(req.body);
 
   if (validation.error) {
@@ -26,7 +28,7 @@ export const signup = async (req, res, next) => {
   }
 
   try {
-    const { username, email, phoneNumber, password } = req.body;
+    const { username, email, phoneNumber, password, roles } = req.body;
     const existingUser = await User.findOne({ email });
 
     if (existingUser !== null) {
@@ -42,13 +44,14 @@ export const signup = async (req, res, next) => {
       email,
       phoneNumber,
       password: hashPassword,
+      roles // Include roles in the user creation
     });
 
     const token = jwt.sign({ _id: user._id, email }, process.env.JWT_KEY, {
       expiresIn: '30d',
     });
 
-    return res.status(200).json({ user, token, message: 'signup successfull' });
+    return res.status(200).json({ user, token, message: 'signup successful' });
   } catch (error) {
     console.log('signup error: ', error);
     return res.status(500).json({ error: error });
@@ -92,6 +95,9 @@ export const login = async (req, res, next) => {
     return res.status(500).json({ error: error });
   }
 };
+
+
+
 
 export const updateUser = async (req, res, next) => {
   const validation = Joi.object({
