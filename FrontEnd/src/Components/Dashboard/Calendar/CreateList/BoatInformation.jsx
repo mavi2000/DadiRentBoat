@@ -60,51 +60,75 @@ const BoatInformation = () => {
       </div>
       <form className="flex flex-col gap-12" onSubmit={handleSubmit}>
         <div className="grid 600px:grid-cols-3 600px:grid-rows-4 300px:grid-cols-2 1000px:text-sm 300px:text-xs gap-8 flex-row justify-between">
-          <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Type of boat</div>
-            <div className="w-[90%]">
-              <select
-                name="type"
-                value={formData.type}
-                onChange={handleChange}
-                className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
-              >
-                <option value="">Choose a type</option>
-                <option value="Option 2">Option 2</option>
-                <option value="Option 3">Option 3</option>
-              </select>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Boat Brand</div>
-            <div className="w-[90%]">
-              <select
-                name="brand"
-                value={formData.brand}
-                onChange={handleChange}
-                className="w-[90%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
-              >
-                <option value="">Choose a brand</option>
-                <option value="Option 2">Option 2</option>
-                <option value="Option 3">Option 3</option>
-              </select>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Model</div>
-            <div className="w-[90%]">
-              <select
-                name="model"
-                value={formData.model}
-                onChange={handleChange}
-                className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
-              >
-                <option value="">Choose a model</option>
-                <option value="Option 2">Option 2</option>
-                <option value="Option 3">Option 3</option>
-              </select>
-            </div>
-          </div>
+        <div className="flex flex-col gap-2 w-[100%] font-normal">
+  <div className="text-[#4B465C]">Type of boat</div>
+  <div className="w-[90%]">
+    <select
+      name="type"
+      value={formData.type}
+      onChange={handleChange}
+      className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
+    >
+      <option value="">Choose a type</option>
+      <option value="Sailboat">Sailboat</option>
+      <option value="Motorboat">Motorboat</option>
+      <option value="Fishing Boat">Fishing Boat</option>
+      <option value="Yacht">Yacht</option>
+      <option value="Catamaran">Catamaran</option>
+      <option value="Houseboat">Houseboat</option>
+      <option value="Dinghy">Dinghy</option>
+      <option value="Canoe">Canoe</option>
+      <option value="Kayak">Kayak</option>
+      <option value="Pontoon Boat">Pontoon Boat</option>
+    </select>
+  </div>
+</div>
+<div className="flex flex-col gap-2 w-[100%] font-normal">
+<div className="text-[#4B465C]">Boat Brand</div>
+<div className="w-[90%]">
+  <select
+    name="brand"
+    value={formData.brand}
+    onChange={handleChange}
+    className="w-[90%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
+  >
+    <option value="">Choose a brand</option>
+    <option value="Bayliner">Bayliner</option>
+    <option value="Yamaha">Yamaha</option>
+    <option value="Boston Whaler">Boston Whaler</option>
+    <option value="Sea Ray">Sea Ray</option>
+    <option value="Lund">Lund</option>
+    <option value="MasterCraft">MasterCraft</option>
+    <option value="Chaparral">Chaparral</option>
+    <option value="Tracker">Tracker</option>
+    <option value="Grady-White">Grady-White</option>
+    <option value="Cobalt">Cobalt</option>
+  </select>
+</div>
+</div>
+<div className="flex flex-col gap-2 w-[100%] font-normal">
+  <div className="text-[#4B465C]">Model</div>
+  <div className="w-[90%]">
+    <select
+      name="model"
+      value={formData.model}
+      onChange={handleChange}
+      className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
+    >
+      <option value="">Choose a model</option>
+      <option value="Bayliner VR5">Bayliner VR5</option>
+      <option value="Yamaha 242X">Yamaha 242X</option>
+      <option value="Boston Whaler 170 Montauk">Boston Whaler 170 Montauk</option>
+      <option value="Sea Ray Sundancer 320">Sea Ray Sundancer 320</option>
+      <option value="Lund 1875 Pro-V Bass">Lund 1875 Pro-V Bass</option>
+      <option value="MasterCraft X24">MasterCraft X24</option>
+      <option value="Chaparral 287 SSX">Chaparral 287 SSX</option>
+      <option value="Tracker Pro Team 175 TXW">Tracker Pro Team 175 TXW</option>
+      <option value="Grady-White Fisherman 236">Grady-White Fisherman 236</option>
+      <option value="Cobalt R30">Cobalt R30</option>
+    </select>
+  </div>
+</div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
             <div className="text-[#4B465C]">Year</div>
             <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs">
