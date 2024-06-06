@@ -1,9 +1,43 @@
-import FleetCard from './FleetCard';
-import fleetBoat1 from '../../assets/Images/fleetBoat1.webp';
-import fleetBoat2 from '../../assets/Images/fleetBoat2.webp';
-import fleetBoat3 from '../../assets/Images/fleetBoat3.webp';
+// Fleet.js
+import React, { useContext, useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import FleetCard from "./FleetCard";
+import { UserContext } from "../../../Context/UserContext";
+
 
 const Fleet = () => {
+  const {fetchBoatDetails } = useContext(UserContext);
+  const [boatDetails, setBoatDetails] = useState([]);
+  const [error, setError] = useState(null);
+
+ 
+
+  useEffect(() => {
+    const getBoatDetails = async () => {
+      try {
+        const details = await fetchBoatDetails();
+        setBoatDetails(details);
+      } catch (error) {
+        setError(error.message || "Error loading boat details");
+      }
+    };
+
+
+      getBoatDetails();
+    
+  }, [fetchBoatDetails]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!boatDetails.length) {
+    return <div>Loading...</div>;
+  }
+
+  console.log("boatDetails",boatDetails)
+
   return (
     <section className="flex flex-col items-center justify-center my-12 mx-[3%] md:mx-[6%]">
       <h1 className="text-[var(--primary-color)] text-base font-semibold ">
@@ -11,33 +45,21 @@ const Fleet = () => {
       </h1>
       <h1 className="text-3xl font-medium text-black mb-6">Fleet</h1>
       <div className="flex flex-wrap gap-4 justify-center items-center">
-        <FleetCard
-          boatImg={fleetBoat1}
-          title="Lady Gio - Inflatable Boat Tornado 525 Fasty"
-          numberOfPersons={8}
-          length="5.4 Meters"
-          power="40 HP"
-          licenseRequired="No"
-        />
-
-        <FleetCard
-          boatImg={fleetBoat2}
-          title="Annina Open Sea Boat Ghost 550"
-          numberOfPersons={6}
-          length="5.4 Meters"
-          power="40 HP"
-          licenseRequired="No"
-        />
-        <FleetCard
-          boatImg={fleetBoat3}
-          title="Super Mario Sessa Key Wide 16"
-          numberOfPersons={5}
-          length="5.4 Meters"
-          power="40 HP"
-          licenseRequired="No"
-        />
+        {boatDetails.map((boat, index) => (
+          <FleetCard
+            key={index}
+            boatImg={boat.boatImages[0]?.avatar || 'default_image_path'} // Adjust this based on your actual image path
+            title={boat.boat.brand}
+            numberOfPersons={boat.boat.boardingCapacity}
+            length={boat.boat.lengthMeters}
+            power={boat.boat.totalEnginePowerHP}
+            licenseRequired={boat.boat.licenseRequired ? "Yes" : "No"}
+          />
+        ))}
       </div>
+      <ToastContainer />
     </section>
   );
 };
+
 export default Fleet;

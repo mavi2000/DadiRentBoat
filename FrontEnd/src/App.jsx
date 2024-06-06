@@ -68,6 +68,7 @@ import ExtraServices from "./Components/Dashboard/MyBoats/ExtraServices.jsx";
 import Insurance from "./Components/Dashboard/MyBoats/Insurance.jsx";
 import Address from "./Components/Dashboard/MyBoats/Address.jsx";
 import Equipments from "./Components/Dashboard/MyBoats/Equipments.jsx";
+import { UserProvider } from "../Context/UserContext.jsx";
 
 //new commit
 function App() {
@@ -76,6 +77,7 @@ function App() {
       <ToastContainer />
       <AuthProvider>
         <AdminProvider>
+          <UserProvider>
           <Routes>
             <Route
               path="/"
@@ -340,6 +342,7 @@ function App() {
               element={<DashboardLayout Childeren={<Profile />} />}
             />
           </Routes>
+          </UserProvider>
         </AdminProvider>
       </AuthProvider>
     </BrowserRouter>

@@ -145,24 +145,27 @@ const getBoatDetailsById = async (boatId) => {
       const boatImagePromise = BoatImage.find({ boatId: boatObjectId }).exec();
       const locationPromise = Location.find({ boatId: boatObjectId }).exec();
       const voucherPromise = voucher.find({ boatId: boatObjectId }).exec();
-  
+      // const RentPromise =Rent.find({ boatId: boatObjectId }).exec();
       const [
         boat,
         boatImages,
         location,
-        vouchers
+        vouchers,
+        Rent
       ] = await Promise.all([
         boatPromise,
         boatImagePromise,
         locationPromise,
-        voucherPromise
+        voucherPromise,
+        // RentPromise
       ]);
   
       return {
         boat,
         boatImages,
         location,
-        vouchers
+        vouchers,
+        // Rent
       };
     } catch (error) {
       console.error('Error fetching boat details:', error);
@@ -207,13 +210,12 @@ const getAllBoatsDetails = async () => {
                 throw new Error('Boat not found');
             }
     
-            // Delete associated boat images
+          
             await BoatImage.deleteMany({ boatId: deletedBoat._id }).exec();
     
-            // Delete associated locations
             await Location.deleteMany({ boatId: deletedBoat._id }).exec();
     
-            // Delete associated vouchers
+      
             await voucher.deleteMany({ boatId: deletedBoat._id }).exec();
     
             return deletedBoat;
@@ -224,7 +226,7 @@ const getAllBoatsDetails = async () => {
     };
     
     export const deleteBoat = async (req, res) => {
-        const { id: boatId } = req.body; // Extracting the id from the request body
+        const { id: boatId } = req.body; 
     
         console.log("boatId", boatId);
     

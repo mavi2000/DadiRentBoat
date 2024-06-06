@@ -240,7 +240,7 @@ const WhereWeAre = () => {
             </p>
             <br />
 
-            <Link to="/check-out">
+            <Link to="/Our-fleet">
               <button className="bg-[var(--primary-color)] text-white text-lg font-bold rounded-lg px-12 py-2">
                 Book Now
               </button>

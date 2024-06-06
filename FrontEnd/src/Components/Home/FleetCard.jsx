@@ -30,14 +30,14 @@ const FleetCard = ({
               <RiRulerLine size={25} className="text-[--primary-color]" />
             </td>
             <td className="py-2 px-4 ml-0 mr-auto">Length</td>
-            <td className="py-2 text-right">{length}</td>
+            <td className="py-2 text-right">{length} Meters</td>
           </tr>
           <tr className="border-collapse border-y-[1px] border-[#19191923] ">
             <td className="py-2">
               <RiAnchorLine size={25} className="text-[--primary-color]" />
             </td>
             <td className="py-2 px-4 ml-0 mr-auto">Engine Power</td>
-            <td className="py-2 text-right">{power}</td>
+            <td className="py-2 text-right">{power}hp</td>
           </tr>
           <tr className="border-collapse border-y-[1px] border-[#19191923] ">
             <td className="py-2">
