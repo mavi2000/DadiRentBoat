@@ -1,11 +1,40 @@
+// OurFleet.jsx
+import React, { useContext, useEffect, useState } from "react";
 import Filters from './Filters';
 import OurFleetCard from './OurFleetCard';
 import QuickSearch from './QuickSearch';
-import boat1 from '../../assets/Images/our-fleet-boat1.webp';
-import boat2 from '../../assets/Images/our-fleet-boat2.webp';
-import boat3 from '../../assets/Images/our-fleet-boat3.webp';
+import { UserContext } from "../../../Context/UserContext";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const OurFleet = () => {
+  const { fetchBoatDetails } = useContext(UserContext);
+  const [boatDetails, setBoatDetails] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getBoatDetails = async () => {
+      try {
+        const details = await fetchBoatDetails();
+        setBoatDetails(details);
+      } catch (error) {
+        setError(error.message || "Error loading boat details");
+      }
+    };
+
+    getBoatDetails();
+  }, [fetchBoatDetails]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!boatDetails.length) {
+    return <div>Loading...</div>;
+  }
+
+  console.log("boatDetails", boatDetails);
+
   return (
     <>
       <div className="fleet-bg">
@@ -23,7 +52,7 @@ const OurFleet = () => {
         <div>
           <div className="flex gap-2 justify-between items-center border-b-[1px] bordr-[#F5F5F5] mb-8 pb-6">
             <h2 className="text-[#676767] text-base font-semibold">
-              25 <span className="font-normal">Yachts</span>
+              {boatDetails.length} <span className="font-normal">Yachts</span>
             </h2>
             <div className="text-[#676767] text-base font-normal">
               Sort by&nbsp;&nbsp;&nbsp;
@@ -36,14 +65,24 @@ const OurFleet = () => {
               </select>
             </div>
           </div>
-          <OurFleetCard img={boat1} />
-          <OurFleetCard img={boat2} />
-          <OurFleetCard img={boat3} />
-          <OurFleetCard img={boat1} />
+          {boatDetails.map((boat, index) => (
+            <OurFleetCard
+              key={index}
+              img={boat.boatImages[0]?.avatar || 'default_image_path'}
+              boatName={boat.boat.title}
+              totalPersons={boat.boat.boardingCapacity}
+              length={boat.boat.lengthMeters}
+              power={boat.boat.totalEnginePowerHP}
+              licenseRequired={boat.boat.licenseRequired}
+              location={boat.boat.region}
+            />
+          ))}
         </div>
         <Filters />
       </main>
+      <ToastContainer />
     </>
   );
 };
+
 export default OurFleet;

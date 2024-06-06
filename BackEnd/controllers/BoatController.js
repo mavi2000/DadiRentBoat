@@ -145,7 +145,7 @@ const getBoatDetailsById = async (boatId) => {
       const boatImagePromise = BoatImage.find({ boatId: boatObjectId }).exec();
       const locationPromise = Location.find({ boatId: boatObjectId }).exec();
       const voucherPromise = voucher.find({ boatId: boatObjectId }).exec();
-      const RentPromise =Rent.find({ boatId: boatObjectId }).exec();
+      // const RentPromise =Rent.find({ boatId: boatObjectId }).exec();
       const [
         boat,
         boatImages,
@@ -157,7 +157,7 @@ const getBoatDetailsById = async (boatId) => {
         boatImagePromise,
         locationPromise,
         voucherPromise,
-        RentPromise
+        // RentPromise
       ]);
   
       return {
@@ -165,7 +165,7 @@ const getBoatDetailsById = async (boatId) => {
         boatImages,
         location,
         vouchers,
-        Rent
+        // Rent
       };
     } catch (error) {
       console.error('Error fetching boat details:', error);
