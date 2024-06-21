@@ -8,6 +8,7 @@ import baseURL from "../APi/BaseUrl.js";
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState('')
 
   const fetchBoatDetails = async () => {
     try {
@@ -21,7 +22,7 @@ const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ fetchBoatDetails }}>
+    <UserContext.Provider value={{ fetchBoatDetails, ali: 0 }}>
       {children}
     </UserContext.Provider>
   );
