@@ -1,11 +1,34 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Profile from '../../../assets/Images/account-person.png'
 import { AuthContext } from '../../../../Context/AuthContext'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup'
+import FormControl from '../../Form/FormControl';
 const AccountInfo = () => {
+  const [startDate, setStartDate] = useState(new Date())
   const { user } = useContext(AuthContext)
   const initialValues = {
-
+    name: "", phone: "", dob: "", language: "", gender: "", nationality: "", address: "", zip: "", state: "", country: ""
   }
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Name is required"),
+    phone: Yup.string().required("Phone Number is required"),
+    address: Yup.string().required("Address is required"),
+    zip: Yup.string().required("Zip is required"),
+    state: Yup.string().required("State is required"),
+    language: Yup.string().required("State is required"),
+    gender: Yup.string().required("State is required"),
+    nationality: Yup.string().required("State is required"),
+    country: Yup.string().required("Country is required"),
+    dob: Yup.string().required("Date of birth is required")
+  })
+  const onSubmit = values => console.log(values);
+  const fieldClasses = "border-[1.35px] px-3 py-2 self-stretch border-[#DBDADE] text-[#4B465C] outline-none rounded-lg w-full"
+  const languageOptions = [{ key: "Select language", value: "" }, { key: "English", value: "english" }, { key: "Urdu", value: "urdu" }];
+  const genderOptions = [{ key: "Select Gender", value: "" }, { key: "Male", value: "male" }, { key: "Female", value: "female" }, { key: "Prefer not to say", value: "any" }]
+  const nationalityOptions = [{ key: "Select Country", value: "" }, { key: "USA", value: "usa" }, { key: "England", value: "england" }, { key: "Germany", value: "germany" }]
   return (
     <div className=' mt-[5%] md:mt-[8%] mb-[1%] mx-[3%] md:mx-[6%]'>
 
@@ -38,206 +61,76 @@ const AccountInfo = () => {
                 </div>
 
               </div>
+              <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+                {
+                  formik => {
+                    return (
+                      <Form className="mt-[4%] mb-[2%]">
 
-              <form className="mt-[4%] mb-[2%]">
+                        <section className="rounded-xl pb-6 bg-white mt-4">
+                          <div className="flex gap-6 mt-4 flex-wrap md:flex-nowrap">
+                            <div className="flex grow flex-col gap-2">
+                              <FormControl control={"input"} name="name" label="Username" className={fieldClasses} />
+                            </div>
+                            <div className="flex grow flex-col gap-2">
+                              <FormControl control={"input"} label="Phone Number" name="phone" className={fieldClasses} />
+                            </div>
+                          </div>
 
-                <section className="rounded-xl pb-6 bg-white mt-4">
-                  <div className="flex gap-6 mt-4 flex-wrap md:flex-nowrap">
-                    <div className="flex grow flex-col gap-2">
-                      <label htmlFor="firstName">First Name*</label>
-                      <input
-                        type="text"
-                        name="firstName"
-                        id="firstName"
-                        className="border-[1.35px] px-3 py-2 self-stretch border-[#DBDADE] text-[#4B465C] outline-none rounded-lg w-full"
-                        placeholder="John"
-                      />
-                    </div>
-                    <div className="flex grow flex-col gap-2">
-                      <label htmlFor="lastName">Last Name*</label>
-                      <input
-                        type="text"
-                        name="lastName"
-                        id="lastName"
-                        className="border-[1.35px] px-3 py-2 self-stretch border-[#DBDADE] text-[#4B465C] outline-none rounded-lg w-full"
-                        placeholder="Doe"
-                      />
-                    </div>
-                  </div>
+                          <div className="flex gap-6 mt-4  flex-wrap md:flex-nowrap">
+                            <div className="flex w-full grow flex-col gap-2">
+                              <FormControl control={"date"} name="dob" label="Date Of Birth" className={fieldClasses} />
+                            </div>
+                            <div className="flex grow w-full flex-col gap-2">
+                              <FormControl control={"select"} label="Language" name="language" options={languageOptions} className={fieldClasses} />
+                            </div>
+                          </div>
+                          <div className="flex gap-6 mt-4  flex-wrap md:flex-nowrap">
+                            <div className="flex grow flex-col gap-2">
+                              <FormControl control={"select"} name="gender" label="Gender" options={genderOptions} className={fieldClasses} />
+                            </div>
+                            <div className="flex grow flex-col gap-2">
+                              <FormControl control={"select"} name="nationality" label="Nationality" options={nationalityOptions} className={fieldClasses} />
+                            </div>
+                          </div>
 
-                  <div className="flex gap-6 mt-4  flex-wrap md:flex-nowrap">
-                    <div className="flex w-full grow flex-col gap-2">
-                      <label htmlFor="phoneNumber">Phone Number*</label>
-                      <input
-                        type="text"
-                        name="phoneNumber"
-                        id="phoneNumber"
-                        className="border-[1.35px] px-3 py-2 self-stretch border-[#DBDADE] text-[#4B465C] outline-none rounded-lg w-full"
-                        placeholder="Select Timezone"
-                      />
-
-                    </div>
-                    <div className="flex grow w-full flex-col gap-2">
-                      <label htmlFor="language">Language</label>
-
-                      <select
-                        name="language"
-                        id="language"
-                        className="border-[1.35px] px-3 py-2 border-[#DBDADE] w-full text-[#4B465C] outline-none rounded-lg bg-[#ffff]"
-                      >
-                        <option value="Select Country">Select Language</option>
-                        <option value="Select Country">English</option>
-                      </select>
+                          <div className="flex gap-6 mt-4  flex-wrap md:flex-nowrap">
+                            <div className="flex grow flex-col gap-2">
+                              <FormControl control={"input"} label="Address" name="address" className={fieldClasses} />
+                            </div>
+                          </div>
 
 
-                    </div>
-                  </div>
+                          <div className="flex gap-6 mt-4  flex-wrap md:flex-nowrap">
+                            <div className="flex w-full grow flex-col gap-2">
+                              <FormControl control="input" label="Zip" name="zip" className={fieldClasses} />
+                            </div>
+
+                            <div className="flex w-full grow flex-col gap-2">
+                              <FormControl control="input" label="State/Province" name="state" className={fieldClasses} />
+                            </div>
+                            <div className="flex grow w-full flex-col gap-2">
+                              <FormControl control={"select"} name="country" label="Country" options={nationalityOptions} className={fieldClasses} />
+                            </div>
+                          </div>
 
 
-                  <div className="flex gap-6 mt-4  flex-wrap md:flex-nowrap">
-                    <div className="flex grow w-full flex-col gap-2">
-                      <label htmlFor="day">Date of Birth</label>
+                          <div className='flex gap-[2%]'>
 
-                      <select
-                        name="day"
-                        id="day"
-                        className="border-[1.35px] px-3 py-2 border-[#DBDADE] w-full text-[#4B465C] outline-none rounded-lg bg-[#ffff]"
-                      >
-                        <option value="Select Country">Day</option>
-                      </select>
+                            <button type='submit' className='btn-5 font-medium py-3 px-7 text-xl'>Save Changes</button>
+                            <button className='btn-5 font-medium py-3 px-7 text-xl text-[#A8AAAE] bg-[#A8AAAE] bg-opacity-15'>Cancel</button>
+
+                          </div>
 
 
-                    </div>
-
-                    <div className="flex grow w-full flex-col gap-2">
-                      <label htmlFor="month" style={{ visibility: 'hidden' }}>Month</label>
-
-                      <select
-                        name="month"
-                        id="month"
-                        className="border-[1.35px] px-3 py-2 border-[#DBDADE] w-full text-[#4B465C] outline-none rounded-lg bg-[#ffff]"
-                      >
-                        <option value="Select Country">MONTH</option>
-
-                      </select>
+                        </section>
 
 
-                    </div>
-
-
-                    <div className="flex grow w-full flex-col gap-2">
-                      <label htmlFor="year" style={{ visibility: 'hidden' }}>Year</label>
-
-                      <select
-                        name="year"
-                        id="year"
-                        className="border-[1.35px] px-3 py-2 border-[#DBDADE] w-full text-[#4B465C] outline-none rounded-lg bg-[#ffff]"
-                      >
-                        <option value="Select Country">YEAR</option>
-                      </select>
-
-
-                    </div>
-                  </div>
-
-
-
-                  <div className="flex gap-6 mt-4  flex-wrap md:flex-nowrap">
-                    <div className="flex grow flex-col gap-2">
-                      <label htmlFor="Street">Gender</label>
-                      <select
-                        name="language"
-                        id="language"
-                        className="border-[1.35px] px-3 py-2 border-[#DBDADE] w-full text-[#4B465C] outline-none rounded-lg bg-[#ffff]"
-                      >
-                        <option value="Select Country">Select Gender</option>
-                        <option value="Select Country">Male</option>
-                        <option value="Select Country">Female</option>
-                        <option value="Select Country">Other</option>
-                      </select>
-                    </div>
-                    <div className="flex grow flex-col gap-2">
-                      <label htmlFor="City">Nationality*</label>
-                      <select
-                        name="language"
-                        id="language"
-                        className="border-[1.35px] px-3 py-2 border-[#DBDADE] w-full text-[#4B465C] outline-none rounded-lg bg-[#ffff]"
-                      >
-                        <option value="Select Country">Select Nationality</option>
-                        <option value="Select Country">American</option>
-                        <option value="Select Country">English</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-6 mt-4  flex-wrap md:flex-nowrap">
-                    <div className="flex grow flex-col gap-2">
-                      <label htmlFor="address">Address</label>
-                      <input
-                        type="text"
-                        name="address"
-                        id="address"
-                        className="border-[1.35px] px-3 py-2 self-stretch border-[#DBDADE] text-[#C8C8C8] outline-none rounded-lg "
-                        placeholder="Address"
-                      />
-                    </div>
-                  </div>
-
-
-                  <div className="flex gap-6 mt-4  flex-wrap md:flex-nowrap">
-                    <div className="flex w-full grow flex-col gap-2">
-                      <label htmlFor="phoneNumber">Zip Code</label>
-                      <input
-                        type="text"
-                        name="phoneNumber"
-                        id="phoneNumber"
-                        className="border-[1.35px] px-3 py-2 self-stretch border-[#DBDADE] text-[#4B465C] outline-none rounded-lg w-full"
-                        placeholder="34753"
-                      />
-
-                    </div>
-
-                    <div className="flex w-full grow flex-col gap-2">
-                      <label htmlFor="phoneNumber">State/Province</label>
-                      <input
-                        type="text"
-                        name="phoneNumber"
-                        id="phoneNumber"
-                        className="border-[1.35px] px-3 py-2 self-stretch border-[#DBDADE] text-[#4B465C] outline-none rounded-lg w-full"
-                        placeholder="California"
-                      />
-
-                    </div>
-                    <div className="flex grow w-full flex-col gap-2">
-                      <label htmlFor="language">Country</label>
-
-                      <select
-                        name="language"
-                        id="language"
-                        className="border-[1.35px] px-3 py-2 border-[#DBDADE] w-full text-[#4B465C] outline-none rounded-lg bg-[#ffff]"
-                      >
-                        <option value="Select Country">USA</option>
-                      </select>
-
-
-                    </div>
-                  </div>
-
-
-                  <div className='flex gap-[2%]'>
-
-                    <button className='btn-5 font-medium py-3 px-7 text-xl'>Save Changes</button>
-                    <button className='btn-5 font-medium py-3 px-7 text-xl text-[#A8AAAE] bg-[#A8AAAE] bg-opacity-15'>Cancel</button>
-
-                  </div>
-
-
-                </section>
-
-
-              </form>
-
-
+                      </Form>
+                    )
+                  }
+                }
+              </Formik>
             </div>
 
 
