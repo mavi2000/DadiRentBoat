@@ -9,6 +9,7 @@ import FormControl from '../../Form/FormControl';
 const AccountInfo = () => {
   const [startDate, setStartDate] = useState(new Date())
   const { user } = useContext(AuthContext)
+  console.log(user);
   const initialValues = {
     name: "", phoneNumber: "", dob: "", language: "", gender: "", nationality: "", address: "", zip: "", state: "", country: ""
   }

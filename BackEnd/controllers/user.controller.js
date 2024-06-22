@@ -184,3 +184,16 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ error: "Failed to update user" });
   }
 };
+// auth controller
+export const authController = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: "User does not exists" });
+    }
+    const { password: pass, ...rest } = user._doc;
+    res.status(200).json({ user: rest });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};

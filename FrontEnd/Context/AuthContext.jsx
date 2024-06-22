@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import baseURL from '../APi/BaseUrl.js'; 
+import baseURL from '../APi/BaseUrl.js';
 
 const AuthContext = createContext();
 
@@ -57,7 +57,7 @@ const AuthProvider = ({ children }) => {
       if (response.data?.user && response.data?.token) {
         setUser(response.data.user);
         const role = response.data.user.roles;
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('authToken', response.data.token);
         toast.success('Loginup successful!');
         return role; // Return the role for navigation purposes
       } else {
@@ -75,11 +75,11 @@ const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       removeToken();
-    
+
       setAuthToken(null);
-   
+
       setUser(null);
-    
+
       navigate('/');
       toast.success('Logout successful!');
     } catch (error) {
@@ -87,7 +87,7 @@ const AuthProvider = ({ children }) => {
       toast.error(error.response?.data?.message || 'Logout failed');
     }
   }
-  
+
   const forgotPassword = async (email) => {
     try {
       await baseURL.post('/invite', { email });
@@ -125,6 +125,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const token = getToken();
+      console.log('this is token', token);
       if (token) {
         setAuthToken(token);
         try {
