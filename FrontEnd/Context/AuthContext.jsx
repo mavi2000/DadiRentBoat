@@ -125,7 +125,6 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const token = getToken();
-      console.log('this is token', token);
       if (token) {
         setAuthToken(token);
         try {
@@ -138,10 +137,20 @@ const AuthProvider = ({ children }) => {
     };
     checkAuth();
   }, []);
-
+  // update user profile
+  const updateUser = async (userDate) => {
+    try {
+      const response = await baseURL.patch('/update-user', userDate);
+      setUser(response.data.user)
+      toast.success("Profile updated successfully!")
+    } catch (error) {
+      toast.error('Failed to update profile')
+      console.log(error);
+    }
+  }
   return (
     <AuthContext.Provider
-      value={{ user, error, signUp, login, logout, forgotPassword, resetPassword, inviteUser }}
+      value={{ user, error, signUp, login, logout, forgotPassword, resetPassword, inviteUser, updateUser }}
     >
       {children}
       <ToastContainer />

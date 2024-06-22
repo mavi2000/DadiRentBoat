@@ -1,35 +1,34 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Profile from '../../../assets/Images/account-person.png'
 import { AuthContext } from '../../../../Context/AuthContext'
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup'
 import FormControl from '../../Form/FormControl';
+import { format } from 'date-fns'
+import { validationSchema, fieldClasses, languageOptions, genderOptions, nationalityOptions, initialValues } from './data';
 const AccountInfo = () => {
-  const [startDate, setStartDate] = useState(new Date())
-  const { user } = useContext(AuthContext)
-  console.log(user);
-  const initialValues = {
-    name: "", phoneNumber: "", dob: "", language: "", gender: "", nationality: "", address: "", zip: "", state: "", country: ""
+  const { user, updateUser } = useContext(AuthContext)
+  const [values, setValues] = useState(null)
+  useEffect(() => {
+    if (user) {
+      setValues({
+        username: user?.username || "",
+        phoneNumber: user?.phoneNumber || "",
+        dob: user?.dob || "",
+        language: user?.language || "",
+        gender: user?.gender || "",
+        nationality: user?.nationality || "",
+        address: user?.address || "",
+        zip: user?.zip || "",
+        state: user?.state || "",
+        country: user?.country || "",
+      })
+    }
+  }, [user])
+  const onSubmit = (values) => {
+    const formattedValues = { ...values, dob: format(new Date(values.dob), 'MM/dd/yy') }
+    updateUser(formattedValues)
   }
-  const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
-    phoneNumber: Yup.string().required("Phone Number is required"),
-    address: Yup.string().required("Address is required"),
-    zip: Yup.string().required("Zip is required"),
-    state: Yup.string().required("State is required"),
-    language: Yup.string().required("State is required"),
-    gender: Yup.string().required("State is required"),
-    nationality: Yup.string().required("State is required"),
-    country: Yup.string().required("Country is required"),
-    dob: Yup.string().required("Date of birth is required")
-  })
-  const onSubmit = values => console.log(values);
-  const fieldClasses = "border-[1.35px] px-3 py-2 self-stretch border-[#DBDADE] text-[#4B465C] outline-none rounded-lg w-full"
-  const languageOptions = [{ key: "Select language", value: "" }, { key: "English", value: "english" }, { key: "Urdu", value: "urdu" }];
-  const genderOptions = [{ key: "Select Gender", value: "" }, { key: "Male", value: "male" }, { key: "Female", value: "female" }, { key: "Prefer not to say", value: "any" }]
-  const nationalityOptions = [{ key: "Select Country", value: "" }, { key: "USA", value: "usa" }, { key: "England", value: "england" }, { key: "Germany", value: "germany" }]
   return (
     <div className=' mt-[5%] md:mt-[8%] mb-[1%] mx-[3%] md:mx-[6%]'>
 
@@ -62,7 +61,7 @@ const AccountInfo = () => {
                 </div>
 
               </div>
-              <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+              <Formik initialValues={values || initialValues} validationSchema={validationSchema} onSubmit={onSubmit} enableReinitialize>
                 {
                   formik => {
                     return (
@@ -71,7 +70,7 @@ const AccountInfo = () => {
                         <section className="rounded-xl pb-6 bg-white mt-4">
                           <div className="flex gap-6 mt-4 flex-wrap md:flex-nowrap">
                             <div className="flex grow flex-col gap-2">
-                              <FormControl control={"input"} name="name" label="Username" className={fieldClasses} />
+                              <FormControl control={"input"} name="username" label="Username" className={fieldClasses} />
                             </div>
                             <div className="flex grow flex-col gap-2">
                               <FormControl control={"input"} label="Phone Number" name="phoneNumber" className={fieldClasses} />
