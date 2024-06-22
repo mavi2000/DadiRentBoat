@@ -1,22 +1,28 @@
-import express from 'express';
-import multer from 'multer';
-import { auth } from '../middlewares/auth.js';
-import { login, signup, updateUser,logout, } from '../controllers/user.controller.js';
+import express from "express";
+import multer from "multer";
+import { auth } from "../middlewares/auth.js";
+import {
+  login,
+  signup,
+  updateUser,
+  logout,
+} from "../controllers/user.controller.js";
 import {
   forgetPasswordStepOne,
   forgetPasswordStepTwo,
   resetPassword,
-} from '../controllers/otp.controller.js';
+} from "../controllers/otp.controller.js";
 
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: "uploads/" });
 const router = express.Router();
 
-router.post('/signup', signup);
-router.post('/login', login);
-router.post('/forgot-password', forgetPasswordStepOne);
-router.post('/forgot-password/verify-otp', forgetPasswordStepTwo);
-router.post('/forgot-password/reset-password', resetPassword);
-router.post('/update-user', auth, upload.single('avatar'), updateUser);
-router.post('/logout', logout);
+router.post("/signup", signup);
+router.post("/login", login);
+router.post("/forgot-password", forgetPasswordStepOne);
+router.post("/forgot-password/verify-otp", forgetPasswordStepTwo);
+router.post("/forgot-password/reset-password", resetPassword);
+// router.post('/update-user', auth, upload.single('avatar'), updateUser);
+router.patch("/update-user", auth, updateUser);
+router.post("/logout", logout);
 
 export default router;

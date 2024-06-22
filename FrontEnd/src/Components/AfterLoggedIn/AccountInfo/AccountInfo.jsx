@@ -10,11 +10,11 @@ const AccountInfo = () => {
   const [startDate, setStartDate] = useState(new Date())
   const { user } = useContext(AuthContext)
   const initialValues = {
-    name: "", phone: "", dob: "", language: "", gender: "", nationality: "", address: "", zip: "", state: "", country: ""
+    name: "", phoneNumber: "", dob: "", language: "", gender: "", nationality: "", address: "", zip: "", state: "", country: ""
   }
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
-    phone: Yup.string().required("Phone Number is required"),
+    phoneNumber: Yup.string().required("Phone Number is required"),
     address: Yup.string().required("Address is required"),
     zip: Yup.string().required("Zip is required"),
     state: Yup.string().required("State is required"),
@@ -73,7 +73,7 @@ const AccountInfo = () => {
                               <FormControl control={"input"} name="name" label="Username" className={fieldClasses} />
                             </div>
                             <div className="flex grow flex-col gap-2">
-                              <FormControl control={"input"} label="Phone Number" name="phone" className={fieldClasses} />
+                              <FormControl control={"input"} label="Phone Number" name="phoneNumber" className={fieldClasses} />
                             </div>
                           </div>
 
