@@ -173,14 +173,24 @@ export const updateUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    const updatedUser = await User.findByIdAndUpdate(req.user._id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    console.log(req.file);
+    if (req.file) {
+      let imageUrl = await uploadImages(req.file);
+      user.image = imageUrl.secure_url;
+    }
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { ...req.body, image: user.image || "" },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
     return res
       .status(200)
       .json({ message: "User updated successfully", updatedUser });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Failed to update user" });
   }
 };

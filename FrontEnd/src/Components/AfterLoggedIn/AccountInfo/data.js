@@ -41,4 +41,5 @@ export const initialValues = {
   zip: "",
   state: "",
   country: "",
+  image: "",
 };
