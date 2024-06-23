@@ -3,11 +3,11 @@ import { IoSearchOutline } from "react-icons/io5";
 import { TiLocation } from "react-icons/ti";
 import { AiOutlinePlus } from "react-icons/ai";
 import CircularBar from "./CircularBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AdminContext } from "../../../../Context/AdminContext";
 
 const MyBoats = () => {
-  const { getBoats ,deleteBoat } = useContext(AdminContext);
+  const { getBoats, deleteBoat } = useContext(AdminContext);
   const [boatData, setBoatData] = useState([]);
   const [boatIdToDelete, setBoatIdToDelete] = useState(null);
   useEffect(() => {
@@ -21,17 +21,14 @@ const MyBoats = () => {
     };
     fetchBoats();
   }, [getBoats]);
-
-  console.log("boatData", boatData);
-
   const [showDeletePopup, setShowDeletePopup] = useState(false);
 
   const handleDeleteClick = (id) => {
     setBoatIdToDelete(id);
-    console.log("id",id)
+    console.log("id", id)
     setShowDeletePopup(true);
   };
-  const handleConfirmDelete = async() => {
+  const handleConfirmDelete = async () => {
     try {
       await deleteBoat(boatIdToDelete);
       setShowDeletePopup(false);
@@ -45,11 +42,26 @@ const MyBoats = () => {
   const handleCancelDelete = () => {
     setShowDeletePopup(false);
   };
-
-
-  console.log("boat data",boatData.boat)
-
-
+  const [page, setPage] = useState('')
+  const pages = [
+    {
+      path: "",
+      page: "Select"
+    },
+    {
+      path: "/Dashboard/calender/createlist",
+      page: "Boat Information"
+    },
+    {
+      path: "/Dashboard/calender/createlist",
+      page: "Rental Information"
+    }
+  ]
+  const navigate = useNavigate()
+  const handleChange = (e, id) => {
+    localStorage.setItem('id', id)
+    navigate(e.target.value)
+  }
   return (
     <div className="mx-[4%] mt-[3%]">
       <div className="md:flex md:justify-between justify-center text-center gap-5 md:gap-0 items-center">
@@ -123,7 +135,7 @@ const MyBoats = () => {
             <div className="flex flex-col gap-2 items-center md:items-start">
               <h1 className="text-[#00151C] font-semibold">{boat.boat.type}</h1>
               <p className="text-[#818C8E] font-normal text-sm">
-                { boat.boat.brand} - {boat.boat.year}
+                {boat.boat.brand} - {boat.boat.year}
               </p>
               <div className="flex gap-1 items-center">
                 <span className="text-[#CBA557]">
@@ -138,16 +150,22 @@ const MyBoats = () => {
                 </button>
 
                 <div className="flex">
-                  <button className="md:px-4 md:py-2 px-3 py-1 border border-[#07474F] rounded-l-[4px]">
-                    Edit your ad
+                  <button type="button" className="md:px-4 md:py-2 px-3 py-1 border border-[#07474F] rounded-l-[4px]">
+                    Edit your boat
                   </button>
                   <div className="p-1 border border-[#07474F] border-l-0 rounded-r-[4px] flex items-center">
                     <select
                       name=""
                       id=""
                       className="border-t bg-transparent md:text-xl text-xs"
+                      value={page}
+                      onChange={(e) => {
+                        handleChange(e, boat.boat._id)
+                      }}
                     >
-                      <option value=""></option>
+                      {
+                        pages.map((item, index) => <option key={index} value={item.path}>{item.page}</option>)
+                      }
                     </select>
                   </div>
                 </div>
