@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
 
 
 const RentalInformation = () => {
+  const id = localStorage.getItem('id')
   const { rentBoat, error, boatId } = useContext(AdminContext);
   const [rentalData, setRentalData] = useState({
     boatId: "",
@@ -25,7 +26,11 @@ const RentalInformation = () => {
       boatId: boatId
     }));
   }, [boatId]);
-
+  useEffect(() => {
+    if (id) {
+      console.log('fetch data here for rent');
+    }
+  }, [])
   const handleChange = (e) => {
     const { name, value } = e.target;
     setRentalData({
@@ -39,7 +44,7 @@ const RentalInformation = () => {
     try {
       await rentBoat(rentalData);
       toast.success('Rent created successfully');
-    navigate("/Dashboard/my-boats/photo"); // Use the navigate function to redirect
+      navigate("/Dashboard/my-boats/photo"); // Use the navigate function to redirect
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
         const errorMessage = error.response.data.error;
@@ -130,7 +135,7 @@ const RentalInformation = () => {
         </div>
         <div className="mt-5">
           <button type="submit" className="py-2 px-8 bg-[#cba557] text-sm text-white rounded-lg">
-            Save
+            {id ? "Update" : "Save"}
           </button>
         </div>
       </form>
