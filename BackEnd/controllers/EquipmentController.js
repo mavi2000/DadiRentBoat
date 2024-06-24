@@ -82,7 +82,7 @@ export const getBoatEquipments = async (req, res) => {
     if (!equipments) {
       return res.status(404).json({ message: "Equipment not found" });
     }
-    return res.status(200).json(equipments);
+    return res.status(200).json({ equipments });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }

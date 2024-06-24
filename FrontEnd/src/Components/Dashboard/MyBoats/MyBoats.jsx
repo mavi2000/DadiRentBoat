@@ -55,6 +55,10 @@ const MyBoats = () => {
     {
       path: "/Dashboard/calender/createlist",
       page: "Rental Information"
+    },
+    {
+      path: "/Dashboard/my-boats/equipments",
+      page: "Equipments"
     }
   ]
   const navigate = useNavigate()
