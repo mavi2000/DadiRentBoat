@@ -3,6 +3,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { AdminContext } from '../../../../../Context/AdminContext.jsx';
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
+import baseURL from "../../../../../APi/BaseUrl.js";
 
 
 
@@ -28,7 +29,16 @@ const RentalInformation = () => {
   }, [boatId]);
   useEffect(() => {
     if (id) {
-      console.log('fetch data here for rent');
+      const getBoatRent = async () => {
+        try {
+          const res = await baseURL('/rent/get-boat-rent/' + id)
+          const { data: { rent } } = res
+          setRentalData({ ...rent })
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getBoatRent()
     }
   }, [])
   const handleChange = (e) => {
@@ -41,16 +51,29 @@ const RentalInformation = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await rentBoat(rentalData);
-      toast.success('Rent created successfully');
-      navigate("/Dashboard/my-boats/photo"); // Use the navigate function to redirect
-    } catch (error) {
-      if (error.response && error.response.data && error.response.data.error) {
-        const errorMessage = error.response.data.error;
-        toast.error(errorMessage);
-      } else {
-        toast.error('Failed to create boat');
+    if (!id) {
+      try {
+        await rentBoat(rentalData);
+        toast.success('Rent created successfully');
+        navigate("/Dashboard/my-boats/photo"); // Use the navigate function to redirect
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.error) {
+          const errorMessage = error.response.data.error;
+          toast.error(errorMessage);
+        } else {
+          toast.error('Failed to create boat');
+        }
+      }
+    }
+    else {
+      try {
+        const res = await baseURL.patch('/rent/update-boat-rent/' + id, rentalData)
+        localStorage.removeItem('id')
+        setRentalData({ ...res.data.updatedRent })
+        toast.success('Rent updated successfully!!!');
+      } catch (error) {
+        console.log(error);
+        toast.error('Failed to update boat!!!')
       }
     }
   };
