@@ -68,7 +68,7 @@ export const getBoatDescription = async (req, res) => {
     if (!description) {
       return res.status(500).json({ message: "Description does not exists" });
     }
-    return res.status(500).json({ description });
+    return res.status(200).json({ description });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }

@@ -1,13 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { FiInfo } from "react-icons/fi";
 import { IoAddOutline } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
+import baseURL from "../../../../APi/BaseUrl";
 
 const Information = () => {
-  const { boatDescription,boatId } = useContext(AdminContext);
+  const id = localStorage.getItem('id')
+  const { boatDescription, boatId } = useContext(AdminContext);
   const [descriptionData, setDescriptionData] = useState({
     boatType: "",
     rentalType: { bareBoat: false, withoutSkipper: false },
@@ -30,6 +32,22 @@ const Information = () => {
     widthMeters: 0,
     lengthMeters: 0,
   });
+  // load description data while editing
+  useEffect(() => {
+    if (id) {
+      const getBoatDescription = async () => {
+        try {
+          const res = await baseURL('/decription/get-boat-description/' + id)
+          const { data: { description } } = res
+          setDescriptionData({ ...description })
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getBoatDescription()
+    }
+  }, [])
+  console.log(descriptionData);
   const handelNestedChange = (e, group) => {
     const { name, value, type, checked } = e.target;
     setDescriptionData((prevState) => ({
@@ -49,20 +67,31 @@ const Information = () => {
   };
   const handelSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const payload = {
-        ...descriptionData,
-        boatId, // Include boatId in the payload
-      };
-      await boatDescription(payload);
-      toast.success("Information successfully saved");
-    } catch (error) {
-      if (error.response) {
-        console.error("Error Response:", error.response);
-        toast.error(`Error: ${error.response.data.message || error.message}`);
-      } else {
-        console.error("Error:", error);
-        toast.error("An unexpected error occurred");
+    if (!id) {
+      try {
+        const payload = {
+          ...descriptionData,
+          boatId, // Include boatId in the payload
+        };
+        await boatDescription(payload);
+        toast.success("Information successfully saved");
+      } catch (error) {
+        if (error.response) {
+          console.error("Error Response:", error.response);
+          toast.error(`Error: ${error.response.data.message || error.message}`);
+        } else {
+          console.error("Error:", error);
+          toast.error("An unexpected error occurred");
+        }
+      }
+    } else {
+      try {
+        const res = await baseURL.patch('/decription/update-boat-description/' + id, descriptionData)
+        toast.success('Description updated successfully');
+        localStorage.removeItem('id')
+        setDescriptionData({ ...res.data.updatedDescription })
+      } catch (error) {
+        toast.error('Failed to update description')
       }
     }
   };
@@ -116,6 +145,7 @@ const Information = () => {
               onChange={(e) => handelNestedChange(e, "rentalType")}
               type="checkbox"
               className="mt-1"
+              checked={descriptionData.rentalType.bareBoat}
             />
             <div className="text-sm">
               <div>Bear Boat (without skipper)</div>
@@ -132,6 +162,7 @@ const Information = () => {
               onChange={(e) => handelNestedChange(e, "rentalType")}
               type="checkbox"
               className="mt-1"
+              checked={descriptionData.rentalType.withoutSkipper}
             />
             <div className="text-sm">
               <div>With skipper</div>
@@ -145,7 +176,7 @@ const Information = () => {
         <div className="bg-[#CBA55714] p-4 flex items-center gap-3 w-[60%] rounded-md">
           <FiInfo className="text-[#CBA557]" />
           <div className="font-medium text-[#4B465C]">
-            New: 
+            New:
             <span className="font-light">
               Skipper rates are now managed in the
             </span>
@@ -251,38 +282,38 @@ const Information = () => {
                   <option value="Jakoba">Jakoba</option>
                 </select>
               </div>
-                          <div className="flex flex-col gap-2">
-              <label>Model</label>
-              <select
-                name="model"
-                value={descriptionData.capacity.model}
-                onChange={(e) => handelNestedChange(e, "capacity")}
-                className="border p-3 rounded-md font-light"
-              >
-                <option value="">Select</option> {/* Default option */}
-                <option value="2020">2020</option>
-                <option value="2021">2021</option>
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
-              </select>
-            </div>
-                        <div className="flex flex-col gap-2">
-              <label>Geographic area</label>
-              <select
-                name="geographicArea"
-                value={descriptionData.capacity.geographicArea}
-                onChange={(e) => handelNestedChange(e, "capacity")}
-                className="border p-3 rounded-md font-light"
-              >
-                <option value="">Select</option> {/* Default option */}
-                <option value="Mediterranean">Mediterranean</option>
-                <option value="Caribbean">Caribbean</option>
-                <option value="South Pacific">South Pacific</option>
-                <option value="Baltic Sea">Baltic Sea</option>
-                <option value="Indian Ocean">Indian Ocean</option>
-                <option value="Atlantic Ocean">Atlantic Ocean</option>
-              </select>
-            </div>
+              <div className="flex flex-col gap-2">
+                <label>Model</label>
+                <select
+                  name="model"
+                  value={descriptionData.capacity.model}
+                  onChange={(e) => handelNestedChange(e, "capacity")}
+                  className="border p-3 rounded-md font-light"
+                >
+                  <option value="">Select</option> {/* Default option */}
+                  <option value="2020">2020</option>
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                  <option value="2023">2023</option>
+                </select>
+              </div>
+              <div className="flex flex-col gap-2">
+                <label>Geographic area</label>
+                <select
+                  name="geographicArea"
+                  value={descriptionData.capacity.geographicArea}
+                  onChange={(e) => handelNestedChange(e, "capacity")}
+                  className="border p-3 rounded-md font-light"
+                >
+                  <option value="">Select</option> {/* Default option */}
+                  <option value="Mediterranean">Mediterranean</option>
+                  <option value="Caribbean">Caribbean</option>
+                  <option value="South Pacific">South Pacific</option>
+                  <option value="Baltic Sea">Baltic Sea</option>
+                  <option value="Indian Ocean">Indian Ocean</option>
+                  <option value="Atlantic Ocean">Atlantic Ocean</option>
+                </select>
+              </div>
             </div>
           </div>
           <div className="flex flex-col gap-6">
@@ -291,7 +322,7 @@ const Information = () => {
               <MdDelete className="text-xl text-[#CBA557]" />
             </div>
             <div className="grid grid-cols-2 gap-9">
-                          <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2">
                 <label>Number of engines</label>
                 <select
                   name="numberOfEngines"
@@ -398,7 +429,7 @@ const Information = () => {
           type="submit"
           className="bg-[#CBA557] w-[15%] py-4 rounded-lg text-white"
         >
-          Save
+          {id ? "Update" : "Save"}
         </button>
       </form>
     </div>
