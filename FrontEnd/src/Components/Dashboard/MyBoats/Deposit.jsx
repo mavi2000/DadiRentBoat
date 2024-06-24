@@ -1,16 +1,31 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
+import baseURL from "../../../../APi/BaseUrl";
 
 const Deposit = () => {
+  const id = localStorage.getItem('id')
   const { damageDeposit, boatId } = useContext(AdminContext);
   const [checkbox, setCheckbox] = useState(false);
   const [depositData, setDepositData] = useState({
     type: "",
     amount: "",
   });
-
+  useEffect(() => {
+    if (id) {
+      const getDeposit = async () => {
+        try {
+          const res = await baseURL('/demage/get-damage-deposit/' + id)
+          const { data: { deposit } } = res
+          setDepositData(deposit)
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getDeposit()
+    }
+  }, [])
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox" && name === "type") {
@@ -32,19 +47,29 @@ const Deposit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Payload:", depositData); // Log the payload for debugging
-    try {
-      await damageDeposit({ ...depositData, boatId });
-      toast.success("Deposit amount successfully saved");
-      setDepositData({ type: "", amount: "" });
-      setCheckbox(false);
-    } catch (error) {
-      if (error.response) {
-        console.error("Error Response:", error.response); // Log the error response for debugging
-        toast.error(`Error: ${error.response.data.message || error.message}`);
-      } else {
-        console.error("Error:", error); // Log the error for debugging
-        toast.error("An unexpected error occurred");
+    if (!id) {
+      try {
+        await damageDeposit({ ...depositData, boatId });
+        toast.success("Deposit amount successfully saved");
+        setDepositData({ type: "", amount: "" });
+        setCheckbox(false);
+      } catch (error) {
+        if (error.response) {
+          console.error("Error Response:", error.response); // Log the error response for debugging
+          toast.error(`Error: ${error.response.data.message || error.message}`);
+        } else {
+          console.error("Error:", error); // Log the error for debugging
+          toast.error("An unexpected error occurred");
+        }
+      }
+    } else {
+      try {
+        const res = await baseURL.patch('/demage/update-damage-deposit/' + id, depositData)
+        toast.success('Deposit updated successfully');
+        localStorage.removeItem('id')
+        setDepositData({ ...res.data.updatedDeposit })
+      } catch (error) {
+        toast.error('Failed to update deposit')
       }
     }
   };
@@ -148,7 +173,7 @@ const Deposit = () => {
             type="submit"
             className="bg-[#CBA557] w-[15%] py-4 rounded-lg text-white"
           >
-            Save
+            {id ? "Update" : "Save"}
           </button>
         </form>
       </div>
