@@ -2,8 +2,10 @@ import React, { useContext, useState, useEffect } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
+import baseURL from "../../../../APi/BaseUrl";
 
 const ExtraServices = () => {
+  const id = localStorage.getItem('id')
   const { ExtraServices, getExtraServices, boatId } = useContext(AdminContext);
   const [services, setServices] = useState([]);
   const [servicesData, setServicesData] = useState({
@@ -15,7 +17,6 @@ const ExtraServices = () => {
   const fetchServices = async () => {
     try {
       const data = await getExtraServices();
-      console.log("Data fetched from API:", data); // Log the data received
       setServices(data.extraServices);
     } catch (error) {
       console.error("Error fetching conditions:", error);
@@ -25,7 +26,12 @@ const ExtraServices = () => {
   useEffect(() => {
     fetchServices();
   }, []);
-
+  useEffect(() => {
+    if (services.length > 0) {
+      const thisBoatService = services.find((service) => service.boatId === id)
+      setServicesData(thisBoatService)
+    }
+  }, [services])
   const handelChange = (e) => {
     const { name, value, type, checked } = e.target;
     setServicesData({
@@ -37,26 +43,37 @@ const ExtraServices = () => {
   const handelSubmit = async (e) => {
     e.preventDefault();
     // Include boatId in the payload
-    const payload = {
-      ...servicesData,
-      boatId,
-    };
-    try {
-      await ExtraServices(payload);
-      toast.success("Services added successfully");
+    if (!id) {
+      const payload = {
+        ...servicesData,
+        boatId,
+      };
+      try {
+        await ExtraServices(payload);
+        toast.success("Services added successfully");
 
-      setServicesData({
-        serviceName: "",
-        pricePerPerson: "",
-        isObligatory: false,
-      });
-    } catch (error) {
-      if (error.response) {
-        console.error("Error Response:", error.response);
-        toast.error(`Error: ${error.response.data.message || error.message}`);
-      } else {
-        console.error("Error:", error);
-        toast.error("An unexpected error occurred");
+        setServicesData({
+          serviceName: "",
+          pricePerPerson: "",
+          isObligatory: false,
+        });
+      } catch (error) {
+        if (error.response) {
+          console.error("Error Response:", error.response);
+          toast.error(`Error: ${error.response.data.message || error.message}`);
+        } else {
+          console.error("Error:", error);
+          toast.error("An unexpected error occurred");
+        }
+      }
+    } else {
+      try {
+        const res = await baseURL.patch('/service/update-service/' + id, servicesData)
+        toast.success('Extra service updated successfully');
+        localStorage.removeItem('id')
+        setServicesData({ ...res.data.extraService })
+      } catch (error) {
+        toast.error('Failed to update extra service')
       }
     }
   };
@@ -74,7 +91,7 @@ const ExtraServices = () => {
             <div className="font-normal text-sm">Create a new option</div>
             <div className="font-light text-sm">
               Here you can enter your extras on rentals, such as equipment, fuel
-              or a galley. 
+              or a galley.
             </div>
           </div>
           <div className="flex flex-col text-sm gap-4">
@@ -135,7 +152,7 @@ const ExtraServices = () => {
             type="submit"
             className="bg-[#CBA557] w-[15%] py-4 rounded-lg text-white"
           >
-            Add
+            {id ? "Update" : "Add"}
           </button>
         </form>
         <div className="w-[100%] h-0.5 bg-[#E8E8E8]"></div>
