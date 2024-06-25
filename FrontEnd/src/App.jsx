@@ -84,7 +84,7 @@ function App() {
               element={<Layout Children={<Home />} isLocation={false} />}
             />
             <Route
-              path="/book-now"
+              path="/book-now/:id"
               element={<Layout Children={<BookNow />} isLocation={true} />}
             />
             <Route

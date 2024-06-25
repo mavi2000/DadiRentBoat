@@ -110,7 +110,7 @@ const RentalInformation = () => {
                 className="w-[100%] bg-transparent border-none py-3 px-4 rounded text-sm"
               >
                 <option value="">Select a port</option>
-                <option value="Atlantica">Atlantica</option>
+                <option value="Livorno">Livorno, Italy</option>
                 <option value="Germany">Germany</option>
                 <option value="England">England</option>
               </select>

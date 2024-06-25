@@ -42,16 +42,62 @@ import FuelType from '../../assets/Images/FuelType.png';
 import FuelTank from '../../assets/Images/FuelTank.png';
 
 import Prices from './Prices';
+import { useParams } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../../../Context/UserContext';
+import { useEffect,useState } from 'react';
 
 const BookNow = () => {
+  const {id} =useParams()
+  const { fetchBoatDetailsById } = useContext(UserContext);
+    const [boatDetails, setBoatDetails] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getBoatDetails = async () => {
+      try {
+        const details = await fetchBoatDetailsById(id);
+        setBoatDetails(details);
+      } catch (error) {
+        setError(error.message || 'Error loading boat details');
+      }
+    };
+
+    // Log the ID and start fetching boat details
+    console.log('id', id);
+    console.log('Starting to fetch boat details...');
+
+    getBoatDetails();
+  }, [id, fetchBoatDetailsById]);
+
+  // Log boatDetails state changes
+  useEffect(() => {
+    console.log('boatDetails', boatDetails);
+  }, [boatDetails]);
+
+  // Handle loading state
+  if (!boatDetails && !error) {
+    return <div>Loading...</div>;
+  }
+
+  // Handle error state
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  console.log("id",id)
+  console.log("boatDetails",boatDetails)
+
   return (
     <>
+
+    
       <div className="boat-page-bg !h-[50svh] md:!h-[100svh]"></div>
       <div className="flex flex-col md:flex-row mx-[3%] gap-[3%] mt-[2%] md:mx-[6%] md:gap-[7%] md:mt-[2%]">
         <div className="left-container md:w-[60%]">
           <div className="top mt-[3%]">
             <h1 className="font-sans font-poppins font-medium text-3xl text-[#000000]">
-              Yachts La Corniche
+            {boatDetails.boat.type}
             </h1>
 
             <div className="flex my-3 md:justify-between justify-center flex-wrap space-y-3 space-x-3">
@@ -60,7 +106,7 @@ const BookNow = () => {
                   <FaLocationDot />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#B7B7B7]">
-                  PRAIA DE LEÇA DA PALMEIRA
+                {boatDetails.boat.region}
                 </p>
               </div>
 
@@ -87,7 +133,8 @@ const BookNow = () => {
                   <HiOutlineUserGroup />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#808080]">
-                  8 pers
+                  {boatDetails?.boat.boardingCapacity
+                  }pers
                 </p>
               </div>
 
@@ -96,7 +143,7 @@ const BookNow = () => {
                   <RiAnchorLine />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#808080]">
-                  40 hp
+                  {boatDetails.boat.totalEnginePowerHP} hp
                 </p>
               </div>
 
@@ -105,7 +152,7 @@ const BookNow = () => {
                   <PiEngine />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#808080]">
-                  2 Engines
+                 {boatDetails.boat.model}
                 </p>
               </div>
 
@@ -114,7 +161,7 @@ const BookNow = () => {
                   <TbTool />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#808080]">
-                  2019
+                  {boatDetails.boat.year}
                 </p>
               </div>
 
@@ -227,7 +274,7 @@ const BookNow = () => {
                       <p className=" text-[#676767]">Length</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
-                      14.42m
+                      {boatDetails.boat.lengthMeters}
                     </p>
                   </div>
 
@@ -261,7 +308,7 @@ const BookNow = () => {
                       <p className=" text-[#676767]">Draught</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
-                      8m
+                      {boatDetails.boat.droughtMeters}m
                     </p>
                   </div>
 
@@ -271,7 +318,7 @@ const BookNow = () => {
                       <p className=" text-[#676767]">Fuel Tank</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
-                      8m
+                      {boatDetails.boat.fuelTankLiters}m
                     </p>
                   </div>
 
@@ -293,7 +340,7 @@ const BookNow = () => {
                       <p className=" text-[#676767]">Power</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
-                      8m
+                     {boatDetails.boat.totalEnginePowerHP} hp
                     </p>
                   </div>
 
@@ -302,10 +349,10 @@ const BookNow = () => {
                       <span className=" text-[1.15rem] text-[#CBA557]">
                         <TbTool />
                       </span>
-                      <p className=" text-[#676767]">Built</p>
+                      <p className=" text-[#676767]">phone</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
-                      8m
+                      {boatDetails.boat.telephone}
                     </p>
                   </div>
                 </div>

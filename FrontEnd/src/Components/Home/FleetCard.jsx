@@ -10,6 +10,8 @@ const FleetCard = ({
   length,
   power,
   licenseRequired,
+  id,
+
 }) => {
   return (
     <div className="bg-white rounded-md p-3 w-full md:w-[350px] shadow-md">
@@ -51,7 +53,7 @@ const FleetCard = ({
           </tr>
         </table>
         <div className="w-full mt-12 mb-4 flex gap-4">
-          <Link to="/book-now">
+          <Link to={`/book-now/${id}`}>
             <button className="text-[var(--primary-color)] text-sm font-normal grow rounded-lg border-[1px] border-[var(--primary-color)] uppercase px-4 py-2">
               Boat PAGE
             </button>

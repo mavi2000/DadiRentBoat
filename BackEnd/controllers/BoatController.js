@@ -186,41 +186,54 @@ export const getAllDetail = async (req, res) => {
   }
 };
 
-const deleteBoatById = async (boatId) => {
-  try {
-    console.log("boatId", boatId);
-    // Find and delete the boat
-    const deletedBoat = await Boat.findByIdAndDelete(boatId).exec();
-    if (!deletedBoat) {
-      throw new Error("Boat not found");
-    }
+  // export const getAllDetail =async(req,res)=>{
+  //   try {
+  //       const boatDetails = await getAllBoatsDetails();
+  //       res.json(boatDetails);
+  //     } catch (error) {
+  //       console.error('Error in /boats route:', error);
+  //       res.status(500).send('Internal Server Error');
+  //     }
+  //   }
+  
 
-    await BoatImage.deleteMany({ boatId: deletedBoat._id }).exec();
 
-    await Location.deleteMany({ boatId: deletedBoat._id }).exec();
 
-    await voucher.deleteMany({ boatId: deletedBoat._id }).exec();
+// const deleteBoatById = async (boatId) => {
+//   try {
+//     console.log("boatId", boatId);
+//     // Find and delete the boat
+//     const deletedBoat = await Boat.findByIdAndDelete(boatId).exec();
+//     if (!deletedBoat) {
+//       throw new Error("Boat not found");
+//     }
 
-    return deletedBoat;
-  } catch (error) {
-    console.error("Error deleting boat and associated records:", error);
-    throw error;
-  }
-};
+//     await BoatImage.deleteMany({ boatId: deletedBoat._id }).exec();
 
-export const deleteBoat = async (req, res) => {
-  const { id: boatId } = req.body;
+//     await Location.deleteMany({ boatId: deletedBoat._id }).exec();
 
-  console.log("boatId", boatId);
+//     await voucher.deleteMany({ boatId: deletedBoat._id }).exec();
 
-  try {
-    const deletedBoat = await deleteBoatById(boatId);
-    res.json({ message: "Boat deleted successfully", deletedBoat });
-  } catch (error) {
-    console.error("Error deleting boat:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
+//     return deletedBoat;
+//   } catch (error) {
+//     console.error("Error deleting boat and associated records:", error);
+//     throw error;
+//   }
+// };
+
+// export const deleteBoat = async (req, res) => {
+//   const { id: boatId } = req.body;
+
+//   console.log("boatId", boatId);
+
+//   try {
+//     const deletedBoat = await deleteBoatById(boatId);
+//     res.json({ message: "Boat deleted successfully", deletedBoat });
+//   } catch (error) {
+//     console.error("Error deleting boat:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
 
 // apis for retrieving boat info step by step for update boat
 // get boat info
@@ -249,3 +262,61 @@ export const updateBoatInfo = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+    const deleteBoatById = async (boatId) => {
+        try {
+
+            console.log("boatId",boatId)
+            // Find and delete the boat
+            const deletedBoat = await Boat.findByIdAndDelete(boatId).exec();
+            if (!deletedBoat) {
+                throw new Error('Boat not found');
+            }
+    
+          
+            await BoatImage.deleteMany({ boatId: deletedBoat._id }).exec();
+    
+            await Location.deleteMany({ boatId: deletedBoat._id }).exec();
+    
+      
+            await voucher.deleteMany({ boatId: deletedBoat._id }).exec();
+    
+            return deletedBoat;
+        } catch (error) {
+            console.error('Error deleting boat and associated records:', error);
+            throw error;
+        }
+    };
+
+
+    
+    export const deleteBoat = async (req, res) => {
+        const { id: boatId } = req.body; 
+    
+        console.log("boatId", boatId);
+    
+        try {
+            const deletedBoat = await deleteBoatById(boatId);
+            res.json({ message: 'Boat deleted successfully', deletedBoat });
+        } catch (error) {
+            console.error('Error deleting boat:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    };
+
+
+
+
+
+
+    export const getBoatDetailById = async (req, res) => {
+      try {
+        const { id } = req.params;
+        console.log("id",id)
+        const boatDetails = await getBoatDetailsById(id);
+        res.json(boatDetails);
+      } catch (error) {
+        console.error('Error in /boat/:id route:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    };
