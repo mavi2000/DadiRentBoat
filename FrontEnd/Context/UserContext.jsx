@@ -1,6 +1,5 @@
 // UserContext.js
-import React, { createContext, useEffect, useState } from "react";
-import axios from "axios";
+import React, { createContext } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Make sure to import the toastify CSS
 import baseURL from "../APi/BaseUrl.js";
@@ -8,7 +7,6 @@ import baseURL from "../APi/BaseUrl.js";
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-
   const fetchBoatDetails = async () => {
     try {
       const response = await baseURL.get("/boat/get-boat");
@@ -21,7 +19,7 @@ const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ fetchBoatDetails }}>
+    <UserContext.Provider value={{ fetchBoatDetails, ali: 0 }}>
       {children}
     </UserContext.Provider>
   );

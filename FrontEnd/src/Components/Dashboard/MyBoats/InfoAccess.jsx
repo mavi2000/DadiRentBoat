@@ -5,16 +5,37 @@ import { FaPlus, FaTimes } from "react-icons/fa";
 import { AdminContext } from '../../../../Context/AdminContext';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import baseURL from '../../../../APi/BaseUrl';
 
 const InfoAccess = () => {
-  const { addBoatAccessInformation, boatId } = useContext(AdminContext);
+  const id = localStorage.getItem('id')
+  const { addBoatAccessInformation, boatId, navigate } = useContext(AdminContext);
   const [accessInfo, setAccessInfo] = useState([{ description: '', documentName: '', uploadDocument: null, documentLink: '' }]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     setAccessInfo(prevState => prevState.map(info => ({ ...info, boatId })));
   }, [boatId]);
-
+  // load existing data while editing
+  useEffect(() => {
+    if (id) {
+      const getInfoAccess = async () => {
+        try {
+          const res = await baseURL('/boatAccess/get-access-info/' + id)
+          const { data: { boatAccessInfo: { accessDetails } } } = res
+          // setEquipment({ ...equipments })
+          const details = accessDetails.map((item) => {
+            const { description, documentLink, documentName, uploadDocument } = item;
+            return { description, documentLink, documentName, uploadDocument }
+          })
+          setAccessInfo(details)
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getInfoAccess()
+    }
+  }, [])
   const handleInputChange = (index, field, value) => {
     const updatedAccessInfo = [...accessInfo];
     updatedAccessInfo[index][field] = value;
@@ -41,23 +62,34 @@ const InfoAccess = () => {
       }
       formData.append(`accessDetails[${index}][documentLink]`, info.documentLink);
     });
-    formData.append('boatId', boatId);
 
     try {
       for (let pair of formData.entries()) {
         console.log(pair[0], pair[1]);
       }
-
-      await addBoatAccessInformation(formData);
-      toast.success("Access information added successfully");
-      setAccessInfo([{ description: '', documentName: '', uploadDocument: null, documentLink: '' }]);
-
+      if (!id) {
+        formData.append('boatId', boatId);
+        await addBoatAccessInformation(formData);
+        toast.success("Access information added successfully");
+        setAccessInfo([{ description: '', documentName: '', uploadDocument: null, documentLink: '' }]);
+      }
+      else {
+        formData.append('boatId', id);
+        const access = await baseURL.patch('/boatAccess/update-access-info/' + id, formData, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
+        toast.success("Access information updated successfully");
+        localStorage.removeItem("id")
+        // setAccessInfo([{ description: '', documentName: '', uploadDocument: null, documentLink: '' }]);
+        setTimeout(() => {
+          navigate('/Dashboard/my-boats')
+        }, 3000)
+      }
     } catch (error) {
       console.error("Error adding access information:", error);
       toast.error("Failed to add access information");
     }
   };
-
   const renderAdditionalInputs = () => {
     return accessInfo.map((info, index) => (
       <div key={index} className="relative">
@@ -113,7 +145,7 @@ const InfoAccess = () => {
               value={info.documentLink}
               onChange={(e) => handleInputChange(index, 'documentLink', e.target.value)}
               placeholder='www.abc.com'
-              className='border-[1.35px] border-[#DBDADE] rounded-md px-4 py-4'/>
+              className='border-[1.35px] border-[#DBDADE] rounded-md px-4 py-4' />
           </div>
         </div>
       </div>

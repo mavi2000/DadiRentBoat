@@ -5,9 +5,9 @@ import { uploadImages } from "../utils/cloudinaryConfig.js";
 
 const accessDetailSchema = Joi.object({
   description: Joi.string().required(),
-  documentName: Joi.string().allow(''),
-  uploadDocument: Joi.string().allow(''),
-  documentLink: Joi.string().allow('')
+  documentName: Joi.string().allow(""),
+  uploadDocument: Joi.string().allow(""),
+  documentLink: Joi.string().allow(""),
 });
 
 const boatAccessSchema = Joi.object({
@@ -62,11 +62,12 @@ export const getAllBoatAccessInformation = async (req, res, next) => {
 
 export const getBoatAccessInformationById = async (req, res, next) => {
   try {
-    const boatAccessInfo = await BoatAccessInformation.findById(req.params.id);
+    const { id } = req.params;
+    const boatAccessInfo = await BoatAccessInformation.findOne({ boatId: id });
     if (!boatAccessInfo) {
       throw createError(404, "Boat access information not found");
     }
-    res.json(boatAccessInfo);
+    res.json({ boatAccessInfo });
   } catch (error) {
     next(error);
   }
@@ -74,19 +75,40 @@ export const getBoatAccessInformationById = async (req, res, next) => {
 
 export const updateBoatAccessInformation = async (req, res, next) => {
   try {
-    const { description, documentName, documentLink } = req.body;
-    const updatedBoatAccessInfo = await BoatAccessInformation.findByIdAndUpdate(
-      req.params.id,
+    const { id } = req.params;
+    // const { error, value } = boatAccessSchema.validate(req.body);
+    // if (error) {
+    //   throw createError(400, error.details[0].message);
+    // }
+
+    const uploadResults = await Promise.all(
+      req.files.map(async (file) => {
+        return await uploadImages(file);
+      })
+    );
+
+    const accessDetails = req.body.accessDetails.map((detail, index) => ({
+      ...detail,
+      uploadDocument: uploadResults[index]?.url || null,
+    }));
+    // console.log("access details", accessDetails);
+    const updatedAccessInfo = await BoatAccessInformation.findOneAndUpdate(
       {
-        $set: { accessDetails: { description, documentName, documentLink } },
+        boatId: id,
       },
+      { accessDetails, boatId: id },
       { new: true }
     );
-    if (!updatedBoatAccessInfo) {
-      throw createError(404, "Boat access information not found");
+    if (!updatedAccessInfo) {
+      return res.status(404).json({ message: "Access information not found" });
     }
-    res.json(updatedBoatAccessInfo);
+    res.status(200).json({
+      success: true,
+      message: "Boat access information updated successfully",
+      boatAccessInfo: updatedAccessInfo,
+    });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

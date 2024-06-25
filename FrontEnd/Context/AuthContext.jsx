@@ -2,7 +2,8 @@ import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import baseURL from '../APi/BaseUrl.js'; 
+import baseURL from '../APi/BaseUrl.js';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -57,7 +58,7 @@ const AuthProvider = ({ children }) => {
       if (response.data?.user && response.data?.token) {
         setUser(response.data.user);
         const role = response.data.user.roles;
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('authToken', response.data.token);
         toast.success('Loginup successful!');
         return role; // Return the role for navigation purposes
       } else {
@@ -75,11 +76,11 @@ const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       removeToken();
-    
+
       setAuthToken(null);
-   
+
       setUser(null);
-    
+
       navigate('/');
       toast.success('Logout successful!');
     } catch (error) {
@@ -87,7 +88,7 @@ const AuthProvider = ({ children }) => {
       toast.error(error.response?.data?.message || 'Logout failed');
     }
   }
-  
+
   const forgotPassword = async (email) => {
     try {
       await baseURL.post('/invite', { email });
@@ -137,10 +138,25 @@ const AuthProvider = ({ children }) => {
     };
     checkAuth();
   }, []);
-
+  // update user profile
+  const updateUser = async (userData) => {
+    console.log(userData);
+    try {
+      const response = await baseURL.patch('http://localhost:3800/update-user', userData, {
+        header: {
+          "Content-Type": "multipart/form-data",
+        }
+      });
+      setUser(response.data.user)
+      toast.success("Profile updated successfully!")
+    } catch (error) {
+      toast.error('Failed to update profile')
+      console.log(error);
+    }
+  }
   return (
     <AuthContext.Provider
-      value={{ user, error, signUp, login, logout, forgotPassword, resetPassword, inviteUser }}
+      value={{ user, error, signUp, login, logout, forgotPassword, resetPassword, inviteUser, updateUser }}
     >
       {children}
       <ToastContainer />
