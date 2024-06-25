@@ -20,8 +20,19 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const fetchBoatDetailsById = async (id) => {
+
+    try {
+      const response = await baseURL.get(`/boat/get-Sigle-boat/${id}`);
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.message || 'Error fetching boat details');
+    }
+  };
+
+
   return (
-    <UserContext.Provider value={{ fetchBoatDetails }}>
+    <UserContext.Provider value={{ fetchBoatDetails ,fetchBoatDetailsById }}>
       {children}
     </UserContext.Provider>
   );

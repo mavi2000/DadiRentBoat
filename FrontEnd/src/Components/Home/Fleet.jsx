@@ -49,11 +49,12 @@ const Fleet = () => {
           <FleetCard
             key={index}
             boatImg={boat.boatImages[0]?.avatar || 'default_image_path'} // Adjust this based on your actual image path
-            title={boat.boat.brand}
+            title={boat.boat.type}
             numberOfPersons={boat.boat.boardingCapacity}
             length={boat.boat.lengthMeters}
             power={boat.boat.totalEnginePowerHP}
             licenseRequired={boat.boat.licenseRequired ? "Yes" : "No"}
+            id={boat.boat._id} 
           />
         ))}
       </div>

@@ -200,6 +200,7 @@ const getAllBoatsDetails = async () => {
   
 
 
+
     const deleteBoatById = async (boatId) => {
         try {
 
@@ -224,6 +225,8 @@ const getAllBoatsDetails = async () => {
             throw error;
         }
     };
+
+
     
     export const deleteBoat = async (req, res) => {
         const { id: boatId } = req.body; 
@@ -237,4 +240,21 @@ const getAllBoatsDetails = async () => {
             console.error('Error deleting boat:', error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
+    };
+
+
+
+
+
+
+    export const getBoatDetailById = async (req, res) => {
+      try {
+        const { id } = req.params;
+        console.log("id",id)
+        const boatDetails = await getBoatDetailsById(id);
+        res.json(boatDetails);
+      } catch (error) {
+        console.error('Error in /boat/:id route:', error);
+        res.status(500).send('Internal Server Error');
+      }
     };
