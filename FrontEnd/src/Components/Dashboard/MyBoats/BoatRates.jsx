@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { FiEdit3 } from "react-icons/fi";
 import { IoMdAdd } from "react-icons/io";
@@ -6,9 +6,11 @@ import RatePopup from "./RatePopup";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import baseURL from "../../../../APi/BaseUrl";
 
 const BoatRates = () => {
-  const [popup, setPopup] = useState(false);
+  const id = localStorage.getItem('id')
+  const [popup, setPopup] = useState(id ? true : false);
   const { addRate, boatId } = useContext(AdminContext);
 
   const initialFormData = {
@@ -28,7 +30,23 @@ const BoatRates = () => {
 
   const [formData, setFormData] = useState(initialFormData);
   const [selectedDates, setSelectedDates] = useState([]);
-
+  // load rates while editing
+  useEffect(() => {
+    if (id) {
+      const getBoatRates = async () => {
+        try {
+          const res = await baseURL('/Rate/get-rate/' + id)
+          const { data: { rate } } = res
+          const { dates, startDate, endDate, normalDayRates, weekendRates, ...rest } = rate;
+          setFormData({ startDate, endDate, normalDayRates, weekendRates });
+          setSelectedDates(dates)
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getBoatRates()
+    }
+  }, [])
   const handleDateChange = (dates) => {
     const [start, end] = dates;
     setFormData((prevFormData) => ({
@@ -53,17 +71,28 @@ const BoatRates = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await addRate({ ...formData, boatId });
-      toast.success("Rates added successfully");
-      setSelectedDates([formData.startDate, formData.endDate]);
-      setPopup(false);
-    } catch (error) {
-      if (error.response && error.response.data && error.response.data.error) {
-        const errorMessage = error.response.data.error;
-        toast.error(errorMessage);
-      } else {
-        toast.error("Failed to add rates");
+    if (!id) {
+      try {
+        await addRate({ ...formData, boatId });
+        toast.success("Rates added successfully");
+        setSelectedDates([formData.startDate, formData.endDate]);
+        setPopup(false);
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.error) {
+          const errorMessage = error.response.data.error;
+          toast.error(errorMessage);
+        } else {
+          toast.error("Failed to add rates");
+        }
+      }
+    } else {
+      try {
+        const res = await baseURL.patch('/Rate/update-rate/' + id, { ...formData, boatId: id })
+        toast.success('Rates updated successfully');
+        localStorage.removeItem('id')
+        // setEquipment({ ...res.data.equipment })
+      } catch (error) {
+        toast.error('Failed to update equipments')
       }
     }
   };
@@ -72,7 +101,7 @@ const BoatRates = () => {
     setPopup(!popup);
   };
 
-  
+
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
