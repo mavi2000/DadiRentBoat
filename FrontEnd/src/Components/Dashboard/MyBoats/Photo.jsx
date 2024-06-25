@@ -3,12 +3,13 @@ import BoatsNavbar from "./BoatsNavbar";
 import { FaPlus } from "react-icons/fa6";
 import Download from "../../../assets/Images/Download-Cloud.png";
 import { AdminContext } from "../../../../Context/AdminContext";
+import baseURL from "../../../../APi/BaseUrl";
+import { toast } from "react-toastify";
 
 const Photo = () => {
+  const id = localStorage.getItem('id')
   const { uploadBoatImages, boatId } = useContext(AdminContext); // Destructure the uploadBoatImages function and boatId from the context
   const [selectedFile, setSelectedFile] = useState(null);
-
-  console.log("boatId",boatId)
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -17,13 +18,32 @@ const Photo = () => {
     if (selectedFile) {
       const formData = new FormData();
       formData.append("image", selectedFile); // Ensure the key matches server-side
-      formData.append("boatId", boatId); // Append boatId to the form data
-      try {
-        const response = await uploadBoatImages(formData);
-        console.log("Image uploaded successfully", response);
-        setSelectedFile(null); // Reset the selected file after upload
-      } catch (error) {
-        console.error("Failed to upload image", error);
+      if (id) {
+        formData.append("boatId", id);
+      } else {
+        formData.append("boatId", boatId);
+      }
+      if (!id) {
+        try {
+          const response = await uploadBoatImages(formData);
+          setSelectedFile(null); // Reset the selected file after upload
+        } catch (error) {
+          console.error("Failed to upload image", error);
+        }
+      } else {
+        try {
+          const response = await baseURL.patch('/image/update-image/' + id, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            }
+          });
+          setSelectedFile(null); // Reset the selected file after upload
+          toast.success('Image updated successfully')
+          localStorage.removeItem('id')
+        } catch (error) {
+          console.error("Failed to upload image", error);
+          toast.error('Failed to update image')
+        }
       }
     } else {
       alert("Please select a file first");
