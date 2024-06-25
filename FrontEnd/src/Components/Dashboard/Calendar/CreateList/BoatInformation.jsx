@@ -12,13 +12,13 @@ const BoatInformation = () => {
     model: '',
     year: 2017,
     region: 'Atlantica',
-    boardingCapacity: 20,
-    totalEnginePowerHP: 2017,
-    lengthMeters: 5,
-    telephone: '7183638911',
-    waterTankLiters: 20,
-    fuelTankLiters: 17,
-    droughtMeters: 10,
+    boardingCapacity: 8,
+    totalEnginePowerHP: 40,
+    lengthMeters: 7,
+    telephone: '+39 3701564317',
+    waterTankLiters: 25,
+    fuelTankLiters: 50,
+    droughtMeters: 90,
   });
   useEffect(() => {
     if (id) {
@@ -195,8 +195,8 @@ const BoatInformation = () => {
               <input
                 type="float"
                 name="lengthMeters"
-                min={0}
-
+                min={5}
+                max={70}
                 value={formData.lengthMeters}
                 onChange={handleChange}
                 className="w-[100%] h-[100%] py-3 px-4 bg-transparent"
@@ -249,6 +249,7 @@ const BoatInformation = () => {
                 type="number"
                 name="droughtMeters"
                 min={0}
+                max={90}
                 value={formData.droughtMeters}
                 onChange={handleChange}
                 className="w-[100%] h-[100%] py-3 px-4 bg-transparent"
