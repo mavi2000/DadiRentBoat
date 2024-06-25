@@ -91,6 +91,10 @@ const MyBoats = () => {
     {
       path: "/Dashboard/my-boats/photo",
       page: "Image"
+    },
+    {
+      path: "/Dashboard/my-boats/info-access",
+      page: "Access Information"
     }
   ]
   const navigate = useNavigate()
