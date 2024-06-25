@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const Equipments = () => {
   const id = localStorage.getItem('id')
-  const { createEquipment, boatId } = useContext(AdminContext); // Use the context and destructure boatId
+  const { createEquipment, boatId, navigate } = useContext(AdminContext); // Use the context and destructure boatId
   const [equipment, setEquipment] = useState({
     comfort: [],
     navigation: [],
@@ -44,7 +44,10 @@ const Equipments = () => {
         const res = await baseURL.patch('/equipment/update-boat-equipments/' + id, equipment)
         toast.success('Equipments updated successfully');
         localStorage.removeItem('id')
-        setEquipment({ ...res.data.equipment })
+        // setEquipment({ ...res.data.equipment })
+        setTimeout(() => {
+          navigate('/Dashboard/my-boats')
+        }, 3000)
       } catch (error) {
         toast.error('Failed to update equipments')
       }

@@ -6,7 +6,7 @@ import baseURL from "../../../../APi/BaseUrl";
 
 const Deposit = () => {
   const id = localStorage.getItem('id')
-  const { damageDeposit, boatId } = useContext(AdminContext);
+  const { damageDeposit, boatId, navigate } = useContext(AdminContext);
   const [checkbox, setCheckbox] = useState(false);
   const [depositData, setDepositData] = useState({
     type: "",
@@ -67,7 +67,10 @@ const Deposit = () => {
         const res = await baseURL.patch('/demage/update-damage-deposit/' + id, depositData)
         toast.success('Deposit updated successfully');
         localStorage.removeItem('id')
-        setDepositData({ ...res.data.updatedDeposit })
+        // setDepositData({ ...res.data.updatedDeposit })
+        setTimeout(() => {
+          navigate('/Dashboard/my-boats')
+        }, 3000)
       } catch (error) {
         toast.error('Failed to update deposit')
       }

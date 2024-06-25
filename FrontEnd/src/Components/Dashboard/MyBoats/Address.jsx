@@ -25,7 +25,7 @@ const center = [51.505, -0.09]; // Default center point
 
 const Address = () => {
   const id = localStorage.getItem('id')
-  const { createLocation, boatId } = useContext(AdminContext); // Access context functions and state
+  const { createLocation, boatId, navigate } = useContext(AdminContext); // Access context functions and state
   const [place, setPlace] = useState("");
   const [city, setCity] = useState("");
   const [latitude, setLatitude] = useState(center[0]);
@@ -76,7 +76,10 @@ const Address = () => {
         const res = await baseURL.patch('/location/update-location/' + id, { ...locationData, boatId: id })
         toast.success('Location updated successfully');
         localStorage.removeItem('id')
-        setCity({ ...res.data.location.city })
+        // setCity({ ...res.data.location.city })
+        setTimeout(() => {
+          navigate('/Dashboard/my-boats')
+        }, 3000)
       } catch (error) {
         toast.error('Failed to update equipments')
       }

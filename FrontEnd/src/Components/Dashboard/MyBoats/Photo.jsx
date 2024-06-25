@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const Photo = () => {
   const id = localStorage.getItem('id')
-  const { uploadBoatImages, boatId } = useContext(AdminContext); // Destructure the uploadBoatImages function and boatId from the context
+  const { uploadBoatImages, boatId, navigate } = useContext(AdminContext); // Destructure the uploadBoatImages function and boatId from the context
   const [selectedFile, setSelectedFile] = useState(null);
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -40,6 +40,9 @@ const Photo = () => {
           setSelectedFile(null); // Reset the selected file after upload
           toast.success('Image updated successfully')
           localStorage.removeItem('id')
+          setTimeout(() => {
+            navigate('/Dashboard/my-boats')
+          }, 3000)
         } catch (error) {
           console.error("Failed to upload image", error);
           toast.error('Failed to update image')

@@ -9,7 +9,7 @@ import baseURL from "../../../../../APi/BaseUrl.js";
 
 const RentalInformation = () => {
   const id = localStorage.getItem('id')
-  const { rentBoat, error, boatId } = useContext(AdminContext);
+  const { rentBoat, error, boatId, navigate } = useContext(AdminContext);
   const [rentalData, setRentalData] = useState({
     boatId: "",
     BoatName: "",
@@ -19,7 +19,7 @@ const RentalInformation = () => {
     duration: "",
   });
 
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  // const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
     setRentalData(prevState => ({
@@ -71,6 +71,9 @@ const RentalInformation = () => {
         localStorage.removeItem('id')
         setRentalData({ ...res.data.updatedRent })
         toast.success('Rent updated successfully!!!');
+        setTimeout(() => {
+          navigate('/Dashboard/my-boats')
+        }, 3000)
       } catch (error) {
         console.log(error);
         toast.error('Failed to update boat!!!')

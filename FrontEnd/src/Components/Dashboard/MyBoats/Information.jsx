@@ -9,7 +9,7 @@ import baseURL from "../../../../APi/BaseUrl";
 
 const Information = () => {
   const id = localStorage.getItem('id')
-  const { boatDescription, boatId } = useContext(AdminContext);
+  const { boatDescription, boatId, navigate } = useContext(AdminContext);
   const [descriptionData, setDescriptionData] = useState({
     boatType: "",
     rentalType: { bareBoat: false, withoutSkipper: false },
@@ -47,7 +47,6 @@ const Information = () => {
       getBoatDescription()
     }
   }, [])
-  console.log(descriptionData);
   const handelNestedChange = (e, group) => {
     const { name, value, type, checked } = e.target;
     setDescriptionData((prevState) => ({
@@ -89,7 +88,10 @@ const Information = () => {
         const res = await baseURL.patch('/decription/update-boat-description/' + id, descriptionData)
         toast.success('Description updated successfully');
         localStorage.removeItem('id')
-        setDescriptionData({ ...res.data.updatedDescription })
+        // setDescriptionData({ ...res.data.updatedDescription })
+        setTimeout(() => {
+          navigate('/Dashboard/my-boats')
+        }, 3000)
       } catch (error) {
         toast.error('Failed to update description')
       }

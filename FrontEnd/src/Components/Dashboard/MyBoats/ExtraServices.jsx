@@ -6,7 +6,7 @@ import baseURL from "../../../../APi/BaseUrl";
 
 const ExtraServices = () => {
   const id = localStorage.getItem('id')
-  const { ExtraServices, getExtraServices, boatId } = useContext(AdminContext);
+  const { ExtraServices, getExtraServices, boatId, navigate } = useContext(AdminContext);
   const [services, setServices] = useState([]);
   const [servicesData, setServicesData] = useState({
     serviceName: "",
@@ -71,7 +71,10 @@ const ExtraServices = () => {
         const res = await baseURL.patch('/service/update-service/' + id, servicesData)
         toast.success('Extra service updated successfully');
         localStorage.removeItem('id')
-        setServicesData({ ...res.data.extraService })
+        // setServicesData({ ...res.data.extraService })
+        setTimeout(() => {
+          navigate('/Dashboard/my-boats')
+        }, 3000)
       } catch (error) {
         toast.error('Failed to update extra service')
       }

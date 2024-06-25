@@ -11,7 +11,7 @@ import baseURL from "../../../../APi/BaseUrl";
 const BoatRates = () => {
   const id = localStorage.getItem('id')
   const [popup, setPopup] = useState(id ? true : false);
-  const { addRate, boatId } = useContext(AdminContext);
+  const { addRate, boatId, navigate } = useContext(AdminContext);
 
   const initialFormData = {
     startDate: "",
@@ -91,6 +91,9 @@ const BoatRates = () => {
         toast.success('Rates updated successfully');
         localStorage.removeItem('id')
         // setEquipment({ ...res.data.equipment })
+        setTimeout(() => {
+          navigate('/Dashboard/my-boats')
+        }, 3000)
       } catch (error) {
         toast.error('Failed to update equipments')
       }

@@ -42,7 +42,6 @@ const MyBoats = () => {
   const handleCancelDelete = () => {
     setShowDeletePopup(false);
   };
-  const [page, setPage] = useState('')
   const pages = [
     {
       path: "",
@@ -97,7 +96,14 @@ const MyBoats = () => {
       page: "Access Information"
     }
   ]
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  // remove the id
+  const id = localStorage.getItem("id")
+  useEffect(() => {
+    if (id) {
+      localStorage.removeItem('id')
+    }
+  }, [])
   const handleChange = (e, id) => {
     localStorage.setItem('id', id)
     navigate(e.target.value)
@@ -198,7 +204,6 @@ const MyBoats = () => {
                       name=""
                       id=""
                       className="border-t bg-transparent md:text-xl text-xs"
-                      value={page}
                       onChange={(e) => {
                         handleChange(e, boat.boat._id)
                       }}

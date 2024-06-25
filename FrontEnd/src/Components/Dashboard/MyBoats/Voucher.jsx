@@ -6,7 +6,7 @@ import baseURL from "../../../../APi/BaseUrl";
 
 const Voucher = () => {
   const id = localStorage.getItem("id")
-  const { createVoucher, boatId } = useContext(AdminContext); // Access context function
+  const { createVoucher, boatId, navigate } = useContext(AdminContext); // Access context function
   const [voucherName, setVoucherName] = useState("");
   const [totalDiscount, setTotalDiscount] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -71,6 +71,9 @@ const Voucher = () => {
           toast.success('Voucher updated successfully');
           localStorage.removeItem('id')
           // setEquipment({ ...res.data.equipment })
+          setTimeout(() => {
+            navigate('/Dashboard/my-boats')
+          }, 3000)
         } catch (error) {
           toast.error('Failed to update equipments')
         }

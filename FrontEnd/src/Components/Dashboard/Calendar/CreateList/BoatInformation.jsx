@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AdminContext } from '../../../../../Context/AdminContext.jsx';
 import { toast } from 'react-toastify';
 import baseURL from '../../../../../APi/BaseUrl.js';
-
 const BoatInformation = () => {
   const id = localStorage.getItem("id");
-  const { createBoat, error } = useContext(AdminContext);
+  const { createBoat, error, navigate } = useContext(AdminContext);
+
   const [formData, setFormData] = useState({
     type: '',
     brand: '',
@@ -50,6 +50,9 @@ const BoatInformation = () => {
         toast.success('Boat updated successfully');
         localStorage.removeItem('id')
         setFormData({ ...res.data.updatedBoat })
+        setTimeout(() => {
+          navigate('/Dashboard/my-boats')
+        }, 3000)
       } catch (error) {
         toast.error('Failed to update boat')
       }

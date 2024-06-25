@@ -9,9 +9,9 @@ import baseURL from '../../../../APi/BaseUrl';
 
 const InfoAccess = () => {
   const id = localStorage.getItem('id')
-  const { addBoatAccessInformation, boatId } = useContext(AdminContext);
+  const { addBoatAccessInformation, boatId, navigate } = useContext(AdminContext);
   const [accessInfo, setAccessInfo] = useState([{ description: '', documentName: '', uploadDocument: null, documentLink: '' }]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     setAccessInfo(prevState => prevState.map(info => ({ ...info, boatId })));
@@ -80,7 +80,10 @@ const InfoAccess = () => {
         })
         toast.success("Access information updated successfully");
         localStorage.removeItem("id")
-        setAccessInfo([{ description: '', documentName: '', uploadDocument: null, documentLink: '' }]);
+        // setAccessInfo([{ description: '', documentName: '', uploadDocument: null, documentLink: '' }]);
+        setTimeout(() => {
+          navigate('/Dashboard/my-boats')
+        }, 3000)
       }
     } catch (error) {
       console.error("Error adding access information:", error);

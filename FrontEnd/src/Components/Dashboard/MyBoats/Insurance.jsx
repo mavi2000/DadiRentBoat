@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import baseURL from "../../../../APi/BaseUrl";
 const Insurance = () => {
   const id = localStorage.getItem('id')
-  const { Insurances, boatId } = useContext(AdminContext);
+  const { Insurances, boatId, navigate } = useContext(AdminContext);
   const [insuranceData, setInsuranceData] = useState({
     currentInsurer: "",
     amountDeductible: "",
@@ -66,9 +66,11 @@ const Insurance = () => {
         const res = await baseURL.patch('/insurence/update-insurance/' + id, insuranceData)
         toast.success('Insurance updated successfully');
         localStorage.removeItem('id');
-        const { _id, createdAt, updatedAt, __v, ...rest } = res.data.insurance;
-        setInsuranceData({ ...rest })
-
+        // const { _id, createdAt, updatedAt, __v, ...rest } = res.data.insurance;
+        // setInsuranceData({ ...rest })
+        setTimeout(() => {
+          navigate('/Dashboard/my-boats')
+        }, 3000)
       } catch (error) {
         toast.error('Failed to update insurance')
       }
