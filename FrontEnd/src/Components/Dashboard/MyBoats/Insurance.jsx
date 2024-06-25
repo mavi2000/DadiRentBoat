@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import baseURL from "../../../../APi/BaseUrl";
 const Insurance = () => {
   const id = localStorage.getItem('id')
-  console.log(id);
   const { Insurances, boatId } = useContext(AdminContext);
   const [insuranceData, setInsuranceData] = useState({
     currentInsurer: "",
@@ -35,7 +34,6 @@ const Insurance = () => {
       getInsurance()
     }
   }, [])
-  console.log(insuranceData);
   const handelChange = (e) => {
     const { name, value } = e.target;
     setInsuranceData({ ...insuranceData, [name]: value });

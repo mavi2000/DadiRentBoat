@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { MdCancel } from "react-icons/md";
 import { TbAlertCircleFilled } from "react-icons/tb";
@@ -11,6 +11,8 @@ import { AdminContext } from "../../../../Context/AdminContext";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import baseURL from "../../../../APi/BaseUrl";
+import { toast } from "react-toastify";
 
 // Fix the default marker icon issue with React Leaflet
 L.Icon.Default.mergeOptions({
@@ -22,6 +24,7 @@ L.Icon.Default.mergeOptions({
 const center = [51.505, -0.09]; // Default center point
 
 const Address = () => {
+  const id = localStorage.getItem('id')
   const { createLocation, boatId } = useContext(AdminContext); // Access context functions and state
   const [place, setPlace] = useState("");
   const [city, setCity] = useState("");
@@ -32,7 +35,24 @@ const Address = () => {
     setLatitude(e.latlng.lat);
     setLongitude(e.latlng.lng);
   };
-
+  // get boat location if editing
+  useEffect(() => {
+    if (id) {
+      const getBoatLocation = async () => {
+        try {
+          const res = await baseURL('/location/get-location/' + id)
+          const { data: { location } } = res
+          setPlace(location?.place)
+          setCity(location?.city)
+          setLatitude(location.exactLocation.latitude)
+          setLongitude(location?.exactLocation.longitude)
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getBoatLocation()
+    }
+  }, [])
   const handleSubmit = async (e) => {
     e.preventDefault();
     const locationData = {
@@ -42,17 +62,26 @@ const Address = () => {
         latitude,
         longitude,
       },
-      boatId,
+      boatId: boatId,
     };
-
-    try {
-      await createLocation(locationData); // Use context function to save location
-    } catch (error) {
-      console.error(error);
-      alert("Failed to save location");
-    }
-  };
-
+    if (!id) {
+      try {
+        await createLocation(locationData); // Use context function to save location
+      } catch (error) {
+        console.error(error);
+        alert("Failed to save location");
+      }
+    } else {
+      try {
+        const res = await baseURL.patch('/location/update-location/' + id, { ...locationData, boatId: id })
+        toast.success('Location updated successfully');
+        localStorage.removeItem('id')
+        setCity({ ...res.data.location.city })
+      } catch (error) {
+        toast.error('Failed to update equipments')
+      }
+    };
+  }
   const LocationMarker = () => {
     useMapEvents({
       click: handleMapClick,
@@ -123,12 +152,11 @@ const Address = () => {
             </MapContainer>
           </div>
           <button type="submit" className="bg-[#CBA557] w-[15%] py-4 rounded-lg text-white">
-            Save
+            {id ? "Update" : "Save"}
           </button>
         </div>
       </form>
     </div>
   );
 };
-
 export default Address;
