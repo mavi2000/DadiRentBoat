@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-const { Schema } = mongoose
+import mongoose from "mongoose";
+const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
@@ -12,7 +12,7 @@ const userSchema = new Schema(
       required: true,
     },
     phoneNumber: {
-      type: String
+      type: String,
     },
     password: {
       type: String,
@@ -20,24 +20,60 @@ const userSchema = new Schema(
     },
     isVerified: {
       type: Boolean,
-      default: false
+      default: false,
     },
     roles: {
       type: String,
-      enum: ['user', 'admin'],
-      default: 'user'
-    }
+      enum: ["user", "admin"],
+      default: "user",
+    },
+    dob: {
+      type: String,
+      required: false,
+    },
+    language: {
+      type: String,
+      required: false,
+    },
+    gender: {
+      type: String,
+      required: false,
+    },
+    nationality: {
+      type: String,
+      required: false,
+    },
+    address: {
+      type: String,
+      required: false,
+    },
+    zip: {
+      type: String,
+      required: false,
+    },
+    state: {
+      type: String,
+      required: false,
+    },
+    country: {
+      type: String,
+      required: false,
+    },
+    image: {
+      type: String,
+      required: false,
+    },
   },
   {
     toJSON: {
       transform(doc, ret) {
-        delete ret.__v
+        delete ret.__v;
       },
     },
     timestamps: true,
   }
-)
+);
 
-const User = mongoose.model("User", userSchema)
+const User = mongoose.model("User", userSchema);
 
-export default User
+export default User;

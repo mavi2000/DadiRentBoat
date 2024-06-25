@@ -2,9 +2,10 @@ import React, { useContext, useState, useEffect } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
-
+import baseURL from "../../../../APi/BaseUrl";
 const Insurance = () => {
-  const { Insurances, boatId } = useContext(AdminContext);
+  const id = localStorage.getItem('id')
+  const { Insurances, boatId, navigate } = useContext(AdminContext);
   const [insuranceData, setInsuranceData] = useState({
     currentInsurer: "",
     amountDeductible: "",
@@ -18,7 +19,21 @@ const Insurance = () => {
       boatId: boatId,
     }));
   }, [boatId]);
-
+  useEffect(() => {
+    if (id) {
+      const getInsurance = async () => {
+        try {
+          const res = await baseURL('/insurence/get-insurance/' + id)
+          const { data: { insurance } } = res;
+          const { _id, createdAt, updatedAt, __v, ...rest } = insurance;
+          setInsuranceData({ ...rest })
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getInsurance()
+    }
+  }, [])
   const handelChange = (e) => {
     const { name, value } = e.target;
     setInsuranceData({ ...insuranceData, [name]: value });
@@ -26,23 +41,38 @@ const Insurance = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await Insurances(insuranceData);
-      toast.success("Insurance successfully saved");
-      setInsuranceData({
-        boatId: boatId,
-        currentInsurer: "",
-        amountDeductible: "",
-        insuredValueOfBoat: "",
-        boatRegistration: "",
-      });
-    } catch (error) {
-      if (error.response) {
-        console.error("Error Response:", error.response);
-        toast.error(`Error: ${error.response.data.message || error.message}`);
-      } else {
-        console.error("Error:", error);
-        toast.error("An unexpected error occurred");
+    if (!id) {
+      try {
+        await Insurances(insuranceData);
+        toast.success("Insurance successfully saved");
+        setInsuranceData({
+          boatId: boatId,
+          currentInsurer: "",
+          amountDeductible: "",
+          insuredValueOfBoat: "",
+          boatRegistration: "",
+        });
+      } catch (error) {
+        if (error.response) {
+          console.error("Error Response:", error.response);
+          toast.error(`Error: ${error.response.data.message || error.message}`);
+        } else {
+          console.error("Error:", error);
+          toast.error("An unexpected error occurred");
+        }
+      }
+    } else {
+      try {
+        const res = await baseURL.patch('/insurence/update-insurance/' + id, insuranceData)
+        toast.success('Insurance updated successfully');
+        localStorage.removeItem('id');
+        // const { _id, createdAt, updatedAt, __v, ...rest } = res.data.insurance;
+        // setInsuranceData({ ...rest })
+        setTimeout(() => {
+          navigate('/Dashboard/my-boats')
+        }, 3000)
+      } catch (error) {
+        toast.error('Failed to update insurance')
       }
     }
   }
@@ -131,7 +161,7 @@ const Insurance = () => {
             type="submit"
             className="bg-[#CBA557] w-[15%] py-4 rounded-lg text-white"
           >
-            Add
+            {id ? "Update" : "Add"}
           </button>
         </div>
       </form>

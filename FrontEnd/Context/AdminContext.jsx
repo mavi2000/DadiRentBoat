@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Make sure to import the toastify CSS
 import baseURL from "../APi/BaseUrl.js";
+import { useNavigate } from "react-router-dom";
 
 const AdminContext = createContext();
 
@@ -11,6 +12,7 @@ const AdminProvider = ({ children }) => {
   const [admin, setAdmin] = useState(null);
   const [error, setError] = useState(null);
   const [boatId, setBoatIdState] = useState(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const storedBoatId = sessionStorage.getItem("boatId");
@@ -92,7 +94,7 @@ const AdminProvider = ({ children }) => {
   };
 
   const ExtraServices = async (servicesData) => {
-    console.log("servicesData",servicesData)
+    console.log("servicesData", servicesData)
     try {
       const response = await baseURL.post(
         "/service/Extra-Service",
@@ -125,7 +127,7 @@ const AdminProvider = ({ children }) => {
   };
 
   const boatDescription = async (boatDescription) => {
-    console.log("boatDescription",boatDescription)
+    console.log("boatDescription", boatDescription)
     try {
       const response = await baseURL.post(
         "/decription/add-Description",
@@ -142,7 +144,7 @@ const AdminProvider = ({ children }) => {
   };
 
 
-  
+
   const InfoAccess = async (infoAccess) => {
     try {
       const response = await baseURL.post(
@@ -206,7 +208,7 @@ const AdminProvider = ({ children }) => {
   };
 
   const createVoucher = async (voucherData) => {
-    console.log("voucherData",voucherData)
+    console.log("voucherData", voucherData)
     try {
       const response = await baseURL.post(
         "/voucher//create-vouchers",
@@ -380,7 +382,7 @@ const AdminProvider = ({ children }) => {
 
   const deleteBoat = async (boatId) => {
 
-    console.log("boatId",boatId)
+    console.log("boatId", boatId)
     try {
       const response = await baseURL.delete('/boat/delete-boat', {
         data: { id: boatId } // Pass the boat ID in the request body
@@ -424,7 +426,7 @@ const AdminProvider = ({ children }) => {
         DeleteTermAndCondition,
         addBoatAccessInformation,
         getBoats,
-        deleteBoat
+        deleteBoat, navigate
       }}
     >
       {children}

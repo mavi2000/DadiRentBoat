@@ -26,3 +26,34 @@ export const createDamageDeposit = async (req, res, next) => {
     next(err);
   }
 };
+// get damage deposits
+export const getDamageDeposit = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deposit = await DemageDeposits.findOne({ boatId: id });
+    if (!deposit) {
+      return res.status(404).json({ message: "No deposit found" });
+    }
+    return res.status(200).json({ deposit });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+// update damage deposits
+export const updateDamageDeposit = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deposit = await DemageDeposits.findOne({ boatId: id });
+    if (!deposit) {
+      return res.status(404).json({ message: "No deposit found" });
+    }
+    const updatedDeposit = await DemageDeposits.findOneAndUpdate(
+      { boatId: id },
+      req.body,
+      { new: true, runValidators: true }
+    );
+    return res.status(200).json({ updatedDeposit });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
