@@ -79,6 +79,10 @@ const MyBoats = () => {
     {
       path: "/Dashboard/my-boats/address",
       page: "Address"
+    },
+    {
+      path: '/Dashboard/my-boats/promotion',
+      page: "Promotions"
     }
   ]
   const navigate = useNavigate()

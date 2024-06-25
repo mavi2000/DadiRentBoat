@@ -1,17 +1,19 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from 'react-toastify'; // Assuming you use react-toastify for notifications
+import baseURL from "../../../../APi/BaseUrl";
 
 const Voucher = () => {
-  const { createVoucher,boatId } = useContext(AdminContext); // Access context function
+  const id = localStorage.getItem("id")
+  const { createVoucher, boatId } = useContext(AdminContext); // Access context function
   const [voucherName, setVoucherName] = useState("");
   const [totalDiscount, setTotalDiscount] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [isActivated, setIsActivated] = useState(false);
-  
-  
+
+
   const [promotion, setPromotion] = useState({
     startDate: "",
     endDate: "",
@@ -23,9 +25,28 @@ const Voucher = () => {
     lastMinuteReduction: "",
     lastMinuteActivated: false
   });
-
+  // load voucher data while editing
+  useEffect(() => {
+    if (id) {
+      const getVoucher = async () => {
+        try {
+          const res = await baseURL('/voucher/getbyId-vouchers/' + id)
+          const { data: { voucher } } = res;
+          console.log(voucher);
+          const { voucherName, totalDiscount, startDate, endDate, isActive } = voucher;
+          setEndDate(endDate);
+          setIsActivated(isActive);
+          setStartDate(startDate);
+          setVoucherName(voucherName);
+          setTotalDiscount(totalDiscount);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getVoucher()
+    }
+  }, [])
   const handleSubmit = async (e) => {
-    console.log("isActivated",isActivated)
     e.preventDefault();
     if (isActivated) {
       const voucherData = {
@@ -33,18 +54,26 @@ const Voucher = () => {
         totalDiscount,
         startDate,
         endDate,
-        isActivated,
+        isActive: isActivated,
         boatId
       };
-
-      
-
-      try {
-        console.log("voucherData",voucherData)
-        await createVoucher(voucherData); // Use context function to create voucher
-        toast.success("Voucher created successfully");
-      } catch (error) {
-        toast.error("Failed to create voucher");
+      if (!id) {
+        try {
+          console.log("voucherData", voucherData)
+          await createVoucher(voucherData); // Use context function to create voucher
+          toast.success("Voucher created successfully");
+        } catch (error) {
+          toast.error("Failed to create voucher");
+        }
+      } else {
+        try {
+          const res = await baseURL.patch('/voucher/update-vouchers/' + id, { ...voucherData, boatId: id })
+          toast.success('Voucher updated successfully');
+          localStorage.removeItem('id')
+          // setEquipment({ ...res.data.equipment })
+        } catch (error) {
+          toast.error('Failed to update equipments')
+        }
       }
     }
   };
@@ -125,7 +154,7 @@ const Voucher = () => {
             type="submit"
             className="bg-[#CBA557] w-[15%] py-2 rounded-lg text-white font-semibold"
           >
-            Create Voucher
+            {id ? "Update" : "Create"} Voucher
           </button>
         </div>
       </form>
