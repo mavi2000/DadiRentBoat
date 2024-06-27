@@ -1,11 +1,36 @@
-import React, { useState } from "react";
 import Annina from "../../assets/Images/annina.webp";
 import Payment from "./Payment";
 import Greeting from "./Greeting";
 import Details from "./Details";
+import { useParams } from 'react-router-dom';
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../../Context/UserContext";
 
 const Checkout = () => {
+  const { id } = useParams();
+  const { fetchBoatDetailsById } = useContext(UserContext);
+  const [boatDetails, setBoatDetails] = useState(null);
+  const [error, setError] = useState(null);
   const [activeComponent, setActiveComponent] = useState("details");
+
+  useEffect(() => {
+    const getBoatDetails = async () => {
+      try {
+        console.log('Fetching boat details for ID:', id); // Log ID being used
+        const details = await fetchBoatDetailsById(id);
+        console.log('Boat details fetched:', details); // Log fetched details
+        setBoatDetails(details);
+      } catch (error) {
+        console.error('Error fetching boat details:', error); // Log error
+        setError(error.message || 'Error loading boat details');
+      }
+    };
+
+    if (id) {
+      getBoatDetails();
+    }
+  }, [id, fetchBoatDetailsById]);
+
   const renderComponent = () => {
     switch (activeComponent) {
       case "payment":
@@ -16,7 +41,12 @@ const Checkout = () => {
         return <Details />;
     }
   };
-  const isLogin = !!true;
+
+  const isLogin = true;
+
+  console.log('id:', id);
+  console.log('boatDetails:', boatDetails);
+
   return (
     <div>
       <div className="checkout-bg !h-[50svh] md:!h-[100svh]">
@@ -38,55 +68,59 @@ const Checkout = () => {
           that we are able to provide always and in any case.
         </p>
 
-        <div className=" flex flex-col md:flex-row md:space-x-[2%] mt-[2%] space-y-[5%] md:space-y-[0%]">
+        <div className="flex flex-col md:flex-row md:space-x-[2%] mt-[2%] space-y-[5%] md:space-y-[0%]">
           <div className="md:w-[35%] bg-white rounded-xl shadow-checkout mb-[1%]">
             <div className="py-9 px-12 flex flex-col justify-center items-center">
-              <h2 className=" text-xl font-medium leading-7">
+              <h2 className="text-xl font-medium leading-7">
                 Booking #240401-104107563
               </h2>
             </div>
-            <hr className=" border border-[#DCDCDC]" />
+            <hr className="border border-[#DCDCDC]" />
 
             <div className="py-9 px-12 flex justify-center flex-col text-[#383838]">
-              <img src={Annina} alt="" className="md:w-64" />
-              <h2 className="heading-book mt-[4%] text-[#383838]">
-                Yachts du Canon
-              </h2>
-
-              <div className=" flex flex-col gap-1 mt-[3%]">
-                <p>
-                  From:{" "}
-                  <span className=" text-[#676767] font-normal">
-                    April 3, 2024 - 7:00 am
-                  </span>
-                </p>
-                <p>
-                  To:{" "}
-                  <span className=" text-[#676767] font-normal">
-                    April 5, 2024 - 7:00 am
-                  </span>
-                </p>
-                <p>
-                  No of persons:{" "}
-                  <span className=" text-[#676767] font-normal">4</span>
-                </p>
-                <p>
-                  With Skipper:{" "}
-                  <span className=" text-[#676767] font-normal">$10.00</span>
-                </p>
-                <p>Full Day</p>
-                <p className=" text-[#EA5455]">Fuel Not Included</p>
-              </div>
+             {boatDetails?.boatImages.map((item)=>( <img src={item.avatar} alt="" className="md:w-64" />))}
+              {boatDetails ? (
+                <>
+                  <h2 className="heading-book mt-[4%] text-[#383838]">
+                    {boatDetails.boat.type}
+                  </h2>
+                  <div className="flex flex-col gap-1 mt-[3%]">
+                    <p>
+                      From:{" "}
+                      <span className="text-[#676767] font-normal">
+                        April 3, 2024 - 7:00 am
+                      </span>
+                    </p>
+                    <p>
+                      To:{" "}
+                      <span className="text-[#676767] font-normal">
+                        April 5, 2024 - 7:00 am
+                      </span>
+                    </p>
+                    <p>
+                      No of persons:{" "}
+                      <span className="text-[#676767] font-normal">{boatDetails.boat.boardingCapacity}</span>
+                    </p>
+                    <p>
+                      With Skipper:{" "}
+                      <span className="text-[#676767] font-normal">$10.00</span>
+                    </p>
+                    <p>Full Day</p>
+                    <p className="text-[#EA5455]">Fuel Not Included</p>
+                  </div>
+                </>
+              ) : (
+                <p>Loading boat details...</p>
+              )}
             </div>
 
             <div className="border-t border-b border-[#CBA557] py-9 px-12 leading-7">
               <h1 className="font-medium text-[#383838] text-lg">
                 Amount to be Paid Online
               </h1>
-
-              <div className=" flex justify-between w-[90%] mt-[1%]">
-                <p className=" text-lg font-normal text-[#676767]">Amount</p>
-                <p className=" text-lg font-medium text-[#383838]">$5712.00</p>
+              <div className="flex justify-between w-[90%] mt-[1%]">
+                <p className="text-lg font-normal text-[#676767]">Amount</p>
+                <p className="text-lg font-medium text-[#383838]">$5712.00</p>
               </div>
             </div>
 
@@ -94,42 +128,36 @@ const Checkout = () => {
               <h1 className="font-medium text-[#383838] text-lg">
                 Amount to be Paid on Harbor
               </h1>
-
-              <div className=" flex justify-between w-[90%] mt-[1%]">
-                <p className=" text-lg font-normal text-[#676767]">Skipper</p>
-                <p className=" text-lg font-medium text-[#383838]">$10.00</p>
+              <div className="flex justify-between w-[90%] mt-[1%]">
+                <p className="text-lg font-normal text-[#676767]">Skipper</p>
+                <p className="text-lg font-medium text-[#383838]">$10.00</p>
               </div>
-
-              <div className=" flex justify-between w-[90%] mt-[1%]">
-                <p className=" text-lg font-normal text-[#676767]">Tickets</p>
-                <p className=" text-lg font-medium text-[#383838]">$10.00</p>
+              <div className="flex justify-between w-[90%] mt-[1%]">
+                <p className="text-lg font-normal text-[#676767]">Tickets</p>
+                <p className="text-lg font-medium text-[#383838]">$10.00</p>
               </div>
             </div>
 
             <div className="py-9 px-12 leading-7">
-              <div className=" flex justify-between w-[90%] mt-[1%]">
-                <p className=" text-lg font-normal text-[#676767]">Subtotal</p>
-                <p className=" text-lg font-medium text-[#383838]">$5712.00</p>
+              <div className="flex justify-between w-[90%] mt-[1%]">
+                <p className="text-lg font-normal text-[#676767]">Subtotal</p>
+                <p className="text-lg font-medium text-[#383838]">$5712.00</p>
               </div>
-
-              <div className=" flex justify-between w-[90%] mt-[1%]">
-                <p className=" text-lg font-normal text-[#676767]">
+              <div className="flex justify-between w-[90%] mt-[1%]">
+                <p className="text-lg font-normal text-[#676767]">
                   Skipper Charges:
                 </p>
-                <p className=" text-lg font-medium text-[#383838]">$10.00</p>
+                <p className="text-lg font-medium text-[#383838]">$10.00</p>
               </div>
-
-              <div className=" flex justify-between w-[90%] mt-[1%]">
-                <p className=" text-lg font-normal text-[#676767]">Tickets</p>
-                <p className=" text-lg font-medium text-[#383838]">$10.00</p>
+              <div className="flex justify-between w-[90%] mt-[1%]">
+                <p className="text-lg font-normal text-[#676767]">Tickets</p>
+                <p className="text-lg font-medium text-[#383838]">$10.00</p>
               </div>
-
-              <div className=" flex justify-between w-[90%] mt-[1%]">
-                <p className=" text-lg font-normal text-[#676767]">Total</p>
-                <p className=" text-lg font-medium text-[#383838]">$5712.00</p>
+              <div className="flex justify-between w-[90%] mt-[1%]">
+                <p className="text-lg font-normal text-[#676767]">Total</p>
+                <p className="text-lg font-medium text-[#383838]">$5712.00</p>
               </div>
             </div>
-
             <hr className="border-b border-[#DCDCDC] mb-[5%]" />
           </div>
           <div className="flex flex-col w-[100%] gap-5">
@@ -138,49 +166,41 @@ const Checkout = () => {
                 <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557]">
                   <button
                     className={`rounded-[50%] h-8 w-8 bg-transparent border-2 border-[#CBA557] ${
-                      activeComponent === "details"
-                        ? "bg-[#cba557] text-white"
-                        : ""
+                      activeComponent === "details" ? "bg-[#cba557] text-white" : ""
                     }`}
                     onClick={() => setActiveComponent("details")}
                   >
                     01
                   </button>
-                  <div className=" font-semibold ">Details</div>
+                  <div className="font-semibold">Details</div>
                 </div>
-                <div className="w-[10%] h-0.5 bg-gray-400 "></div>
-                <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557]  ">
+                <div className="w-[10%] h-0.5 bg-gray-400"></div>
+                <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557]">
                   <button
                     className={`rounded-[50%] h-8 w-8 bg-transparent border-2 border-[#CBA557] ${
-                      activeComponent === "payment"
-                        ? "bg-[#cba557] text-white"
-                        : ""
+                      activeComponent === "payment" ? "bg-[#cba557] text-white" : ""
                     }`}
                     onClick={() => setActiveComponent("payment")}
                   >
                     02
                   </button>
-                  <div className=" font-semibold ">Payment</div>
+                  <div className="font-semibold">Payment</div>
                 </div>
-                <div className="w-[10%] h-0.5 bg-gray-400 "></div>
-                <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557]  ">
+                <div className="w-[10%] h-0.5 bg-gray-400"></div>
+                <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557]">
                   <button
                     className={`rounded-[50%] h-8 w-8 bg-transparent border-2 border-[#CBA557] ${
-                      activeComponent === "greeting"
-                        ? "bg-[#cba557] text-white"
-                        : ""
+                      activeComponent === "greeting" ? "bg-[#cba557] text-white" : ""
                     }`}
                     onClick={() => setActiveComponent("greeting")}
                   >
                     03
                   </button>
-                  <div className=" font-semibold ">Thank You</div>
+                  <div className="font-semibold">Greeting</div>
                 </div>
               </div>
             )}
-            <div className=" w-[95%] bg-white rounded-xl shadow-checkout mb-[3%] py-9 pl-8 pr-16 h-full">
-              {renderComponent()}
-            </div>
+            {renderComponent()}
           </div>
         </div>
       </div>

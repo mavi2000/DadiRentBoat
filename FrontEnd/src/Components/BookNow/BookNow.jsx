@@ -85,8 +85,8 @@ const BookNow = () => {
     return <div>{error}</div>;
   }
 
-  console.log("id",id)
-  console.log("boatDetails",boatDetails)
+  // console.log("id",id)
+  // console.log("boatDetails",boatDetails)
 
   return (
     <>

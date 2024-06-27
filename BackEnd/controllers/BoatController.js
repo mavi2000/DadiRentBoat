@@ -3,15 +3,16 @@ import mongoose from "mongoose";
 import Joi from "joi";
 import { createError } from "../utils/createError.js";
 import Location from "../models/Location.js";
+import Rental from "../models/Rent.js"
 import BoatDescription from "../models/BoatDescription.js";
 import BoatAccessInformation from "../models/BoatAccessInformation.js";
 import BoatImage from "../models/BoatImage.js";
-import Rates from "../models/Rates.js";
-import Rent from "../models/Rent.js";
+
 import ExtraServices from "../models/ExtraServices.js";
 import Insurence from "../models/Insurence.js";
 import Equipment from "../models/Euipment.js";
 import voucher from "../models/voucher.js";
+
 
 export const CreateBoat = async (req, res, next) => {
   const schema = Joi.object({
@@ -137,11 +138,12 @@ const getBoatDetailsById = async (boatId) => {
     const boatObjectId = new mongoose.Types.ObjectId(boatId);
 
     const boatPromise = Boat.findById(boatObjectId).exec();
+    // const RentPromise =   Rental.find({ boatId: boatObjectId }).exec();
     const boatImagePromise = BoatImage.find({ boatId: boatObjectId }).exec();
     const locationPromise = Location.find({ boatId: boatObjectId }).exec();
     const voucherPromise = voucher.find({ boatId: boatObjectId }).exec();
-    // const RentPromise =Rent.find({ boatId: boatObjectId }).exec();
-    const [boat, boatImages, location, vouchers, Rent] = await Promise.all([
+ 
+    const [boat, boatImages, location, vouchers] = await Promise.all([
       boatPromise,
       boatImagePromise,
       locationPromise,
@@ -154,13 +156,15 @@ const getBoatDetailsById = async (boatId) => {
       boatImages,
       location,
       vouchers,
-      // Rent
+      // Rental
     };
   } catch (error) {
     console.error("Error fetching boat details:", error);
     throw error;
   }
 };
+
+
 
 const getAllBoatsDetails = async () => {
   try {
@@ -312,7 +316,7 @@ export const updateBoatInfo = async (req, res) => {
     export const getBoatDetailById = async (req, res) => {
       try {
         const { id } = req.params;
-        console.log("id",id)
+        
         const boatDetails = await getBoatDetailsById(id);
         res.json(boatDetails);
       } catch (error) {

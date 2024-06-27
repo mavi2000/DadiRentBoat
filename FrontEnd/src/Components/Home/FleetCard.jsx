@@ -58,7 +58,7 @@ const FleetCard = ({
               Boat PAGE
             </button>
           </Link>
-          <Link to="/check-out">
+          <Link to={`/check-out/${id}`}>
             <button className="text-white text-sm font-normal bg-[var(--primary-color)] grow rounded-lg border-[1px] border-[var(--primary-color)] uppercase px-4 py-2">
               Book Now
             </button>

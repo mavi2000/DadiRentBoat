@@ -88,7 +88,7 @@ function App() {
               element={<Layout Children={<BookNow />} isLocation={true} />}
             />
             <Route
-              path="/check-out"
+              path="/check-out/:id"
               element={<Layout Children={<Checkout />} isLocation={true} />}
             />
             <Route

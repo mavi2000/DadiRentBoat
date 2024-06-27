@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-const insuranceSchema = new Schema({
+const InsuranceSchema = new Schema({
     boatId: {
         type: Schema.Types.ObjectId,
         ref: 'Boat', // Reference to the Boat model
@@ -32,4 +32,4 @@ const insuranceSchema = new Schema({
         default: Date.now
     }
 });
-export default mongoose.model('Insurance', insuranceSchema);
+export default mongoose.model('Insurance', InsuranceSchema);
