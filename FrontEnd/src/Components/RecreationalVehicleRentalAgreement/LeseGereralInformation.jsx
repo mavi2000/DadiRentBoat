@@ -48,6 +48,7 @@ const LeseGereralInformation = ({ data, setData }) => {
         <input
           type="date"
           id="dob" name="dob"
+          format="MM/dd/yy"
           onChange={handleChange}
           value={data.dob}
           className="border-[1px] border-[#DBDADE] mr-8 outline-none my-3 px-4 py-3 rounded-md placeholder:text-[#DBDADE] w-full md:w-[calc(50%-2rem)]"

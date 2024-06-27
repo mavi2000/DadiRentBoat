@@ -7,6 +7,7 @@ import {
   updateUser,
   logout,
   authController,
+  getUser,
 } from "../controllers/user.controller.js";
 import {
   forgetPasswordStepOne,
@@ -27,5 +28,6 @@ router.patch("/update-user", auth, upload.single("image"), updateUser);
 // removing the image uploader middleware
 // router.patch("/update-user", auth, updateUser);
 router.post("/logout", logout);
+router.get("/get-user/:id", getUser);
 router.get("/checkAuth", auth, authController);
 export default router;
