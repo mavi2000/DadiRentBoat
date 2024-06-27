@@ -1,3 +1,4 @@
+import { useState } from "react";
 import logo from "../../assets/Images/logo.png";
 import CrewGuestList from "./CrewGuestList";
 import CurrentChareges from "./CurrentChareges";
@@ -10,6 +11,29 @@ import Table from "./Table";
 import TakePhoto from "./TakePhoto";
 import Verification from "./Verification";
 const RecreationalVehicleRentalAgreement = () => {
+  const [data, setData] = useState({
+    userId: "123",
+    firstName: '',
+    lastName: '',
+    dob: '',
+    birthCity: '',
+    birthProvince: '',
+    taxId: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: '',
+    country: '',
+    phone: '',
+    email: '',
+    document: '',
+    members: 0,
+    leaseStart: '',
+    leaseEnd: '',
+    leasePrice: 0,
+    faithPlace: '',
+    faithDate: ''
+  })
   return (
     <div className="bg-white px-[3%] md:px-[6%] py-8 text-[#4B465C]">
       <img src={logo} alt="logo" className="size-[150px] mx-auto" />
@@ -29,21 +53,26 @@ const RecreationalVehicleRentalAgreement = () => {
         Annina - open seaghost 550
       </p>
       <p className="text-xs">Indicare il mezzo scelto per il noleggio</p>
-      <LeseGereralInformation />
-      <p className="text-lg mb-12">
-        Copy or scan of the Lessee's identity document, with his consent, is
-        acquired by the Lessor for the purposes indicated in the attached
-        Personal Data Processing Information pursuant to current regulations.
-      </p>
-      <TakePhoto />
-      <CrewGuestList />
-      <LeaseDuration />
-      <Prize />
-      <CurrentChareges />
-      <Table />
-      <SectionBelowTable />
-      <Verification />
-      <LastSection />
+      <form onSubmit={(e) => {
+        e.preventDefault()
+        console.log(data);
+      }}>
+        <LeseGereralInformation data={data} setData={setData} />
+        <p className="text-lg mb-12">
+          Copy or scan of the Lessee's identity document, with his consent, is
+          acquired by the Lessor for the purposes indicated in the attached
+          Personal Data Processing Information pursuant to current regulations.
+        </p>
+        <TakePhoto />
+        <CrewGuestList data={data} setData={setData} />
+        <LeaseDuration data={data} setData={setData} />
+        <Prize data={data} setData={setData} />
+        <CurrentChareges />
+        <Table />
+        <SectionBelowTable data={data} setData={setData} />
+        <Verification />
+        <LastSection />
+      </form>
     </div>
   );
 };

@@ -13,7 +13,7 @@ const LastSection = () => {
         className="max-w-full md:max-w-[80%] h-[136px] mt-4 block mx-auto"
       />
       <p className="text-lg md:mt-24">
-         DaDi Rent S.r.l.s Via San Francesco, 17 ~ 57123 Livorno (LI) ~ Partita
+        DaDi Rent S.r.l.s Via San Francesco, 17 ~ 57123 Livorno (LI) ~ Partita
         I.V.A.: 01964780496 ~ Iban: IT58Y0103013900000007008638 Cell. : 370
         1564317 ~ e-mail: info@dadirent.it ~ pec: dadirent@pec.it ~ web:
         www.dadirent.it
@@ -27,7 +27,7 @@ const LastSection = () => {
           <VscFilePdf size={25} />
           Download PDF
         </button>
-        <button className="rounded-lg px-6 py-3 bg-[--primary-color] text-lg font-bold text-white">
+        <button type='submit' className="rounded-lg px-6 py-3 bg-[--primary-color] text-lg font-bold text-white">
           Submit
         </button>
       </div>
