@@ -160,7 +160,7 @@ const LeseGereralInformation = ({ data, setData }) => {
             type="tel"
             id="phone"
             name="phone"
-            onChange={handleChange}
+            // onChange={handleChange}
             value={data.phone}
             className="border-[1px] border-[#DBDADE] w-full outline-none my-3 px-4 py-3 rounded-md"
             placeholder="Enter"

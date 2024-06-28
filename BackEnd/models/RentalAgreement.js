@@ -56,7 +56,11 @@ const agreementSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  document: {
+  docFront: {
+    type: String,
+    required: false,
+  },
+  docBack: {
     type: String,
     required: false,
   },
