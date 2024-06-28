@@ -35,7 +35,7 @@ const RecreationalVehicleRentalAgreement = () => {
     leaseEnd: '',
     leasePrice: 0,
     faithPlace: '',
-    faithDate: ''
+    faithDate: '', docFront: "", docBack: ""
   })
   // useEffect to get the user data
   useEffect(() => {
@@ -44,7 +44,7 @@ const RecreationalVehicleRentalAgreement = () => {
       try {
         const res = await baseURL('/get-user/' + id);
         const { username, email, phoneNumber = "", address = "", zip = "", state = "", country = "", dob = "" } = res.data.user;
-        setData({ ...data, firstName: username.split(" ")[0], lastName: username.split(" ")[1], address, state, zip, country, phone: phoneNumber, email, dob: "20" + dob.split('/')[2] + "-" + dob.split('/')[0] + "-" + dob.split('/')[1] })
+        setData({ ...data, userId: id, firstName: username.split(" ")[0], lastName: username.split(" ")[1], address, state, zip, country, phone: phoneNumber, email, dob: "20" + dob.split('/')[2] + "-" + dob.split('/')[0] + "-" + dob.split('/')[1] })
       } catch (error) {
         console.log(error);
       }
@@ -56,13 +56,14 @@ const RecreationalVehicleRentalAgreement = () => {
   }, [])
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await baseURL.post('/rental/create-agreement', data)
-      toast.success(res.data.message)
-    } catch (error) {
-      console.log(error);
-      toast.error('Failed to create agreement')
-    }
+    console.log(data);
+    // try {
+    //   const res = await baseURL.post('/rental/create-agreement', data)
+    //   toast.success(res.data.message)
+    // } catch (error) {
+    //   console.log(error);
+    //   toast.error('Failed to create agreement')
+    // }
   }
   return (
     <div className="bg-white px-[3%] md:px-[6%] py-8 text-[#4B465C]">
@@ -90,7 +91,7 @@ const RecreationalVehicleRentalAgreement = () => {
           acquired by the Lessor for the purposes indicated in the attached
           Personal Data Processing Information pursuant to current regulations.
         </p>
-        <TakePhoto />
+        <TakePhoto data={data} setData={setData} />
         <CrewGuestList data={data} setData={setData} />
         <LeaseDuration data={data} setData={setData} />
         <Prize data={data} setData={setData} />

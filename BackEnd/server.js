@@ -20,6 +20,7 @@ import InsurenseRoute from "./routes/InsurenceRoutes.js";
 import locationRoute from "./routes/locationRoute.js";
 import EquipmentsRoutes from "./routes/EquipmetRoute.js";
 import rentalAgreementRoutes from "./routes/rentalAgreementRoutes.js";
+import rentalOTPRoutes from "./routes/rentalOTPRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 3800;
 
@@ -52,6 +53,7 @@ app.use("/insurence", InsurenseRoute);
 app.use("/location", locationRoute);
 app.use("/equipment", EquipmentsRoutes);
 app.use("/rental", rentalAgreementRoutes);
+app.use("/otp", rentalOTPRoutes);
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Something went wrong!";
