@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 const Verification = ({ data, setData }) => {
   const [codes, setCodes] = useState(['', '', '', '']); // State to hold input values
   const refs = useRef([]); // Refs to store input elements
-
   const handleChange = (index, value) => {
     const newCodes = [...codes];
     newCodes[index] = value;
@@ -39,8 +38,10 @@ const Verification = ({ data, setData }) => {
     try {
       const res = await baseURL.patch('/otp/verify-otp', { otp: codes.join("") })
       toast.success("OTP verified successfully")
+      setData({ ...data, valid: true })
     } catch (error) {
-      toast.error('Something went wrong')
+      console.log(error);
+      toast.error(error.response.data.message)
     }
   }
   return (

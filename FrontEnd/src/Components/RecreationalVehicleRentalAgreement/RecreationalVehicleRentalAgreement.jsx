@@ -35,7 +35,7 @@ const RecreationalVehicleRentalAgreement = () => {
     leaseEnd: '',
     leasePrice: 0,
     faithPlace: '',
-    faithDate: '', docFront: "", docBack: ""
+    faithDate: '', docFront: "", docBack: "", valid: false
   })
   // useEffect to get the user data
   useEffect(() => {
@@ -99,7 +99,7 @@ const RecreationalVehicleRentalAgreement = () => {
         <Table />
         <SectionBelowTable data={data} setData={setData} />
         <Verification data={data} setData={setData} />
-        <LastSection />
+        <LastSection data={data} />
       </form>
     </div>
   );

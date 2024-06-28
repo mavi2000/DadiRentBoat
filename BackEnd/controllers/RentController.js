@@ -40,7 +40,9 @@ export const RentBoat = async (req, res, next) => {
 export const getBoatRent = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id.length);
     const rent = await Rent.findOne({ boatId: id });
+    console.log(rent);
     return res.status(200).json({ rent });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });

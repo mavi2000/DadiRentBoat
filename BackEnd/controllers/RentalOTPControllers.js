@@ -20,22 +20,29 @@ export const generateOTP = async (req, res) => {
       isValid: true,
     });
 
-    await thisOTP.save();
+    const generated = await thisOTP.save();
     res.status(200).json({ message: "OTP sent successfully" });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+// verify otp
 export const verifyOTP = async (req, res) => {
   try {
     const { otp } = req.body;
-    const validOtp = await rentalOTP.findOne({ otp });
-    if (validOtp.isValid) {
+    // Find the OTP with isValid set to true
+    const validOtp = await rentalOTP.findOne({ otp, isValid: true });
+    if (validOtp) {
+      // Update the OTP to set isValid to false
       await rentalOTP.findOneAndUpdate({ otp }, { isValid: false });
       return res.status(200).json({ message: "OTP verified successfully" });
+    } else {
+      return res
+        .status(400)
+        .json({ message: "OTP does not match or has already been used" });
     }
-    return res.status(200).json({ message: "OTP does not match" });
   } catch (error) {
+    console.error("Error verifying OTP:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };

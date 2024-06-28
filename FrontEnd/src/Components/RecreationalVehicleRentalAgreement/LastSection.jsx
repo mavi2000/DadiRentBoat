@@ -2,7 +2,7 @@ import fillipo from '../../assets/Images/fillipo.png';
 import logo from '../../assets/Images/logo.png';
 import { VscFilePdf } from 'react-icons/vsc';
 
-const LastSection = () => {
+const LastSection = ({ data }) => {
   return (
     <div>
       <p className="text-lg md:mt-24">Per accettazione Il locatore</p>
@@ -27,7 +27,7 @@ const LastSection = () => {
           <VscFilePdf size={25} />
           Download PDF
         </button>
-        <button type='submit' className="rounded-lg px-6 py-3 bg-[--primary-color] text-lg font-bold text-white">
+        <button type='submit' className="rounded-lg px-6 py-3 bg-[--primary-color] text-lg font-bold text-white" disabled={!data.valid}>
           Submit
         </button>
       </div>
