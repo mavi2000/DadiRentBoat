@@ -98,7 +98,7 @@ const RecreationalVehicleRentalAgreement = () => {
         <CurrentChareges />
         <Table />
         <SectionBelowTable data={data} setData={setData} />
-        <Verification />
+        <Verification data={data} setData={setData} />
         <LastSection />
       </form>
     </div>

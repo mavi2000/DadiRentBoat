@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react';
 import signature from '../../assets/Images/signature.png';
 import { MdOutlineRefresh } from 'react-icons/md';
-
-const Verification = () => {
+import baseURL from '../../../APi/BaseUrl';
+import { toast } from 'react-toastify';
+const Verification = ({ data, setData }) => {
   const [codes, setCodes] = useState(['', '', '', '']); // State to hold input values
   const refs = useRef([]); // Refs to store input elements
 
@@ -26,6 +27,22 @@ const Verification = () => {
       refs.current[index - 1].focus(); // Focus previous input if backspace or delete is pressed and current input is empty
     }
   };
+  const handleGetOTP = async () => {
+    try {
+      const res = await baseURL.post('/otp/generate-otp', { userId: data.userId, phone: data.phone })
+      toast.success("OTP sent successfully")
+    } catch (error) {
+      toast.error('Failed to send OTP try again')
+    }
+  }
+  const handleVerifyOTP = async () => {
+    try {
+      const res = await baseURL.patch('/otp/verify-otp', { otp: codes.join("") })
+      toast.success("OTP verified successfully")
+    } catch (error) {
+      toast.error('Something went wrong')
+    }
+  }
   return (
     <div className="">
       <h1 className=" text-xl font-semibold">Verification</h1>
@@ -73,6 +90,9 @@ const Verification = () => {
         </div>
 
         <div className="grow">
+          <div className='text-center mt-4'>
+            <button onClick={handleGetOTP} type='button' className='bg-[--primary-color] text-white p-2 rounded-xl'>Get OTP</button>
+          </div>
           <p className="text-base mb-2">Enter Verification Code</p>
           <p className="text-lg">
             Enter code that we have sent to your number 08528188*** .
@@ -86,10 +106,9 @@ const Verification = () => {
                 name={`securityCode${index}`}
                 autoComplete="off"
                 className={`text-center font-bold text-2xl size-[50px] 
-                  ${
-                    code
-                      ? 'bg-white border-[1.5px] border-[var(--primary-color)]'
-                      : 'bg-[#EFF0F2]'
+                  ${code
+                    ? 'bg-white border-[1.5px] border-[var(--primary-color)]'
+                    : 'bg-[#EFF0F2]'
                   }
                   focus:outline-none rounded-2xl px-4 py-2`}
                 value={code}
@@ -98,6 +117,9 @@ const Verification = () => {
                 ref={(el) => (refs.current[index] = el)} // Store input elements in refs
               />
             ))}
+          </div>
+          <div className='text-center mt-4'>
+            <button onClick={handleVerifyOTP} type='button' className='bg-[--primary-color] text-white p-2 rounded-xl'>Verify OTP</button>
           </div>
           <p className="text-center mt-8">
             Didn’t receive the code?&nbsp;&nbsp;

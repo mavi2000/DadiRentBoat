@@ -7,7 +7,7 @@ import rentalOTP from "../models/rentalOTP.js";
 export const generateOTP = async (req, res) => {
   try {
     const { userId, phone } = req.body;
-    const otp = Math.floor(100000 + Math.random() * 900000).toString(); // Generate 6-digit OTP
+    const otp = Math.floor(1000 + Math.random() * 9000).toString(); // Generate 6-digit OTP
     const message = await client.messages.create({
       body: `Your OTP code is ${otp}`,
       from: phoneNo,
