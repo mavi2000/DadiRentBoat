@@ -19,6 +19,9 @@ import ExtraServiceRoute from "./routes/ExtraServiceRoute.js"
 import InsurenseRoute from "./routes/InsurenceRoutes.js"
 import  locationRoute from "./routes/locationRoute.js"
 import EquipmentsRoutes from "./routes/EquipmetRoute.js"
+// import CheckoutRoute from "./routes/locationRoute.js"
+import PaymentRoute from "./routes/paymentRoutes.js"
+
 
 const app = express();
 const PORT = process.env.PORT || 3800;
@@ -50,6 +53,8 @@ app.use("/service",ExtraServiceRoute)
 app.use("/insurence",InsurenseRoute)
 app.use("/location",locationRoute)
 app.use("/equipment",EquipmentsRoutes)
+app.use("/checkout",PaymentRoute)
+
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

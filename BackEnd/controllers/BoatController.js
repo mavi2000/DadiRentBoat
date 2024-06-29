@@ -1,18 +1,19 @@
-import Boat from "../models/Boat.js";
 import mongoose from "mongoose";
+import Boat from "../models/Boat.js";
+import Location from "../models/Location.js";
+import BoatImage from "../models/BoatImage.js";
+import voucher from "../models/voucher.js";
+import Rental from "../models/Rent.js";
+import ExtraServices from "../models/ExtraServices.js"; // Corrected spelling
+// import Insurance from "../models/Insurance.js"; // Corrected spelling
+import Insurence from "../models/Insurence.js";
+// import Equipment from "../models/Equipment.js"; // Corrected spelling
+import Rate from "../models/Rates.js"
+import BoatDescription from "../models/BoatDescription.js"
+import DamageDeposits from "../models/DemageDeposits.js"
+import Equipments from "../models/Euipment.js"
 import Joi from "joi";
 import { createError } from "../utils/createError.js";
-import Location from "../models/Location.js";
-import Rental from "../models/Rent.js"
-import BoatDescription from "../models/BoatDescription.js";
-import BoatAccessInformation from "../models/BoatAccessInformation.js";
-import BoatImage from "../models/BoatImage.js";
-
-import ExtraServices from "../models/ExtraServices.js";
-import Insurence from "../models/Insurence.js";
-import Equipment from "../models/Euipment.js";
-import voucher from "../models/voucher.js";
-
 
 export const CreateBoat = async (req, res, next) => {
   const schema = Joi.object({
@@ -52,103 +53,36 @@ export const CreateBoat = async (req, res, next) => {
   }
 };
 
-// const getBoatDetailsById = async (boatId) => {
-//     try {
-//       const boatObjectId =new  mongoose.Types.ObjectId(boatId);
-//   console.log("boatObjectId",boatObjectId)
-//       const boatPromise = Boat.findById(boatObjectId).exec();
-//   const boatAccessInformationPromise = BoatAccessInformation.find({ boatId: boatObjectId }).exec();
-//   const boatBookingPromise = BoatBooking.find({ boatId: boatObjectId }).exec();
-//   const boatDescriptionPromise = BoatDescription.find({ boatId: boatObjectId }).exec();
-//   const boatImagePromise = BoatImage.find({ boatId: boatObjectId }).exec();
-//   const damageDepositPromise = DamageDeposit.find({ boatId: boatObjectId }).exec();
-//   const equipmentPromise = Equipment.find({ boatId: boatObjectId }).exec();
-//   const extraServicePromise = ExtraServices.find({ boatId: boatObjectId }).exec();
-//   const insurancePromise = Insurence.find({ boatId: boatObjectId }).exec();
-//   const locationPromise = Location.find({ boatId: boatObjectId }).exec();
-//   const ratePromise = Rates.find({ boatId: boatObjectId }).exec();
-//   const rentPromise = Rent.find({ boatId: boatObjectId }).exec();
-//   const voucherPromise = voucher.find({ boatId: boatObjectId }).exec();
 
-//   const [
-//     boat,
-// boatAccessInformation,
-// boatBookings,
-// boatDescription,
-// boatImages,
-// damageDeposits,
-// equipment,
-// extraServices,
-// insurance,
-// location,
-// rates,
-// rents,
-// vouchers
-//   ] = await Promise.all([
-//     boatPromise,
-// boatAccessInformationPromise,
-// boatBookingPromise,
-// boatDescriptionPromise,
-// boatImagePromise,
-// damageDepositPromise,
-// equipmentPromise,
-// extraServicePromise,
-// insurancePromise,
-// locationPromise,
-// ratePromise,
-// rentPromise,
-// voucherPromise
-//   ]);
-
-//   return {
-//     boat,
-// boatAccessInformation,
-// // boatBookings,
-// boatDescription,
-// boatImages,
-// damageDeposits,
-// equipment,
-// extraServices,
-// insurance,
-// location,
-// rates,
-// rents,
-// vouchers
-//       };
-//     } catch (error) {
-//       console.error('Error fetching boat details:', error);
-//       throw error;
-//     }
-//   };
-
-//   // Function to get details for all boats
-//   export const getAllBoatsDetails = async () => {
-//     try {
-//       const boats = await Boat.find().exec();
-//       const allBoatDetails = await Promise.all(boats.map(boat => getBoatDetailsById(boat._id)));
-//       return allBoatDetails;
-//     } catch (error) {
-//       console.error('Error fetching all boats details:', error);
-//       throw error;
-//     }
-//   };
 
 const getBoatDetailsById = async (boatId) => {
   try {
     const boatObjectId = new mongoose.Types.ObjectId(boatId);
 
     const boatPromise = Boat.findById(boatObjectId).exec();
-    // const RentPromise =   Rental.find({ boatId: boatObjectId }).exec();
     const boatImagePromise = BoatImage.find({ boatId: boatObjectId }).exec();
     const locationPromise = Location.find({ boatId: boatObjectId }).exec();
     const voucherPromise = voucher.find({ boatId: boatObjectId }).exec();
- 
-    const [boat, boatImages, location, vouchers] = await Promise.all([
+    const rentPromise = Rental.find({ boatId: boatObjectId }).exec();
+    const extraServicesPromise = ExtraServices.find({ boatId: boatObjectId }).exec();
+    const insurancePromise = Insurence.find({ boatId: boatObjectId }).exec();
+    const equipmentPromise = Equipments.find({ boatId: boatObjectId }).exec();
+    const ratePromise = Rate.find({ boatId: boatObjectId }).exec();
+    const descriptionPromise = BoatDescription.find({ boatId: boatObjectId }).exec(); // Added
+    const damageDepositsPromise = DamageDeposits.find({ boatId: boatObjectId }).exec(); // Added
+
+    const [boat, boatImages, location, vouchers, rental, extraServices, insurance, equipment, rate, description, damageDeposits] = await Promise.all([
       boatPromise,
       boatImagePromise,
       locationPromise,
       voucherPromise,
-      // RentPromise
+      rentPromise,
+      extraServicesPromise,
+      insurancePromise,
+      equipmentPromise,
+      ratePromise,
+      descriptionPromise,
+      damageDepositsPromise
     ]);
 
     return {
@@ -156,14 +90,19 @@ const getBoatDetailsById = async (boatId) => {
       boatImages,
       location,
       vouchers,
-      // Rental
+      rental,
+      extraServices,
+      insurance,
+      equipment,
+      rate,
+      description,
+      damageDeposits
     };
   } catch (error) {
     console.error("Error fetching boat details:", error);
     throw error;
   }
 };
-
 
 
 const getAllBoatsDetails = async () => {
