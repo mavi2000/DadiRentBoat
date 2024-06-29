@@ -8,6 +8,7 @@ import {
   logout,
   authController,
   getUser,
+  updatePassword,
 } from "../controllers/user.controller.js";
 import {
   forgetPasswordStepOne,
@@ -30,4 +31,5 @@ router.patch("/update-user", auth, upload.single("image"), updateUser);
 router.post("/logout", logout);
 router.get("/get-user/:id", getUser);
 router.get("/checkAuth", auth, authController);
+router.patch("/update-password", updatePassword);
 export default router;

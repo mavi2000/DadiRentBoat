@@ -1,52 +1,85 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import baseURL from "../../../APi/BaseUrl";
+import { jwtDecode } from "jwt-decode";
 const ChangePassword = () => {
+  const [data, setData] = useState({
+    oldPass: "", newPass:
+      '', confirmPass: ""
+  })
+  const handleChange = (e) => {
+    setData(prev => {
+      setData({ ...prev, [e.target.name]: e.target.value })
+    })
+  }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (data.newPass !== data.confirmPass) {
+      toast.error("New password and confirm password do not match")
+      return;
+    }
+    try {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        toast.error("Authentication failed");
+        return;
+      }
+      const decoded = jwtDecode(token);
+      const res = await baseURL.patch('/update-password', { oldPass: data.oldPass, newPass: data.newPass, userId: decoded._id })
+      toast.success(res.data.message)
+    } catch (error) {
+      toast.error(error.response.data.message || "Something went wrong")
+    }
+  }
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-10" onSubmit={handleSubmit}>
       <div className=" text-lg">Change Password</div>
       <form className=" flex flex-col gap-5 text-sm font-light">
         <div>
           <label
-            htmlFor="current_password"
+            htmlFor="oldPass"
             className="block  500px:text-sm 300px:text-xs text-gray-700"
           >
             Current Password
           </label>
           <input
             type="password"
-            name="current_password"
-            id="current_password"
-            autoComplete="current-password"
+            name="oldPass"
+            id="oldPass"
+            autoComplete="curPass"
+            onChange={handleChange}
             className=" h-10 w-[50%] bg-transparent border border-[#DBDADE] rounded-md px-2"
           ></input>
         </div>
         <div>
           <label
-            htmlFor="current_password"
+            htmlFor="newPass"
             className="block  500px:text-sm 300px:text-xs text-gray-700"
           >
             New Password
           </label>
           <input
             type="password"
-            name="current_password"
-            id="current_password"
-            autoComplete="current-password"
+            name="newPass"
+            id="newPass"
+            autoComplete="newPass"
+            onChange={handleChange}
             className=" h-10 w-[100%] bg-transparent border border-[#DBDADE] rounded-md px-2"
           ></input>
         </div>
         <div>
           <label
-            htmlFor="current_password"
+            htmlFor="confirmPass"
             className="block 500px:text-sm 300px:text-xs text-gray-700"
           >
             Confirm New password
           </label>
           <input
             type="password"
-            name="current_password"
-            id="current_password"
-            autoComplete="current-password"
+            name="confirmPass"
+            id="confirmPass"
+            autoComplete="confirmPass"
+            onChange={handleChange}
             className=" h-10 w-[100%] bg-transparent border border-[#DBDADE] rounded-md px-2"
           ></input>
         </div>

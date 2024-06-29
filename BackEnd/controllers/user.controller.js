@@ -221,3 +221,31 @@ export const getUser = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// update user password controller
+export const updatePassword = async (req, res) => {
+  try {
+    const { userId, oldPass, newPass } = req.body;
+    const checkUser = await User.findById(userId);
+    if (!checkUser) {
+      return res.status(404).json({ message: "User does not exists" });
+    }
+    const { password } = checkUser;
+    const isPasswordValid = await validatePassword(oldPass, password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: "Old password is incorrect" });
+    }
+    const salt = await generateSalt();
+    const hashPassword = await generatePassword(newPass, salt);
+    const updateUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        password: hashPassword,
+      },
+      { new: true, runValidators: true }
+    );
+    return res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

@@ -6,9 +6,11 @@ import { Formik, Form, Field } from 'formik';
 import FormControl from '../../Form/FormControl';
 import { format } from 'date-fns'
 import { validationSchema, fieldClasses, languageOptions, genderOptions, nationalityOptions, initialValues } from './data';
+import ChangePassword from '../../LoginSignupPopups/ChangePassword';
 const AccountInfo = () => {
   const { user, updateUser } = useContext(AuthContext)
   const [values, setValues] = useState(null)
+  const [active, setActive] = useState('info')
   const [file, setFile] = useState('')
   useEffect(() => {
     if (user) {
@@ -49,14 +51,14 @@ const AccountInfo = () => {
 
         <div className='w-full h-full md:w-[22%] overflow-auto accountInfo bg-[#FFFFFF] rounded-[10px]'>
           <ul className=' flex flex-col items-center '>
-            <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]'>Account Information</li>
-            <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]'>Change Password</li>
+            <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]' onClick={() => setActive("info")}>Account Information</li>
+            <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]' onClick={() => setActive("password")}>Change Password</li>
             <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]'>Payment Information</li>
             <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]'>Logout</li>
           </ul>
         </div>
 
-        <div className='w-full md:w-[78%]'>
+        {active == "info" && <div className='w-full md:w-[78%]'>
 
           <div className='accountInfo bg-[#FFFFFF] rounded-[10px]'>
             <div className=' mx-[3%] mb-[3%]'>
@@ -183,8 +185,12 @@ const AccountInfo = () => {
           </div>
 
 
-        </div>
-
+        </div>}
+        {
+          active == "password" && <div className='bg-white p-8 w-full md:w-[78%]'>
+            <ChangePassword />
+          </div>
+        }
 
 
       </div>
