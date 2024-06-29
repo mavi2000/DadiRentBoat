@@ -27,8 +27,7 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "short-unique-id": "^5.2.0",
-    "stripe": "^16.1.0"
-    "short-unique-id": "^5.2.0",
+    "stripe": "^16.1.0",
     "twilio": "^5.2.1"
   }
 }
