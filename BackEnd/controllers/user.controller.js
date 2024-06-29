@@ -173,7 +173,6 @@ export const updateUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    console.log(req.file);
     if (req.file) {
       let imageUrl = await uploadImages(req.file);
       user.image = imageUrl.secure_url;
@@ -188,7 +187,7 @@ export const updateUser = async (req, res) => {
     );
     return res
       .status(200)
-      .json({ message: "User updated successfully", updatedUser });
+      .json({ message: "User updated successfully", user: updatedUser });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Failed to update user" });

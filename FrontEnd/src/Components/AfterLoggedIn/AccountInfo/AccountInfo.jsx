@@ -65,7 +65,7 @@ const AccountInfo = () => {
 
               <h1 className=' text-2xl py-8 font-medium text-[#4B465C] '>Profile Details</h1>
               <div className='flex gap-[4%] items-center'>
-                <img src={Profile} alt="" className='w-32 border border-[#CBA557] rounded-xl' />
+                <img src={user && values && values.image || Profile} alt="" className='w-32 border border-[#CBA557] rounded-xl' />
                 <div>
                   <label htmlFor="image">
                     <button onClick={() => document.getElementById('image').click()} type='button' className='btn-5 font-medium py-1 px-4 text-sm md:text-xl md:py-3 md:px-7 rounded-lg'>
