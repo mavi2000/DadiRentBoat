@@ -5,6 +5,10 @@ import Details from "./Details";
 import { useParams } from 'react-router-dom';
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../../Context/UserContext";
+import { format } from 'date-fns';
+import { loadStripe } from '@stripe/stripe-js';
+import baseURL from "../../../APi/BaseUrl";
+const stripePromise = loadStripe('pk_test_51OwXJ9RtqZkTuUjdPn7IZ2nUJQ77VYiDdsW3s8ddWFQRUh4yUWKiXhYLAy54Y2249fgzSTPtcvfgUr2MoiWhBE5p00zp6MUFHe');
 
 const Checkout = () => {
   const { id } = useParams();
@@ -12,6 +16,7 @@ const Checkout = () => {
   const [boatDetails, setBoatDetails] = useState(null);
   const [error, setError] = useState(null);
   const [activeComponent, setActiveComponent] = useState("details");
+  const [selectedRate, setSelectedRate] = useState(null);
 
   useEffect(() => {
     const getBoatDetails = async () => {
@@ -47,6 +52,40 @@ const Checkout = () => {
   console.log('id:', id);
   console.log('boatDetails:', boatDetails);
 
+  const handleSelection = (rate) => {
+    setSelectedRate(rate);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await baseURL.post('/checkout/payment', {
+        userId: '1',
+        username: 'yourUsername', // Replace with actual user data
+        email: 'yourEmail@example.com', // Replace with actual user data
+        phoneNumber: 'yourPhoneNumber', // Replace with actual user data
+        countryOfBirth: 'yourCountry', // Replace with actual user data
+        cityOfBirth: 'yourCity', // Replace with actual user data
+        message: 'Your custom message', // Optional
+        amount: selectedRate * 100, // Stripe expects the amount in cents
+      });
+
+      const { sessionId } = await response.data;
+      console.log("sessionId",sessionId)
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({ sessionId });
+
+      if (error) {
+        console.error('Stripe Checkout error:', error);
+      }
+    } catch (error) {
+      console.error('Payment failed', error);
+    }
+  };
+
+  console.log("selectedRate", selectedRate);
+
   return (
     <div>
       <div className="checkout-bg !h-[50svh] md:!h-[100svh]">
@@ -78,42 +117,123 @@ const Checkout = () => {
             <hr className="border border-[#DCDCDC]" />
 
             <div className="py-9 px-12 flex justify-center flex-col text-[#383838]">
-             {boatDetails?.boatImages.map((item)=>( <img src={item.avatar} alt="" className="md:w-64" />))}
+              {boatDetails?.boatImages.map((item) => (
+                <img src={item.avatar} alt="" className="md:w-64" />
+              ))}
               {boatDetails ? (
                 <>
                   <h2 className="heading-book mt-[4%] text-[#383838]">
-                    {boatDetails.boat.type}
+                    {boatDetails?.boat?.type}
                   </h2>
-                  <div className="flex flex-col gap-1 mt-[3%]">
-                    <p>
-                      From:{" "}
-                      <span className="text-[#676767] font-normal">
-                        April 3, 2024 - 7:00 am
-                      </span>
-                    </p>
-                    <p>
-                      To:{" "}
-                      <span className="text-[#676767] font-normal">
-                        April 5, 2024 - 7:00 am
-                      </span>
-                    </p>
-                    <p>
-                      No of persons:{" "}
-                      <span className="text-[#676767] font-normal">{boatDetails.boat.boardingCapacity}</span>
-                    </p>
-                    <p>
-                      With Skipper:{" "}
-                      <span className="text-[#676767] font-normal">$10.00</span>
-                    </p>
-                    <p>Full Day</p>
-                    <p className="text-[#EA5455]">Fuel Not Included</p>
-                  </div>
+                  {boatDetails?.rate.map((item, key) => (
+                    <div className="flex flex-col gap-1 mt-[3%]" key={key}>
+                      <p>
+                        From:{" "}
+                        <span className="text-[#676767] font-normal">
+                          {format(new Date(item?.startDate), 'dd MMMM yyyy')}
+                        </span>
+                      </p>
+                      <p>
+                        To:{" "}
+                        <span className="text-[#676767] font-normal">
+                          {format(new Date(item?.endDate), 'dd MMMM yyyy')}
+                        </span>
+                      </p>
+                      <p>
+                        No of persons:{" "}
+                        <span className="text-[#676767] font-normal">
+                          {boatDetails?.boat?.boardingCapacity}
+                        </span>
+                      </p>
+                      {boatDetails?.description.map((descItem, descKey) => (
+                        <div className="flex flex-col gap-1 mt-[3%]" key={descKey}>
+                          <p>
+                            {descItem?.rentalType?.withoutSkipper ? "Without Skipper" : "With Skipper"}:{" "}
+                            <span className="text-[#676767] font-normal">
+                              {descItem?.rentalType?.withoutSkipper ? "Yes" : "No"}
+                            </span>
+                          </p>
+                        </div>
+                      ))}
+                      <p>Full Day</p>
+                      <p className="text-[#EA5455]">Fuel Not Included</p>
+                    </div>
+                  ))}
                 </>
               ) : (
                 <p>Loading boat details...</p>
               )}
+              {boatDetails?.rate.map((item, key) => (
+                <div key={key} className="border rounded-lg p-4 my-4 shadow-lg">
+                  <h1 className="font-medium text-[#383838] text-sm">
+                    Price Half Day Morning: 
+                    <span className="text-[#676767] font-normal"> ${item?.normalDayRates?.halfDayMorning}</span>
+                    <input 
+                      type="radio" 
+                      name="rate" 
+                      value={item?.normalDayRates?.halfDayMorning} 
+                      onChange={() => handleSelection(item?.normalDayRates?.halfDayMorning)} 
+                      className="ml-2"
+                    />
+                  </h1>
+                  <h1 className="font-medium text-[#383838] text-sm">
+                    Price Half Day Evening: 
+                    <span className="text-[#676767] font-normal"> ${item?.normalDayRates?.halfDayEvening}</span>
+                    <input 
+                      type="radio" 
+                      name="rate" 
+                      value={item?.normalDayRates?.halfDayEvening} 
+                      onChange={() => handleSelection(item?.normalDayRates?.halfDayEvening)} 
+                      className="ml-2"
+                    />
+                  </h1>
+                  <h1 className="font-medium text-[#383838] text-sm">
+                    Price Full Day: 
+                    <span className="text-[#676767] font-normal"> ${item?.normalDayRates?.fullDay}</span>
+                    <input 
+                      type="radio" 
+                      name="rate" 
+                      value={item?.normalDayRates?.fullDay} 
+                      onChange={() => handleSelection(item?.normalDayRates?.fullDay)} 
+                      className="ml-2"
+                    />
+                  </h1>
+                  <h1 className="font-medium text-[#383838] text-md">
+                    Weekend Price Half Day Morning: 
+                    <span className="text-[#676767] font-normal"> ${item?.weekendRates?.halfDayMorning}</span>
+                    <input 
+                      type="radio" 
+                      name="rate" 
+                      value={item?.weekendRates?.halfDayMorning} 
+                      onChange={() => handleSelection(item?.weekendRates?.halfDayMorning)} 
+                      className="ml-2"
+                    />
+                  </h1>
+                  <h1 className="font-medium text-[#383838] text-md">
+                    Weekend Price Half Day Evening: 
+                    <span className="text-[#676767] font-normal"> ${item?.weekendRates?.halfDayEvening}</span>
+                    <input 
+                      type="radio" 
+                      name="rate" 
+                      value={item?.weekendRates?.halfDayEvening} 
+                      onChange={() => handleSelection(item?.weekendRates?.halfDayEvening)} 
+                      className="ml-2"
+                    />
+                  </h1>
+                  <h1 className="font-medium text-[#383838] text-md">
+                    Weekend Price Full Day: 
+                    <span className="text-[#676767] font-normal"> ${item?.weekendRates?.fullDay}</span>
+                    <input 
+                      type="radio" 
+                      name="rate" 
+                      value={item?.weekendRates?.fullDay} 
+                      onChange={() => handleSelection(item?.weekendRates?.fullDay)} 
+                      className="ml-2"
+                    />
+                  </h1>
+                </div>
+              ))}
             </div>
-
             <div className="border-t border-b border-[#CBA557] py-9 px-12 leading-7">
               <h1 className="font-medium text-[#383838] text-lg">
                 Amount to be Paid Online
@@ -123,7 +243,6 @@ const Checkout = () => {
                 <p className="text-lg font-medium text-[#383838]">$5712.00</p>
               </div>
             </div>
-
             <div className="border-b border-[#CBA557] py-9 px-12 leading-7">
               <h1 className="font-medium text-[#383838] text-lg">
                 Amount to be Paid on Harbor
@@ -137,7 +256,6 @@ const Checkout = () => {
                 <p className="text-lg font-medium text-[#383838]">$10.00</p>
               </div>
             </div>
-
             <div className="py-9 px-12 leading-7">
               <div className="flex justify-between w-[90%] mt-[1%]">
                 <p className="text-lg font-normal text-[#676767]">Subtotal</p>
@@ -202,6 +320,14 @@ const Checkout = () => {
             )}
             {renderComponent()}
           </div>
+        </div>
+        <div className="flex justify-center mt-5">
+          <button
+            onClick={handleSubmit}
+            className="bg-[#cba557] text-white py-2 px-4 rounded-lg"
+          >
+            Proceed to Payment
+          </button>
         </div>
       </div>
     </div>
