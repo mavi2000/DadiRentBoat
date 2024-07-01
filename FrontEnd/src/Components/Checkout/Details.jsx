@@ -1,94 +1,93 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../../Context/UserContext";
+import { useParams } from "react-router-dom";
 
-const Details = () => {
+const Details = ({ id }) => {
+  console.log("id dwewq", id);
+  const [boatDetails, setBoatDetails] = useState(null);
+  const { fetchBoatDetailsById } = useContext(UserContext);
+
+  useEffect(() => {
+    const getBoatDetails = async () => {
+      try {
+        console.log("Fetching boat details for ID:", id); // Log ID being used
+        const details = await fetchBoatDetailsById(id);
+        console.log("Boat details fetched:", details); // Log fetched details
+        setBoatDetails(details);
+      } catch (error) {
+        console.error("Error fetching boat details:", error); // Log error
+      }
+    };
+
+    if (id) {
+      getBoatDetails();
+    }
+  }, [id, fetchBoatDetailsById]);
+
+  console.log("boatDetails new detail", boatDetails);
+
   return (
     <div>
       <div className="flex flex-col">
-        <h2 className=" text-xl font-medium leading-7">General Information</h2>
+        <h2 className="text-xl font-medium leading-7">General Information</h2>
       </div>
 
-      <form className=" mt-[5%]">
-        <div className=" flex flex-wrap gap-4">
-          <input
-            type="text"
-            placeholder="First Name*"
-            className="input-checkout"
-          />
-          <input
-            type="text"
-            placeholder="Last Name*"
-            className="input-checkout"
-          />
-          <input type="text" placeholder="Email*" className="input-checkout" />
-          <input
-            type="text"
-            placeholder="Phone Number*"
-            className="input-checkout"
-          />
-          <input
-            type="text"
-            placeholder="Country you were born*"
-            className="input-checkout"
-          />
-          <input
-            type="text"
-            placeholder="City you were born*"
-            className="input-checkout"
-          />
-          <input
-            type="text"
-            placeholder="Date of Birth*"
-            className="input-checkout"
-          />
-          <input
-            type="text"
-            placeholder="Tax code (Only for Italy Residence)"
-            className="input-checkout"
-          />
-          <textarea
-            name=""
-            id=""
-            cols="30"
-            rows="5"
-            placeholder="Write message"
-            className="input-checkout md:w-[99%] resize-none"
-          ></textarea>
-        </div>
-
+      {boatDetails ? (
         <div className="mt-[5%]">
-          <h2 className=" text-xl font-medium leading-7">Payment Method</h2>
-          <div className="flex gap-12 my-[3%]">
-            <label className="flex items-center gap-2">
-              <input type="radio" name="payment" className="w-5 h-5" />
-              <span className=" font-normal text-[#676767] text-sm">
-                Pay all rent
-              </span>
-            </label>
-
-            <label className="flex items-center gap-2">
-              <input type="radio" name="payment" className="w-5 h-5" />
-              <span className=" font-normal text-[#676767] text-sm">
-                Pay deposit
-              </span>
-            </label>
-          </div>
-
-          <div className="mt-[4%]">
-            <label className="flex items-center gap-2">
-              <input type="checkbox" className="w-5 h-5" />
-              <span className=" font-normal text-[#676767] text-sm">
-                I read and agree to the terms & conditions
-              </span>
-            </label>
-          </div>
-
-          <div className="">
-            <button className="md:btn-5 py-2 px-10 my-[5%] bg-[#CBA557] rounded-[20px] text-base text-white font-bold">
-              Sign Up To Complete Order
-            </button>
+          <div className="flex flex-wrap gap-4">
+            <div className="input-checkout">
+              <strong>Brand: </strong>
+              {boatDetails.boat.brand}
+            </div>
+            <div className="input-checkout">
+              <strong>Model: </strong>
+              {boatDetails.boat.model}
+            </div>
+            <div className="input-checkout">
+              <strong>Year: </strong>
+              {boatDetails.boat.year}
+            </div>
+            <div className="input-checkout">
+              <strong>Region: </strong>
+              {boatDetails.boat.region}
+            </div>
+            <div className="input-checkout">
+              <strong>Type: </strong>
+              {boatDetails.boat.type}
+            </div>
+            <div className="input-checkout">
+              <strong>Boarding Capacity: </strong>
+              {boatDetails.boat.boardingCapacity}
+            </div>
+            <div className="input-checkout">
+              <strong>Total Engine Power (HP): </strong>
+              {boatDetails.boat.totalEnginePowerHP}
+            </div>
+            <div className="input-checkout">
+              <strong>Fuel Tank (Liters): </strong>
+              {boatDetails.boat.fuelTankLiters}
+            </div>
+            <div className="input-checkout">
+              <strong>Water Tank (Liters): </strong>
+              {boatDetails.boat.waterTankLiters}
+            </div>
+            <div className="input-checkout">
+              <strong>Drought (Meters): </strong>
+              {boatDetails.boat.droughtMeters}
+            </div>
+            <div className="input-checkout">
+              <strong>Length (Meters): </strong>
+              {boatDetails.boat.lengthMeters}
+            </div>
+            <div className="input-checkout">
+              <strong>Telephone: </strong>
+              {boatDetails.boat.telephone}
+            </div>
           </div>
         </div>
-      </form>
+      ) : (
+        <p>Loading boat details...</p>
+      )}
     </div>
   );
 };

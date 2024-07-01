@@ -173,7 +173,6 @@ export const updateUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    console.log(req.file);
     if (req.file) {
       let imageUrl = await uploadImages(req.file);
       user.image = imageUrl.secure_url;
@@ -188,7 +187,7 @@ export const updateUser = async (req, res) => {
     );
     return res
       .status(200)
-      .json({ message: "User updated successfully", updatedUser });
+      .json({ message: "User updated successfully", user: updatedUser });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Failed to update user" });
@@ -205,5 +204,47 @@ export const authController = async (req, res) => {
     res.status(200).json({ user: rest });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
+  }
+};
+// get user by id
+export const getUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const { password: pass, ...rest } = user._doc;
+    return res.status(200).json({ user: rest });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// update user password controller
+export const updatePassword = async (req, res) => {
+  try {
+    const { userId, oldPass, newPass } = req.body;
+    const checkUser = await User.findById(userId);
+    if (!checkUser) {
+      return res.status(404).json({ message: "User does not exists" });
+    }
+    const { password } = checkUser;
+    const isPasswordValid = await validatePassword(oldPass, password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: "Old password is incorrect" });
+    }
+    const salt = await generateSalt();
+    const hashPassword = await generatePassword(newPass, salt);
+    const updateUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        password: hashPassword,
+      },
+      { new: true, runValidators: true }
+    );
+    return res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
   }
 };

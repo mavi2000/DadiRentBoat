@@ -7,6 +7,8 @@ import {
   updateUser,
   logout,
   authController,
+  getUser,
+  updatePassword,
 } from "../controllers/user.controller.js";
 import {
   forgetPasswordStepOne,
@@ -23,9 +25,11 @@ router.post("/forgot-password", forgetPasswordStepOne);
 router.post("/forgot-password/verify-otp", forgetPasswordStepTwo);
 router.post("/forgot-password/reset-password", resetPassword);
 // router.post('/update-user', auth, upload.single('avatar'), updateUser);
-router.patch("/update-user", auth, upload.single("image"), updateUser);
+// router.patch("/update-user", auth, upload.single("image"), updateUser);
 // removing the image uploader middleware
 // router.patch("/update-user", auth, updateUser);
 router.post("/logout", logout);
+router.get("/get-user/:id", getUser);
 router.get("/checkAuth", auth, authController);
+router.patch("/update-password", updatePassword);
 export default router;

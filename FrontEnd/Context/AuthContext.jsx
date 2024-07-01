@@ -59,6 +59,7 @@ const AuthProvider = ({ children }) => {
         setUser(response.data.user);
         const role = response.data.user.roles;
         localStorage.setItem('authToken', response.data.token);
+        localStorage.setItem('Token', response.data.token);
         toast.success('Loginup successful!');
         return role; // Return the role for navigation purposes
       } else {
@@ -142,8 +143,8 @@ const AuthProvider = ({ children }) => {
   const updateUser = async (userData) => {
     console.log(userData);
     try {
-      const response = await baseURL.patch('http://localhost:3800/update-user', userData, {
-        header: {
+      const response = await baseURL.patch('/update-user', userData, {
+        headers: {
           "Content-Type": "multipart/form-data",
         }
       });

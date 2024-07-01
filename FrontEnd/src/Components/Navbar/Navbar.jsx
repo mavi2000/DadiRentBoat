@@ -70,25 +70,21 @@ const Navbar = () => {
       <TopNavbar />
 
       <div
-        className={`small-devices ${
-          showSidebar ? 'show bg-white shadow-md' : ''
-        }  text-white flex gap-8 justify-between items-center px-[3%] md:px-[6%]  ${
-          isScrolled
+        className={`small-devices ${showSidebar ? 'show bg-white shadow-md' : ''
+          }  text-white flex gap-8 justify-between items-center px-[3%] md:px-[6%]  ${isScrolled
             ? 'bg-white shadow-md fixed right-0 left-0 top-0 transition-all duration-700'
             : 'fixed top-16 right-0 left-0 bg-transparent transition-all duration-700'
-        }`}
+          }`}
       >
         <img src={logo} alt="logo" className="w-16 h-16 hidden 880px:block" />
         <div
-          className={`w-full flex flex-col 880px:flex-row gap-5 880px:items-center text-xl font-semibold ${
-            isScrolled ? 'text-black' : 'text-black 880px:text-white'
-          }`}
+          className={`w-full flex flex-col 880px:flex-row gap-5 880px:items-center text-xl font-semibold ${isScrolled ? 'text-black' : 'text-black 880px:text-white'
+            }`}
         >
           <Link to="/" className="mr-0 ml-auto">
             <p
-              className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ${
-                homePage ? '' : 'text-[--primary-color]'
-              }`}
+              className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ${homePage ? '' : 'text-[--primary-color]'
+                }`}
             >
               Home
             </p>
@@ -102,16 +98,15 @@ const Navbar = () => {
                   <FaRegBell size={30} className="text-[--primary-color]" />
                 </Link>
                 <img
-                  src={userImage}
+                  src={user && user.image || userImage}
                   alt="user avatar"
                   className="rounded-full size-[34px]"
                 />
                 <div className="relative">
                   <FaAngleDown
                     size={24}
-                    className={`cursor-pointer text-[--primary-color] duration-100 ease-in-out ${
-                      showDropdown ? 'rotate-180' : ''
-                    }`}
+                    className={`cursor-pointer text-[--primary-color] duration-100 ease-in-out ${showDropdown ? 'rotate-180' : ''
+                      }`}
                     onClick={() => {
                       setShowDropdown(!showDropdown);
                     }}
@@ -144,11 +139,10 @@ const Navbar = () => {
       </div>
       {/* mobile navbar  */}
       <div
-        className={`hamburger-main-menu  px-[3%] md:px-[6%] ${
-          isScrolled
+        className={`hamburger-main-menu  px-[3%] md:px-[6%] ${isScrolled
             ? 'bg-white  fixed right-0 left-0 top-0 transition-all duration-700'
             : 'fixed top-0 500px:top-16 right-0 left-0 bg-transparent text-white transition-all duration-700'
-        }`}
+          }`}
       >
         <Link to="/">
           <img src={logo} alt="logo" className="w-16 h-16 " />
