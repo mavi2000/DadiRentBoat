@@ -45,14 +45,17 @@ import Prices from './Prices';
 import { useParams } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../../../Context/UserContext';
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
+import { object } from 'yup';
 
 const BookNow = () => {
-  const {id} =useParams()
+  const { id } = useParams()
   const { fetchBoatDetailsById } = useContext(UserContext);
-    const [boatDetails, setBoatDetails] = useState(null);
+  const [boatDetails, setBoatDetails] = useState(null);
   const [error, setError] = useState(null);
 
+  const [data, setData] = useState({ date: "", day: "normalday", duration: "all day", rentalType: [], extraOptions: [] })
+  const [ratesArr, setRatesArr] = useState(null)
   useEffect(() => {
     const getBoatDetails = async () => {
       try {
@@ -62,20 +65,43 @@ const BookNow = () => {
         setError(error.message || 'Error loading boat details');
       }
     };
-
-    // Log the ID and start fetching boat details
-    console.log('id', id);
-    console.log('Starting to fetch boat details...');
-
     getBoatDetails();
   }, [id, fetchBoatDetailsById]);
-
-  // Log boatDetails state changes
-  useEffect(() => {
-    console.log('boatDetails', boatDetails);
-  }, [boatDetails]);
-
   // Handle loading state
+
+
+  // console.log("id",id)
+  console.log("boatDetails", boatDetails)
+  useEffect(() => {
+    if (boatDetails) {
+      const { rate } = boatDetails;
+      const normalDayRates = Object.keys(rate[0]?.normalDayRates)
+      const weekendRates = Object.keys(rate[0]?.weekendRates)
+      setRatesArr({ normalDayRates, weekendRates })
+    }
+  }, [boatDetails])
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    if (type === 'checkbox') {
+      setData((prev) => {
+        const updated = prev[name].includes(value)
+          ? prev[name].filter((item) => item !== value)
+          : [...prev[name], value];
+
+        return {
+          ...prev,
+          [name]: updated
+        };
+      });
+    } else {
+      setData((prev) => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+  };
+  console.log(data);
   if (!boatDetails && !error) {
     return <div>Loading...</div>;
   }
@@ -84,20 +110,17 @@ const BookNow = () => {
   if (error) {
     return <div>{error}</div>;
   }
-
-  // console.log("id",id)
-  // console.log("boatDetails",boatDetails)
-
+  console.log(data);
   return (
     <>
 
-    
+
       <div className="boat-page-bg !h-[50svh] md:!h-[100svh]"></div>
       <div className="flex flex-col md:flex-row mx-[3%] gap-[3%] mt-[2%] md:mx-[6%] md:gap-[7%] md:mt-[2%]">
         <div className="left-container md:w-[60%]">
           <div className="top mt-[3%]">
             <h1 className="font-sans font-poppins font-medium text-3xl text-[#000000]">
-            {boatDetails.boat.type}
+              {boatDetails.boat.type}
             </h1>
 
             <div className="flex my-3 md:justify-between justify-center flex-wrap space-y-3 space-x-3">
@@ -106,7 +129,7 @@ const BookNow = () => {
                   <FaLocationDot />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#B7B7B7]">
-                {boatDetails.boat.region}
+                  {boatDetails.boat.region}
                 </p>
               </div>
 
@@ -152,7 +175,7 @@ const BookNow = () => {
                   <PiEngine />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#808080]">
-                 {boatDetails.boat.model}
+                  {boatDetails.boat.model}
                 </p>
               </div>
 
@@ -340,7 +363,7 @@ const BookNow = () => {
                       <p className=" text-[#676767]">Power</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
-                     {boatDetails.boat.totalEnginePowerHP} hp
+                      {boatDetails.boat.totalEnginePowerHP} hp
                     </p>
                   </div>
 
@@ -648,13 +671,14 @@ const BookNow = () => {
           </div>
 
           <div className=" flex flex-col">
-            <label className=" text-sm text-[#000000] font-normal mb-[1%]">
+            <label htmlFor='data' className=" text-sm text-[#000000] font-normal mb-[1%]">
               Duration
             </label>
             <input
               type="date"
-              name=""
-              id=""
+              name="date"
+              id="date"
+              onChange={handleChange}
               placeholder="Choose Date"
               className=" border border-[#E8E8E8] px-6 py-4 rounded-lg"
             />
@@ -662,59 +686,57 @@ const BookNow = () => {
 
           <div className="flex gap-12 my-[1%]">
             <label className="flex items-center gap-2">
-              <input type="radio" name="payment" className="w-5 h-5" />
+              <input type="radio" name="day" value="normalday" onChange={handleChange} className="w-5 h-5" checked={data.day == "normalday"} />
               <span className=" font-normal text-[#676767] text-sm ">
-                Half Day
+                Normal Day
               </span>
             </label>
 
             <label className="flex items-center gap-2">
-              <input type="radio" name="payment" className="w-5 h-5" />
+              <input type="radio" checked={data.day == "weekend"} value={"weekend"} onChange={handleChange} name="day" className="w-5 h-5" />
               <span className=" font-normal text-[#676767] text-sm ">
-                Full Day
+                Weekend
               </span>
             </label>
           </div>
 
-          <div>
-            <select
-              id="bookingType"
-              className="border border-[#E8E8E8] px-6 py-4 rounded-lg w-full bg-white"
-            >
-              <option value="">Choose...</option>
-              <option value="halfDayMorning">Half Day Morning</option>
-              <option value="halfDayEvening">Full Day Evening</option>
-            </select>
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <label className="flex items-center gap-2">
-              <input type="radio" name="payment" className="w-5 h-5" />
-              <span className=" font-normal text-[#676767] text-sm ">
-                Half Day morning (Prize €65)
-              </span>
-            </label>
-
-            <label className="flex items-center gap-2">
-              <input type="radio" name="payment" className="w-5 h-5" />
-              <span className=" font-normal text-[#676767] text-sm ">
-                Half Day Evening (Prize €55)
-              </span>
-            </label>
-
-            <label className="flex items-center gap-2">
-              <input type="radio" name="payment" className="w-5 h-5" />
-              <span className=" font-normal text-[#676767] text-sm ">
-                All Day(Prize €250)
-              </span>
-            </label>
-          </div>
-
+          {data.day == "normalday" && <div className="flex flex-col gap-4">
+            {
+              ratesArr && ratesArr?.normalDayRates.map((item) => {
+                return (
+                  <>
+                    <label className="flex items-center gap-2">
+                      <input type="radio" name="duration" value={item} onChange={handleChange} className="w-5 h-5" />
+                      <span className=" font-normal text-[#676767] text-sm ">
+                        {item} ({boatDetails.rate[0].normalDayRates[item]})
+                      </span>
+                    </label>
+                  </>
+                )
+              })
+            }
+          </div>}
+          {data.day == "weekend" && <div className="flex flex-col gap-4">
+            {
+              ratesArr && ratesArr?.weekendRates.map((item) => {
+                return (
+                  <>
+                    <label className="flex items-center gap-2">
+                      <input type="radio" name='duration' value={item} onChange={handleChange} className="w-5 h-5" />
+                      <span className=" font-normal text-[#676767] text-sm ">
+                        {item} ({boatDetails.rate[0].weekendRates[item]})
+                      </span>
+                    </label>
+                  </>
+                )
+              })
+            }
+          </div >}
           <div className="">
             <h2 className=" text-sm font-normal text-[#000000] mb-[2%]">
               No of Persons
             </h2>
-            <select
+            {/* <select
               id="bookingType"
               className="border border-[#E8E8E8] px-6 py-4 rounded-lg w-full bg-white"
             >
@@ -729,7 +751,8 @@ const BookNow = () => {
               <option value="halfDayEvening">8</option>
               <option value="halfDayEvening">9</option>
               <option value="halfDayEvening">10</option>
-            </select>
+            </select> */}
+            <h1 className='border p-4 rounded-md'>{boatDetails?.boat?.boardingCapacity}</h1>
           </div>
 
           <div className=" space-y-4">
@@ -739,10 +762,10 @@ const BookNow = () => {
 
             <div className="flex justify-between">
               <div className=" flex gap-2 items-center">
-                <input type="checkbox" className="w-5 h-5" />
-                <p className=" font-normal text-[#676767] text-sm">
+                <input type="checkbox" id='rentalType' name='rentalType' className="w-5 h-5" onChange={handleChange} value={"with skipper"} />
+                <label htmlFor='rentalType' className=" font-normal text-[#676767] text-sm">
                   With Skipper
-                </p>
+                </label>
               </div>
               <p className=" font-normal text-[#676767] text-sm">$10</p>
             </div>
@@ -755,10 +778,10 @@ const BookNow = () => {
 
             <div className="flex justify-between">
               <div className=" flex gap-2 items-center">
-                <input type="checkbox" className="w-5 h-5" />
-                <p className=" font-normal text-[#676767] text-sm">
+                <input name='extraOptions' id='extraOptions' type="checkbox" className="w-5 h-5" value={"Bagni Pancaldi Tickets"} onChange={handleChange} />
+                <label htmlFor='extraOptions' className=" font-normal text-[#676767] text-sm">
                   Bagni Pancaldi Tickets
-                </p>
+                </label>
               </div>
               <p className=" font-normal text-[#676767] text-sm">$10</p>
             </div>
