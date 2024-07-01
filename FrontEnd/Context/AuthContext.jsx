@@ -59,6 +59,7 @@ const AuthProvider = ({ children }) => {
         setUser(response.data.user);
         const role = response.data.user.roles;
         localStorage.setItem('authToken', response.data.token);
+        localStorage.setItem('Token', response.data.token);
         toast.success('Loginup successful!');
         return role; // Return the role for navigation purposes
       } else {

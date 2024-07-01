@@ -8,6 +8,9 @@ import { UserContext } from "../../../Context/UserContext";
 import { format } from 'date-fns';
 import { loadStripe } from '@stripe/stripe-js';
 import baseURL from "../../../APi/BaseUrl";
+import { jwtDecode } from "jwt-decode";
+
+
 const stripePromise = loadStripe('pk_test_51OwXJ9RtqZkTuUjdPn7IZ2nUJQ77VYiDdsW3s8ddWFQRUh4yUWKiXhYLAy54Y2249fgzSTPtcvfgUr2MoiWhBE5p00zp6MUFHe');
 
 const Checkout = () => {
@@ -17,8 +20,16 @@ const Checkout = () => {
   const [error, setError] = useState(null);
   const [activeComponent, setActiveComponent] = useState("details");
   const [selectedRate, setSelectedRate] = useState(null);
+  const [paymentOption, setPaymentOption] = useState('full'); // New state for payment option
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [countryOfBirth, setCountryOfBirth] = useState('');
+  const [cityOfBirth, setCityOfBirth] = useState('');
+  const [user ,setUser] =useState("")
 
   useEffect(() => {
+    const token = localStorage.getItem('authToken');
     const getBoatDetails = async () => {
       try {
         console.log('Fetching boat details for ID:', id); // Log ID being used
@@ -30,6 +41,11 @@ const Checkout = () => {
         setError(error.message || 'Error loading boat details');
       }
     };
+
+    if (token) {
+      const decoded = jwtDecode(token)
+      setUser(decoded._id)
+    }
 
     if (id) {
       getBoatDetails();
@@ -43,11 +59,11 @@ const Checkout = () => {
       case "greeting":
         return <Greeting />;
       default:
-        return <Details />;
+        return <Details id={id} />;
     }
   };
 
-  const isLogin = true;
+  const isLogin = true; // Placeholder for login check
 
   console.log('id:', id);
   console.log('boatDetails:', boatDetails);
@@ -58,21 +74,26 @@ const Checkout = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    let amountToCharge = selectedRate * 100; // Default to full amount
+
+    if (paymentOption === 'partial') {
+      amountToCharge = (selectedRate * 0.3) * 100; // 30% of the selected amount
+    }
 
     try {
       const response = await baseURL.post('/checkout/payment', {
-        userId: '1',
-        username: 'yourUsername', // Replace with actual user data
-        email: 'yourEmail@example.com', // Replace with actual user data
-        phoneNumber: 'yourPhoneNumber', // Replace with actual user data
-        countryOfBirth: 'yourCountry', // Replace with actual user data
-        cityOfBirth: 'yourCity', // Replace with actual user data
+        userId: user, // Replace with actual user ID
+        username: username,
+        email: email,
+        phoneNumber: phoneNumber,
+        countryOfBirth: countryOfBirth,
+        cityOfBirth: cityOfBirth,
         message: 'Your custom message', // Optional
-        amount: selectedRate * 100, // Stripe expects the amount in cents
+        amount: amountToCharge, // Stripe expects the amount in cents
       });
 
       const { sessionId } = await response.data;
-      console.log("sessionId",sessionId)
+      console.log("sessionId", sessionId);
       const stripe = await stripePromise;
       const { error } = await stripe.redirectToCheckout({ sessionId });
 
@@ -85,6 +106,7 @@ const Checkout = () => {
   };
 
   console.log("selectedRate", selectedRate);
+  console.log("user", user);
 
   return (
     <div>
@@ -118,7 +140,7 @@ const Checkout = () => {
 
             <div className="py-9 px-12 flex justify-center flex-col text-[#383838]">
               {boatDetails?.boatImages.map((item) => (
-                <img src={item.avatar} alt="" className="md:w-64" />
+                <img key={item.id} src={item.avatar} alt="" className="md:w-64 mb-4" />
               ))}
               {boatDetails ? (
                 <>
@@ -165,7 +187,7 @@ const Checkout = () => {
               )}
               {boatDetails?.rate.map((item, key) => (
                 <div key={key} className="border rounded-lg p-4 my-4 shadow-lg">
-                  <h1 className="font-medium text-[#383838] text-sm">
+                  <h1 className="font-medium text-[#383838] text-sm mb-2">
                     Price Half Day Morning: 
                     <span className="text-[#676767] font-normal"> ${item?.normalDayRates?.halfDayMorning}</span>
                     <input 
@@ -176,7 +198,7 @@ const Checkout = () => {
                       className="ml-2"
                     />
                   </h1>
-                  <h1 className="font-medium text-[#383838] text-sm">
+                  <h1 className="font-medium text-[#383838] text-sm mb-2">
                     Price Half Day Evening: 
                     <span className="text-[#676767] font-normal"> ${item?.normalDayRates?.halfDayEvening}</span>
                     <input 
@@ -187,7 +209,7 @@ const Checkout = () => {
                       className="ml-2"
                     />
                   </h1>
-                  <h1 className="font-medium text-[#383838] text-sm">
+                  <h1 className="font-medium text-[#383838] text-sm mb-2">
                     Price Full Day: 
                     <span className="text-[#676767] font-normal"> ${item?.normalDayRates?.fullDay}</span>
                     <input 
@@ -198,7 +220,7 @@ const Checkout = () => {
                       className="ml-2"
                     />
                   </h1>
-                  <h1 className="font-medium text-[#383838] text-md">
+                  <h1 className="font-medium text-[#383838] text-md mb-2">
                     Weekend Price Half Day Morning: 
                     <span className="text-[#676767] font-normal"> ${item?.weekendRates?.halfDayMorning}</span>
                     <input 
@@ -209,7 +231,7 @@ const Checkout = () => {
                       className="ml-2"
                     />
                   </h1>
-                  <h1 className="font-medium text-[#383838] text-md">
+                  <h1 className="font-medium text-[#383838] text-md mb-2">
                     Weekend Price Half Day Evening: 
                     <span className="text-[#676767] font-normal"> ${item?.weekendRates?.halfDayEvening}</span>
                     <input 
@@ -220,7 +242,7 @@ const Checkout = () => {
                       className="ml-2"
                     />
                   </h1>
-                  <h1 className="font-medium text-[#383838] text-md">
+                  <h1 className="font-medium text-[#383838] text-md mb-2">
                     Weekend Price Full Day: 
                     <span className="text-[#676767] font-normal"> ${item?.weekendRates?.fullDay}</span>
                     <input 
@@ -233,101 +255,63 @@ const Checkout = () => {
                   </h1>
                 </div>
               ))}
+              {/* Payment options */}
+              <div className="my-4">
+                <h2 className="font-medium text-lg mb-2">Payment Option:</h2>
+                <label className="block mt-2">
+                  <input
+                    type="radio"
+                    name="paymentOption"
+                    value="full"
+                    checked={paymentOption === 'full'}
+                    onChange={() => setPaymentOption('full')}
+                    className="mr-2"
+                  />
+                  Pay Full Amount
+                </label>
+                <label className="block mt-2">
+                  <input
+                    type="radio"
+                    name="paymentOption"
+                    value="partial"
+                    checked={paymentOption === 'partial'}
+                    onChange={() => setPaymentOption('partial')}
+                    className="mr-2"
+                  />
+                  Pay 30% (Remaining 70% will be paid at the harbour)
+                </label>
+              </div>
+              <button
+                onClick={handleSubmit}
+                className={`w-[90%] py-2 bg-[#f24f04] rounded-lg text-white font-semibold mt-[3%]`}
+              >
+                Book Now
+              </button>
             </div>
-            <div className="border-t border-b border-[#CBA557] py-9 px-12 leading-7">
-              <h1 className="font-medium text-[#383838] text-lg">
-                Amount to be Paid Online
-              </h1>
-              <div className="flex justify-between w-[90%] mt-[1%]">
-                <p className="text-lg font-normal text-[#676767]">Amount</p>
-                <p className="text-lg font-medium text-[#383838]">$5712.00</p>
-              </div>
-            </div>
-            <div className="border-b border-[#CBA557] py-9 px-12 leading-7">
-              <h1 className="font-medium text-[#383838] text-lg">
-                Amount to be Paid on Harbor
-              </h1>
-              <div className="flex justify-between w-[90%] mt-[1%]">
-                <p className="text-lg font-normal text-[#676767]">Skipper</p>
-                <p className="text-lg font-medium text-[#383838]">$10.00</p>
-              </div>
-              <div className="flex justify-between w-[90%] mt-[1%]">
-                <p className="text-lg font-normal text-[#676767]">Tickets</p>
-                <p className="text-lg font-medium text-[#383838]">$10.00</p>
-              </div>
-            </div>
-            <div className="py-9 px-12 leading-7">
-              <div className="flex justify-between w-[90%] mt-[1%]">
-                <p className="text-lg font-normal text-[#676767]">Subtotal</p>
-                <p className="text-lg font-medium text-[#383838]">$5712.00</p>
-              </div>
-              <div className="flex justify-between w-[90%] mt-[1%]">
-                <p className="text-lg font-normal text-[#676767]">
-                  Skipper Charges:
-                </p>
-                <p className="text-lg font-medium text-[#383838]">$10.00</p>
-              </div>
-              <div className="flex justify-between w-[90%] mt-[1%]">
-                <p className="text-lg font-normal text-[#676767]">Tickets</p>
-                <p className="text-lg font-medium text-[#383838]">$10.00</p>
-              </div>
-              <div className="flex justify-between w-[90%] mt-[1%]">
-                <p className="text-lg font-normal text-[#676767]">Total</p>
-                <p className="text-lg font-medium text-[#383838]">$5712.00</p>
-              </div>
-            </div>
-            <hr className="border-b border-[#DCDCDC] mb-[5%]" />
           </div>
-          <div className="flex flex-col w-[100%] gap-5">
-            {isLogin && (
-              <div className="flex items-baseline ml-8">
-                <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557]">
-                  <button
-                    className={`rounded-[50%] h-8 w-8 bg-transparent border-2 border-[#CBA557] ${
-                      activeComponent === "details" ? "bg-[#cba557] text-white" : ""
-                    }`}
-                    onClick={() => setActiveComponent("details")}
-                  >
-                    01
-                  </button>
-                  <div className="font-semibold">Details</div>
-                </div>
-                <div className="w-[10%] h-0.5 bg-gray-400"></div>
-                <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557]">
-                  <button
-                    className={`rounded-[50%] h-8 w-8 bg-transparent border-2 border-[#CBA557] ${
-                      activeComponent === "payment" ? "bg-[#cba557] text-white" : ""
-                    }`}
-                    onClick={() => setActiveComponent("payment")}
-                  >
-                    02
-                  </button>
-                  <div className="font-semibold">Payment</div>
-                </div>
-                <div className="w-[10%] h-0.5 bg-gray-400"></div>
-                <div className="flex flex-col items-center gap-2 text-sm text-[#CBA557]">
-                  <button
-                    className={`rounded-[50%] h-8 w-8 bg-transparent border-2 border-[#CBA557] ${
-                      activeComponent === "greeting" ? "bg-[#cba557] text-white" : ""
-                    }`}
-                    onClick={() => setActiveComponent("greeting")}
-                  >
-                    03
-                  </button>
-                  <div className="font-semibold">Greeting</div>
-                </div>
-              </div>
-            )}
+          <div className="md:w-[65%] bg-white rounded-xl shadow-checkout px-3">
             {renderComponent()}
+            <div className="flex flex-col items-center">
+              {/* <button
+                onClick={() => setActiveComponent("details")}
+                className={`w-[90%] py-2 bg-[#f24f04] rounded-lg text-white font-semibold mt-[3%]`}
+              >
+                Details
+              </button>
+              <button
+                onClick={() => setActiveComponent("greeting")}
+                className={`w-[90%] py-2 bg-[#f24f04] rounded-lg text-white font-semibold mt-[3%]`}
+              >
+                Greeting
+              </button>
+              <button
+                onClick={() => setActiveComponent("payment")}
+                className={`w-[90%] py-2 bg-[#f24f04] rounded-lg text-white font-semibold mt-[3%]`}
+              >
+                Payment
+              </button> */}
+            </div>
           </div>
-        </div>
-        <div className="flex justify-center mt-5">
-          <button
-            onClick={handleSubmit}
-            className="bg-[#cba557] text-white py-2 px-4 rounded-lg"
-          >
-            Proceed to Payment
-          </button>
         </div>
       </div>
     </div>

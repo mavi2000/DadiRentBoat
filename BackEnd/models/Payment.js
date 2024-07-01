@@ -4,35 +4,12 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const PaymentSchema = new Schema({
-//   userId: {
-//     type: Schema.Types.ObjectId,
-//     ref: 'User',
-//     required: true
-//   },
-  username: {
-    type: String,
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
-  email: {
-    type: String,
-    required: true
-  },
-  phoneNumber: {
-    type: String,
-    required: true
-  },
-  countryOfBirth: {
-    type: String,
-    required: true
-  },
-  cityOfBirth: {
-    type: String,
-    required: true
-  },
-  message: {
-    type: String,
-    required: true
-  },
+ 
   stripeDetails: {
     type: Object,
     required: true

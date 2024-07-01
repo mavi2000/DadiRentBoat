@@ -12,12 +12,6 @@ export const checkout = async (req, res) => {
     try {
         const {
             userId,
-            username,
-            email,
-            phoneNumber,
-            countryOfBirth,
-            cityOfBirth,
-            message,
             amount
         } = req.body;
 
@@ -46,8 +40,8 @@ export const checkout = async (req, res) => {
                 quantity: 1,
             }],
             mode: 'payment',
-            success_url: "http://localhost:5713",
-            cancel_url: `http://localhost:5713`, // Ensure FRONTEND_URL is properly set
+            success_url: "http://localhost:5173",
+            cancel_url: `http://localhost:5173`, // Ensure FRONTEND_URL is properly set
             metadata: {
                 userId
             },
@@ -55,12 +49,6 @@ export const checkout = async (req, res) => {
 
         const payment = new Payment({
             userId,
-            username,
-            email,
-            phoneNumber,
-            countryOfBirth,
-            cityOfBirth,
-            message,
             amount: unitAmount, // Store the parsed amount (in cents) in your database
             stripeDetails: session,
         });
