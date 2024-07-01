@@ -40,8 +40,8 @@ export const checkout = async (req, res) => {
                 quantity: 1,
             }],
             mode: 'payment',
-            success_url: "http://localhost:5173",
-            cancel_url: `http://localhost:5173`, // Ensure FRONTEND_URL is properly set
+            success_url: "https://www.dadirent.it",
+            cancel_url: `https://www.dadirent.it`, // Ensure FRONTEND_URL is properly set
             metadata: {
                 userId
             },
