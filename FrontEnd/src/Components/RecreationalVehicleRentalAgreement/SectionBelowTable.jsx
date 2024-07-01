@@ -1,6 +1,11 @@
 import './Table.css';
 
-const SectionBelowTable = () => {
+const SectionBelowTable = ({ data, setData }) => {
+  const handleChange = (e) => {
+    setData(prev => {
+      return { ...prev, [e.target.name]: e.target.value }
+    })
+  }
   return (
     <>
       <div className="flex gap-2 items-start">
@@ -49,22 +54,28 @@ const SectionBelowTable = () => {
       </div>
       <div className="flex gap-12 flex-col w-full md:flex-row mt-10">
         <div className="flex flex-col mb-8 w-full">
-          <label htmlFor="lastName">In faith (place and date)</label>
+          <label htmlFor="faithPlace">In faith (place and date)</label>
           <div>
             <input
               type="text"
+              id='faithPlace'
+              name="faithPlace"
+              onChange={handleChange}
+              value={data.value}
               className="border-[1px] border-[#DBDADE] mr-8 outline-none my-3 px-4 py-3 rounded-md placeholder:text-[#DBDADE] w-full "
               placeholder="Livorno (Li)"
             />
           </div>
         </div>
         <div className="flex flex-col mb-8 w-full">
-          <label htmlFor="date">Date</label>
+          <label htmlFor="faithDate">Date</label>
           <div>
             <input
               type="date"
-              id="date"
-              name="date"
+              id="faithDate"
+              name="faithDate"
+              onChange={handleChange}
+              value={data.value}
               className="border-[1px] border-[#DBDADE] mr-8 outline-none my-3 px-4 py-3 rounded-md placeholder:text-[#DBDADE] w-full "
             />
           </div>

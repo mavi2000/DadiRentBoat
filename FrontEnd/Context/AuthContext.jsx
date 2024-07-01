@@ -143,8 +143,8 @@ const AuthProvider = ({ children }) => {
   const updateUser = async (userData) => {
     console.log(userData);
     try {
-      const response = await baseURL.patch('http://localhost:3800/update-user', userData, {
-        header: {
+      const response = await baseURL.patch('/update-user', userData, {
+        headers: {
           "Content-Type": "multipart/form-data",
         }
       });

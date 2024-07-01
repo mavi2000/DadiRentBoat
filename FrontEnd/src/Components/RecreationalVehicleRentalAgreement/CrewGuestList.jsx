@@ -1,4 +1,9 @@
-const CrewGuestList = () => {
+const CrewGuestList = ({ data, setData }) => {
+  const handleChange = (e) => {
+    setData(prev => {
+      return { ...prev, [e.target.name]: e.target.value }
+    })
+  }
   return (
     <div>
       <h1 className="mt-16 text-xl font-semibold">CREW/GUEST LIST</h1>
@@ -8,13 +13,15 @@ const CrewGuestList = () => {
         chartered vessel:
       </p>
       <div className="flex flex-col my-8">
-        <label htmlFor="total">
+        <label htmlFor="members">
           For a total of <span className="text-red-500">*</span>
         </label>
         <div>
           <input
-            id="total"
-            name="total"
+            id="members"
+            name="members"
+            value={data.members}
+            onChange={handleChange}
             type="text"
             placeholder="ex: 23"
             className="border-[1px] border-[#DBDADE] mr-8 outline-none my-3 px-4 py-3 rounded-md placeholder:text-[#DBDADE] w-full md:w-[calc(50%-2rem)]"

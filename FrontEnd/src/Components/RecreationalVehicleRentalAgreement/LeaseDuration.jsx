@@ -1,4 +1,9 @@
-const LeaseDuration = () => {
+const LeaseDuration = ({ data, setData }) => {
+  const handleChange = (e) => {
+    setData(prev => {
+      return { ...prev, [e.target.name]: e.target.value }
+    })
+  }
   return (
     <div>
       <h1 className="mt-16 text-xl font-semibold">DURATION OF THE LEASES</h1>
@@ -8,12 +13,16 @@ const LeaseDuration = () => {
         chartered vessel:
       </p>
       <div className="flex flex-col my-8">
-        <label htmlFor="lastName">
+        <label htmlFor="leaseStart">
           Start of lease <span className="text-red-500">*</span>
         </label>
         <div>
           <input
             type="date"
+            id="leaseStart"
+            name="leaseStart"
+            value={data.leaseStart}
+            onChange={handleChange}
             className="border-[1px] border-[#DBDADE] mr-8 outline-none my-3 px-4 py-3 rounded-md placeholder:text-[#DBDADE] w-full md:w-[calc(50%-2rem)]"
           />
           <input
@@ -24,12 +33,16 @@ const LeaseDuration = () => {
         </div>
       </div>
       <div className="flex flex-col mb-8">
-        <label htmlFor="lastName">
+        <label htmlFor="leaseEnd">
           End of lease <span className="text-red-500">*</span>
         </label>
         <div>
           <input
             type="date"
+            id="leaseEnd"
+            name="leaseEnd"
+            onChange={handleChange}
+            value={data.leaseEnd}
             className="border-[1px] border-[#DBDADE] mr-8 outline-none my-3 px-4 py-3 rounded-md placeholder:text-[#DBDADE] w-full md:w-[calc(50%-2rem)]"
           />
           <input

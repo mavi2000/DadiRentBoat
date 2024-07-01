@@ -6,9 +6,11 @@ import { Formik, Form, Field } from 'formik';
 import FormControl from '../../Form/FormControl';
 import { format } from 'date-fns'
 import { validationSchema, fieldClasses, languageOptions, genderOptions, nationalityOptions, initialValues } from './data';
+import ChangePassword from '../../LoginSignupPopups/ChangePassword';
 const AccountInfo = () => {
   const { user, updateUser } = useContext(AuthContext)
   const [values, setValues] = useState(null)
+  const [active, setActive] = useState('info')
   const [file, setFile] = useState('')
   useEffect(() => {
     if (user) {
@@ -49,21 +51,21 @@ const AccountInfo = () => {
 
         <div className='w-full h-full md:w-[22%] overflow-auto accountInfo bg-[#FFFFFF] rounded-[10px]'>
           <ul className=' flex flex-col items-center '>
-            <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]'>Account Information</li>
-            <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]'>Change Password</li>
+            <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]' onClick={() => setActive("info")}>Account Information</li>
+            <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]' onClick={() => setActive("password")}>Change Password</li>
             <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]'>Payment Information</li>
             <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]'>Logout</li>
           </ul>
         </div>
 
-        <div className='w-full md:w-[78%]'>
+        {active == "info" && <div className='w-full md:w-[78%]'>
 
           <div className='accountInfo bg-[#FFFFFF] rounded-[10px]'>
             <div className=' mx-[3%] mb-[3%]'>
 
               <h1 className=' text-2xl py-8 font-medium text-[#4B465C] '>Profile Details</h1>
               <div className='flex gap-[4%] items-center'>
-                <img src={Profile} alt="" className='w-32 border border-[#CBA557] rounded-xl' />
+                <img src={user && values && values.image || Profile} alt="" className='w-32 border border-[#CBA557] rounded-xl' />
                 <div>
                   <label htmlFor="image">
                     <button onClick={() => document.getElementById('image').click()} type='button' className='btn-5 font-medium py-1 px-4 text-sm md:text-xl md:py-3 md:px-7 rounded-lg'>
@@ -183,8 +185,12 @@ const AccountInfo = () => {
           </div>
 
 
-        </div>
-
+        </div>}
+        {
+          active == "password" && <div className='bg-white p-8 w-full md:w-[78%]'>
+            <ChangePassword />
+          </div>
+        }
 
 
       </div>
