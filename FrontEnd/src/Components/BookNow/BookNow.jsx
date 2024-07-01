@@ -762,7 +762,7 @@ const BookNow = () => {
 
             <div className="flex justify-between">
               <div className=" flex gap-2 items-center">
-                <input type="checkbox" id='rentalType' name='rentalType' className="w-5 h-5" onChange={handleChange} value={"with skipper"} />
+                <input type="checkbox" checked={boatDetails && !boatDetails.description[0]?.rentalType?.withoutSkipper} id='rentalType' name='rentalType' className="w-5 h-5" value={"with skipper"} />
                 <label htmlFor='rentalType' className=" font-normal text-[#676767] text-sm">
                   With Skipper
                 </label>
