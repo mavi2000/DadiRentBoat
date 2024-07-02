@@ -20,7 +20,7 @@ const PreviousBooking = () => {
 
         const todayDate = new Date().setHours(0, 0, 0, 0); // Get today's date at midnight for accurate comparison
         const filteredBookings = response.data.filter(
-          (booking) => new Date(booking.createdAt).setHours(0, 0, 0, 0) < todayDate
+          (booking) => new Date(booking?.availableDate).setHours(0, 0, 0, 0) < todayDate
         );
 
         setBookings(filteredBookings);
@@ -92,10 +92,10 @@ const PreviousBooking = () => {
               </thead>
               <tbody>
                 {bookings.map((booking) => (
-                  <tr key={booking.orderId} className="border-b border-[#DBDADE] hover:bg-gray-100">
-                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking._id}</td>
-                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking.userName}</td>
-                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{new Date(booking.createdAt).toLocaleDateString()}</td>
+                  <tr key={booking._id} className="border-b border-[#DBDADE] hover:bg-gray-100">
+                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking?._id}</td>
+                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking?.userName}</td>
+                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{new Date(booking?.availableDate).toLocaleDateString()}</td>
                     <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
                       <div className='flex items-center justify-center'>
                         <img src={BoatType} alt="Boat Type" className='md:w-9 w-6 rounded-full' />

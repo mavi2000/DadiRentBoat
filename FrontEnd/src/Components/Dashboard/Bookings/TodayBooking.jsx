@@ -19,7 +19,7 @@ const TodayBooking = () => {
 
         // Filter bookings where the request date matches today's date
         const filteredBookings = response.data.filter(
-          (booking) => new Date(booking.createdAt).toLocaleDateString() === todayDate
+          (booking) => new Date(booking?.availableDate).toLocaleDateString() === todayDate
         );
 
         setBookings(filteredBookings);
@@ -90,7 +90,7 @@ const TodayBooking = () => {
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">#{booking._id.slice(-6)}</td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking.userId.username}</td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
-                    {new Date(booking.createdAt).toLocaleDateString()}
+                    {new Date(booking.availableDate).toLocaleDateString()}
                   </td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
                     <div className="flex items-center justify-center">

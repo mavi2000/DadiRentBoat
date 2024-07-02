@@ -19,7 +19,7 @@ const UpcomingBooking = () => {
 
         const todayDate = new Date().setHours(0, 0, 0, 0); // Get today's date at midnight for accurate comparison
         const filteredBookings = response.data.filter(
-          (booking) => new Date(booking.createdAt).setHours(0, 0, 0, 0) > todayDate
+          (booking) => new Date(bookings.availableDate).setHours(0, 0, 0, 0) < todayDate
         );
 
         setBookings(filteredBookings);
@@ -92,17 +92,17 @@ const UpcomingBooking = () => {
               <tbody>
                 {bookings.map((booking) => (
                   <tr key={booking.orderId} className="border-b border-[#DBDADE] hover:bg-gray-100">
-                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking._id}</td>
-                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking.userName}</td>
-                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{new Date(booking.createdAt).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking?._id}</td>
+                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking?.userId.username}</td>
+                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{new Date(booking?.availableDate).toLocaleDateString()}</td>
                     <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
                       <div className='flex items-center justify-center'>
                         <img src={BoatType} alt="Boat Type" className='md:w-9 w-6 rounded-full' />
-                        <p className='px-2'>{booking.boatName}</p>
+                        <p className='px-2'>{booking?.boatName}</p>
                       </div>
                     </td>
-                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking.totalAmount}</td>
-                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking.amount}</td>
+                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking?.totalAmount}</td>
+                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking?.amount}</td>
                     <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
                       <div className='px-4 py-3 rounded-[10px] bg-[#E3B5111A] bg-opacity-10 text-[#E3B511] font-bold text-sm'>
                         in-Queue

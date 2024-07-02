@@ -32,4 +32,9 @@ router.post("/logout", logout);
 router.get("/get-user/:id", getUser);
 router.get("/checkAuth", auth, authController);
 router.patch("/update-password", updatePassword);
+
+
+
+// router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+// router.get('/auth/google/callback', passport.authenticate('google', { session: false, failureRedirect: `${AUTH_REDIRECT}/login` }), handleGoogleCallback);
 export default router;
