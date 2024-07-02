@@ -46,21 +46,25 @@ import { useParams } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../../../Context/UserContext';
 import { useEffect, useState } from 'react';
-import { object } from 'yup';
-
+import { jwtDecode } from 'jwt-decode';
+import { toast } from 'react-toastify';
+import baseURL from '../../../APi/BaseUrl';
+import { loadStripe } from '@stripe/stripe-js';
+const stripePromise = loadStripe('pk_test_51OwXJ9RtqZkTuUjdPn7IZ2nUJQ77VYiDdsW3s8ddWFQRUh4yUWKiXhYLAy54Y2249fgzSTPtcvfgUr2MoiWhBE5p00zp6MUFHe');
 const BookNow = () => {
   const { id } = useParams()
   const { fetchBoatDetailsById } = useContext(UserContext);
   const [boatDetails, setBoatDetails] = useState(null);
   const [error, setError] = useState(null);
 
-  const [data, setData] = useState({ date: "", day: "normalday", duration: "all day", rentalType: [], extraOptions: [] })
+  const [data, setData] = useState({ date: "", day: "normal", amount: null, boatName: "", rateType: "" })
   const [ratesArr, setRatesArr] = useState(null)
   useEffect(() => {
     const getBoatDetails = async () => {
       try {
         const details = await fetchBoatDetailsById(id);
         setBoatDetails(details);
+        setData({ ...data, boatName: details.boat.type })
       } catch (error) {
         setError(error.message || 'Error loading boat details');
       }
@@ -101,7 +105,6 @@ const BookNow = () => {
       }));
     }
   };
-  console.log(data);
   if (!boatDetails && !error) {
     return <div>Loading...</div>;
   }
@@ -109,6 +112,33 @@ const BookNow = () => {
   // Handle error state
   if (error) {
     return <div>{error}</div>;
+  }
+  // submit handler for creating stripe session
+  const handleSubmit = async () => {
+    const token = localStorage.getItem('authToken')
+    if (!token) {
+      return toast.error("User must be login to book a boat")
+    }
+    const decoded = jwtDecode(token)
+    const userId = decoded._id
+    if (!userId) {
+      return toast.error("Something went wrong")
+    }
+    try {
+      const response = await baseURL.post('/checkout/payment', {
+        userId, amount: Number(data.amount.split(" ")[1]) * 100, boatName: data.boatName, rateType: data.day + data.amount.split(" ")[0], totalAmount: Number(data.amount.split(" ")[1]) * 100
+      })
+      const { sessionId } = await response.data;
+      console.log("sessionId", sessionId);
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({ sessionId });
+
+      if (error) {
+        console.error('Stripe Checkout error:', error);
+      }
+    } catch (error) {
+      console.error('Payment failed', error);
+    }
   }
   console.log(data);
   return (
@@ -686,7 +716,7 @@ const BookNow = () => {
 
           <div className="flex gap-12 my-[1%]">
             <label className="flex items-center gap-2">
-              <input type="radio" name="day" value="normalday" onChange={handleChange} className="w-5 h-5" checked={data.day == "normalday"} />
+              <input type="radio" name="day" value="normal" onChange={handleChange} className="w-5 h-5" checked={data.day == "normal"} />
               <span className=" font-normal text-[#676767] text-sm ">
                 Normal Day
               </span>
@@ -700,13 +730,13 @@ const BookNow = () => {
             </label>
           </div>
 
-          {data.day == "normalday" && <div className="flex flex-col gap-4">
+          {data.day == "normal" && <div className="flex flex-col gap-4">
             {
               ratesArr && ratesArr?.normalDayRates.map((item) => {
                 return (
                   <>
                     <label className="flex items-center gap-2">
-                      <input type="radio" name="duration" value={item} onChange={handleChange} className="w-5 h-5" />
+                      <input type="radio" name="amount" value={item + " " + boatDetails.rate[0].normalDayRates[item]} onChange={handleChange} className="w-5 h-5" />
                       <span className=" font-normal text-[#676767] text-sm ">
                         {item} ({boatDetails.rate[0].normalDayRates[item]})
                       </span>
@@ -722,7 +752,7 @@ const BookNow = () => {
                 return (
                   <>
                     <label className="flex items-center gap-2">
-                      <input type="radio" name='duration' value={item} onChange={handleChange} className="w-5 h-5" />
+                      <input type="radio" name='amount' value={item + " " + boatDetails.rate[0].weekendRates[item]} onChange={handleChange} className="w-5 h-5" />
                       <span className=" font-normal text-[#676767] text-sm ">
                         {item} ({boatDetails.rate[0].weekendRates[item]})
                       </span>
@@ -778,7 +808,7 @@ const BookNow = () => {
 
             <div className="flex justify-between">
               <div className=" flex gap-2 items-center">
-                <input name='extraOptions' id='extraOptions' type="checkbox" className="w-5 h-5" value={"Bagni Pancaldi Tickets"} onChange={handleChange} />
+                <input name='extraOptions' id='extraOptions' type="checkbox" className="w-5 h-5" value={"Bagni Pancaldi Tickets"} />
                 <label htmlFor='extraOptions' className=" font-normal text-[#676767] text-sm">
                   Bagni Pancaldi Tickets
                 </label>
@@ -794,7 +824,7 @@ const BookNow = () => {
             You will only be charged if your request is confirmed
           </p>
 
-          <button className="btn-5 flex items-center justify-center space-x-2">
+          <button onClick={handleSubmit} className="btn-5 flex items-center justify-center space-x-2">
             <p>Instant Booking</p>
             <span className=" text-2xl">
               <RxChevronRight />
