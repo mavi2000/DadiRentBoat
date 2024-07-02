@@ -1,50 +1,41 @@
-import Annina from "../../assets/Images/annina.webp";
-import Payment from "./Payment";
-import Greeting from "./Greeting";
-import Details from "./Details";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from 'react-router-dom';
-import { useState, useEffect, useContext } from "react";
-import { UserContext } from "../../../Context/UserContext";
-import { format } from 'date-fns';
 import { loadStripe } from '@stripe/stripe-js';
 import baseURL from "../../../APi/BaseUrl";
 import { jwtDecode } from "jwt-decode";
 
-
+// Import your Details, Greeting, and Payment components
+import Details from "./Details";
+import Greeting from "./Greeting";
+import Payment from "./Payment";
+import { UserContext } from "../../../Context/UserContext";
 const stripePromise = loadStripe('pk_test_51OwXJ9RtqZkTuUjdPn7IZ2nUJQ77VYiDdsW3s8ddWFQRUh4yUWKiXhYLAy54Y2249fgzSTPtcvfgUr2MoiWhBE5p00zp6MUFHe');
+import {format} from "date-fns";
+
 
 const Checkout = () => {
-  const { id } = useParams();
   const { fetchBoatDetailsById } = useContext(UserContext);
+  const { id } = useParams();
   const [boatDetails, setBoatDetails] = useState(null);
-  const [error, setError] = useState(null);
-  const [activeComponent, setActiveComponent] = useState("details");
   const [selectedRate, setSelectedRate] = useState(null);
-  const [paymentOption, setPaymentOption] = useState('full'); // New state for payment option
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [countryOfBirth, setCountryOfBirth] = useState('');
-  const [cityOfBirth, setCityOfBirth] = useState('');
-  const [user ,setUser] =useState("")
+  const [paymentOption, setPaymentOption] = useState('full');
+  const [user, setUser] = useState(""); // Initialize user state
+  const [activeComponent, setActiveComponent] = useState("details"); // Default to 'details' component
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     const getBoatDetails = async () => {
       try {
-        console.log('Fetching boat details for ID:', id); // Log ID being used
         const details = await fetchBoatDetailsById(id);
-        console.log('Boat details fetched:', details); // Log fetched details
         setBoatDetails(details);
       } catch (error) {
-        console.error('Error fetching boat details:', error); // Log error
-        setError(error.message || 'Error loading boat details');
+        console.error('Error fetching boat details:', error);
       }
     };
 
     if (token) {
       const decoded = jwtDecode(token)
-      setUser(decoded._id)
+      setUser(decoded._id);
     }
 
     if (id) {
@@ -52,6 +43,69 @@ const Checkout = () => {
     }
   }, [id, fetchBoatDetailsById]);
 
+  const handleSelection = (rate) => {
+    setSelectedRate(rate);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    let amountToCharge = selectedRate; 
+    let rateType = ''; 
+    
+    console.log("selectedRate", selectedRate);
+    console.log("boatDetails", boatDetails);
+    
+    if (boatDetails && boatDetails.rate) {
+      boatDetails.rate.forEach(rateDetails => {
+        if (selectedRate === rateDetails?.normalDayRates?.halfDayMorning) {
+          rateType = 'halfDayMorning';
+        } else if (selectedRate === rateDetails?.normalDayRates?.halfDayEvening) {
+          rateType = 'halfDayEvening';
+        } else if (selectedRate === rateDetails?.normalDayRates?.fullDay) {
+          rateType = 'fullDay';
+        } else if (selectedRate === rateDetails?.weekendRates?.halfDayMorning) {
+          rateType = 'weekendHalfDayMorning';
+        } else if (selectedRate === rateDetails?.weekendRates?.halfDayEvening) {
+          rateType = 'weekendHalfDayEvening';
+        } else if (selectedRate === rateDetails?.weekendRates?.fullDay) {
+          rateType = 'weekendFullDay';
+        }
+      });
+    }
+  
+    // Calculate amount to charge based on payment option
+    if (paymentOption === 'partial') {
+      amountToCharge = selectedRate * 0.3; // 30% of the selected rate
+    } else {
+      amountToCharge = selectedRate; // Full amount
+    }
+  
+    // Convert amount to cents for Stripe
+    const amountToChargeInCents = Math.round(amountToCharge * 100);
+  
+    console.log("rateType", rateType);
+    console.log("amountToCharge", amountToCharge);
+    
+    try {
+      const response = await baseURL.post('/checkout/payment', {
+        userId: user,
+        boatName: boatDetails?.boat?.type,
+        amount: amountToChargeInCents,
+        rateType, // Pass dynamically selected rateType
+        totalAmount: selectedRate // Pass total amount if needed
+      });
+    
+      const { sessionId } = await response.data;
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({ sessionId });
+    
+      if (error) {
+        console.error('Stripe Checkout error:', error);
+      }
+    } catch (error) {
+      console.error('Payment failed', error);
+    }
+  };
   const renderComponent = () => {
     switch (activeComponent) {
       case "payment":
@@ -62,51 +116,6 @@ const Checkout = () => {
         return <Details id={id} />;
     }
   };
-
-  const isLogin = true; // Placeholder for login check
-
-  console.log('id:', id);
-  console.log('boatDetails:', boatDetails);
-
-  const handleSelection = (rate) => {
-    setSelectedRate(rate);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    let amountToCharge = selectedRate * 100; // Default to full amount
-
-    if (paymentOption === 'partial') {
-      amountToCharge = (selectedRate * 0.3) * 100; // 30% of the selected amount
-    }
-
-    try {
-      const response = await baseURL.post('/checkout/payment', {
-        userId: user, // Replace with actual user ID
-        username: username,
-        email: email,
-        phoneNumber: phoneNumber,
-        countryOfBirth: countryOfBirth,
-        cityOfBirth: cityOfBirth,
-        message: 'Your custom message', // Optional
-        amount: amountToCharge, // Stripe expects the amount in cents
-      });
-
-      const { sessionId } = await response.data;
-      console.log("sessionId", sessionId);
-      const stripe = await stripePromise;
-      const { error } = await stripe.redirectToCheckout({ sessionId });
-
-      if (error) {
-        console.error('Stripe Checkout error:', error);
-      }
-    } catch (error) {
-      console.error('Payment failed', error);
-    }
-  };
-
-  console.log("selectedRate", selectedRate);
-  console.log("user", user);
 
   return (
     <div>
