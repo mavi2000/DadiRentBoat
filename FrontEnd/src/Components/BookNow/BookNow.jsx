@@ -57,7 +57,7 @@ const BookNow = () => {
   const [boatDetails, setBoatDetails] = useState(null);
   const [error, setError] = useState(null);
 
-  const [data, setData] = useState({ date: "", day: "normal", amount: null, boatName: "", rateType: "" })
+  const [data, setData] = useState({ date: "", day: "normal", amount: null, boatName: "", rateType: "", availableDate: "" })
   const [ratesArr, setRatesArr] = useState(null)
   useEffect(() => {
     const getBoatDetails = async () => {
@@ -126,7 +126,7 @@ const BookNow = () => {
     }
     try {
       const response = await baseURL.post('/checkout/payment', {
-        userId, amount: Number(data.amount.split(" ")[1]) * 100, boatName: data.boatName, rateType: data.day + data.amount.split(" ")[0], totalAmount: Number(data.amount.split(" ")[1]) * 100
+        userId, amount: Number(data.amount.split(" ")[1]) * 100, boatName: data.boatName, rateType: data.day == "weekend" && data.day + data.amount.split(" ")[0], totalAmount: Number(data.amount.split(" ")[1]) * 100, availableDate: data.availableDate
       })
       const { sessionId } = await response.data;
       console.log("sessionId", sessionId);
@@ -142,7 +142,7 @@ const BookNow = () => {
   }
   console.log(data);
   return (
-    <>
+    <div>
       <div className="boat-page-bg !h-[50svh] md:!h-[100svh]"></div>
       <div className="flex flex-col md:flex-row mx-[3%] gap-[3%] mt-[2%] md:mx-[6%] md:gap-[7%] md:mt-[2%]">
         <div className="left-container md:w-[60%]">
@@ -537,84 +537,81 @@ const BookNow = () => {
             </div> */}
           </div>
         </div>
+        <div className="right-container md:w-[35%] px-5 py-10 bg-white rounded-xl shadow-checkout flex flex-col gap-8 md:h-full">
+          <div className="flex items-center gap-1">
+            <p className=" text-sm text-[#000000] font-normal">Total</p>
+            <p className=" text-lg font-bold text-[#CBA557]">
+              $154.00/ Half Day
+            </p>
+          </div>
 
-      </div>
+          <div className=" flex flex-col">
+            <label htmlFor='data' className=" text-sm text-[#000000] font-normal mb-[1%]">
+              Duration
+            </label>
+            <input
+              type="date"
+              name="availableDate"
+              onChange={handleChange}
+              id="date"
+              placeholder="Choose Date"
+              className=" border border-[#E8E8E8] px-6 py-4 rounded-lg"
+            />
+          </div>
 
-      <div className="right-container md:w-[35%] px-5 py-10 bg-white rounded-xl shadow-checkout flex flex-col gap-8 md:h-full">
-        <div className="flex items-center gap-1">
-          <p className=" text-sm text-[#000000] font-normal">Total</p>
-          <p className=" text-lg font-bold text-[#CBA557]">
-            $154.00/ Half Day
-          </p>
-        </div>
+          <div className="flex gap-12 my-[1%]">
+            <label className="flex items-center gap-2">
+              <input type="radio" name="day" value="normal" onChange={handleChange} className="w-5 h-5" checked={data.day == "normal"} />
+              <span className=" font-normal text-[#676767] text-sm ">
+                Normal Day
+              </span>
+            </label>
 
-        <div className=" flex flex-col">
-          <label htmlFor='data' className=" text-sm text-[#000000] font-normal mb-[1%]">
-            Duration
-          </label>
-          <input
-            type="date"
-            name="date"
-            id="date"
-            onChange={handleChange}
-            placeholder="Choose Date"
-            className=" border border-[#E8E8E8] px-6 py-4 rounded-lg"
-          />
-        </div>
+            <label className="flex items-center gap-2">
+              <input type="radio" checked={data.day == "weekend"} value={"weekend"} onChange={handleChange} name="day" className="w-5 h-5" />
+              <span className=" font-normal text-[#676767] text-sm ">
+                Weekend
+              </span>
+            </label>
+          </div>
 
-        <div className="flex gap-12 my-[1%]">
-          <label className="flex items-center gap-2">
-            <input type="radio" name="day" value="normal" onChange={handleChange} className="w-5 h-5" checked={data.day == "normal"} />
-            <span className=" font-normal text-[#676767] text-sm ">
-              Normal Day
-            </span>
-          </label>
-
-          <label className="flex items-center gap-2">
-            <input type="radio" checked={data.day == "weekend"} value={"weekend"} onChange={handleChange} name="day" className="w-5 h-5" />
-            <span className=" font-normal text-[#676767] text-sm ">
-              Weekend
-            </span>
-          </label>
-        </div>
-
-        {data.day == "normal" && <div className="flex flex-col gap-4">
-          {
-            ratesArr && ratesArr?.normalDayRates.map((item) => {
-              return (
-                <>
-                  <label className="flex items-center gap-2">
-                    <input type="radio" name="amount" value={item + " " + boatDetails.rate[0].normalDayRates[item]} onChange={handleChange} className="w-5 h-5" />
-                    <span className=" font-normal text-[#676767] text-sm ">
-                      {item} ({boatDetails.rate[0].normalDayRates[item]})
-                    </span>
-                  </label>
-                </>
-              )
-            })
-          }
-        </div>}
-        {data.day == "weekend" && <div className="flex flex-col gap-4">
-          {
-            ratesArr && ratesArr?.weekendRates.map((item) => {
-              return (
-                <>
-                  <label className="flex items-center gap-2">
-                    <input type="radio" name='amount' value={item + " " + boatDetails.rate[0].weekendRates[item]} onChange={handleChange} className="w-5 h-5" />
-                    <span className=" font-normal text-[#676767] text-sm ">
-                      {item} ({boatDetails.rate[0].weekendRates[item]})
-                    </span>
-                  </label>
-                </>
-              )
-            })
-          }
-        </div >}
-        <div className="">
-          <h2 className=" text-sm font-normal text-[#000000] mb-[2%]">
-            No of Persons
-          </h2>
-          {/* <select
+          {data.day == "normal" && <div className="flex flex-col gap-4">
+            {
+              ratesArr && ratesArr?.normalDayRates.map((item) => {
+                return (
+                  <>
+                    <label className="flex items-center gap-2">
+                      <input type="radio" name="amount" value={item + " " + boatDetails.rate[0].normalDayRates[item]} onChange={handleChange} className="w-5 h-5" />
+                      <span className=" font-normal text-[#676767] text-sm ">
+                        {item} ({boatDetails.rate[0].normalDayRates[item]})
+                      </span>
+                    </label>
+                  </>
+                )
+              })
+            }
+          </div>}
+          {data.day == "weekend" && <div className="flex flex-col gap-4">
+            {
+              ratesArr && ratesArr?.weekendRates.map((item) => {
+                return (
+                  <>
+                    <label className="flex items-center gap-2">
+                      <input type="radio" name='amount' value={item + " " + boatDetails.rate[0].weekendRates[item]} onChange={handleChange} className="w-5 h-5" />
+                      <span className=" font-normal text-[#676767] text-sm ">
+                        {item} ({boatDetails.rate[0].weekendRates[item]})
+                      </span>
+                    </label>
+                  </>
+                )
+              })
+            }
+          </div >}
+          <div className="">
+            <h2 className=" text-sm font-normal text-[#000000] mb-[2%]">
+              No of Persons
+            </h2>
+            {/* <select
               id="bookingType"
               className="border border-[#E8E8E8] px-6 py-4 rounded-lg w-full bg-white"
             >
@@ -630,58 +627,59 @@ const BookNow = () => {
               <option value="halfDayEvening">9</option>
               <option value="halfDayEvening">10</option>
             </select> */}
-          <h1 className='border p-4 rounded-md'>{boatDetails?.boat?.boardingCapacity}</h1>
-        </div>
-
-        <div className=" space-y-4">
-          <h1 className=" font-normal text-lg text-[#000000">
-            Type of Rental
-          </h1>
-
-          <div className="flex justify-between">
-            <div className=" flex gap-2 items-center">
-              <input type="checkbox" checked={boatDetails && !boatDetails.description[0]?.rentalType?.withoutSkipper} id='rentalType' name='rentalType' className="w-5 h-5" value={"with skipper"} />
-              <label htmlFor='rentalType' className=" font-normal text-[#676767] text-sm">
-                With Skipper
-              </label>
-            </div>
-            <p className=" font-normal text-[#676767] text-sm">$10</p>
+            <h1 className='border p-4 rounded-md'>{boatDetails?.boat?.boardingCapacity}</h1>
           </div>
-        </div>
 
-        <div className=" space-y-4">
-          <h1 className=" font-normal text-lg text-[#000000">
-            Extra options
-          </h1>
+          <div className=" space-y-4">
+            <h1 className=" font-normal text-lg text-[#000000">
+              Type of Rental
+            </h1>
 
-          <div className="flex justify-between">
-            <div className=" flex gap-2 items-center">
-              <input name='extraOptions' id='extraOptions' type="checkbox" className="w-5 h-5" value={"Bagni Pancaldi Tickets"} />
-              <label htmlFor='extraOptions' className=" font-normal text-[#676767] text-sm">
-                Bagni Pancaldi Tickets
-              </label>
+            <div className="flex justify-between">
+              <div className=" flex gap-2 items-center">
+                <input type="checkbox" checked={boatDetails && !boatDetails.description[0]?.rentalType?.withoutSkipper} id='rentalType' name='rentalType' className="w-5 h-5" value={"with skipper"} />
+                <label htmlFor='rentalType' className=" font-normal text-[#676767] text-sm">
+                  With Skipper
+                </label>
+              </div>
+              <p className=" font-normal text-[#676767] text-sm">$10</p>
             </div>
-            <p className=" font-normal text-[#676767] text-sm">$10</p>
           </div>
-          <p className="font-normal text-[#FF6347] text-sm">
-            Fuel is excluded
+
+          <div className=" space-y-4">
+            <h1 className=" font-normal text-lg text-[#000000">
+              Extra options
+            </h1>
+
+            <div className="flex justify-between">
+              <div className=" flex gap-2 items-center">
+                <input name='extraOptions' id='extraOptions' type="checkbox" className="w-5 h-5" value={"Bagni Pancaldi Tickets"} />
+                <label htmlFor='extraOptions' className=" font-normal text-[#676767] text-sm">
+                  Bagni Pancaldi Tickets
+                </label>
+              </div>
+              <p className=" font-normal text-[#676767] text-sm">$10</p>
+            </div>
+            <p className="font-normal text-[#FF6347] text-sm">
+              Fuel is excluded
+            </p>
+          </div>
+
+          <p className=" font-normal text-[#676767] text-sm">
+            You will only be charged if your request is confirmed
+          </p>
+
+          <button onClick={handleSubmit} className="btn-5 flex items-center justify-center space-x-2">
+            <p>Instant Booking</p>
+            <span className=" text-2xl">
+              <RxChevronRight />
+            </span>
+          </button>
+
+          <p className=" text-center text-lg font-medium text-[#CBA557]">
+            Show price list
           </p>
         </div>
-
-        <p className=" font-normal text-[#676767] text-sm">
-          You will only be charged if your request is confirmed
-        </p>
-
-        <button onClick={handleSubmit} className="btn-5 flex items-center justify-center space-x-2">
-          <p>Instant Booking</p>
-          <span className=" text-2xl">
-            <RxChevronRight />
-          </span>
-        </button>
-
-        <p className=" text-center text-lg font-medium text-[#CBA557]">
-          Show price list
-        </p>
       </div>
       <div className="my-[5%] mx-[6%]">
         <div className="mt-[4%]">
@@ -841,7 +839,7 @@ const BookNow = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

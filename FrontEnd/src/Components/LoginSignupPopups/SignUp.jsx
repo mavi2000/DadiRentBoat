@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../../Context/AuthContext.jsx';
 import { Link } from 'react-router-dom';
 import PopupsLayout from './PopupsLayout';
+import { toast } from 'react-toastify';
 
 const SignUp = () => {
   const { signUp, error } = useContext(AuthContext);
@@ -13,7 +14,12 @@ const SignUp = () => {
     password: '',
   });
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
-
+  const [loading, setLoading] = useState(false)
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+  }, [error])
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === 'checkbox') {
@@ -28,10 +34,17 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true)
     if (isAgreementChecked) {
-      const completePhoneNumber = signupData.countryCode + signupData.phoneNumber;
-      const { countryCode, ...rest } = signupData;
-      signUp({ ...rest, phoneNumber: completePhoneNumber });
+      try {
+        const completePhoneNumber = signupData.countryCode + signupData.phoneNumber;
+        const { countryCode, ...rest } = signupData;
+        signUp({ ...rest, phoneNumber: completePhoneNumber });
+      } catch (error) {
+        console.log("signup error", error);
+      } finally {
+        setLoading(false)
+      }
     }
   };
 
@@ -121,7 +134,7 @@ const SignUp = () => {
               className={`bg-[--primary-color] px-6 py-3 rounded-md text-white w-full my-6 ${!isAgreementChecked && 'opacity-50 cursor-not-allowed'}`}
               disabled={!isAgreementChecked}
             >
-              Sign up
+              {loading ? "Checking..." : "Sign up"}
             </button>
           </form>
           <p className="text-center">
