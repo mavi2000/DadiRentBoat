@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { AdminContext } from '../../../../../Context/AdminContext.jsx';
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
 import baseURL from "../../../../../APi/BaseUrl.js";
 
