@@ -2,11 +2,11 @@
 import mongoose from 'mongoose';
 
 const boatBookingSchema = new mongoose.Schema({
-    boatId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Boat',
+    // boatId: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Boat',
         
-    },
+    // },
     startDate: {
         type: Date,
         required: true
@@ -15,6 +15,10 @@ const boatBookingSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    timeSlot:{
+        type: String,
+        required: true
+    }
     // Add any other relevant fields here
 });
 

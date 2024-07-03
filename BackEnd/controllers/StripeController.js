@@ -1,7 +1,7 @@
 import express from "express";
 import Stripe from "stripe";
 import Payment from "../models/Payment.js";
-
+import { jwtDecode } from "jwt-decode";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const checkout = async (req, res) => {
@@ -10,9 +10,16 @@ export const checkout = async (req, res) => {
       userId,
       amount,
       boatName,
-      rateType, // Add rateType to the destructured req.body
-      totalAmount, // Add totalAmount to the destructured req.body
+      rateType,
+      totalAmount,
+      availableDate, // Ensure availableDate is correctly passed and formatted
     } = req.body;
+
+    // Validate availableDate is a Date object
+    const parsedAvailableDate = new Date(availableDate);
+    if (isNaN(parsedAvailableDate.getTime())) {
+      throw new Error("Invalid availableDate format");
+    }
 
     if (!amount || isNaN(parseInt(amount))) {
       throw new Error("Invalid amount: must be a number");
@@ -51,9 +58,9 @@ export const checkout = async (req, res) => {
       rateType,
       totalAmount,
       paymentStatus: "paid", // Initialize payment status based on your logic
+      availableDate: parsedAvailableDate, // Use parsedAvailableDate instead of availableDate directly
     });
 
-    await payment.save();
     await payment.save();
 
     res.status(201).json({

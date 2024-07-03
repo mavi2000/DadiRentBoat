@@ -20,7 +20,6 @@ const PaymentSchema = new Schema({
     type: Object,
     required: true
   },
-  // Add fields for pricing details and payment status
   rateType: {
     type: String,
     enum: ['halfDayMorning', 'halfDayEvening', 'fullDay', 'weekendHalfDayMorning', 'weekendHalfDayEvening', 'weekendFullDay'],
@@ -35,6 +34,10 @@ const PaymentSchema = new Schema({
     enum: ['paid', 'partial', 'unpaid'],
     required: true,
     default: 'unpaid'
+  },
+  availableDate: {
+    type: Date,
+    required: true
   }
 }, { timestamps: true });
 

@@ -7,6 +7,10 @@ import {
 import User from "../models/User.model.js";
 import jwt from "jsonwebtoken";
 import { uploadImages } from "../utils/cloudinaryConfig.js";
+
+
+
+
 export const signup = async (req, res, next) => {
   const validation = Joi.object({
     username: Joi.string().required(),
@@ -16,6 +20,7 @@ export const signup = async (req, res, next) => {
     roles: Joi.string().valid("user", "admin").default("user"),
   }).validate(req.body);
 
+  console.log("req.body",req.body)
   if (validation.error) {
     return res
       .status(400)
@@ -248,3 +253,32 @@ export const updatePassword = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+
+
+
+// export const handleGoogleCallback = async (req, res, next) => {
+//   try {
+//       const token = jwt.sign({ ...userDataProperties(req.user) }, jwtKey, { expiresIn: '30d' });
+//       const user = req.user;
+
+//       // Set or update googleId field
+//       user.googleId = req.user.id;
+
+//       await user.save();
+
+//       // return res.cookie("accessToken", token, cookieOptions()).redirect( `${AUTH_REDIRECT}`);
+//       const authResponse = {
+//           success: true,
+//           message: "Login Successful",
+//           userData: req.user,
+//           token,
+//       };
+
+//       // return res.cookie("accessToken", token, cookieOptions()).redirect( `${AUTH_REDIRECT}`);
+//       return res.cookie("accessToken", token, cookieOptions()).redirect(`${AUTH_REDIRECT}?userData=${encodeURIComponent(JSON.stringify(authResponse))}`);
+//   } catch (err) {
+//       next(err);
+//   }
+// };
