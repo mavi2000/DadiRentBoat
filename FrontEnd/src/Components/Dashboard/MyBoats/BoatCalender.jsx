@@ -55,7 +55,7 @@ const BoatCalendar = () => {
 
     try {
       await fetchUnavailableDates();
-      toast.success("Rates added successfully");
+      toast.success("Dates added successfully");
     } catch (error) {
       console.error("Failed to add unavailable period", error);
     }
@@ -188,13 +188,13 @@ const BoatCalendar = () => {
               </button>
             </div>
           </div>
-          <button
+          {/* <button
             type="button"
             onClick={handleSubmit}
             className="border w-[15%] py-3 border-[#CBA557] text-sm font-semibold rounded-lg bg-[#CBA557] text-white justify-center flex items-center gap-3"
           >
             Save
-          </button>
+          </button> */}
         </div>
       </form>
     </div>
