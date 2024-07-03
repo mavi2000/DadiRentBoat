@@ -250,7 +250,7 @@ const AdminProvider = ({ children }) => {
         startDate,
         endDate,
         timeSlot,
-        boatId
+        // boatId
       });
       // toast.success("Unavailable boat dates fetched successfully");
       return response.data;
