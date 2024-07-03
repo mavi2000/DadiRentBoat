@@ -69,6 +69,8 @@ const AuthProvider = ({ children }) => {
     } catch (error) {
       setError(error.response?.data?.message || 'Login failed');
       throw error;
+    } finally {
+      setTimeout(() => setError(''), 1000)
     }
   };
 
@@ -160,7 +162,7 @@ const AuthProvider = ({ children }) => {
       value={{ user, error, signUp, login, logout, forgotPassword, resetPassword, inviteUser, updateUser }}
     >
       {children}
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </AuthContext.Provider>
   );
 };
