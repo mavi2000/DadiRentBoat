@@ -3,32 +3,40 @@ import BoatBooking from "../models/BoatBooking.js";
 
 export const getUnavailableBoatDates = async (req, res, next) => {
     try {
-        const { startDate, endDate, boatId } = req.body; // Retrieve boatId from request body
+        const { startDate, endDate, timeSlot } = req.body;
 
         console.log("Received startDate:", startDate);
         console.log("Received endDate:", endDate);
+        console.log("Received timeSlot:", timeSlot);
 
-        if (!startDate || !endDate || new Date(startDate) >= new Date(endDate) || !boatId) { // Check if boatId is provided
+        if (!startDate || !endDate || new Date(startDate) >= new Date(endDate)  || !timeSlot) {
             throw createError(400, 'Invalid request parameters');
         }
 
-        const unavailableDates = getUnavailableDates(new Date(startDate), new Date(endDate));
-        console.log("All dates between startDate and endDate:", unavailableDates);
+        const booking = new BoatBooking({
+            startDate: new Date(startDate),
+            endDate: new Date(endDate),
+            // boatId: boatId,
+            timeSlot: timeSlot
+        });
 
-        // Create BoatBooking entries with boatId
-        const bookings = unavailableDates.map(date => ({
-            startDate: date,
-            endDate: date,
-            boatId: boatId // Assign boatId to each booking
-        }));
 
-        await BoatBooking.insertMany(bookings);
+        await booking.save();
 
-        res.status(200).json({ unavailableDates });
+        console.log("booking",booking)
+
+        res.status(200).json({
+            startDate,
+            endDate,
+            // boatId,
+            timeSlot,
+            message: "Unavailable period added successfully."
+        });
     } catch (error) {
         next(error);
     }
 };
+
 
 export const getUnavailableDates = (startDate, endDate) => {
     const unavailableDates = [];
@@ -41,6 +49,7 @@ export const getUnavailableDates = (startDate, endDate) => {
 
     return unavailableDates;
 };
+
 
 
 

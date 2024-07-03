@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { IoMdAdd } from "react-icons/io";
 import CalenderPopup from "./CalnderPopup";
@@ -11,7 +11,13 @@ const BoatCalendar = () => {
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   const [highlightedDates, setHighlightedDates] = useState([]);
+  const [timeSlot, setTimeSlot] = useState("Full Day");
   const { getUnavailableBoatDates } = useContext(AdminContext);
+
+  useEffect(() => {
+    // Example of fetching initial highlighted dates (if needed)
+    // fetchHighlightedDates();
+  }, []);
 
   const handleDateDoubleClick = (date) => {
     if (!selectedStartDate || (selectedStartDate && selectedEndDate)) {
@@ -20,22 +26,40 @@ const BoatCalendar = () => {
       setHighlightedDates([]);
     } else if (!selectedEndDate) {
       setSelectedEndDate(date);
-      fetchUnavailableDates(selectedStartDate, date);
     }
   };
 
-  const fetchUnavailableDates = async (startDate, endDate) => {
+  const fetchUnavailableDates = async () => {
     try {
-      const response = await getUnavailableBoatDates(startDate, endDate);
+      const response = await getUnavailableBoatDates({
+        startDate: selectedStartDate,
+        endDate: selectedEndDate,
+        timeSlot, // Ensure timeSlot is passed here
+        // boatId: id // Replace with actual boatId or retrieve dynamically
+      });
       console.log("Unavailable boat dates:", response);
-      setHighlightedDates(response.unavailableDates);
+      setHighlightedDates(response.unavailableDates || []);
     } catch (error) {
       console.error("Failed to fetch unavailable boat dates", error);
     }
   };
 
+  const handleSubmit = async () => {
+    if (!selectedStartDate || !selectedEndDate) {
+      console.error("Please select a start date and an end date.");
+      return;
+    }
+
+    try {
+      await fetchUnavailableDates();
+      alert("Unavailable period added successfully.");
+    } catch (error) {
+      console.error("Failed to add unavailable period", error);
+    }
+  };
+
   const tileClassName = ({ date, view }) => {
-    if (view === "month") {
+    if (view === "month" && highlightedDates) {
       const dateString = date.toISOString().split("T")[0];
       if (highlightedDates.includes(dateString)) {
         return "highlight";
@@ -54,6 +78,41 @@ const BoatCalendar = () => {
     setSelectedEndDate(null);
     setHighlightedDates([]);
   };
+
+  // Function to mark winter season dates as unavailable
+  const markWinterSeason = () => {
+    // Example: Marking winter season from December to February
+    const winterDates = [];
+    const currentYear = new Date().getFullYear();
+
+    // December
+    winterDates.push(new Date(currentYear, 11, 1));
+    winterDates.push(new Date(currentYear, 11, 31));
+
+    // January
+    winterDates.push(new Date(currentYear, 0, 1));
+    winterDates.push(new Date(currentYear, 0, 31));
+
+    // February
+    winterDates.push(new Date(currentYear, 1, 1));
+    winterDates.push(new Date(currentYear, 1, 28)); // Considering non-leap year
+
+    return winterDates;
+  };
+
+  // Fetch winter season dates and mark them as unavailable
+  const fetchWinterSeason = async () => {
+    try {
+      const winterDates = markWinterSeason();
+      setHighlightedDates(winterDates.map(date => date.toISOString().split("T")[0]));
+    } catch (error) {
+      console.error("Failed to fetch winter season dates", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchWinterSeason(); // Fetch and mark winter season dates initially
+  }, []);
 
   return (
     <div className="flex flex-col gap-3">
@@ -82,12 +141,15 @@ const BoatCalendar = () => {
           </div>
           <div className="flex items-center gap-3">
             <div>Select Time Slot</div>
-            <select className="border py-2 px-3 w-[15%] rounded-md text-sm text-[#8d87a4]">
-              <option>Full Day</option>
-              <option>Half Day</option>
+            <select
+              className="border py-2 px-3 w-[15%] rounded-md text-sm text-[#8d87a4]"
+              value={timeSlot}
+              onChange={(e) => setTimeSlot(e.target.value)}
+            >
+              <option value="Full Day">Full Day</option>
+              <option value="Half Day">Half Day</option>
             </select>
           </div>
-          <div>Add Unavailable Period</div>
           <div className="text-sm text-[#8d87a4]">
             Unavailable is an extended period of unavailability that will be
             added to your unavailability list and repeated each year.
@@ -95,11 +157,11 @@ const BoatCalendar = () => {
           <div className="w-[80%] flex flex-col">
             <button
               type="button"
-              onClick={handlePopup}
+              onClick={handleSubmit}
               className="border w-[50%] py-3 border-[#CBA557] text-sm font-semibold rounded-lg text-[#CBA557] justify-center flex items-center gap-2"
             >
               <IoMdAdd className="text-lg" />
-              Add winter Unavailable period
+              Add Unavailable Period
             </button>
             {popup && (
               <CalenderPopup
@@ -123,20 +185,11 @@ const BoatCalendar = () => {
               </button>
             </div>
           </div>
-          <div className="flex justify-between">
-            <div className="text-sm">
-              Unavailable from 10 Dec 2024 to 10 March 2025
-            </div>
-            <div className="flex gap-8">
-              <button className="py-1 px-4 border border-[#CBA557] text-[#CBA557] rounded-md text-sm font-medium">
-                Edit
-              </button>
-              <button className="py-1 px-4 border border-[#FF6347] text-[#FF6347] rounded-md text-sm font-medium">
-                Delete
-              </button>
-            </div>
-          </div>
-          <button className="border w-[15%] py-3 border-[#CBA557] text-sm font-semibold rounded-lg bg-[#CBA557] text-white justify-center flex items-center gap-3">
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="border w-[15%] py-3 border-[#CBA557] text-sm font-semibold rounded-lg bg-[#CBA557] text-white justify-center flex items-center gap-3"
+          >
             Save
           </button>
         </div>

@@ -7,6 +7,10 @@ import {
 import User from "../models/User.model.js";
 import jwt from "jsonwebtoken";
 import { uploadImages } from "../utils/cloudinaryConfig.js";
+
+
+
+
 export const signup = async (req, res, next) => {
   const validation = Joi.object({
     username: Joi.string().required(),

@@ -81,6 +81,9 @@ const ExtraServices = () => {
     }
   };
 
+
+  console.log("services",services)
+
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
@@ -100,7 +103,7 @@ const ExtraServices = () => {
           <div className="flex flex-col text-sm gap-4">
             <label className="text-lg font-light">Name of the extra*</label>
             <select
-              value={servicesData.serviceName}
+              value={servicesData?.serviceName}
               name="serviceName"
               onChange={handelChange}
               className="border p-3 rounded-md"
@@ -120,7 +123,7 @@ const ExtraServices = () => {
               <input
                 type="checkbox"
                 name="isObligatory"
-                checked={servicesData.isObligatory}
+                checked={servicesData?.isObligatory}
                 onChange={handelChange}
               />
               <div>Obligatory</div>
@@ -141,7 +144,7 @@ const ExtraServices = () => {
                 className="px-3 w-[80%] py-3 bg-transparent"
                 type="number"
                 name="pricePerPerson"
-                value={servicesData.pricePerPerson}
+                value={servicesData?.pricePerPerson}
                 onChange={handelChange}
                 placeholder="Enter"
               />
@@ -166,10 +169,10 @@ const ExtraServices = () => {
             services.map((service, index) => (
               <div key={index} className="text-sm flex">
                 <div className="py-5 px-4 font-medium w-[35%]">
-                  {service.serviceName}
+                  {service?.serviceName}
                 </div>
                 <div className="py-5 px-4 w-[30%] font-light">
-                  <span className="font-medium">{service.pricePerPerson} </span>
+                  <span className="font-medium">{service?.pricePerPerson} </span>
                   / rental
                 </div>
                 <div className="flex gap-7 py-5 px-4 w-[35%] text-sm">
