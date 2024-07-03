@@ -120,7 +120,7 @@ const BookNow = () => {
         <div className="left-container md:w-[60%]">
           <div className="top mt-[3%]">
             <h1 className="font-sans font-poppins font-medium text-3xl text-[#000000]">
-              {boatDetails.boat.type}
+              {boatDetails?.boat?.type}
             </h1>
 
             <div className="flex my-3 md:justify-between justify-center flex-wrap space-y-3 space-x-3">
@@ -129,7 +129,7 @@ const BookNow = () => {
                   <FaLocationDot />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#B7B7B7]">
-                  {boatDetails.boat.region}
+                  {boatDetails?.boat?.region}
                 </p>
               </div>
 
@@ -156,7 +156,7 @@ const BookNow = () => {
                   <HiOutlineUserGroup />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#808080]">
-                  {boatDetails?.boat.boardingCapacity
+                  {boatDetails?.boat?.boardingCapacity
                   }pers
                 </p>
               </div>
@@ -166,7 +166,7 @@ const BookNow = () => {
                   <RiAnchorLine />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#808080]">
-                  {boatDetails.boat.totalEnginePowerHP} hp
+                  {boatDetails?.boat?.totalEnginePowerHP} hp
                 </p>
               </div>
 
@@ -175,7 +175,7 @@ const BookNow = () => {
                   <PiEngine />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#808080]">
-                  {boatDetails.boat.model}
+                  {boatDetails?.boat?.model}
                 </p>
               </div>
 
@@ -184,7 +184,7 @@ const BookNow = () => {
                   <TbTool />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#808080]">
-                  {boatDetails.boat.year}
+                  {boatDetails?.boat?.year}
                 </p>
               </div>
 
@@ -202,7 +202,7 @@ const BookNow = () => {
             <h1 className="heading-book">Description</h1>
                         <p className="para-book">
               {boatDetails.description.map((item, key) => (
-                <span key={key}>{item.details.descriptionEnglish}</span>
+                <span key={key}>{item?.details?.descriptionEnglish}</span>
               ))}
             </p>
 
@@ -257,7 +257,7 @@ const BookNow = () => {
                       <p className=" text-[#676767]">Length</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
-                      {boatDetails.boat.lengthMeters}
+                      {boatDetails?.boat?.lengthMeters}
                     </p>
                   </div>
 
@@ -301,7 +301,7 @@ const BookNow = () => {
                       <p className=" text-[#676767]">Fuel Tank</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
-                      {boatDetails.boat.fuelTankLiters}m
+                      {boatDetails?.boat?.fuelTankLiters}m
                     </p>
                   </div>
 
@@ -323,7 +323,7 @@ const BookNow = () => {
                       <p className=" text-[#676767]">Power</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
-                      {boatDetails.boat.totalEnginePowerHP} hp
+                      {boatDetails?.boat?.totalEnginePowerHP} hp
                     </p>
                   </div>
 
@@ -335,7 +335,7 @@ const BookNow = () => {
                       <p className=" text-[#676767]">phone</p>
                     </div>
                     <p className=" text-sm text-[#676767] text-opacity-70 text-center">
-                      {boatDetails.boat.telephone}
+                      {boatDetails?.boat?.telephone}
                     </p>
                   </div>
                 </div>
@@ -366,7 +366,7 @@ const BookNow = () => {
   <h2 className="font-medium text-lg mt-10">Navigation:</h2>
   <ul>
     {boatDetails.equipment.map((item) => (
-      <li key={item._id}>
+      <li key={item?._id}>
        
         <ul className='flex gap-10'>
           {item.navigation.map((navItem, index) => (
@@ -393,8 +393,8 @@ const BookNow = () => {
 
   <h2 className="font-medium text-lg mt-10">Energy:</h2>
   <ul>
-    {boatDetails.equipment.map((item) => (
-      <li key={item._id}>
+    {boatDetails?.equipment.map((item) => (
+      <li key={item?._id}>
         <ul className="flex gap-10">
           {item.energy.map((energyItem, index) => (
             <li key={index} className="text-[#000000] font-normal text-opacity-50 ">{energyItem}</li>
