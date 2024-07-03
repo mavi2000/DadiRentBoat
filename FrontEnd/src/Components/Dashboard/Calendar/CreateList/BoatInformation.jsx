@@ -250,6 +250,7 @@ const BoatInformation = () => {
                 name="droughtMeters"
                 min={0}
                 max={90}
+                step="0.1" 
                 value={formData.droughtMeters}
                 onChange={handleChange}
                 className="w-[100%] h-[100%] py-3 px-4 bg-transparent"
