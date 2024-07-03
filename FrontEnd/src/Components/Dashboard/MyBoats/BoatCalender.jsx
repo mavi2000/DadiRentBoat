@@ -5,6 +5,9 @@ import CalenderPopup from "./CalnderPopup";
 import Calendar from "react-calendar";
 import { RiArrowGoBackLine } from "react-icons/ri";
 import { AdminContext } from "../../../../Context/AdminContext.jsx";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const BoatCalendar = () => {
   const [popup, setPopup] = useState(false);
@@ -52,7 +55,7 @@ const BoatCalendar = () => {
 
     try {
       await fetchUnavailableDates();
-      alert("Unavailable period added successfully.");
+      toast.success("Rates added successfully");
     } catch (error) {
       console.error("Failed to add unavailable period", error);
     }

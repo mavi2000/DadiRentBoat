@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AdminContext } from '../../../../../Context/AdminContext.jsx';
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import baseURL from '../../../../../APi/BaseUrl.js';
+
 const BoatInformation = () => {
   const id = localStorage.getItem("id");
   const { createBoat, error, navigate } = useContext(AdminContext);
@@ -20,20 +22,22 @@ const BoatInformation = () => {
     fuelTankLiters: 50,
     droughtMeters: 90,
   });
+
   useEffect(() => {
     if (id) {
       const getBoatInfo = async () => {
         try {
-          const res = await baseURL('/boat/get-boat-info/' + id)
-          const { data: { boat } } = res
-          setFormData({ ...boat })
+          const res = await baseURL('/boat/get-boat-info/' + id);
+          const { data: { boat } } = res;
+          setFormData({ ...boat });
         } catch (error) {
           console.log(error);
         }
-      }
-      getBoatInfo()
+      };
+      getBoatInfo();
     }
-  }, [])
+  }, [id]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -46,21 +50,22 @@ const BoatInformation = () => {
     e.preventDefault();
     if (id) {
       try {
-        const res = await baseURL.patch('/boat/update-boat/' + id, formData)
+        const res = await baseURL.patch('/boat/update-boat/' + id, formData);
         toast.success('Boat updated successfully');
-        localStorage.removeItem('id')
-        setFormData({ ...res.data.updatedBoat })
+        localStorage.removeItem('id');
+        setFormData({ ...res.data.updatedBoat });
         setTimeout(() => {
-          navigate('/Dashboard/my-boats')
-        }, 3000)
+          navigate('/Dashboard/my-boats');
+        }, 3000);
       } catch (error) {
-        toast.error('Failed to update boat')
+        toast.error('Failed to update boat');
       }
     } else {
       try {
         await createBoat(formData);
         toast.success('Boat created successfully');
       } catch (error) {
+        console.error('Error creating boat:', error);
         const errors = error?.response?.data?.error;
         if (Array.isArray(errors)) {
           errors.forEach(err => {
@@ -72,6 +77,7 @@ const BoatInformation = () => {
       }
     }
   };
+
 
   return (
     <div className="flex flex-col w-[100%] gap-20">
@@ -250,6 +256,7 @@ const BoatInformation = () => {
                 name="droughtMeters"
                 min={0}
                 max={90}
+                step="0.1" 
                 value={formData.droughtMeters}
                 onChange={handleChange}
                 className="w-[100%] h-[100%] py-3 px-4 bg-transparent"
