@@ -244,7 +244,7 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-  const getUnavailableBoatDates = async ({ startDate, endDate, timeSlot,boatId }) => {
+  const getUnavailableBoatDates = async ({ startDate, endDate, timeSlot, boatId }) => {
     try {
       const response = await baseURL.post("/Booking/Book-boat", {
         startDate,

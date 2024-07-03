@@ -1,10 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import PopupsLayout from './PopupsLayout';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../../Context/AuthContext'; // Update the path to AuthProvider
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const { login, error } = useContext(AuthContext);
+  const [loading, setLoading] = useState('')
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
@@ -20,6 +22,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(prev => !prev)
     try {
       const role = await login(loginData);
       if (role === 'admin') {
@@ -29,9 +32,16 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Login error: ', error);
+    } finally {
+      setLoading(prev => !prev)
     }
   };
-
+  // this useEffect will handle the alert
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+  }, [error])
   return (
     <PopupsLayout
       isSocials={true}
@@ -78,12 +88,13 @@ const Login = () => {
               />
               <label htmlFor="rememberMe">Remember Me</label>
             </div>
-            {error && <div className="text-red-500">{error}</div>}
+            {/* {error && <div className="text-red-500">{error}</div>} */}
             <button
               type="submit"
               className="bg-[--primary-color] px-6 py-3 rounded-md text-white w-full my-6"
+              disabled={loading}
             >
-              Log in
+              {loading ? "Checking ..." : "Log in"}
             </button>
           </form>
           <p className="text-center">

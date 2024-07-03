@@ -11,9 +11,8 @@ const PopupsLayout = ({ isSocials = true, content, isBack }) => {
 
   return (
     <div
-      className={`bg-[#CBA55733] w-full h-[100svh] flex items-center justify-center ${
-        show ? 'block' : 'hidden'
-      }`}
+      className={`bg-[#CBA55733] w-full h-[100svh] flex items-center justify-center ${show ? 'block' : 'hidden'
+        }`}
     >
       <div className="relative custom-scrollbar bg-white p-8 rounded-md shadow-lg max-h-[95svh] overflow-auto text-[#4b465ccb]">
         <div className="flex sticky top-0 ">
@@ -42,32 +41,34 @@ const PopupsLayout = ({ isSocials = true, content, isBack }) => {
           <h1 className=" text-2xl font-bold">DaDi Rent</h1>
         </div>
         {content}
-        {isSocials && (
-          <div className="mt-4">
-            <div className="text-[#DBDADE] flex gap-3 items-center">
-              <div className="w-full h-[1.5px] bg-[#DBDADE] "></div>
-              <p>or</p>
-              <div className="w-full h-[1.5px] bg-[#DBDADE] "></div>
-            </div>
-            <div className="flex gap-3 mt-8 items-center justify-center">
-              {/* <div className="bg-white w-[48px] h-[48px] shadow-md rounded-md flex items-center justify-center ">
-                <FaFacebookF
-                  size={25}
-                  color="#3B5999"
-                  className="cursor-pointer"
-                />
-              </div>
-              <div className="bg-white w-[48px] h-[48px] shadow-md rounded-md flex items-center justify-center ">
-                <FaApple size={30} color="#030104" className="cursor-pointer" />
-              </div> */}
-              <div className="bg-white w-[48px] h-[48px] shadow-md rounded-md flex items-center justify-center ">
-                <FcGoogle size={30} className="cursor-pointer" />
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
 };
 export default PopupsLayout;
+// {
+//   isSocials && (
+//     <div className="mt-4">
+//       <div className="text-[#DBDADE] flex gap-3 items-center">
+//         <div className="w-full h-[1.5px] bg-[#DBDADE] "></div>
+//         <p>or</p>
+//         <div className="w-full h-[1.5px] bg-[#DBDADE] "></div>
+//       </div>
+//       <div className="flex gap-3 mt-8 items-center justify-center">
+//         {/* <div className="bg-white w-[48px] h-[48px] shadow-md rounded-md flex items-center justify-center ">
+//                 <FaFacebookF
+//                   size={25}
+//                   color="#3B5999"
+//                   className="cursor-pointer"
+//                 />
+//               </div>
+//               <div className="bg-white w-[48px] h-[48px] shadow-md rounded-md flex items-center justify-center ">
+//                 <FaApple size={30} color="#030104" className="cursor-pointer" />
+//               </div> */}
+//         <div className="bg-white w-[48px] h-[48px] shadow-md rounded-md flex items-center justify-center ">
+//           <FcGoogle size={30} className="cursor-pointer" />
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }
