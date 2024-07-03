@@ -1,4 +1,3 @@
-// models/Payment.js
 import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
@@ -9,9 +8,35 @@ const PaymentSchema = new Schema({
     ref: 'User',
     required: true
   },
- 
+  boatName: {
+    type: String,
+    required: true
+  },
+  amount: {
+    type: Number,
+    required: true
+  },
   stripeDetails: {
     type: Object,
+    required: true
+  },
+  rateType: {
+    type: String,
+    enum: ['halfDayMorning', 'halfDayEvening', 'fullDay', 'weekendHalfDayMorning', 'weekendHalfDayEvening', 'weekendFullDay'],
+    required: true
+  },
+  totalAmount: {
+    type: Number,
+    required: true
+  },
+  paymentStatus: {
+    type: String,
+    enum: ['paid', 'partial', 'unpaid'],
+    required: true,
+    default: 'unpaid'
+  },
+  availableDate: {
+    type: Date,
     required: true
   }
 }, { timestamps: true });

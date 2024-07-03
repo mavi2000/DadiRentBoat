@@ -1,67 +1,87 @@
-
 import express from 'express';
 import Stripe from 'stripe';
 import Payment from '../models/Payment.js';
-
-
-
-
+import { jwtDecode } from "jwt-decode";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+
+
 
 export const checkout = async (req, res) => {
     try {
-        const {
-            userId,
-            amount
-        } = req.body;
-
-        console.log("req.body:", req.body); // Log the entire req.body for inspection
-
-        if (!amount || isNaN(parseInt(amount))) {
-            throw new Error('Invalid amount: must be a number');
-        }
-
-        const unitAmount = parseInt(amount);
-
-        console.log("amount received:", amount); // Log the amount received from req.body
-        console.log("parsed unitAmount:", unitAmount); // Log the parsed unitAmount for inspection
-
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
-            line_items: [{
-                price_data: {
-                    currency: 'usd',
-                    product_data: {
-                        name: 'Boat Rental',
-                        description: 'Boat rental service',
-                    },
-                    unit_amount: unitAmount,
-                },
-                quantity: 1,
-            }],
-            mode: 'payment',
-            success_url: "https://www.dadirent.it",
-            cancel_url: `https://www.dadirent.it`, // Ensure FRONTEND_URL is properly set
-            metadata: {
-                userId
+      const {
+        userId,
+        amount,
+        boatName,
+        rateType,
+        totalAmount,
+        availableDate // Ensure availableDate is correctly passed and formatted
+      } = req.body;
+  
+      // Validate availableDate is a Date object
+      const parsedAvailableDate = new Date(availableDate);
+      if (isNaN(parsedAvailableDate.getTime())) {
+        throw new Error('Invalid availableDate format');
+      }
+  
+      if (!amount || isNaN(parseInt(amount))) {
+        throw new Error('Invalid amount: must be a number');
+      }
+  
+      const unitAmount = parseInt(amount);
+  
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [{
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: boatName,
+              description: 'Boat rental service',
             },
-        });
-
-        const payment = new Payment({
-            userId,
-            amount: unitAmount, // Store the parsed amount (in cents) in your database
-            stripeDetails: session,
-        });
-
-        await payment.save();
-
-        res.status(201).json({
-            sessionId: session.id
-        });
+            unit_amount: unitAmount,
+          },
+          quantity: 1,
+        }],
+        mode: 'payment',
+        success_url: "http://localhost:5173",
+        cancel_url: "https://www.dadirent.it",
+        metadata: {
+          userId
+        },
+      });
+  
+      const payment = new Payment({
+        userId,
+        boatName,
+        amount: unitAmount,
+        stripeDetails: session,
+        rateType,
+        totalAmount,
+        paymentStatus: 'paid', // Initialize payment status based on your logic
+        availableDate: parsedAvailableDate // Use parsedAvailableDate instead of availableDate directly
+      });
+  
+      await payment.save();
+  
+      res.status(201).json({
+        sessionId: session.id
+      });
     } catch (error) {
-        console.error("Checkout error:", error); // Log the error for debugging
-        res.status(500).json({
-            error: error.message
-        });
+      console.error("Checkout error:", error);
+      res.status(500).json({
+        error: error.message
+      });
     }
-};
+  };
+
+
+export const getPayment =async(req,res)=>{
+    try {
+        const payments = await Payment.find().populate('userId', 'username email phoneNumber'); // Add other user fields if necessary
+        res.status(200).json(payments);
+      } catch (error) {
+        console.error("Error fetching payments:", error);
+        res.status(500).json({ error: error.message });
+      }
+    }

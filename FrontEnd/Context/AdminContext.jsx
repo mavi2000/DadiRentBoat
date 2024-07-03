@@ -244,11 +244,13 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-  const getUnavailableBoatDates = async (startDate, endDate) => {
+  const getUnavailableBoatDates = async ({ startDate, endDate, timeSlot,boatId }) => {
     try {
-      const response = await baseURL.post("/Booking//Book-boat", {
+      const response = await baseURL.post("/Booking/Book-boat", {
         startDate,
         endDate,
+        timeSlot,
+        boatId
       });
       // toast.success("Unavailable boat dates fetched successfully");
       return response.data;

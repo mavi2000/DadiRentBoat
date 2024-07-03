@@ -8,6 +8,7 @@ const SignUp = () => {
   const [signupData, setSignupData] = useState({
     username: '',
     email: '',
+    countryCode: '+39',
     phoneNumber: '',
     password: '',
   });
@@ -28,11 +29,14 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isAgreementChecked) {
-      signUp(signupData);
+      const completePhoneNumber = signupData.countryCode + signupData.phoneNumber;
+      const { countryCode, ...rest } = signupData;
+      signUp({ ...rest, phoneNumber: completePhoneNumber });
     }
   };
 
   console.log("signupData", signupData);
+
   return (
     <PopupsLayout
       isSocials={true}

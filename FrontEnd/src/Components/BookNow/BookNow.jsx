@@ -71,7 +71,7 @@ const BookNow = () => {
 
 
   // console.log("id",id)
-  console.log("boatDetails", boatDetails)
+
   useEffect(() => {
     if (boatDetails) {
       const { rate } = boatDetails;
@@ -101,7 +101,7 @@ const BookNow = () => {
       }));
     }
   };
-  console.log(data);
+
   if (!boatDetails && !error) {
     return <div>Loading...</div>;
   }
@@ -110,7 +110,7 @@ const BookNow = () => {
   if (error) {
     return <div>{error}</div>;
   }
-  console.log(data);
+  
   return (
     <>
 
@@ -200,28 +200,10 @@ const BookNow = () => {
           </div>
           <div className="center mt-[8%]">
             <h1 className="heading-book">Description</h1>
-            <p className="para-book">
-              All our Deluxe rooms have big windows to help you take a broad
-              view of the cityscape and nature. We offer bigger bed and every
-              bathroom has bathtub and shower, which brings relaxation to you
-              after a long day.Fast WIFI connection, satelite TV and
-              international standard electric socket are standard throughout
-              Hotel. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum. Sed
-              ut perspiciatis unde omnis iste natus error sit. A wonderful
-              serenity has taken possession of my entire soul, like these sweet
-              mornings of spring which I enjoy with my whole heart. I am alone,
-              and feel the charm of existence in this spot, which was created
-              for the bliss of souls like mine. I am so happy, my dear friend,
-              so absorbed in the exquisite sense of mere tranquil existence,
-              that I neglect my talents. I should be incapable of drawing a
-              single stroke at the present moment; and yet I feel that I never
-              was a greater artist than now.
+                        <p className="para-book">
+              {boatDetails.description.map((item, key) => (
+                <span key={key}>{item.details.descriptionEnglish}</span>
+              ))}
             </p>
 
             <div className=" mt-[4%]">
@@ -251,31 +233,9 @@ const BookNow = () => {
                 </h1>
               </div>
               <p className="para-book">
-                This vehicle has the authorization to carry out the activity in
-                the marine protected area of the Secche della Meloria. We are
-                pleased to confirm that our vehicle has the authorization to
-                carry out the activity within the marine protected area of the
-                Secche della Meloria. This area, with a history dating back to
-                the twelfth century, was originally marked by the tower built by
-                the maritime republic of Pisa to indicate the presence of
-                shallow waters in the ancient Porto Pisano. During our
-                excursions in this area, you have the chance to spot dolphins
-                that travel the routes inside the cetacean sanctuary. This is an
-                exciting and fascinating event that will allow you to get in
-                touch with the wonderful marine wildlife present in the area. We
-                are proud to offer the opportunity to explore this protected
-                area and share the beauty and richness of its ecosystem with our
-                customers. Our authorization allows us to operate in accordance
-                with the rules and regulations established by the marine
-                protected area, ensuring responsible navigation and respect for
-                the marine environment. So, when you book our boat rental, you
-                will have the opportunity to live a unique experience within the
-                marine protected area of the Secche della Meloria, enjoying the
-                spectacular nature and marine fauna that this area offers. We
-                encourage you to prepare to venture into this remarkable
-                environment and enjoy the thrill of spotting dolphins as you
-                explore the routes within the cetacean sanctuary. Your
-                experience on board our vehicle will be truly unforgettable.
+              {boatDetails.description.map((item, key) => (
+                <span key={key}>{item.details.descriptionItalian}</span>
+              ))}
               </p>
             </div>
 
@@ -386,181 +346,69 @@ const BookNow = () => {
               <h1 className="heading-book">Equipment</h1>
               <h2 className="min-heading mt-[2%]">Comfort</h2>
 
-              <div className="flex flex-wrap">
-                {/* Awning */}
-                <div className="equip-items flex items-center gap-2">
-                  <img src={Awning} alt="" className=" w-6 h-6" />
+           {boatDetails.equipment.map((item)=>(
+            <div className="flex flex-wrap">
+            {/* Awning */}
+            <div>
 
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Awning
-                  </p>
-                </div>
+  <ul>
+    {boatDetails.equipment.map((item) => (
+      <li key={item._id}>
+        <ul className='flex gap-10'>
+          {item.comfort.map((comfortItem, index) => (
+            <li key={index} className="text-[#000000] font-normal text-opacity-50">{comfortItem}</li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ul>
 
-                {/* Table */}
-                <div className="equip-items flex items-center gap-2">
-                  <img src={Table1} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Table
-                  </p>
-                </div>
+  <h2 className="font-medium text-lg mt-10">Navigation:</h2>
+  <ul>
+    {boatDetails.equipment.map((item) => (
+      <li key={item._id}>
+       
+        <ul className='flex gap-10'>
+          {item.navigation.map((navItem, index) => (
+            <li key={index} className="text-[#000000] font-normal text-opacity-50">{navItem}</li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ul>
 
-                {/* Sundeck */}
-                <div className="equip-items flex items-center gap-2">
-                  <img src={Sundeck} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Sundeck
-                  </p>
-                </div>
+  <h2 className="font-medium text-lg mt-10">Services:</h2>
+  <ul>
+    {boatDetails.equipment.map((item) => (
+      <li key={item._id}>
+      
+        <ul className="flex gap-10">
+          {item.services.map((serviceItem, index) => (
+            <li key={index} className="text-[#000000] font-normal text-opacity-50">{serviceItem}</li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ul>
 
-                {/* Deck shower */}
-                <div className="equip-items flex items-center gap-2">
-                  <img src={DeckShower} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Deck shower
-                  </p>
-                </div>
+  <h2 className="font-medium text-lg mt-10">Energy:</h2>
+  <ul>
+    {boatDetails.equipment.map((item) => (
+      <li key={item._id}>
+        <ul className="flex gap-10">
+          {item.energy.map((energyItem, index) => (
+            <li key={index} className="text-[#000000] font-normal text-opacity-50 ">{energyItem}</li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ul>
+</div>
 
-                {/* Free parking on site */}
-                <div className="equip-items flex items-center gap-2">
-                  <img src={FreeParking} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Free parking on site
-                  </p>
-                </div>
+          </div>
+           ))   }
 
-                {/* Swim platform */}
-                <div className="equip-items flex items-center gap-2">
-                  <img src={SwimPlatform} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Swim platform
-                  </p>
-                </div>
-
-                {/* Outdoor cushions */}
-                <div className="equip-items flex items-center gap-2">
-                  <img src={OutdoorCushion} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Outdoor cushions
-                  </p>
-                </div>
-
-                {/* MP3 player */}
-                <div className="equip-items flex items-center gap-2">
-                  <img src={Mp3} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    MP3 player
-                  </p>
-                </div>
-
-                {/* Bluetooth Connection */}
-                <div className="equip-items flex items-center gap-2">
-                  <img src={Bluetooth} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Bluetooth Connection
-                  </p>
-                </div>
-
-                {/* DVD player */}
-                <div className="equip-items flex items-center gap-2">
-                  <img src={Dvd} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    DVD player
-                  </p>
-                </div>
-              </div>
-
-              <h2 className="min-heading mt-[2%]">Energy</h2>
-              <div className="flex flex-wrap">
-                <div className="equip-items flex items-center gap-2">
-                  <img src={Socket220} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Socket 220V
-                  </p>
-                </div>
-
-                <div className="equip-items flex items-center gap-2">
-                  <img src={UsbPlug} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    USB plug
-                  </p>
-                </div>
-              </div>
-
-              <h2 className="min-heading mt-[2%]">Navigation</h2>
-              <div className="flex flex-wrap">
-                <div className="equip-items flex items-center gap-2">
-                  <img src={GPS} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    GPS
-                  </p>
-                </div>
-
-                <div className="equip-items flex items-center gap-2">
-                  <img src={Sounder} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Sounder
-                  </p>
-                </div>
-
-                <div className="equip-items flex items-center gap-2">
-                  <img src={ElectricWindlass} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Electric windlass
-                  </p>
-                </div>
-
-                <div className="equip-items flex items-center gap-2">
-                  <img src={OutboardEngine} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Outboard engine
-                  </p>
-                </div>
-
-                <div className="equip-items flex items-center gap-2">
-                  <img src={Speedometer} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Speedometer
-                  </p>
-                </div>
-
-                <div className="equip-items flex items-center gap-2">
-                  <img src={Anemometer} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Anemometer
-                  </p>
-                </div>
-
-                <div className="equip-items flex items-center gap-2">
-                  <img src={Compass} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Compas
-                  </p>
-                </div>
-              </div>
-
-              <h2 className="min-heading mt-[2%]">Services</h2>
-              <div className="flex flex-wrap">
-                <div className="equip-items flex items-center gap-2">
-                  <img src={Surbed} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Surbed Rental
-                  </p>
-                </div>
-
-                <div className="equip-items flex items-center gap-2">
-                  <img src={UmbrellaRental} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Umbrella Rental
-                  </p>
-                </div>
-
-                <div className="equip-items flex items-center gap-2">
-                  <img src={PoolLifeguard} alt="" className=" w-6 h-6" />
-                  <p className="text-[#000000] font-normal text-opacity-50">
-                    Swimming pool life guard
-                  </p>
-                </div>
-              </div>
+             
             </div>
 
             <div className="mt-[4%]">
