@@ -199,7 +199,7 @@ const Checkout = () => {
               {boatDetails ? (
                 <>
                   <h2 className="heading-book mt-[4%] text-[#383838]">
-                    {boatDetails?.boat?.type}
+                    {boatDetails?.rental.map((item)=>(item.BoatName))}
                   </h2>
                   {boatDetails?.rate.map((item, key) => (
                     <div className="flex flex-col gap-1 mt-[3%]" key={key}>

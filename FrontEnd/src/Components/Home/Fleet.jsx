@@ -49,7 +49,7 @@ const Fleet = () => {
           <FleetCard
             key={index}
             boatImg={boat.boatImages[0]?.avatar || 'default_image_path'} // Adjust this based on your actual image path
-            title={boat.boat.type}
+            title={boat?.rental.map((item)=>(item.BoatName))}
             numberOfPersons={boat.boat.boardingCapacity}
             length={boat.boat.lengthMeters}
             power={boat.boat.totalEnginePowerHP}

@@ -8,7 +8,8 @@ import { PiRuler } from 'react-icons/pi';
 import { RiAnchorLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 
-const OurFleetCard = ({ location, boatName, img, totalPersons, length, power, licenseRequired }) => {
+const OurFleetCard = ({id,  location, boatName, img, totalPersons, length, power, licenseRequired }) => {
+  console.log("id",id)
   return (
     <section className="mb-12 flex flex-col md:flex-row items-stretch">
       <img src={img} alt="boat" className="w-ull md:w-3/5 h-auto rounded-lg " />
@@ -47,13 +48,13 @@ const OurFleetCard = ({ location, boatName, img, totalPersons, length, power, li
           {licenseRequired ? "License required" : "License is not required"}
         </p>
         <div className="mt-12 flex flex-col md:flex-row gap-4 justify-between md:items-center">
-          <p className="text-[#676767]">
+          {/* <p className="text-[#676767]">
             Starting from
             <span className="text-[--primary-color] font-medium text-xl ml-2">
               $114.00
             </span>
-          </p>
-          <Link to="/book-now">
+          </p> */}
+          <Link to={`/check-out/${id}`}>
             <button className="text-white w-full bg-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)] font-bold text-sm px-4 py-3">
               Book Now
             </button>

@@ -162,6 +162,7 @@ const BoatInformation = () => {
                 onChange={handleChange}
                 className="w-[100%] bg-transparent border-none py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
               >
+                <option value="Mediterranean">Mediterranean</option>
                 <option value="Livorno">Livorno, Italy</option>
                 <option value="Germany">Germany</option>
                 <option value="England">England</option>

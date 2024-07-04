@@ -68,6 +68,7 @@ const OurFleet = () => {
           {boatDetails.map((boat, index) => (
             <OurFleetCard
               key={index}
+              id={boat.boatImages.map((item)=>(item.boatId))}
               img={boat.boatImages[0]?.avatar || 'default_image_path'}
               boatName={boat.boat.title}
               totalPersons={boat.boat.boardingCapacity}

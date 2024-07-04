@@ -114,7 +114,7 @@ const Address = () => {
                 onChange={(e) => setPlace(e.target.value)}
               >
                 <option value="">Select</option>
-                <option value="place1">Place 1</option>
+                <option value="Livorno, Toscana, Italia">Livorno, Toscana, Italia</option>
                 <option value="place2">Place 2</option>
                 <option value="place3">Place 3</option>
                 <option value="place4">Place 4</option>
