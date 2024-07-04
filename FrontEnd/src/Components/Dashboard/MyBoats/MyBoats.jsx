@@ -108,6 +108,7 @@ const MyBoats = () => {
     localStorage.setItem('id', id)
     navigate(e.target.value)
   }
+  console.log("data",boatData)
   return (
     <div className="mx-[4%] mt-[3%]">
       <div className="md:flex md:justify-between justify-center text-center gap-5 md:gap-0 items-center">
@@ -179,7 +180,7 @@ const MyBoats = () => {
             )}
 
             <div className="flex flex-col gap-2 items-center md:items-start">
-              <h1 className="text-[#00151C] font-semibold">{boat.boat.type}</h1>
+              <h1 className="text-[#00151C] font-semibold">{boat.rental.map((item)=>(item.BoatName))}</h1>
               <p className="text-[#818C8E] font-normal text-sm">
                 {boat.boat.brand} - {boat.boat.year}
               </p>
