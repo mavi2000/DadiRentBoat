@@ -154,20 +154,17 @@ const BoatInformation = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Region</div>
-            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs">
-              <select
-                name="region"
-                value={formData.region}
-                onChange={handleChange}
-                className="w-[100%] bg-transparent border-none py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
-              >
-                <option value="Mediterranean">Mediterranean</option>
-                <option value="Livorno">Livorno, Italy</option>
-                <option value="Germany">Germany</option>
-                <option value="England">England</option>
-              </select>
-            </div>
+                          <div className="text-[#4B465C]">Region</div>
+                          <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs">
+                <input
+                  type="text"
+                  name="region"
+                  placeholder="Livorno, Italy"
+                  value={formData.region}
+                  onChange={handleChange}
+                  className="w-[100%] bg-transparent border-none py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
+                />
+              </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
             <div className="text-[#4B465C]">Boarding Capacity</div>
