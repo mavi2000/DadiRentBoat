@@ -52,6 +52,12 @@ const BookedBoats = () => {
           [id]: false,
         }));
       };
+
+
+
+
+
+
   return (
 <>
     <RemainderNavbar/>

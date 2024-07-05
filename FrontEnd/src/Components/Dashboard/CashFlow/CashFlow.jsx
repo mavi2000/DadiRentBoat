@@ -1,10 +1,26 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BoatCard from './BoatCard';
 import StatisticCard from './StatisticCard';
 import CreateExpensePopup from './CreateExpensePopup';
+import baseURL from '../../../../APi/BaseUrl'; // Adjust the path as per your project structure
 
 const CashFlow = () => {
-  const [createExpense, setCreatExpense] = useState(false);
+  const [createExpense, setCreateExpense] = useState(false);
+  const [expenses, setExpenses] = useState([]);
+
+  useEffect(() => {
+    fetchExpenses();
+  }, []);
+
+  const fetchExpenses = async () => {
+    try {
+      const response = await baseURL.get('/Expense/GetExpenses'); // Adjust the endpoint path
+      setExpenses(response.data);
+    } catch (error) {
+      console.error('Error fetching expenses:', error);
+    }
+  };
+
   return (
     <div>
       <StatisticCard />
@@ -13,20 +29,44 @@ const CashFlow = () => {
           <h1 className="text-[#4b465cd4] font-medium text-lg">Statistics</h1>
           <button
             onClick={() => {
-              setCreatExpense(true);
+              setCreateExpense(true);
             }}
             className="border-[1px] border-[#7B7B7B] text-[#7B7B7B] rounded-md px-6 py-2"
           >
             Create new Expense
           </button>
-          {createExpense && <CreateExpensePopup cancel={setCreatExpense} />}
+          {createExpense && <CreateExpensePopup cancel={setCreateExpense} />}
         </div>
         <BoatCard />
-        <BoatCard />
-        <BoatCard />
-        <BoatCard />
+        
+        <div className="mt-4">
+          <h2 className="text-[#4b465cd4] font-medium text-lg mb-2">Expenses</h2>
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Expense Name
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Description
+                </th>
+                {/* Add more columns if needed */}
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+  {expenses.map((expense) => (
+    <tr key={expense._id} className="hover:bg-gray-50 transition-colors">
+      <td className="px-6 py-4 whitespace-nowrap">{expense.expenseName}</td>
+      <td className="px-6 py-4 whitespace-nowrap">{expense.expenseDescription}</td>
+      {/* Add more columns as per your expense data */}
+    </tr>
+  ))}
+</tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
 };
+
 export default CashFlow;

@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import WeeklyCalendar from "./WeeklyCalendar";
 import MontlyCalendar from "./MontlyCalendar";
+import baseURL from "../../../../APi/BaseUrl";
+
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date()); // Initialize with current date
   const [changeCalendar, setChangeCalendar] = useState(true);
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
 
   const getNextWeek = () => {
     const nextWeek = new Date(currentDate);
@@ -30,6 +36,33 @@ const Calendar = () => {
     [day, month, year] = formattedDate.split(" ");
     return `${month} ${day} ${year}`;
   };
+
+  
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const response = await baseURL.get('/checkout/getPayment'); // Corrected endpoint
+        console.log('API Response:', response.data); // Logging response data for debugging
+
+        const todayDate = new Date().setHours(0, 0, 0, 0); // Get today's date at midnight for accurate comparison
+        const filteredBookings = response.data.filter(
+          (booking) => new Date(booking?.availableDate).setHours(0, 0, 0, 0) < todayDate
+        );
+
+        setBookings(filteredBookings);
+      } catch (error) {
+        console.error('Error fetching upcoming bookings:', error); // Logging error for debugging
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, []); // 
+
+  console.log("Booking",bookings)
 
   return (
     <div className="bg-white rounded-md shadow-lg px-8 py-4 grow my-4 mb-[210px]">

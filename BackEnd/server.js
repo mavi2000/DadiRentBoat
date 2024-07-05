@@ -23,6 +23,7 @@ import EquipmentsRoutes from "./routes/EquipmetRoute.js";
 import PaymentRoute from "./routes/paymentRoutes.js";
 import rentalAgreementRoutes from "./routes/rentalAgreementRoutes.js";
 import rentalOTPRoutes from "./routes/rentalOTPRoutes.js";
+import ExpenseRoute from "./routes/expenseRoute.js"
 
 const app = express();
 const PORT = process.env.PORT || 3800;
@@ -58,6 +59,7 @@ app.use("/equipment", EquipmentsRoutes);
 app.use("/checkout", PaymentRoute);
 app.use("/rental", rentalAgreementRoutes);
 app.use("/otp", rentalOTPRoutes);
+app.use("/Expense",ExpenseRoute)
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

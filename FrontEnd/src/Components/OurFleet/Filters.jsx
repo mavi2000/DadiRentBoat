@@ -16,7 +16,7 @@ const Filters = () => {
             id="boatType"
             className="w-4 h-4 accent-[var(--primary-color)]"
           />
-          <label htmlFor="boatType">Boats</label>
+          <label htmlFor="boatType">Motor Boat</label>
         </div>
         <div className="flex gap-2">
           <input
@@ -25,7 +25,7 @@ const Filters = () => {
             id="boatType"
             className="w-4 h-4 accent-[var(--primary-color)]"
           />
-          <label htmlFor="boatType">Dinghies</label>
+          <label htmlFor="boatType">Sail Boat</label>
         </div>
         <div className="flex gap-2">
           <input
@@ -34,14 +34,14 @@ const Filters = () => {
             id="boatType"
             className="w-4 h-4 accent-[var(--primary-color)]"
           />
-          <label htmlFor="boatType">Drive Boat License</label>
+          <label htmlFor="boatType">Jet Skies</label>
         </div>
       </div>
 
       <br />
 
       <h1 className="text-2xl font-medium p-6 mb-6 flex gap-2 items-center border-b-[1px] border-[#F5F5F5]">
-        <TbWheel size={36} className="text-[var(--primary-color)]" />
+        <TbWheel size={38} className="text-[var(--primary-color)]" />
         Price Range
       </h1>
 

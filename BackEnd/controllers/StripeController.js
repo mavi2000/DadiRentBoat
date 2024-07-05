@@ -86,3 +86,29 @@ export const getPayment = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
+export const calculateBoatRevenue = async (req, res) => {
+  try {
+    const revenues = await Payment.aggregate([
+      {
+        $match: {
+          boatName: { $ne: null }
+        }
+      },
+      {
+        $group: {
+          _id: "$boatName",
+          totalRevenue: { $sum: "$amount" },
+          totalBookings: { $sum: 1 }  // This will count the number of documents for each boatName
+        }
+      }
+    ]);
+
+    res.json(revenues);
+  } catch (error) {
+    console.error('Error in calculateBoatRevenue:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};

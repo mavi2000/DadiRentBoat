@@ -3,6 +3,7 @@ import PopupsLayout from './PopupsLayout';
 import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../../Context/AuthContext'; // Update the path to AuthProvider
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const { login, error } = useContext(AuthContext);
