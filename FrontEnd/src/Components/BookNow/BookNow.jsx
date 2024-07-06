@@ -126,7 +126,7 @@ const BookNow = () => {
     }
     try {
       const response = await baseURL.post('/checkout/payment', {
-        userId, amount: Number(data.amount.split(" ")[1]) * 100, boatName: data.boatName, rateType: data.day == "weekend" && data.day + data.amount.split(" ")[0], totalAmount: Number(data.amount.split(" ")[1]) * 100, availableDate: data.availableDate
+        userId, amount: Number(data.amount.split(" ")[1]) * 100, boatName: data.boatName, rateType: data.day == "weekend" ? data.day + data.amount.split(" ")[0] : data.amount.split(" ")[0], totalAmount: Number(data.amount.split(" ")[1]) * 100, availableDate: data.availableDate
       })
       const { sessionId } = await response.data;
       console.log("sessionId", sessionId);
@@ -140,7 +140,7 @@ const BookNow = () => {
       console.error('Payment failed', error);
     }
   }
-  console.log("data",boatDetails);
+  console.log("data", boatDetails);
   return (
     <div>
       <div className="boat-page-bg !h-[50svh] md:!h-[100svh]"></div>
@@ -148,7 +148,7 @@ const BookNow = () => {
         <div className="left-container md:w-[60%]">
           <div className="top mt-[3%]">
             <h1 className="font-sans font-poppins font-medium text-3xl text-[#000000]">
-              {boatDetails?.rental.map((item)=>(item.BoatName))}
+              {boatDetails?.rental.map((item) => (item.BoatName))}
             </h1>
 
             <div className="flex my-3 md:justify-between justify-center flex-wrap space-y-3 space-x-3">

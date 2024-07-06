@@ -87,28 +87,41 @@ export const getPayment = async (req, res) => {
   }
 };
 
-
-
 export const calculateBoatRevenue = async (req, res) => {
   try {
     const revenues = await Payment.aggregate([
       {
         $match: {
-          boatName: { $ne: null }
-        }
+          boatName: { $ne: null },
+        },
       },
       {
         $group: {
           _id: "$boatName",
           totalRevenue: { $sum: "$amount" },
-          totalBookings: { $sum: 1 }  // This will count the number of documents for each boatName
-        }
-      }
+          totalBookings: { $sum: 1 }, // This will count the number of documents for each boatName
+        },
+      },
     ]);
 
     res.json(revenues);
   } catch (error) {
-    console.error('Error in calculateBoatRevenue:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error in calculateBoatRevenue:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// get all payments of a user
+export const getUserPayment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const payments = await Payment.find({ userId: id }).populate(
+      "userId",
+      "username email phoneNumber"
+    ); // Add other user fields if necessary
+    res.status(200).json(payments);
+  } catch (error) {
+    console.error("Error fetching payments:", error);
+    res.status(500).json({ error: error.message });
   }
 };
