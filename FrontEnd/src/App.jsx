@@ -78,270 +78,270 @@ function App() {
       <AuthProvider>
         <AdminProvider>
           <UserProvider>
-          <Routes>
-            <Route
-              path="/"
-              element={<Layout Children={<Home />} isLocation={false} />}
-            />
-            <Route
-              path="/book-now/:id"
-              element={<Layout Children={<BookNow />} isLocation={true} />}
-            />
-            <Route
-              path="/check-out/:id"
-              element={<Layout Children={<Checkout />} isLocation={true} />}
-            />
-            <Route
-              path="/Our-Fleet"
-              element={<Layout Children={<OurFleet />} isLocation={true} />}
-            />
-            <Route
-              path="/faq"
-              element={<Layout Children={<FAQ />} isLocation={true} />}
-            />
-            <Route
-              path="/services"
-              element={<Layout Children={<Services />} isLocation={true} />}
-            />
-            <Route
-              path="/services/Excursions"
-              element={<Layout Children={<Excursions />} isLocation={true} />}
-            />
-            <Route
-              path="/services/Standard-Plus"
-              element={<Layout Children={<StandardPlus />} isLocation={true} />}
-            />
-            <Route
-              path="/services/The-Great-War"
-              element={<Layout Children={<TheGreatWar />} isLocation={true} />}
-            />
-            <Route
-              path="/services/Into-The-Wild"
-              element={<Layout Children={<IntoTheWild />} isLocation={true} />}
-            />
-            <Route
-              path="/services/The-Sea-In-Your-Veins"
-              element={
-                <Layout Children={<TheSeaInYourVeins />} isLocation={true} />
-              }
-            />
-            <Route
-              path="/services/Fishing-Trips"
-              element={<Layout Children={<FishingTrips />} isLocation={true} />}
-            />
-            <Route
-              path="/services/Aperitif"
-              element={<Layout Children={<Aperitif />} isLocation={false} />}
-            />
-            <Route
-              path="/boat-dinghal"
-              element={<Layout Children={<BoatDinghal />} isLocation={true} />}
-            />
-            <Route
-              path="/Rates"
-              element={<Layout Children={<Rates />} isLocation={false} />}
-            />
-            <Route
-              path="/where-we-are"
-              element={<Layout Children={<WhereWeAre />} isLocation={true} />}
-            />
-            <Route
-              path="/Contact-Information"
-              element={
-                <Layout Children={<ContactInformation />} isLocation={true} />
-              }
-            />
-            <Route
-              path="/booking/conditions"
-              element={<Layout Children={<Condition />} isLocation={false} />}
-            />
-            <Route
-              path="/booking/invoice"
-              element={<Layout Children={<Invoice />} isLocation={false} />}
-            />
-            <Route
-              path="/booking/extra-services"
-              element={<Layout Children={<Invoice />} isLocation={false} />}
-            />
-            <Route path="/user/booking-list" element={<Booking />} />
-            <Route path="/user/booking" element={<Booking2 />} />
-            <Route path="/Login" element={<Login />} />
-            <Route path="/Signup" element={<SignUp />} />
-            <Route path="/Forgot-Password" element={<ForgotPassword />} />
-            <Route path="/Check-email" element={<CheckEmail />} />
-            <Route path="/Reset-Password" element={<ResetPassword />} />
-            <Route
-              path="/accounts"
-              element={
-                <Layout Children={<AccountSetting />} isLocation={false} />
-              }
-            />
-            <Route
-              path="/Two-Step-Verification"
-              element={<TwoStepVerification />}
-            />
-            <Route
-              path="/RecreationalVehicleRentalAgreement"
-              element={<RecreationalVehicleRentalAgreement />}
-            />
-            <Route
-              path="/booking/invoice"
-              element={<Layout Children={<Invoice />} isLocation={false} />}
-            />
-            <Route
-              path="/user/booking-list"
-              element={<Layout Children={<Booking />} isLocation={false} />}
-            />
-            <Route
-              path="/user/booking"
-              element={<Layout Children={<Booking2 />} isLocation={false} />}
-            />
-            <Route
-              path="/user/favourites"
-              element={<Layout Children={<MyFavourite />} isLocation={false} />}
-            />
-            <Route
-              path="/user/account-info"
-              element={<Layout Children={<AccountInfo />} isLocation={false} />}
-            />
-            <Route path="/Login" element={<Login />} />
-            <Route path="/Signup" element={<SignUp />} />
-            <Route path="/Forgot-Password" element={<ForgotPassword />} />
-            <Route path="/Check-email" element={<CheckEmail />} />
-            <Route path="/Reset-Password" element={<ResetPassword />} />
-            <Route
-              path="/Two-Step-Verification"
-              element={<TwoStepVerification />}
-            />
-            <Route
-              path="/RecreationalVehicleRentalAgreement"
-              element={<RecreationalVehicleRentalAgreement />}
-            />
-            <Route
-              path="/Dashboard"
-              element={<DashboardLayout Childeren={<Dashboard />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats"
-              element={<DashboardLayout Childeren={<MyBoats />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats/overview"
-              element={<DashboardLayout Childeren={<Overview />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats/photo"
-              element={<DashboardLayout Childeren={<Photo />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats/info-access"
-              element={<DashboardLayout Childeren={<InfoAccess />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats/information"
-              element={<DashboardLayout Childeren={<Information />} />}
-            />{" "}
-            <Route
-              path="/Dashboard/my-boats/info-access"
-              element={<DashboardLayout Childeren={<InfoAccess />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats/termscondition"
-              element={<DashboardLayout Childeren={<TermsCondition />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats/deposit"
-              element={<DashboardLayout Childeren={<Deposit />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats/promotion"
-              element={<DashboardLayout Childeren={<Voucher />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats/insurance"
-              element={<DashboardLayout Childeren={<Insurance />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats/address"
-              element={<DashboardLayout Childeren={<Address />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats/equipments"
-              element={<DashboardLayout Childeren={<Equipments />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats/extra-services"
-              element={<DashboardLayout Childeren={<ExtraServices />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats/calender"
-              element={<DashboardLayout Childeren={<BoatCalender />} />}
-            />
-            <Route
-              path="/Dashboard/my-boats/rates"
-              element={<DashboardLayout Childeren={<BoatRates />} />}
-            />
-            <Route
-              path="/Dashboard/calendar"
-              element={<DashboardLayout Childeren={<Calender />} />}
-            />
-            <Route
-              path="/Dashboard/pending-bookings"
-              element={<DashboardLayout Childeren={<PendingBookings />} />}
-            />
-            <Route
-              path="/Dashboard/today-bookings"
-              element={<DashboardLayout Childeren={<TodayBooking />} />}
-            />
-            <Route
-              path="/Dashboard/upcoming-bookings"
-              element={<DashboardLayout Childeren={<UpcomingBooking />} />}
-            />
-            <Route
-              path="/Dashboard/previous-bookings"
-              element={<DashboardLayout Childeren={<PreviousBooking />} />}
-            />
-            <Route
-              path="/Dashboard/reminders"
-              element={<DashboardLayout Childeren={<Reminders />} />}
-            />
-            <Route
-              path="/Dashboard/booked-boats"
-              element={<DashboardLayout Childeren={<BookedBoats />} />}
-            />
-            <Route
-              path="/Dashboard/unbooked-boats"
-              element={<DashboardLayout Childeren={<UnbookedBoats />} />}
-            />
-            <Route
-              path="/Billing"
-              element={<DashboardLayout Childeren={<BillingList />} />}
-            />
-            <Route
-              path="/Dashboard/calender/createlist"
-              element={<DashboardLayout Childeren={<CreateList />} />}
-            />
-            <Route
-              path="/Dashboard/billing"
-              element={<DashboardLayout Childeren={<BillingList />} />}
-            />
-            <Route
-              path="/Dashboard/Cash-flow"
-              element={<DashboardLayout Childeren={<CashFlow />} />}
-            />
-            <Route
-              path="/Dashboard/Cash-flow/Boat-detials"
-              element={<DashboardLayout Childeren={<BoatDetails />} />}
-            />
-            <Route
-              path="/Dashboard/customer-support"
-              element={<DashboardLayout Childeren={<Customer />} />}
-            />
-            <Route
-              path="/Dashboard/profile"
-              element={<DashboardLayout Childeren={<Profile />} />}
-            />
-          </Routes>
+            <Routes>
+              <Route
+                path="/"
+                element={<Layout Children={<Home />} isLocation={false} />}
+              />
+              <Route
+                path="/book-now/:id"
+                element={<Layout Children={<BookNow />} isLocation={true} />}
+              />
+              <Route
+                path="/check-out/:id"
+                element={<Layout Children={<Checkout />} isLocation={true} />}
+              />
+              <Route
+                path="/Our-Fleet"
+                element={<Layout Children={<OurFleet />} isLocation={true} />}
+              />
+              <Route
+                path="/faq"
+                element={<Layout Children={<FAQ />} isLocation={true} />}
+              />
+              <Route
+                path="/services"
+                element={<Layout Children={<Services />} isLocation={true} />}
+              />
+              <Route
+                path="/services/Excursions"
+                element={<Layout Children={<Excursions />} isLocation={true} />}
+              />
+              <Route
+                path="/services/Standard-Plus"
+                element={<Layout Children={<StandardPlus />} isLocation={true} />}
+              />
+              <Route
+                path="/services/The-Great-War"
+                element={<Layout Children={<TheGreatWar />} isLocation={true} />}
+              />
+              <Route
+                path="/services/Into-The-Wild"
+                element={<Layout Children={<IntoTheWild />} isLocation={true} />}
+              />
+              <Route
+                path="/services/The-Sea-In-Your-Veins"
+                element={
+                  <Layout Children={<TheSeaInYourVeins />} isLocation={true} />
+                }
+              />
+              <Route
+                path="/services/Fishing-Trips"
+                element={<Layout Children={<FishingTrips />} isLocation={true} />}
+              />
+              <Route
+                path="/services/Aperitif"
+                element={<Layout Children={<Aperitif />} isLocation={false} />}
+              />
+              <Route
+                path="/boat-dinghal"
+                element={<Layout Children={<BoatDinghal />} isLocation={true} />}
+              />
+              <Route
+                path="/Rates"
+                element={<Layout Children={<Rates />} isLocation={false} />}
+              />
+              <Route
+                path="/where-we-are"
+                element={<Layout Children={<WhereWeAre />} isLocation={true} />}
+              />
+              <Route
+                path="/Contact-Information"
+                element={
+                  <Layout Children={<ContactInformation />} isLocation={true} />
+                }
+              />
+              <Route
+                path="/booking/conditions"
+                element={<Layout Children={<Condition />} isLocation={false} />}
+              />
+              <Route
+                path="/booking/invoice"
+                element={<Layout Children={<Invoice />} isLocation={false} />}
+              />
+              <Route
+                path="/booking/extra-services"
+                element={<Layout Children={<Invoice />} isLocation={false} />}
+              />
+              <Route path="/user/booking-list" element={<Booking />} />
+              <Route path="/user/booking/:id" element={<Booking2 />} />
+              <Route path="/Login" element={<Login />} />
+              <Route path="/Signup" element={<SignUp />} />
+              <Route path="/Forgot-Password" element={<ForgotPassword />} />
+              <Route path="/Check-email" element={<CheckEmail />} />
+              <Route path="/Reset-Password" element={<ResetPassword />} />
+              <Route
+                path="/accounts"
+                element={
+                  <Layout Children={<AccountSetting />} isLocation={false} />
+                }
+              />
+              <Route
+                path="/Two-Step-Verification"
+                element={<TwoStepVerification />}
+              />
+              <Route
+                path="/RecreationalVehicleRentalAgreement"
+                element={<RecreationalVehicleRentalAgreement />}
+              />
+              <Route
+                path="/booking/invoice"
+                element={<Layout Children={<Invoice />} isLocation={false} />}
+              />
+              <Route
+                path="/user/booking-list"
+                element={<Layout Children={<Booking />} isLocation={false} />}
+              />
+              <Route
+                path="/user/booking"
+                element={<Layout Children={<Booking2 />} isLocation={false} />}
+              />
+              <Route
+                path="/user/favourites"
+                element={<Layout Children={<MyFavourite />} isLocation={false} />}
+              />
+              <Route
+                path="/user/account-info"
+                element={<Layout Children={<AccountInfo />} isLocation={false} />}
+              />
+              <Route path="/Login" element={<Login />} />
+              <Route path="/Signup" element={<SignUp />} />
+              <Route path="/Forgot-Password" element={<ForgotPassword />} />
+              <Route path="/Check-email" element={<CheckEmail />} />
+              <Route path="/Reset-Password" element={<ResetPassword />} />
+              <Route
+                path="/Two-Step-Verification"
+                element={<TwoStepVerification />}
+              />
+              <Route
+                path="/RecreationalVehicleRentalAgreement"
+                element={<RecreationalVehicleRentalAgreement />}
+              />
+              <Route
+                path="/Dashboard"
+                element={<DashboardLayout Childeren={<Dashboard />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats"
+                element={<DashboardLayout Childeren={<MyBoats />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats/overview"
+                element={<DashboardLayout Childeren={<Overview />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats/photo"
+                element={<DashboardLayout Childeren={<Photo />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats/info-access"
+                element={<DashboardLayout Childeren={<InfoAccess />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats/information"
+                element={<DashboardLayout Childeren={<Information />} />}
+              />{" "}
+              <Route
+                path="/Dashboard/my-boats/info-access"
+                element={<DashboardLayout Childeren={<InfoAccess />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats/termscondition"
+                element={<DashboardLayout Childeren={<TermsCondition />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats/deposit"
+                element={<DashboardLayout Childeren={<Deposit />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats/promotion"
+                element={<DashboardLayout Childeren={<Voucher />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats/insurance"
+                element={<DashboardLayout Childeren={<Insurance />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats/address"
+                element={<DashboardLayout Childeren={<Address />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats/equipments"
+                element={<DashboardLayout Childeren={<Equipments />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats/extra-services"
+                element={<DashboardLayout Childeren={<ExtraServices />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats/calender"
+                element={<DashboardLayout Childeren={<BoatCalender />} />}
+              />
+              <Route
+                path="/Dashboard/my-boats/rates"
+                element={<DashboardLayout Childeren={<BoatRates />} />}
+              />
+              <Route
+                path="/Dashboard/calendar"
+                element={<DashboardLayout Childeren={<Calender />} />}
+              />
+              <Route
+                path="/Dashboard/pending-bookings"
+                element={<DashboardLayout Childeren={<PendingBookings />} />}
+              />
+              <Route
+                path="/Dashboard/today-bookings"
+                element={<DashboardLayout Childeren={<TodayBooking />} />}
+              />
+              <Route
+                path="/Dashboard/upcoming-bookings"
+                element={<DashboardLayout Childeren={<UpcomingBooking />} />}
+              />
+              <Route
+                path="/Dashboard/previous-bookings"
+                element={<DashboardLayout Childeren={<PreviousBooking />} />}
+              />
+              <Route
+                path="/Dashboard/reminders"
+                element={<DashboardLayout Childeren={<Reminders />} />}
+              />
+              <Route
+                path="/Dashboard/booked-boats"
+                element={<DashboardLayout Childeren={<BookedBoats />} />}
+              />
+              <Route
+                path="/Dashboard/unbooked-boats"
+                element={<DashboardLayout Childeren={<UnbookedBoats />} />}
+              />
+              <Route
+                path="/Billing"
+                element={<DashboardLayout Childeren={<BillingList />} />}
+              />
+              <Route
+                path="/Dashboard/calender/createlist"
+                element={<DashboardLayout Childeren={<CreateList />} />}
+              />
+              <Route
+                path="/Dashboard/billing"
+                element={<DashboardLayout Childeren={<BillingList />} />}
+              />
+              <Route
+                path="/Dashboard/Cash-flow"
+                element={<DashboardLayout Childeren={<CashFlow />} />}
+              />
+              <Route
+                path="/Dashboard/Cash-flow/Boat-detials"
+                element={<DashboardLayout Childeren={<BoatDetails />} />}
+              />
+              <Route
+                path="/Dashboard/customer-support"
+                element={<DashboardLayout Childeren={<Customer />} />}
+              />
+              <Route
+                path="/Dashboard/profile"
+                element={<DashboardLayout Childeren={<Profile />} />}
+              />
+            </Routes>
           </UserProvider>
         </AdminProvider>
       </AuthProvider>
