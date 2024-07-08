@@ -54,6 +54,22 @@ export const CreateBoat = async (req, res, next) => {
 };
 
 
+export const getBoat = async (req,res,next)=>{
+  try {
+    const boat = await Boat.findById(req.params.id);
+    if (!boat) {
+      return next(createError(404, 'Boat not found'));
+    }
+
+    res.status(200).json({
+      success: true,
+      boat,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 
 const getBoatDetailsById = async (boatId) => {
   try {
@@ -85,6 +101,23 @@ const getBoatDetailsById = async (boatId) => {
       damageDepositsPromise
     ]);
 
+    const totalFields = 11; // Total number of fields to check
+    let completedFields = 0;
+
+    if (boat) completedFields++;
+    if (boatImages && boatImages.length > 0) completedFields++;
+    if (location && location.length > 0) completedFields++;
+    if (vouchers && vouchers.length > 0) completedFields++;
+    if (rental && rental.length > 0) completedFields++;
+    if (extraServices && extraServices.length > 0) completedFields++;
+    if (insurance && insurance.length > 0) completedFields++;
+    if (equipment && equipment.length > 0) completedFields++;
+    if (rate && rate.length > 0) completedFields++;
+    if (description && description.length > 0) completedFields++;
+    if (damageDeposits && damageDeposits.length > 0) completedFields++;
+
+    const completionPercentage = (completedFields / totalFields) * 100;
+
     return {
       boat,
       boatImages,
@@ -96,7 +129,8 @@ const getBoatDetailsById = async (boatId) => {
       equipment,
       rate,
       description,
-      damageDeposits
+      damageDeposits,
+      completionPercentage
     };
   } catch (error) {
     console.error("Error fetching boat details:", error);

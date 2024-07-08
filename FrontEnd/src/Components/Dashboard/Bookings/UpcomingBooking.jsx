@@ -19,7 +19,7 @@ const UpcomingBooking = () => {
 
         const todayDate = new Date().setHours(0, 0, 0, 0); // Get today's date at midnight for accurate comparison
         const filteredBookings = response.data.filter(
-          (booking) => new Date(bookings.availableDate).setHours(0, 0, 0, 0) < todayDate
+          (booking) => new Date(booking.availableDate).setHours(0, 0, 0, 0) > todayDate
         );
 
         setBookings(filteredBookings);

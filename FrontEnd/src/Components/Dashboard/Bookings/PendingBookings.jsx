@@ -80,7 +80,7 @@ const PendingBookings = () => {
                   <tr key={booking._id} className="border-b border-[#DBDADE] hover:bg-gray-100">
                     <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">#{booking._id}</td>
                     <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking.userId?.username || 'N/A'}</td>
-                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{new Date(booking.createdAt).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{new Date(booking.availableDate).toLocaleDateString()}</td>
                     <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
                       <div className='flex items-center justify-center'>
                         <img src={BoatType} alt="" className='md:w-9 w-6 rounded-full' />

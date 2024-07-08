@@ -23,7 +23,7 @@ const Checkout = () => {
   const [selectedRateType, setSelectedRateType] = useState(""); // Use a string to store selected rate type
   const [selectedDate, setSelectedDate] = useState(""); // State for selected date
   const [paymentOption, setPaymentOption] = useState('full');
-  const [user, setUser] = useState(""); // Initialize user state
+  const [user, setUser] = useState(""); 
   const [activeComponent, setActiveComponent] = useState("details"); // Default to 'details' component
 
   const [bookingDate, setBookingDate] = useState('');
@@ -50,14 +50,18 @@ const Checkout = () => {
       getBoatDetails();
     }
   }, [id, fetchBoatDetailsById]);
-
-  const handleSelection = (rateType, isChecked) => {
+  
+  
+  const handleSelection = (rateType, isChecked,) => {
     if (isChecked) {
       setSelectedRateType(rateType);
+
     } else {
-      setSelectedRateType("");
+      setSelectedRateType(""); // Deselect the rate type if unchecked
+     
     }
   };
+
 
   const handleDateChange = (event) => {
     const selectedDate = new Date(event.target.value);
@@ -80,66 +84,73 @@ const Checkout = () => {
 
     setBookingDate(event.target.value);
   };
-
+  
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    let amountToCharge = 0; 
-    let rateType = ''; 
-
-    console.log("selectedRateType", selectedRateType);
-    console.log("boatDetails", boatDetails);
-
+  
+    if (!selectedRateType) {
+      toast.error('Please select a rate type.');
+      return;
+    }
+  
+    let amountToCharge = 0;
+    let rateType = '';
+  
+    // Determine the rateType based on selectedRateType and update amountToCharge accordingly
     if (boatDetails && boatDetails.rate) {
       boatDetails.rate.forEach(rateDetails => {
-        if (selectedRateType === rateDetails?.normalDayRates?.halfDayMorning) {
+        if (selectedRateType === rateDetails.normalDayRates.halfDayMorning) {
           rateType = 'halfDayMorning';
-        } else if (selectedRateType === rateDetails?.normalDayRates?.halfDayEvening) {
+        } else if (selectedRateType === rateDetails.normalDayRates.halfDayEvening) {
           rateType = 'halfDayEvening';
-        } else if (selectedRateType === rateDetails?.normalDayRates?.fullDay) {
+        } else if (selectedRateType === rateDetails.normalDayRates.fullDay) {
           rateType = 'fullDay';
-        } else if (selectedRateType === rateDetails?.weekendRates?.halfDayMorning) {
+        } else if (selectedRateType === rateDetails.weekendRates.halfDayMorning) {
           rateType = 'weekendHalfDayMorning';
-        } else if (selectedRateType === rateDetails?.weekendRates?.halfDayEvening) {
+        } else if (selectedRateType === rateDetails.weekendRates.halfDayEvening) {
           rateType = 'weekendHalfDayEvening';
-        } else if (selectedRateType === rateDetails?.weekendRates?.fullDay) {
+        } else if (selectedRateType === rateDetails.weekendRates.fullDay) {
           rateType = 'weekendFullDay';
         }
       });
     }
 
-    // Calculate amount to charge based on payment option
+  
+    console.log("rateType",)
+  
+    // Calculate amountToCharge based on payment option
     if (paymentOption === 'partial') {
-      amountToCharge = selectedRateType * 0.3; // 30% of selected rate type
+      amountToCharge = selectedRateType * 0.3; // Adjust this calculation based on your business logic
     } else {
-      amountToCharge = selectedRateType; // Full amount of selected rate type
+      amountToCharge = selectedRateType; // This assumes selectedRateType is already in dollars
     }
-
-    // Convert amount to cents for Stripe
+  
     const amountToChargeInCents = Math.round(amountToCharge * 100);
-
+  
     try {
+      const boatName = boatDetails?.rental.map((item) => item.BoatName).join(', ');
+  
       const response = await baseURL.post('/checkout/payment', {
         userId: user,
-        boatName: boatDetails?.boat?.type,
+        boatName,
         amount: amountToChargeInCents,
-        rateType, // Pass dynamically selected rateType
+        rateType,
         totalAmount: amountToCharge,
-        availableDate: isAvailable
+        availableDate: bookingDate,
       });
-
+  
       const { sessionId } = await response.data;
-      console.log("sessionId", sessionId);
       const stripe = await stripePromise;
       const { error } = await stripe.redirectToCheckout({ sessionId });
-
+  
       if (error) {
         console.error('Stripe Checkout error:', error);
+        toast.error('Payment failed. Please try again.');
       }
     } catch (error) {
       console.error('Payment failed:', error);
-
-      // Show error using Toastify
+  
       if (error.response && error.response.data && error.response.data.message) {
         toast.error(`Payment failed: ${error.response.data.message}`);
       } else {
@@ -147,7 +158,6 @@ const Checkout = () => {
       }
     }
   };
-
 
   const renderComponent = () => {
     switch (activeComponent) {
@@ -245,54 +255,59 @@ const Checkout = () => {
 
               {/* Rate selection checkboxes */}
               {boatDetails?.rate.map((item, key) => (
-                <div key={key} className="border rounded-lg p-4 my-4 shadow-lg">
-                  <div className="flex items-center gap-4">
-                    <input
-                      type="checkbox"
-                      id={`rate-${key}-halfDayMorning`}
-                      name={`rate-${key}-halfDayMorning`}
-                      value={item?.normalDayRates?.halfDayMorning}
-                      onChange={(e) => handleSelection(item?.normalDayRates?.halfDayMorning, e.target.checked)}
-                      checked={selectedRateType === item?.normalDayRates?.halfDayMorning}
-                      className="ml-2"
-                    />
-                    <label htmlFor={`rate-${key}-halfDayMorning`} className="font-medium text-[#383838] text-md mb-2">
-                      {isWeekend ? "Weekend Price Half Day Morning:" : "Price Half Day Morning:"}
-                      <span className="text-[#676767] font-normal"> ${isWeekend ? item?.weekendRates?.halfDayMorning : item?.normalDayRates?.halfDayMorning}</span>
-                    </label>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <input
-                      type="checkbox"
-                      id={`rate-${key}-halfDayEvening`}
-                      name={`rate-${key}-halfDayEvening`}
-                      value={item?.normalDayRates?.halfDayEvening}
-                      onChange={(e) => handleSelection(item?.normalDayRates?.halfDayEvening, e.target.checked)}
-                      checked={selectedRateType === item?.normalDayRates?.halfDayEvening}
-                      className="ml-2"
-                    />
-                    <label htmlFor={`rate-${key}-halfDayEvening`} className="font-medium text-[#383838] text-md mb-2">
-                      {isWeekend ? "Weekend Price Half Day Evening:" : "Price Half Day Evening:"}
-                      <span className="text-[#676767] font-normal"> ${isWeekend ? item?.weekendRates?.halfDayEvening : item?.normalDayRates?.halfDayEvening}</span>
-                    </label>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <input
-                      type="checkbox"
-                      id={`rate-${key}-fullDay`}
-                      name={`rate-${key}-fullDay`}
-                      value={item?.normalDayRates?.fullDay}
-                      onChange={(e) => handleSelection(item?.normalDayRates?.fullDay, e.target.checked)}
-                      checked={selectedRateType === item?.normalDayRates?.fullDay}
-                      className="ml-2"
-                    />
-                    <label htmlFor={`rate-${key}-fullDay`} className="font-medium text-[#383838] text-md mb-2">
-                      {isWeekend ? "Weekend Price Full Day:" : "Price Full Day:"}
-                      <span className="text-[#676767] font-normal"> ${isWeekend ? item?.weekendRates?.fullDay : item?.normalDayRates?.fullDay}</span>
-                    </label>
-                  </div>
-                </div>
-              ))}
+  <div key={key} className="border rounded-lg p-4 my-4 shadow-lg">
+    {/* Half Day Morning */}
+    <div className="flex items-center gap-4">
+    <input
+  type="checkbox"
+  id={`rate-${key}-halfDayMorning`}
+  name={`rate-${key}-halfDayMorning`}
+  value={`halfDayMorning-${item?.normalDayRates?.halfDayMorning}`} // Unique value including rate type
+  onChange={(e) => handleSelection(`halfDayMorning-${item?.normalDayRates?.halfDayMorning}`, e.target.checked, "Half Day Morning")}
+  checked={selectedRateType === `halfDayMorning-${item?.normalDayRates?.halfDayMorning}`} // Check against unique value
+  className="ml-2"
+/>
+      <label htmlFor={`rate-${key}-halfDayMorning`} className="font-medium text-[#383838] text-md mb-2">
+        {isWeekend ? "Weekend Price Half Day Morning:" : "Price Half Day Morning:"}
+        <span className="text-[#676767] font-normal"> ${isWeekend ? item?.weekendRates?.halfDayMorning : item?.normalDayRates?.halfDayMorning}</span>
+      </label>
+    </div>
+
+    {/* Half Day Evening */}
+    <div className="flex items-center gap-4">
+      <input
+        type="checkbox"
+        id={`rate-${key}-halfDayEvening`}
+        name={`rate-${key}-halfDayEvening`}
+        value={item?.normalDayRates?.halfDayEvening}
+        onChange={(e) => handleSelection(item?.normalDayRates?.halfDayEvening, e.target.checked, "Half Day Evening")}
+        checked={selectedRateType === item?.normalDayRates?.halfDayEvening}
+        className="ml-2"
+      />
+      <label htmlFor={`rate-${key}-halfDayEvening`} className="font-medium text-[#383838] text-md mb-2">
+        {isWeekend ? "Weekend Price Half Day Evening:" : "Price Half Day Evening:"}
+        <span className="text-[#676767] font-normal"> ${isWeekend ? item?.weekendRates?.halfDayEvening : item?.normalDayRates?.halfDayEvening}</span>
+      </label>
+    </div>
+
+    {/* Full Day */}
+    <div className="flex items-center gap-4">
+      <input
+        type="checkbox"
+        id={`rate-${key}-fullDay`}
+        name={`rate-${key}-fullDay`}
+        value={item?.normalDayRates?.fullDay}
+        onChange={(e) => handleSelection(item?.normalDayRates?.fullDay, e.target.checked, "Full Day")}
+        checked={selectedRateType === item?.normalDayRates?.fullDay}
+        className="ml-2"
+      />
+      <label htmlFor={`rate-${key}-fullDay`} className="font-medium text-[#383838] text-md mb-2">
+        {isWeekend ? "Weekend Price Full Day:" : "Price Full Day:"}
+        <span className="text-[#676767] font-normal"> ${isWeekend ? item?.weekendRates?.fullDay : item?.normalDayRates?.fullDay}</span>
+      </label>
+    </div>
+  </div>
+))}
               {/* Payment options */}
               <div className="my-4">
                 <h2 className="font-medium text-lg mb-2">Payment Option:</h2>

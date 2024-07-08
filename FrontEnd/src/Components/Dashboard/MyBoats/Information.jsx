@@ -125,20 +125,16 @@ const Information = () => {
           </div>
         </div>
         <div className="flex flex-col gap-2 w-[80%]">
-          <label>Type of boat</label>
-          <select
-            name="boatType"
-            value={descriptionData.boatType}
-            onChange={handleChange}
-            className="border py-3 rounded-md px-3 font-light"
-          >
-            <option>Choose a type</option>
-            <option value="Sail Boat">Sail Boat</option>
-            <option value="Motorboat">Motorboat</option>
-            <option value="Ruber dinghy">Ruber dinghy</option>
-            <option value="Jet Skis">Jet Skis</option>
-          </select>
-        </div>
+  <label>Type of boat</label>
+  <input
+    type="text"
+    name="boatType"
+    value={descriptionData.boatType}
+    onChange={handleChange}
+    placeholder="Enter the type of boat"
+    className="border py-3 rounded-md px-3 font-light"
+  />
+</div>
         <div className="flex flex-col gap-6">
           <div>Type of Rental</div>
           <div className="flex flex-row gap-3 items-start">
@@ -270,52 +266,40 @@ const Information = () => {
                   <option>Jakoba</option>
                 </select>
               </div> */}
-              <div className="flex flex-col gap-2">
-                <label>Brand of the boat</label>
-                <select
-                  name="brand"
-                  value={descriptionData.capacity.brand}
-                  onChange={(e) => handelNestedChange(e, "capacity")}
-                  className="border p-3 rounded-md font-light"
-                >
-                  <option value="">Select</option> {/* Default option */}
-                  <option value="Mitsubishi">Mitsubishi</option>
-                  <option value="Honda">Honda</option>
-                  <option value="Jakoba">Jakoba</option>
-                </select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Model</label>
-                <select
-                  name="model"
-                  value={descriptionData.capacity.model}
-                  onChange={(e) => handelNestedChange(e, "capacity")}
-                  className="border p-3 rounded-md font-light"
-                >
-                  <option value="">Select</option> {/* Default option */}
-                  <option value="2020">2020</option>
-                  <option value="2021">2021</option>
-                  <option value="2022">2022</option>
-                  <option value="2023">2023</option>
-                </select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Geographic area</label>
-                <select
-                  name="geographicArea"
-                  value={descriptionData.capacity.geographicArea}
-                  onChange={(e) => handelNestedChange(e, "capacity")}
-                  className="border p-3 rounded-md font-light"
-                >
-                  <option value="">Select</option> {/* Default option */}
-                  <option value="Mediterranean">Mediterranean</option>
-                  <option value="Caribbean">Caribbean</option>
-                  <option value="South Pacific">South Pacific</option>
-                  <option value="Baltic Sea">Baltic Sea</option>
-                  <option value="Indian Ocean">Indian Ocean</option>
-                  <option value="Atlantic Ocean">Atlantic Ocean</option>
-                </select>
-              </div>
+            <div className="flex flex-col gap-2">
+  <label>Brand of the boat</label>
+  <input
+    type="text"
+    name="brand"
+    value={descriptionData.capacity.brand}
+    onChange={(e) => handelNestedChange(e, "capacity")}
+    placeholder="Enter the brand of the boat"
+    className="border p-3 rounded-md font-light"
+  />
+</div>
+<div className="flex flex-col gap-2">
+  <label>Model</label>
+  <input
+    type="text"
+    name="model"
+    value={descriptionData.capacity.model}
+    onChange={(e) => handelNestedChange(e, "capacity")}
+    placeholder="Enter the model"
+    className="border p-3 rounded-md font-light"
+  />
+</div>
+
+<div className="flex flex-col gap-2">
+  <label>Geographic area</label>
+  <input
+    type="text"
+    name="geographicArea"
+    value={descriptionData.capacity.geographicArea}
+    onChange={(e) => handelNestedChange(e, "capacity")}
+    placeholder="Enter the geographic area"
+    className="border p-3 rounded-md font-light"
+  />
+</div>
             </div>
           </div>
           <div className="flex flex-col gap-6">
@@ -324,37 +308,29 @@ const Information = () => {
               <MdDelete className="text-xl text-[#CBA557]" />
             </div>
             <div className="grid grid-cols-2 gap-9">
-              <div className="flex flex-col gap-2">
-                <label>Number of engines</label>
-                <select
-                  name="numberOfEngines"
-                  value={descriptionData.motorization.numberOfEngines}
-                  onChange={(e) => handelNestedChange(e, "motorization")}
-                  className="border p-3 rounded-md font-light"
-                >
-                  <option value="">Select</option> {/* Default option */}
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Engine power (hp)</label>
-                <select
-                  name="enginePowerHP"
-                  value={descriptionData.motorization.enginePowerHP}
-                  onChange={(e) => handelNestedChange(e, "motorization")}
-                  className="border p-3 rounded-md font-light"
-                >
-                  <option value="">Select</option> {/* Default option */}
-                  <option value="200">200</option>
-                  <option value="300">300</option>
-                  <option value="400">400</option>
-                  <option value="500">500</option>
-                </select>
-              </div>
-            </div>
+  <div className="flex flex-col gap-2">
+    <label>Number of engines</label>
+    <input
+      type="number"
+      name="numberOfEngines"
+      value={descriptionData.motorization.numberOfEngines}
+      onChange={(e) => handelNestedChange(e, "motorization")}
+      placeholder="Enter the number of engines"
+      className="border p-3 rounded-md font-light"
+    />
+  </div>
+  <div className="flex flex-col gap-2">
+    <label>Engine power (hp)</label>
+    <input
+      type="number"
+      name="enginePowerHP"
+      value={descriptionData.motorization.enginePowerHP}
+      onChange={(e) => handelNestedChange(e, "motorization")}
+      placeholder="Enter the engine power (hp)"
+      className="border p-3 rounded-md font-light"
+    />
+  </div>
+</div>
           </div>
           <div className="flex flex-col gap-6">
             <div>Fuel</div>

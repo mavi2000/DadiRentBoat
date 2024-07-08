@@ -4,6 +4,8 @@ import Payment from "../models/Payment.js";
 import { jwtDecode } from "jwt-decode";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+
+
 export const checkout = async (req, res) => {
   try {
     const {
@@ -12,10 +14,9 @@ export const checkout = async (req, res) => {
       boatName,
       rateType,
       totalAmount,
-      availableDate, // Ensure availableDate is correctly passed and formatted
+      availableDate,
     } = req.body;
 
-    // Validate availableDate is a Date object
     const parsedAvailableDate = new Date(availableDate);
     if (isNaN(parsedAvailableDate.getTime())) {
       throw new Error("Invalid availableDate format");
@@ -26,6 +27,8 @@ export const checkout = async (req, res) => {
     }
 
     const unitAmount = parseInt(amount);
+
+    console.log("parsedAvailableDate", parsedAvailableDate);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -57,10 +60,11 @@ export const checkout = async (req, res) => {
       stripeDetails: session,
       rateType,
       totalAmount,
-      paymentStatus: "paid", // Initialize payment status based on your logic
+      paymentStatus: "paid",
       availableDate: parsedAvailableDate, // Use parsedAvailableDate instead of availableDate directly
     });
 
+    console.log("availableDate",availableDate)
     await payment.save();
 
     res.status(201).json({
@@ -73,6 +77,7 @@ export const checkout = async (req, res) => {
     });
   }
 };
+
 
 export const getPayment = async (req, res) => {
   try {

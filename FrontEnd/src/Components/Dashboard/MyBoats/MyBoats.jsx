@@ -108,7 +108,7 @@ const MyBoats = () => {
     localStorage.setItem('id', id)
     navigate(e.target.value)
   }
-  console.log("data",boatData)
+  console.log("data",boatData.percentageCompletion)
   return (
     <div className="mx-[4%] mt-[3%]">
       <div className="md:flex md:justify-between justify-center text-center gap-5 md:gap-0 items-center">
@@ -235,7 +235,7 @@ const MyBoats = () => {
           </div>
 
           <div className="flex justify-center gap-11">
-            <CircularBar percentage={22} />
+          <CircularBar completionPercentage={boat.completionPercentage} />
             <div className="flex flex-col space-y-2">
               <p className="text-[#818C8E] text-sm font-normal">2024</p>
               <div className="w-full border border-[#00151C] border-opacity-[12.5%] rounded">
