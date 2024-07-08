@@ -75,7 +75,7 @@ const Checkout = () => {
       setIsAvailable(false); // If no rates are defined, assume not available
     }
 
-    const dayOfWeek = selectedDate.getDay(); 
+    const dayOfWeek = selectedDate.getDay();
     setIsWeekend(dayOfWeek === 0 || dayOfWeek === 6);
 
     setBookingDate(event.target.value);
@@ -84,8 +84,8 @@ const Checkout = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    let amountToCharge = 0; 
-    let rateType = ''; 
+    let amountToCharge = 0;
+    let rateType = '';
 
     console.log("selectedRateType", selectedRateType);
     console.log("boatDetails", boatDetails);
@@ -125,7 +125,8 @@ const Checkout = () => {
         amount: amountToChargeInCents,
         rateType, // Pass dynamically selected rateType
         totalAmount: amountToCharge,
-        availableDate: isAvailable
+        availableDate: isAvailable,
+        boatId: boatDetails?.boat._id
       });
 
       const { sessionId } = await response.data;
@@ -160,7 +161,7 @@ const Checkout = () => {
     }
   };
 
-  console.log("boatDetails",boatDetails)
+  console.log("boatDetails", boatDetails)
 
   return (
     <div>
@@ -199,7 +200,7 @@ const Checkout = () => {
               {boatDetails ? (
                 <>
                   <h2 className="heading-book mt-[4%] text-[#383838]">
-                    {boatDetails?.rental.map((item)=>(item.BoatName))}
+                    {boatDetails?.rental.map((item) => (item.BoatName))}
                   </h2>
                   {boatDetails?.rate.map((item, key) => (
                     <div className="flex flex-col gap-1 mt-[3%]" key={key}>
@@ -215,9 +216,9 @@ const Checkout = () => {
                           {format(new Date(item?.endDate), 'dd MMMM yyyy')}
                         </span>
                       </p>
-                      <p className="text-[#676767] font-normal">{boatDetails?.description.map((item)=>(
+                      <p className="text-[#676767] font-normal">{boatDetails?.description.map((item) => (
                         <p className="text-[#676767] font-normal">
-                          {item.rentalType === "bareBoat" ? " withSkipper" :"without Skipper"}
+                          {item.rentalType === "bareBoat" ? " withSkipper" : "without Skipper"}
                         </p>
                       ))}</p>
                       <div className="mb-4">

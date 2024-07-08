@@ -12,7 +12,8 @@ export const checkout = async (req, res) => {
       boatName,
       rateType,
       totalAmount,
-      availableDate, // Ensure availableDate is correctly passed and formatted
+      availableDate,
+      boatId, // Ensure availableDate is correctly passed and formatted
     } = req.body;
 
     // Validate availableDate is a Date object
@@ -59,6 +60,7 @@ export const checkout = async (req, res) => {
       totalAmount,
       paymentStatus: "paid", // Initialize payment status based on your logic
       availableDate: parsedAvailableDate, // Use parsedAvailableDate instead of availableDate directly
+      boatId,
     });
 
     await payment.save();

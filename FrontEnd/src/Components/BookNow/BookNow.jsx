@@ -126,7 +126,7 @@ const BookNow = () => {
     }
     try {
       const response = await baseURL.post('/checkout/payment', {
-        userId, amount: Number(data.amount.split(" ")[1]) * 100, boatName: data.boatName, rateType: data.day == "weekend" ? data.day + data.amount.split(" ")[0] : data.amount.split(" ")[0], totalAmount: Number(data.amount.split(" ")[1]) * 100, availableDate: data.availableDate
+        userId, amount: Number(data.amount.split(" ")[1]) * 100, boatName: data.boatName, rateType: data.day == "weekend" ? data.day + data.amount.split(" ")[0] : data.amount.split(" ")[0], totalAmount: Number(data.amount.split(" ")[1]) * 100, availableDate: data.availableDate, boatId: boatDetails?.boat?._id
       })
       const { sessionId } = await response.data;
       console.log("sessionId", sessionId);
