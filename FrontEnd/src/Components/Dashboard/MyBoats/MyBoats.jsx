@@ -235,7 +235,7 @@ const MyBoats = () => {
           </div>
 
           <div className="flex justify-center gap-11">
-          <CircularBar completionPercentage={boat.completionPercentage} />
+          <CircularBar completionPercentage={90} />
             <div className="flex flex-col space-y-2">
               <p className="text-[#818C8E] text-sm font-normal">2024</p>
               <div className="w-full border border-[#00151C] border-opacity-[12.5%] rounded">
