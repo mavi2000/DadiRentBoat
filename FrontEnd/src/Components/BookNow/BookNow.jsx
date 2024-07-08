@@ -42,7 +42,7 @@ import FuelType from '../../assets/Images/FuelType.png';
 import FuelTank from '../../assets/Images/FuelTank.png';
 
 import Prices from './Prices';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../../../Context/UserContext';
 import { useEffect, useState } from 'react';
@@ -56,8 +56,8 @@ const BookNow = () => {
   const { fetchBoatDetailsById } = useContext(UserContext);
   const [boatDetails, setBoatDetails] = useState(null);
   const [error, setError] = useState(null);
-
-  const [data, setData] = useState({ date: "", day: "normal", amount: null, boatName: "", rateType: "", availableDate: "" })
+  const navigate = useNavigate()
+  const [data, setData] = useState({ date: null, day: "normal", amount: null, boatName: "", rateType: "", availableDate: "", rentalType: boatDetails && !boatDetails.description[0]?.rentalType?.withoutSkipper ? ["With Skipper"] : [] })
   const [ratesArr, setRatesArr] = useState(null)
   useEffect(() => {
     const getBoatDetails = async () => {
@@ -117,16 +117,25 @@ const BookNow = () => {
   const handleSubmit = async () => {
     const token = localStorage.getItem('authToken')
     if (!token) {
-      return toast.error("User must be login to book a boat")
+      toast.error("User must be login to book a boat");
+      setTimeout(() => {
+        navigate('/login')
+      }, 2500)
+      return;
     }
     const decoded = jwtDecode(token)
     const userId = decoded._id
     if (!userId) {
       return toast.error("Something went wrong")
     }
+    if (!(data.date || data.amount)) {
+      console.log('hehehe');
+      toast.error("Please select date and amount")
+      return;
+    }
     try {
       const response = await baseURL.post('/checkout/payment', {
-        userId, amount: Number(data.amount.split(" ")[1]) * 100, boatName: data.boatName, rateType: data.day == "weekend" ? data.day + data.amount.split(" ")[0] : data.amount.split(" ")[0], totalAmount: Number(data.amount.split(" ")[1]) * 100, availableDate: data.availableDate, boatId: boatDetails?.boat?._id
+        userId, amount: (Number(data.amount.split(" ")[1]) * 100) + 1000, boatName: data.boatName, rateType: data.day == "weekend" ? data.day + data.amount.split(" ")[0] : data.amount.split(" ")[0], totalAmount: (Number(data.amount.split(" ")[1]) * 100) + 1000, availableDate: data.availableDate, boatId: boatDetails?.boat?._id
       })
       const { sessionId } = await response.data;
       console.log("sessionId", sessionId);
@@ -140,7 +149,7 @@ const BookNow = () => {
       console.error('Payment failed', error);
     }
   }
-  console.log("data", boatDetails);
+  console.log(data);
   return (
     <div>
       <div className="boat-page-bg !h-[50svh] md:!h-[100svh]"></div>
@@ -637,7 +646,7 @@ const BookNow = () => {
 
             <div className="flex justify-between">
               <div className=" flex gap-2 items-center">
-                <input type="checkbox" checked={boatDetails && !boatDetails.description[0]?.rentalType?.withoutSkipper} id='rentalType' name='rentalType' className="w-5 h-5" value={"with skipper"} />
+                <input type="checkbox" checked={data.rentalType.length > 0} onChange={handleChange} id='rentalType' name='rentalType' className="w-5 h-5" value={"with skipper"} />
                 <label htmlFor='rentalType' className=" font-normal text-[#676767] text-sm">
                   With Skipper
                 </label>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import baseURL from "../../../APi/BaseUrl";
 import { jwtDecode } from "jwt-decode";
@@ -19,6 +19,7 @@ const stripePromise = loadStripe('pk_test_51OwXJ9RtqZkTuUjdPn7IZ2nUJQ77VYiDdsW3s
 const Checkout = () => {
   const { fetchBoatDetailsById } = useContext(UserContext);
   const { id } = useParams();
+  const navigate = useNavigate()
   const [boatDetails, setBoatDetails] = useState(null);
   const [selectedRateType, setSelectedRateType] = useState(""); // Use a string to store selected rate type
   const [selectedDate, setSelectedDate] = useState(""); // State for selected date
@@ -83,7 +84,12 @@ const Checkout = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    if (!user) {
+      toast.error("User must be login to book a boat");
+      setTimeout(() => {
+        navigate('/login')
+      }, 2500)
+    }
     let amountToCharge = 0;
     let rateType = '';
 
