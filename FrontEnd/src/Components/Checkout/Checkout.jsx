@@ -180,6 +180,8 @@ const Checkout = () => {
     }
   };
 
+  //new chnages
+
   console.log("boatDetails", boatDetails)
 
   return (
