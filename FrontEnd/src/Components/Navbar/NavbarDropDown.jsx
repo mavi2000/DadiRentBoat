@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const NavbarDropDown = () => {
   return (
     <div className="absolute shadow-md top-12 -left-16 rounded-lg p-4 text-black font-normal text-base text-center whitespace-nowrap flex gap-2 flex-col bg-white mr-8">
-      <Link to="/user/booking">
+      <Link to="/user/booking-list">
         <button>My Bookings</button>
       </Link>
       <Link to="/user/favourites">
