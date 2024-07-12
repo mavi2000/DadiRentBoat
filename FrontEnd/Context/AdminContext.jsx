@@ -130,20 +130,19 @@ const AdminProvider = ({ children }) => {
     console.log("boatDescription", boatDescription)
     try {
       const response = await baseURL.post(
-        "/decription/add-Description",
+        "/description/add-Description",
         boatDescription
       );
-      // toast.success("discription added successfully");
+      // toast.success("description added successfully");
       return response.data;
     } catch (error) {
-      error.response?.data?.message || "Failed to add description";
+      const errorMessage =
+        error.response?.data?.message || "Failed to add description";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
     }
   };
-
-
 
   const InfoAccess = async (infoAccess) => {
     try {

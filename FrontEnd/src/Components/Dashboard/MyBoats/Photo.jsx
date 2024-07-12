@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import BoatsNavbar from "./BoatsNavbar";
 import { FaPlus } from "react-icons/fa6";
 import Download from "../../../assets/Images/Download-Cloud.png";
@@ -7,28 +7,37 @@ import baseURL from "../../../../APi/BaseUrl";
 import { toast } from "react-toastify";
 
 const Photo = () => {
-  const id = localStorage.getItem('id')
-  const { uploadBoatImages, boatId, navigate } = useContext(AdminContext); // Destructure the uploadBoatImages function and boatId from the context
-  const [selectedFile, setSelectedFile] = useState(null);
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+  const id = localStorage.getItem('id');
+  const { uploadBoatImages, boatId, navigate } = useContext(AdminContext);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedVideos, setSelectedVideos] = useState([]);
+
+  const handleImageChange = (event) => {
+    setSelectedImages(event.target.files);
   };
 
-  const handleUpload = async () => {
-    if (selectedFile) {
+  const handleVideoChange = (event) => {
+    setSelectedVideos(event.target.files);
+  };
+
+  const handleUpload = async (files, type) => {
+    if (files.length > 0) {
       const formData = new FormData();
-      formData.append("image", selectedFile); // Ensure the key matches server-side
+      Array.from(files).forEach(file => {
+        formData.append("files", file); // Ensure the key matches server-side
+      });
       if (id) {
         formData.append("boatId", id);
       } else {
         formData.append("boatId", boatId);
       }
+
       if (!id) {
         try {
           const response = await uploadBoatImages(formData);
-          setSelectedFile(null); // Reset the selected file after upload
+          type === "image" ? setSelectedImages([]) : setSelectedVideos([]); // Reset the selected files after upload
         } catch (error) {
-          console.error("Failed to upload image", error);
+          console.error(`Failed to upload ${type}s`, error);
         }
       } else {
         try {
@@ -37,19 +46,19 @@ const Photo = () => {
               "Content-Type": "multipart/form-data",
             }
           });
-          setSelectedFile(null); // Reset the selected file after upload
-          toast.success('Image updated successfully')
-          localStorage.removeItem('id')
+          type === "image" ? setSelectedImages([]) : setSelectedVideos([]); // Reset the selected files after upload
+          toast.success(`${type.charAt(0).toUpperCase() + type.slice(1)}s updated successfully`);
+          localStorage.removeItem('id');
           setTimeout(() => {
-            navigate('/Dashboard/my-boats')
-          }, 3000)
+            navigate('/Dashboard/my-boats');
+          }, 3000);
         } catch (error) {
-          console.error("Failed to upload image", error);
-          toast.error('Failed to update image')
+          console.error(`Failed to upload ${type}s`, error);
+          toast.error(`Failed to update ${type}s`);
         }
       }
     } else {
-      alert("Please select a file first");
+      alert(`Please select ${type}s first`);
     }
   };
 
@@ -59,42 +68,82 @@ const Photo = () => {
       <div className="mx-[1%] my-[1%] bg-white h-[100vh]">
         <div className="mx-[4%]">
           <h1 className="font-medium text-[#4B465C] text-lg py-5">
-            Cover photo
+            Cover photos and videos
           </h1>
           <p className="text-[#4B465C] font-normal text-sm">
-            The cover photo must be a general photo of the boat, bright and of
-            good quality.
+            The cover photos and videos must be of the boat, bright and of good quality.
           </p>
-          <div className="mx-[3%] my-[2%] boatPhoto py-12 rounded-md">
-            <div className="flex flex-col py-8 gap-4 items-center justify-center">
-              <p>Select an image</p>
-              <img
-                src={Download}
-                alt="Download icon"
-                className="w-16 md:w-24"
-              />
-              <input
-                type="file"
-                onChange={handleFileChange}
-                style={{ display: "none" }}
-                id="fileInput"
-              />
-              <button
-                onClick={() => document.getElementById("fileInput").click()}
-                className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px]"
-              >
-                <FaPlus />
-                <p>Choose a photo</p>
-              </button>
-              {selectedFile && (
+          <div className="flex justify-between mx-[3%] my-[2%]">
+            {/* Image Upload Section */}
+            <div className="boatPhoto py-12 rounded-md flex-1 mx-2 bg-white shadow-lg">
+              <div className="flex flex-col py-8 gap-4 items-center justify-center">
+                <p>Select images</p>
+                <img
+                  src={Download}
+                  alt="Download icon"
+                  className="w-16 md:w-24"
+                />
+                <input
+                  type="file"
+                  onChange={handleImageChange}
+                  style={{ display: "none" }}
+                  id="imageInput"
+                  multiple
+                  accept="image/*"
+                />
                 <button
-                  onClick={handleUpload}
-                  className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px] mt-4"
+                  onClick={() => document.getElementById("imageInput").click()}
+                  className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px]"
                 >
                   <FaPlus />
-                  <p>Upload a photo</p>
+                  <p>Choose images</p>
                 </button>
-              )}
+                {selectedImages.length > 0 && (
+                  <button
+                    onClick={() => handleUpload(selectedImages, "image")}
+                    className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px] mt-4"
+                  >
+                    <FaPlus />
+                    <p>Upload images</p>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Video Upload Section */}
+            <div className="boatVideo py-12 rounded-md flex-1 mx-2 bg-white shadow-lg">
+              <div className="flex flex-col py-8 gap-4 items-center justify-center">
+                <p>Select videos</p>
+                <img
+                  src={Download}
+                  alt="Download icon"
+                  className="w-16 md:w-24"
+                />
+                <input
+                  type="file"
+                  onChange={handleVideoChange}
+                  style={{ display: "none" }}
+                  id="videoInput"
+                  multiple
+                  accept="video/*"
+                />
+                <button
+                  onClick={() => document.getElementById("videoInput").click()}
+                  className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px]"
+                >
+                  <FaPlus />
+                  <p>Choose videos</p>
+                </button>
+                {selectedVideos.length > 0 && (
+                  <button
+                    onClick={() => handleUpload(selectedVideos, "video")}
+                    className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px] mt-4"
+                  >
+                    <FaPlus />
+                    <p>Upload videos</p>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -26,6 +26,8 @@ export const CreateBoat = async (req, res, next) => {
       .max(new Date().getFullYear())
       .required(),
     region: Joi.string().required(),
+    city: Joi.string().required(),
+    harbour: Joi.string().required(),
     boardingCapacity: Joi.number().integer().min(1).required(),
     totalEnginePowerHP: Joi.number().integer().min(1).required(),
     lengthMeters: Joi.number().min(0).required(),

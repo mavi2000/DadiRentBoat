@@ -91,7 +91,7 @@ const Insurance = () => {
               insurance obligations
             </div>
             <div className="font-medium text-center py-2 rounded-sm text-sm bg-[#CBA55714]">
-              My boat is insured
+             I am already insured for rental
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -102,7 +102,7 @@ const Insurance = () => {
               value={insuranceData.currentInsurer}
               onChange={handelChange}
               placeholder="Name of your Insurer"
-              className="border p-3 rounded-md font-light"
+              className="border p-3 rounded-md font-light outline none outline-none"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -110,11 +110,9 @@ const Insurance = () => {
             <div className="border   rounded-md">
               <select className="border-r py-3 px-2 w-[10%] bg-transparent">
                 <option>€</option>
-                <option>$</option>
-                <option>€</option>
               </select>
               <input
-                className="px-3 w-[90%] py-3 bg-transparent"
+                className="px-3 w-[90%] py-3 bg-transparent outline-none"
                 type="number"
                 name="amountDeductible"
                 value={insuranceData.amountDeductible}
@@ -128,11 +126,9 @@ const Insurance = () => {
             <div className="border rounded-md">
               <select className="border-r py-3 px-2 w-[10%] bg-transparent">
                 <option>€</option>
-                <option>$</option>
-                <option>€</option>
               </select>
               <input
-                className="px-3 w-[90%] py-3 bg-transparent"
+                className="px-3 w-[90%] py-3 bg-transparent outline-none"
                 type="number"
                 name="insuredValueOfBoat"
                 value={insuranceData.insuredValueOfBoat}
@@ -149,7 +145,7 @@ const Insurance = () => {
               value={insuranceData.boatRegistration}
               onChange={handelChange}
               placeholder="Name of your Insurer"
-              className="border p-3 rounded-md font-light"
+              className="border p-3 rounded-md font-ligh outline-nonet"
             />
             <div className="text-sm">
               With this self-certification I confirm that I am in compliance
