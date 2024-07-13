@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import BoatsNavbar from './BoatsNavbar';
-import { FaPlus, FaTimes } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { AdminContext } from '../../../../Context/AdminContext';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import baseURL from '../../../../APi/BaseUrl';
 
 const InfoAccess = () => {
-  const id = localStorage.getItem('id')
+  const id = localStorage.getItem('id');
   const { addBoatAccessInformation, boatId, navigate } = useContext(AdminContext);
   const [accessInfo, setAccessInfo] = useState({ description: '', documentName: '', uploadDocument: null, documentLink: '', applyToEntireFleet: false });
 
@@ -15,20 +15,20 @@ const InfoAccess = () => {
     setAccessInfo(prevState => ({ ...prevState, boatId }));
   }, [boatId]);
 
-  // load existing data while editing
+  // Load existing data while editing
   useEffect(() => {
     if (id) {
       const getInfoAccess = async () => {
         try {
-          const res = await baseURL('/boatAccess/get-access-info/' + id)
-          const { data: { boatAccessInfo: { accessDetails } } } = res
+          const res = await baseURL('/boatAccess/get-access-info/' + id);
+          const { data: { boatAccessInfo: { accessDetails } } } = res;
           const { description, documentLink, documentName, uploadDocument } = accessDetails[0];
           setAccessInfo({ description, documentLink, documentName, uploadDocument });
         } catch (error) {
           console.log(error);
         }
       }
-      getInfoAccess()
+      getInfoAccess();
     }
   }, [id]);
 
@@ -39,9 +39,9 @@ const InfoAccess = () => {
   const handleCheckboxChange = () => {
     setAccessInfo(prevInfo => ({ ...prevInfo, applyToEntireFleet: !prevInfo.applyToEntireFleet }));
   };
+
   const handleSave = async () => {
     const formData = new FormData();
-
     formData.append('description', accessInfo.description);
     formData.append('documentName', accessInfo.documentName);
     if (accessInfo.uploadDocument) {
@@ -133,17 +133,17 @@ const InfoAccess = () => {
           <p className='text-[#4B465C] font-normal text-xs mb-[2%]'>Size limit: 8MB – Accepted formats: JPEG, JPG, PNG or PDF</p>
 
           <div className="flex items-center mt-4">
-              <input
-                type="checkbox"
-                id="applyToEntireFleet"
-                checked={accessInfo.applyToEntireFleet}
-                onChange={handleCheckboxChange}
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-              />
-              <label htmlFor="applyToEntireFleet" className="ml-2 block text-sm text-gray-900">
-                Apply this information as default setting to my entire fleet at listing creation
-              </label>
-            </div>
+            <input
+              type="checkbox"
+              id="applyToEntireFleet"
+              checked={accessInfo.applyToEntireFleet}
+              onChange={handleCheckboxChange}
+              className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+            />
+            <label htmlFor="applyToEntireFleet" className="ml-2 block text-sm text-gray-900">
+              Apply this information as default setting to my entire fleet at listing creation
+            </label>
+          </div>
           <div className='mt-[3%]'>
             <button className='py-[10px] px-12 flex justify-center items-center bg-[#CBA557] text-white rounded-[10px]' onClick={handleSave}>Save</button>
           </div>

@@ -30,6 +30,9 @@ export default {
         "1400px": "1400px",
         "1500px": "1500px",
       },
+      animation: {
+        'spin': 'spin 1s linear infinite',
+      },
       colors: {
         // light mode
         tremor: {

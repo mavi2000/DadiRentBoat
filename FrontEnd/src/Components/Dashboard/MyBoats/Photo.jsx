@@ -3,62 +3,55 @@ import BoatsNavbar from "./BoatsNavbar";
 import { FaPlus } from "react-icons/fa6";
 import Download from "../../../assets/Images/Download-Cloud.png";
 import { AdminContext } from "../../../../Context/AdminContext";
-import baseURL from "../../../../APi/BaseUrl";
 import { toast } from "react-toastify";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Photo = () => {
   const id = localStorage.getItem('id');
+  console.log("id",id)
   const { uploadBoatImages, boatId, navigate } = useContext(AdminContext);
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedVideos, setSelectedVideos] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (event) => {
-    setSelectedImages(event.target.files);
+    setSelectedImages(Array.from(event.target.files));
   };
 
   const handleVideoChange = (event) => {
-    setSelectedVideos(event.target.files);
+    setSelectedVideos(Array.from(event.target.files));
   };
 
-  const handleUpload = async (files, type) => {
+  const handleUpload = async () => {
+    const files = [...selectedImages, ...selectedVideos];
     if (files.length > 0) {
       const formData = new FormData();
-      Array.from(files).forEach(file => {
-        formData.append("files", file); // Ensure the key matches server-side
+      selectedImages.forEach(file => {
+        formData.append("images", file);
       });
-      if (id) {
-        formData.append("boatId", id);
-      } else {
-        formData.append("boatId", boatId);
-      }
+      selectedVideos.forEach(file => {
+        formData.append("videos", file);
+      });
+      formData.append("boatId", id || boatId);
 
-      if (!id) {
-        try {
-          const response = await uploadBoatImages(formData);
-          type === "image" ? setSelectedImages([]) : setSelectedVideos([]); // Reset the selected files after upload
-        } catch (error) {
-          console.error(`Failed to upload ${type}s`, error);
-        }
-      } else {
-        try {
-          const response = await baseURL.patch('/image/update-image/' + id, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            }
-          });
-          type === "image" ? setSelectedImages([]) : setSelectedVideos([]); // Reset the selected files after upload
-          toast.success(`${type.charAt(0).toUpperCase() + type.slice(1)}s updated successfully`);
-          localStorage.removeItem('id');
-          setTimeout(() => {
-            navigate('/Dashboard/my-boats');
-          }, 3000);
-        } catch (error) {
-          console.error(`Failed to upload ${type}s`, error);
-          toast.error(`Failed to update ${type}s`);
-        }
+      setLoading(true); // Set loading to true when the upload starts
+      try {
+        const response = await uploadBoatImages(formData);
+        setSelectedImages([]); // Reset the selected files after upload
+        setSelectedVideos([]); // Reset the selected files after upload
+        toast.success("Files uploaded successfully");
+        localStorage.removeItem('id');
+        setTimeout(() => {
+          navigate('/Dashboard/my-boats');
+        }, 3000);
+      } catch (error) {
+        console.error("Failed to upload files", error);
+        toast.error("Failed to upload files");
+      } finally {
+        setLoading(false); // Set loading to false when the upload completes or fails
       }
     } else {
-      alert(`Please select ${type}s first`);
+      alert("Please select images or videos first");
     }
   };
 
@@ -98,15 +91,16 @@ const Photo = () => {
                   <FaPlus />
                   <p>Choose images</p>
                 </button>
-                {selectedImages.length > 0 && (
-                  <button
-                    onClick={() => handleUpload(selectedImages, "image")}
-                    className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px] mt-4"
-                  >
-                    <FaPlus />
-                    <p>Upload images</p>
-                  </button>
-                )}
+                <div className="flex flex-wrap gap-4 mt-4">
+                  {selectedImages.map((image, index) => (
+                    <img
+                      key={index}
+                      src={URL.createObjectURL(image)}
+                      alt="Selected"
+                      className="w-24 h-24 object-cover rounded-md"
+                    />
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -134,18 +128,31 @@ const Photo = () => {
                   <FaPlus />
                   <p>Choose videos</p>
                 </button>
-                {selectedVideos.length > 0 && (
-                  <button
-                    onClick={() => handleUpload(selectedVideos, "video")}
-                    className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px] mt-4"
-                  >
-                    <FaPlus />
-                    <p>Upload videos</p>
-                  </button>
-                )}
+                <div className="flex flex-wrap gap-4 mt-4">
+                  {selectedVideos.map((video, index) => (
+                    <video
+                      key={index}
+                      src={URL.createObjectURL(video)}
+                      className="w-24 h-24 object-cover rounded-md"
+                      controls
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={handleUpload}
+              className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px]"
+            >
+              <FaPlus />
+              <p>Upload Files</p>
+            </button>
+          </div>
+          {loading && (
+          <LoadingSpinner/>
+          )}
         </div>
       </div>
     </>

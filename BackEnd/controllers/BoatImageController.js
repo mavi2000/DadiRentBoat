@@ -5,12 +5,17 @@ import BoatImage from "../models/BoatImage.js";
 export const uploadBoatImages = async (req, res, next) => {
   const { boatId } = req.body;
   try {
+    console.log("Received files:", req.files);
+
     if (!req.files || (!req.files.images && !req.files.videos)) {
       throw createError(400, "No files were uploaded");
     }
 
-    const images = req.files.images ? req.files.images.map(file => file.path) : [];
-    const videos = req.files.videos ? req.files.videos.map(file => file.path) : [];
+    const images = req.files.images ? req.files.images : [];
+    const videos = req.files.videos ? req.files.videos : [];
+
+    console.log("Images to upload:", images);
+    console.log("Videos to upload:", videos);
 
     const imageUrls = await Promise.all(images.map(file => uploadImages(file)));
     const videoUrls = await Promise.all(videos.map(file => uploadImages(file)));
@@ -29,10 +34,10 @@ export const uploadBoatImages = async (req, res, next) => {
       data: savedImages,
     });
   } catch (error) {
+    console.error("Error uploading files:", error);
     next(error);
   }
 };
-
 
 
 

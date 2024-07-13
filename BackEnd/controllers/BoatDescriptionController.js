@@ -3,6 +3,13 @@ import Joi from "joi";
 import createError from "http-errors";
 
 export const createBoatDescription = async (req, res, next) => {
+
+  console.log("ee",req.body)
+  const descriptionSchema = Joi.object({
+    language: Joi.string().required(),
+    description: Joi.string().required(),
+  });
+
   const schema = Joi.object({
     boatId: Joi.string().required(),
     boatType: Joi.string().required(),
@@ -13,7 +20,7 @@ export const createBoatDescription = async (req, res, next) => {
     details: Joi.object({
       modelOrName: Joi.string().required(),
       descriptionItalian: Joi.string().required(),
-      descriptionEnglish: Joi.string(),
+      descriptionOtherLanguages: Joi.array().items(descriptionSchema).optional(),
     }).required(),
     capacity: Joi.object({
       boardingCapacity: Joi.number().integer().min(1).required(),
@@ -25,21 +32,32 @@ export const createBoatDescription = async (req, res, next) => {
         .max(new Date().getFullYear())
         .required(),
       geographicArea: Joi.string().required(),
+      berth: Joi.string().allow(""),
+      showerRoom: Joi.number().integer().allow(null),
+      wc: Joi.string().allow(""),
+      cabin: Joi.number().integer().allow(null),
     }).required(),
     motorization: Joi.object({
       numberOfEngines: Joi.number().integer().min(1).required(),
       enginePowerHP: Joi.number().integer().min(1).required(),
     }).required(),
     fuel: Joi.object({
-      gas: Joi.boolean().required(),
+      unleaded: Joi.boolean().required(),
       electric: Joi.boolean().required(),
       diesel: Joi.boolean().required(),
       ethanol: Joi.boolean().required(),
     }).required(),
-    fuelCapacityLiters: Joi.number(),
+    fuelCapacityLiters: Joi.number().integer().allow(null),
+    engineType: Joi.object({
+      twoStroke: Joi.boolean().required(),
+      fourStroke: Joi.boolean().required(),
+    }).required(),
     draftMeters: Joi.number().required(),
     widthMeters: Joi.number().required(),
     lengthMeters: Joi.number().required(),
+    draftFeet: Joi.number().allow(null),
+    widthFeet: Joi.number().allow(null),
+    lengthFeet: Joi.number().allow(null),
   });
 
   const { error, value } = schema.validate(req.body);
@@ -59,7 +77,8 @@ export const createBoatDescription = async (req, res, next) => {
     next(err);
   }
 };
-// get boat description
+
+
 export const getBoatDescription = async (req, res) => {
   try {
     const description = await BoatDescription.findOne({

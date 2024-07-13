@@ -10,14 +10,15 @@ import baseURL from "../../../../APi/BaseUrl";
 const Information = () => {
   const id = localStorage.getItem('id');
 
-  const { boatDescription, boatId, navigate } = useContext(AdminContext);
+  const { boatDescription, navigate ,boatId } = useContext(AdminContext);
   const [descriptionData, setDescriptionData] = useState({
+    boatId,
     boatType: "",
     rentalType: { bareBoat: false, withoutSkipper: false },
     details: {
       modelOrName: "",
       descriptionItalian: "",
-      descriptionEnglish: "",
+      descriptionOtherLanguages: [],
     },
     capacity: {
       boardingCapacity: 0,
@@ -80,27 +81,27 @@ const Information = () => {
   };
 
   const handleRadioChange = (e) => {
-    const { name, value } = e.target;
+    const { name } = e.target;
     setDescriptionData((prevState) => ({
       ...prevState,
-      [name]: {
+      fuel: {
         unleaded: false,
         electric: false,
-        ethanol: false,
         diesel: false,
-        [value]: true,
+        ethanol: false,
+        [name]: true,
       },
     }));
   };
 
   const handleEngineTypeChange = (e) => {
-    const { value } = e.target;
+    const { name } = e.target;
     setDescriptionData((prevState) => ({
       ...prevState,
       engineType: {
         twoStroke: false,
         fourStroke: false,
-        [value]: true,
+        [name]: true,
       },
     }));
   };
@@ -152,12 +153,15 @@ const Information = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const payload = {
+      ...descriptionData,
+      details: {
+        ...descriptionData.details,
+        descriptionOtherLanguages: languageSections,
+      }
+    };
     if (!id) {
       try {
-        const payload = {
-          ...descriptionData,
-          boatId,
-        };
         await boatDescription(payload);
         toast.success("Information successfully saved");
       } catch (error) {
@@ -171,7 +175,7 @@ const Information = () => {
       }
     } else {
       try {
-        const res = await baseURL.patch('/description/update-boat-description/' + id, descriptionData);
+        const res = await baseURL.patch('/description/update-boat-description/' + id, payload);
         toast.success('Description updated successfully');
         localStorage.removeItem('id');
         setTimeout(() => {
@@ -209,7 +213,7 @@ const Information = () => {
                   name="boatType"
                   value={boat}
                   checked={descriptionData.boatType === boat}
-                  onChange={handleRadioChange}
+                  onChange={handleChange}
                   className="outline-none"
                 />
                 <div className="font-light">{boat}</div>
@@ -451,13 +455,39 @@ const Information = () => {
             </div>
           </div>
           <div className="flex flex-col gap-6">
+            <div>Motorization</div>
+            <div className="grid grid-cols-2 gap-9">
+              <div className="flex flex-col gap-2">
+                <label>Number of Engines</label>
+                <input
+                  type="number"
+                  name="numberOfEngines"
+                  value={descriptionData.motorization.numberOfEngines}
+                  onChange={(e) => handleNestedChange(e, "motorization")}
+                  placeholder="Enter the number of engines"
+                  className="border p-3 rounded-md font-light outline-none"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label>Engine Power (HP)</label>
+                <input
+                  type="number"
+                  name="enginePowerHP"
+                  value={descriptionData.motorization.enginePowerHP}
+                  onChange={(e) => handleNestedChange(e, "motorization")}
+                  placeholder="Enter the engine power in HP"
+                  className="border p-3 rounded-md font-light outline-none"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-6">
             <div>Fuel</div>
             <div className="grid grid-cols-4 w-[50%] text-sm">
               {["unleaded", "electric", "ethanol", "diesel"].map((fuelType, index) => (
                 <div key={index} className="flex gap-3">
                   <input
-                    name="fuel"
-                    value={fuelType}
+                    name={fuelType}
                     checked={descriptionData.fuel[fuelType]}
                     onChange={handleRadioChange}
                     type="radio"
@@ -488,8 +518,7 @@ const Information = () => {
                     {["twoStroke", "fourStroke"].map((engineType, index) => (
                       <div key={index} className="flex gap-3">
                         <input
-                          name="engineType"
-                          value={engineType}
+                          name={engineType}
                           checked={descriptionData.engineType[engineType]}
                           onChange={handleEngineTypeChange}
                           type="radio"
