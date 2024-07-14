@@ -1,13 +1,17 @@
 import { createError } from "../utils/createError.js";
-import Euipment from "../models/Euipment.js";
+import Equipment from "../models/Euipment.js";
 import Joi from "joi";
 
 const equipmentValidationSchema = Joi.object({
-  boatId: Joi.string().required(), // Uncomment this line once ready to include boatId
+  // boatId: Joi.string().required(),
+  security: Joi.string().valid('Basic', 'Coastal', 'Inshore', 'Semi-Offshore', 'Offshore').required(),
+  mainUse: Joi.array().items(Joi.string().valid('Full-day excursion', 'Cruise', 'Water sports', 'Fishing', 'Diving', 'Regatta')).max(4).required(),
   comfort: Joi.array().items(Joi.string()).required(),
   navigation: Joi.array().items(Joi.string()).required(),
-  services: Joi.array().items(Joi.string()).required(),
   energy: Joi.array().items(Joi.string()).required(),
+  kitchen: Joi.array().items(Joi.string()).required(),
+  leisure: Joi.array().items(Joi.string()).required(),
+  sanitary: Joi.array().items(Joi.string()).required(),
 });
 
 // Create Equipment
@@ -18,8 +22,10 @@ export const createEquipment = async (req, res, next) => {
     return next(createError(400, error.details[0].message));
   }
 
+  console.log("req.body",req.body)
+
   try {
-    const newEquipment = await Euipment.create(value);
+    const newEquipment = await Equipment.create(value);
     res.status(201).json({
       success: true,
       message: "Equipment created successfully",

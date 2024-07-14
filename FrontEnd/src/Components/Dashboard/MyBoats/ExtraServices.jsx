@@ -5,16 +5,18 @@ import { toast } from "react-toastify";
 import baseURL from "../../../../APi/BaseUrl";
 
 const ExtraServices = () => {
-  const id = localStorage.getItem('id')
+  const id = localStorage.getItem('id');
+
+
   const { ExtraServices, getExtraServices, boatId, navigate } = useContext(AdminContext);
   const [services, setServices] = useState([]);
   const [servicesData, setServicesData] = useState({
     serviceName: "",
     pricePerPerson: "",
-    isObligatory: false, // Initialize as boolean
-    priceUnit: "per rental", // Default pricing unit
-    minDuration: "", // Minimum duration in days (optional)
-    maxDuration: "", // Maximum duration in days (optional)
+    isObligatory: false,
+    priceUnit: "per rental",
+    minDuration: "",
+    maxDuration: ""
   });
 
   const fetchServices = async () => {
@@ -29,16 +31,16 @@ const ExtraServices = () => {
   useEffect(() => {
     fetchServices();
   }, []);
-  
+
   useEffect(() => {
     if (services.length > 0) {
-      const thisBoatService = services.find((service) => service.boatId === id)
+      const thisBoatService = services.find((service) => service.boatId === id);
       if (thisBoatService) {
         setServicesData(thisBoatService);
       }
     }
-  }, [services, id])
-  
+  }, [services, id]);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setServicesData({
@@ -49,16 +51,15 @@ const ExtraServices = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Include boatId in the payload
+    const payload = {
+      ...servicesData,
+      // boatId,
+    };
+
     if (!id) {
-      const payload = {
-        ...servicesData,
-        boatId,
-      };
       try {
         await ExtraServices(payload);
         toast.success("Services added successfully");
-
         setServicesData({
           serviceName: "",
           pricePerPerson: "",
@@ -78,14 +79,14 @@ const ExtraServices = () => {
       }
     } else {
       try {
-        await baseURL.patch('/service/update-service/' + id, servicesData);
+        await baseURL.patch('/service/update-service/' + id, payload);
         toast.success('Extra service updated successfully');
-        localStorage.removeItem('id')
+        localStorage.removeItem('id');
         setTimeout(() => {
-          navigate('/Dashboard/my-boats')
-        }, 3000)
+          navigate('/Dashboard/my-boats');
+        }, 3000);
       } catch (error) {
-        toast.error('Failed to update extra service')
+        toast.error('Failed to update extra service');
       }
     }
   };
@@ -151,21 +152,21 @@ const ExtraServices = () => {
               <input
                 type="radio"
                 name="isObligatory"
-                value="false"
-                checked={!servicesData?.isObligatory}
+                value={true}
+                checked={servicesData?.isObligatory === true}
                 onChange={handleChange}
               />
-              <div>Optional</div>
+              <div>Obligatory</div>
             </div>
             <div className="flex items-center gap-3">
               <input
                 type="radio"
                 name="isObligatory"
-                value="true"
-                checked={servicesData?.isObligatory}
+                value={false}
+                checked={servicesData?.isObligatory === false}
                 onChange={handleChange}
               />
-              <div>Obligatory</div>
+              <div>Optional</div>
             </div>
           </div>
           <div className="flex flex-col gap-2">

@@ -5,50 +5,65 @@ import { toast } from "react-toastify";
 import baseURL from "../../../../APi/BaseUrl";
 
 const Deposit = () => {
-  const id = localStorage.getItem('id')
+  const id = localStorage.getItem('id');
   const { damageDeposit, boatId, navigate } = useContext(AdminContext);
   const [checkbox, setCheckbox] = useState(false);
   const [toggleSkipperDeposit, setToggleSkipperDeposit] = useState(false);
   const [depositData, setDepositData] = useState({
-    type: "",
+    type: [],
     amount: "",
     withoutSkipper: "",
     withSkipper: "",
-    guaranteeAmount: ""
+    guaranteeAmount: "",
+    manageDeposit: ""
   });
 
   useEffect(() => {
     if (id) {
       const getDeposit = async () => {
         try {
-          const res = await baseURL('/demage/get-damage-deposit/' + id)
-          const { data: { deposit } } = res
-          setDepositData(deposit)
+          const res = await baseURL('/demage/get-damage-deposit/' + id);
+          const { data: { deposit } } = res;
+          setDepositData(deposit);
         } catch (error) {
           console.log(error);
         }
-      }
-      getDeposit()
+      };
+      getDeposit();
     }
   }, [id, boatId]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox" && name === "type") {
-      if (checked) {
-        setDepositData({ ...depositData, [name]: value });
-      } else {
-        setDepositData({ ...depositData, [name]: "" });
-      }
+      setDepositData((prevState) => {
+        const types = checked
+          ? [...prevState.type, value]
+          : prevState.type.filter((t) => t !== value);
+        return {
+          ...prevState,
+          type: types,
+        };
+      });
     } else {
-      setDepositData({ ...depositData, [name]: value });
+      setDepositData((prevState) => ({
+        ...prevState,
+        [name]: type === "checkbox" ? checked : value,
+      }));
     }
   };
 
   const handleCheckbox = (event) => {
     setCheckbox(event.target.checked);
     if (event.target.checked) {
-      setDepositData({ type: "", amount: "", withoutSkipper: "", withSkipper: "", guaranteeAmount: "" });
+      setDepositData({
+        type: [],
+        amount: "",
+        withoutSkipper: "",
+        withSkipper: "",
+        guaranteeAmount: "",
+        manageDeposit: ""
+      });
     }
   };
 
@@ -58,11 +73,16 @@ const Deposit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const dataToSubmit = { ...depositData };
+    if (checkbox) {
+      dataToSubmit.type = [];
+      dataToSubmit.amount = "";
+    }
     if (!id) {
       try {
-        await damageDeposit({ ...depositData, boatId });
+        await damageDeposit(dataToSubmit);
         toast.success("Deposit amount successfully saved");
-        setDepositData({ type: "", amount: "", withoutSkipper: "", withSkipper: "", guaranteeAmount: "" });
+        setDepositData({ type: [], amount: "", withoutSkipper: "", withSkipper: "", guaranteeAmount: "", manageDeposit: "" });
         setCheckbox(false);
       } catch (error) {
         if (error.response) {
@@ -75,14 +95,14 @@ const Deposit = () => {
       }
     } else {
       try {
-        const res = await baseURL.patch('/demage/update-damage-deposit/' + id, depositData)
+        const res = await baseURL.patch('/demage/update-damage-deposit/' + id, dataToSubmit);
         toast.success('Deposit updated successfully');
-        localStorage.removeItem('id')
+        localStorage.removeItem('id');
         setTimeout(() => {
-          navigate('/Dashboard/my-boats')
-        }, 3000)
+          navigate('/Dashboard/my-boats');
+        }, 3000);
       } catch (error) {
-        toast.error('Failed to update deposit')
+        toast.error('Failed to update deposit');
       }
     }
   };
@@ -104,50 +124,6 @@ const Deposit = () => {
 
           {!checkbox && (
             <>
-              <div className="flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  checked={toggleSkipperDeposit}
-                  onChange={handleSkipperToggle}
-                />
-                <div className="text-sm font-light">Different security deposit for rentals with a skipper</div>
-              </div>
-
-              {toggleSkipperDeposit && (
-                <div className="flex gap-5">
-                  <div className="flex flex-col gap-2">
-                    <div className="font-light">Security deposit without a skipper</div>
-                    <div className="border  rounded-md flex items-center w-full">
-                      <input
-                        className="px-3 w-[80%] py-3 bg-transparent"
-                        name="withoutSkipper"
-                        type="number"
-                        placeholder="Enter"
-                        value={depositData.withoutSkipper}
-                        onChange={handleChange}
-                      />
-                      <span className="px-3">€</span>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="font-light">Security deposit with a skipper</div>
-                    <div className="border  rounded-md flex items-center w-full">
-                      <input
-                        className="px-3 w-[80%] py-3 bg-transparent"
-                        name="withSkipper"
-                        type="number"
-                        placeholder="Enter"
-                        value={depositData.withSkipper}
-                        onChange={handleChange}
-                      />
-                      <span className="px-3">€</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              <p className="bg-orange-100 font- p-auto rounded font-light text-center px-4 py-4">Please note that you have indicated 1 € for your security deposit without skipper. This amount seems low.</p>
-
               <div className="flex flex-col gap-2">
                 <div className="font-light">Security deposit</div>
                 <div className="border w-[30%] rounded-md flex items-center">
@@ -162,6 +138,51 @@ const Deposit = () => {
                   <span className="px-3">€</span>
                 </div>
               </div>
+
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={toggleSkipperDeposit}
+                  onChange={handleSkipperToggle}
+                />
+                <div className="text-sm font-light">Different security deposit for rentals with a skipper</div>
+              </div>
+
+              {toggleSkipperDeposit && (
+                <div className="flex gap-5">
+                  <div className="flex flex-col gap-2">
+                    <div className="font-light">Security deposit with a skipper</div>
+                    <div className="border rounded-md flex items-center w-[350px]">
+                      <input
+                        className="px-3 w-[80%] py-3 bg-transparent"
+                        name="withSkipper"
+                        type="number"
+                        placeholder="Enter"
+                        value={depositData.withSkipper}
+                        onChange={handleChange}
+                      />
+                      <span className="px-3">€</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-col gap-2">
+                <div className="font-light">Security deposit without a skipper</div>
+                <div className="border rounded-md flex items-center w-[350px]">
+                  <input
+                    className="px-3 w-[80%] py-3 bg-transparent"
+                    name="withoutSkipper"
+                    type="number"
+                    placeholder="Enter"
+                    value={depositData.withoutSkipper}
+                    onChange={handleChange}
+                  />
+                  <span className="px-3">€</span>
+                </div>
+              </div>
+
+              <p className="bg-orange-100 font- p-auto rounded font-light text-center px-4 py-4">Please note that you have indicated 1 € for your security deposit without skipper. This amount seems low.</p>
 
               <div className="flex items-start gap-4 font-light">
                 <input
@@ -189,7 +210,7 @@ const Deposit = () => {
                       name="type"
                       value="Check"
                       onChange={handleChange}
-                      checked={depositData.type === "Check"}
+                      checked={depositData.type.includes("Check")}
                     />
                     <label className="font-light">Check</label>
                   </div>
@@ -199,7 +220,7 @@ const Deposit = () => {
                       name="type"
                       value="Cash"
                       onChange={handleChange}
-                      checked={depositData.type === "Cash"}
+                      checked={depositData.type.includes("Cash")}
                     />
                     <label className="font-light">Cash</label>
                   </div>
@@ -209,7 +230,7 @@ const Deposit = () => {
                       name="type"
                       value="Pre-Authorization"
                       onChange={handleChange}
-                      checked={depositData.type === "Pre-Authorization"}
+                      checked={depositData.type.includes("Pre-Authorization")}
                     />
                     <label className="font-light">Pre-Authorization</label>
                   </div>
@@ -219,7 +240,7 @@ const Deposit = () => {
                       name="type"
                       value="Other"
                       onChange={handleChange}
-                      checked={depositData.type === "Other"}
+                      checked={depositData.type.includes("Other")}
                     />
                     <label className="font-light">Other</label>
                   </div>
@@ -245,7 +266,7 @@ const Deposit = () => {
 
               {depositData.manageDeposit === "samboat" && (
                 <div className="p-2 rounded">
-                  <p className="bg-blue-100 p-2  rounded font-light text-center m-auto ">
+                  <p className="bg-blue-100 p-2 rounded font-light text-center m-auto ">
                     SamBoat offers a service to guarantee the amount of your security deposit in the event of a claim, even if the renter is not solvent. Depending on the amount guaranteed, an additional commission is charged on all your bookings.
                   </p>
                   <div className="flex flex-col gap-3 mt-3 ">

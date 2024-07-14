@@ -16,7 +16,7 @@ const Insurance = () => {
   useEffect(() => {
     setInsuranceData((prevState) => ({
       ...prevState,
-      boatId: boatId,
+      // boatId: boatId,
     }));
   }, [boatId]);
   useEffect(() => {

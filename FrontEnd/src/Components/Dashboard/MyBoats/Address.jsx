@@ -20,7 +20,7 @@ const center = [51.505, -0.09];
 const Address = () => {
   const id = localStorage.getItem('id')
   const { createLocation, boatId, navigate } = useContext(AdminContext);
-  const [place, setPlace] = useState("");
+  // const [place, setPlace] = useState("");
   const [city, setCity] = useState("");
   const [locationType, setLocationType] = useState(""); // Add location type state
   const [portName, setPortName] = useState(""); // Add port name state
@@ -38,7 +38,7 @@ const Address = () => {
         try {
           const res = await baseURL('/location/get-location/' + id)
           const { data: { location } } = res
-          setPlace(location?.place)
+          // setPlace(location?.place)
           setCity(location?.city)
           setLocationType(location?.locationType)
           setPortName(location?.portName)
@@ -55,7 +55,7 @@ const Address = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const locationData = {
-      place,
+      // place,
       city,
       locationType,
       portName,
@@ -63,7 +63,7 @@ const Address = () => {
         latitude,
         longitude,
       },
-      boatId: boatId,
+      // boatId: boatId,
     };
     if (!id) {
       try {
