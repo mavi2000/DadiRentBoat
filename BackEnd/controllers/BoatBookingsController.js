@@ -1,41 +1,45 @@
 import { createError } from "../utils/createError.js";
-import BoatBooking from "../models/BoatBooking.js";
-
-export const getUnavailableBoatDates = async (req, res, next) => {
-    try {
-        const { startDate, endDate, timeSlot } = req.body;
-
-        console.log("Received startDate:", startDate);
-        console.log("Received endDate:", endDate);
-        console.log("Received timeSlot:", timeSlot);
-
-        if (!startDate || !endDate || new Date(startDate) >= new Date(endDate)  || !timeSlot) {
-            throw createError(400, 'Invalid request parameters');
-        }
-
-        const booking = new BoatBooking({
-            startDate: new Date(startDate),
-            endDate: new Date(endDate),
-            // boatId: boatId,
-            timeSlot: timeSlot
-        });
+import Booking from "../models/BoatBooking.js";
+import Joi from "joi";
 
 
-        await booking.save();
 
-        console.log("booking",booking)
+const bookingValidationSchema = Joi.object({
+  // boatId: Joi.string().required(),
+  startDate: Joi.date().required(),
+  endDate: Joi.date().required(),
+  timeSlots: Joi.array().items(Joi.string()).required(),
+  type: Joi.string().valid('booking', 'winterization').required(),
+  winterizationDetails: Joi.object({
+    isWinterization: Joi.boolean().optional(),
+    description: Joi.string().optional()
+  }).optional()
+});
 
-        res.status(200).json({
-            startDate,
-            endDate,
-            // boatId,
-            timeSlot,
-            message: "Unavailable period added successfully."
-        });
-    } catch (error) {
-        next(error);
+export const createBooking = async (req, res, next) => {
+  try {
+    const { error, value } = bookingValidationSchema.validate(req.body);
+
+    console.log("req",req.body)
+
+    if (error) {
+      return next(createError(400, error.details[0].message));
     }
+
+    const newBooking = new Booking(value);
+    await newBooking.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Booking created successfully",
+      booking: newBooking
+    });
+  } catch (error) {
+    next(error);
+  }
 };
+
+
 
 
 export const getUnavailableDates = (startDate, endDate) => {

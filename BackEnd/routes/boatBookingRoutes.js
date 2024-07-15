@@ -3,9 +3,9 @@
 import express from 'express';
 const router = express.Router();
 
-import { getUnavailableBoatDates ,editBoatBooking,deleteBoatBooking} from '../controllers/BoatBookingsController.js';
+import { createBooking ,editBoatBooking,deleteBoatBooking} from '../controllers/BoatBookingsController.js';
 
-router.post("/Book-boat",getUnavailableBoatDates)
+router.post("/Book-boat",createBooking)
 router.put("/editBoatBooking", editBoatBooking);
 router.delete("/deleteBoatBooking", deleteBoatBooking);
 

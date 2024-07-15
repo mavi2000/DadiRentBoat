@@ -5,7 +5,7 @@ import Joi from "joi";
 export const addInsurance = async (req, res, next) => {
   try {
     const schema = Joi.object({
-      boatId: Joi.string().required(), // Add boatId validation
+      // boatId: Joi.string().required(), // Add boatId validation
       currentInsurer: Joi.string().required(),
       amountDeductible: Joi.number().positive().required(),
       insuredValueOfBoat: Joi.number().positive().required(),

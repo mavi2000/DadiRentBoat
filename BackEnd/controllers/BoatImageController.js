@@ -3,37 +3,48 @@ import { createError } from "../utils/createError.js";
 import BoatImage from "../models/BoatImage.js";
 
 export const uploadBoatImages = async (req, res, next) => {
-  console.log("hello");
-
-  console.log("req.body", req.body);
   const { boatId } = req.body;
   try {
-    if (!req.file) {
-      throw createError(400, "No file was uploaded");
+    console.log("Received files:", req.files);
+
+    if (!req.files || (!req.files.images && !req.files.videos)) {
+      throw createError(400, "No files were uploaded");
     }
 
-    console.log("req.file", req.file);
+    const images = req.files.images ? req.files.images : [];
+    const videos = req.files.videos ? req.files.videos : [];
 
-    const imageUrl = await uploadImages(req.file);
+    console.log("Images to upload:", images);
+    console.log("Videos to upload:", videos);
 
-    const avatarUrl = imageUrl.secure_url;
+    const imageUrls = await Promise.all(images.map(file => uploadImages(file)));
+    const videoUrls = await Promise.all(videos.map(file => uploadImages(file)));
 
-    const imageInstance = new BoatImage({
+    const imageInstances = new BoatImage({
       boatId: boatId,
-      avatar: avatarUrl,
+      images: imageUrls.map(url => url.secure_url),
+      videos: videoUrls.map(url => url.secure_url),
     });
 
-    const savedImage = await imageInstance.save();
+    const savedImages = await imageInstances.save();
 
     res.status(200).json({
       success: true,
-      message: "Image uploaded successfully",
-      image: savedImage,
+      message: "Files uploaded successfully",
+      data: savedImages,
     });
   } catch (error) {
+    console.error("Error uploading files:", error);
     next(error);
   }
 };
+
+
+
+
+
+
+
 export const upDateBoatImages = async (req, res, next) => {
   const { id } = req.params;
   try {

@@ -6,28 +6,24 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaf
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { AdminContext } from "../../../../Context/AdminContext";
-
-// Import the Leaflet icons
-import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import baseURL from "../../../../APi/BaseUrl";
 import { toast } from "react-toastify";
 
-// Fix the default marker icon issue with React Leaflet
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: markerIcon2x,
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
+  iconRetinaUrl: "leaflet/dist/images/marker-icon-2x.png",
+  iconUrl: "leaflet/dist/images/marker-icon.png",
+  shadowUrl: "leaflet/dist/images/marker-shadow.png",
 });
 
-const center = [51.505, -0.09]; // Default center point
+const center = [51.505, -0.09];
 
 const Address = () => {
   const id = localStorage.getItem('id')
-  const { createLocation, boatId, navigate } = useContext(AdminContext); // Access context functions and state
-  const [place, setPlace] = useState("");
+  const { createLocation, boatId, navigate } = useContext(AdminContext);
+  // const [place, setPlace] = useState("");
   const [city, setCity] = useState("");
+  const [locationType, setLocationType] = useState(""); // Add location type state
+  const [portName, setPortName] = useState(""); // Add port name state
   const [latitude, setLatitude] = useState(center[0]);
   const [longitude, setLongitude] = useState(center[1]);
 
@@ -35,15 +31,17 @@ const Address = () => {
     setLatitude(e.latlng.lat);
     setLongitude(e.latlng.lng);
   };
-  // get boat location if editing
+
   useEffect(() => {
     if (id) {
       const getBoatLocation = async () => {
         try {
           const res = await baseURL('/location/get-location/' + id)
           const { data: { location } } = res
-          setPlace(location?.place)
+          // setPlace(location?.place)
           setCity(location?.city)
+          setLocationType(location?.locationType)
+          setPortName(location?.portName)
           setLatitude(location.exactLocation.latitude)
           setLongitude(location?.exactLocation.longitude)
         } catch (error) {
@@ -52,39 +50,44 @@ const Address = () => {
       }
       getBoatLocation()
     }
-  }, [])
+  }, [id])
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const locationData = {
-      place,
+      // place,
       city,
+      locationType,
+      portName,
       exactLocation: {
         latitude,
         longitude,
       },
-      boatId: boatId,
+      // boatId: boatId,
     };
     if (!id) {
       try {
-        await createLocation(locationData); // Use context function to save location
+        await createLocation(locationData);
+        toast.success('Location saved successfully');
+        navigate('/Dashboard/my-boats');
       } catch (error) {
         console.error(error);
-        alert("Failed to save location");
+        toast.error('Failed to save location');
       }
     } else {
       try {
-        const res = await baseURL.patch('/location/update-location/' + id, { ...locationData, boatId: id })
+        await baseURL.patch('/location/update-location/' + id, { ...locationData, boatId: id })
         toast.success('Location updated successfully');
         localStorage.removeItem('id')
-        // setCity({ ...res.data.location.city })
         setTimeout(() => {
           navigate('/Dashboard/my-boats')
         }, 3000)
       } catch (error) {
-        toast.error('Failed to update equipments')
+        toast.error('Failed to update location');
       }
-    };
+    }
   }
+
   const LocationMarker = () => {
     useMapEvents({
       click: handleMapClick,
@@ -106,23 +109,14 @@ const Address = () => {
         <div className="flex flex-col gap-10 w-[80%]">
           <div>Addresses</div>
           <div className="grid grid-cols-2 gap-8">
-              <div className="flex flex-col gap-2">
-      <label htmlFor="place">Place</label>
-      <input
-        type="text"
-        id="place"
-        className="border p-3 rounded-md font-light"
-        value={place}
-        onChange={(e) => setPlace(e.target.value)}
-        placeholder="Enter place"
-      />
-    </div>
+   
             <div className="flex flex-col gap-2">
-              <label>City</label>
-              <div className="border flex items-center rounded-md font-light">
+              <label htmlFor="city" className="flex items-center font-light gap-2 ">City</label>
+              <div className="border flex items-center rounded-md font-light outline-none">
                 <input
                   type="text"
-                  className="p-3 w-[85%] bg-transparent"
+                  id="city"
+                  className="p-3 w-[85%] bg-transparent outline-none"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                 />
@@ -131,6 +125,34 @@ const Address = () => {
                   onClick={() => setCity("")}
                 />
               </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-8">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="locationType" className="flex items-center font-light gap-2">Location Type</label>
+              <select
+                id="locationType"
+                className="border p-3 rounded-md font-light outline-none"
+                value={locationType}
+                onChange={(e) => setLocationType(e.target.value)}
+              >
+                <option value="" disabled>Select location type</option>
+                <option value="mooring">Mooring</option>
+                <option value="other">Other</option>
+                <option value="port">Port</option>
+                <option value="trailer">Trailer</option>
+              </select>
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="portName" className="flex items-center font-light gap-2">Port Name</label>
+              <input
+                type="text"
+                id="portName"
+                className="border p-3 rounded-md font-light outline-none"
+                value={portName}
+                onChange={(e) => setPortName(e.target.value)}
+                placeholder="Enter port name"
+              />
             </div>
           </div>
           <div>Exact location</div>

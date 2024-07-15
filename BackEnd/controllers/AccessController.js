@@ -15,28 +15,41 @@ const boatAccessSchema = Joi.object({
   accessDetails: Joi.array().items(accessDetailSchema).required(),
 });
 
+// Controller function to add boat access information
 export const addBoatAccessInformation = async (req, res, next) => {
-  console.log("req body:", req.body);
+  console.log("req",)
   try {
-    const { error, value } = boatAccessSchema.validate(req.body);
+    const accessDetails = {
+      description: req.body.description,
+      documentName: req.body.documentName,
+      documentLink: req.body.documentLink,
+      uploadDocument: req.files.pdf ? req.files.pdf[0].path : '',
+    };
+    console.log("accessDetails",accessDetails)
+    const validationData = {
+      boatId: req.body.boatId,
+      accessDetails: [accessDetails],
+    };
+
+    const { error, value } = boatAccessSchema.validate(validationData);
     if (error) {
       throw createError(400, error.details[0].message);
     }
 
-    const uploadResults = await Promise.all(
-      req.files.map(async (file) => {
-        return await uploadImages(file);
-      })
-    );
+    const uploadResults = req.files.pdf
+      ? await uploadImages(req.files.pdf[0]) // Adjust based on how you want to handle the file
+      : null;
 
-    const accessDetails = value.accessDetails.map((detail, index) => ({
+      console.log("uploadResults",uploadResults)
+
+    const updatedAccessDetails = value.accessDetails.map((detail) => ({
       ...detail,
-      uploadDocument: uploadResults[index]?.url || null,
+      uploadDocument: uploadResults ? uploadResults.url : detail.uploadDocument,
     }));
 
     const boatAccessInfo = new BoatAccessInformation({
       boatId: value.boatId,
-      accessDetails,
+      accessDetails: updatedAccessDetails,
     });
 
     const savedBoatAccessInfo = await boatAccessInfo.save();
@@ -50,6 +63,9 @@ export const addBoatAccessInformation = async (req, res, next) => {
     next(error);
   }
 };
+
+
+
 
 export const getAllBoatAccessInformation = async (req, res, next) => {
   try {

@@ -1,0 +1,17 @@
+.calendar-body {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  
+  .calendar-day p {
+    color: #a6a6a6;
+    visibility: hidden;
+  }
+  
+  .current p {
+    color: black;
+    visibility: visible;
+  }

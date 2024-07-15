@@ -13,8 +13,10 @@ const BoatInformation = () => {
     brand: '',
     model: '',
     year: 2017,
-    region: 'Atlantica',
+    region: 'Livorno ,Italy',
+    city: "",
     boardingCapacity: 8,
+    harbour: "",
     totalEnginePowerHP: 40,
     lengthMeters: 7,
     telephone: '+39 3701564317',
@@ -78,17 +80,22 @@ const BoatInformation = () => {
     }
   };
 
-
   return (
     <div className="flex flex-col w-[100%] gap-20">
       <div className="flex justify-center flex-col gap-4 w-[100%]">
         <div>Type of Boat</div>
         <div className="grid 1200px:grid-cols-6 500px:grid-cols-3 500px:grid-rows-3 300px:grid-cols-2 300px:grid-rows-4 1200px:gap-3 300px:gap-4 w-[90%] justify-between">
-          {/* Checkbox items */}
           {['Sail Boat', 'Motorboat', 'Ruber dinghy', 'Jet Skis', 'Luxury yachts', 'Houseboat/Riverboat', 'Catamaran/Trimaran'].map((item, index) => (
             <label key={index} className="flex items-center gap-2">
-              <input type="checkbox" className="w-4 h-4" />
-              <div className="font-normal text-[#676767] 500px:text-sm 300px:text-xs">{item}</div>
+              <input
+                type="radio"
+                name="type"
+                value={item}
+                checked={formData.type === item}
+                onChange={handleChange}
+                className="w-4 h-4"
+              />
+              <div className="font-normal text-[#676767] 500px:text-sm 300px:text-xs outline-none">{item}</div>
             </label>
           ))}
         </div>
@@ -104,12 +111,10 @@ const BoatInformation = () => {
                 value={formData.type}
                 onChange={handleChange}
                 placeholder="Enter boat type"
-                className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
+                className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs outline-none"
               />
             </div>
           </div>
-
-
           <div className="flex flex-col gap-2 w-[100%] font-normal">
             <div className="text-[#4B465C]">Boat Brand</div>
             <div className="w-[90%]">
@@ -119,13 +124,10 @@ const BoatInformation = () => {
                 value={formData.brand}
                 onChange={handleChange}
                 placeholder="Enter boat brand"
-                className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
+                className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs outline-none"
               />
             </div>
           </div>
-
-
-
           <div className="flex flex-col gap-2 w-[100%] font-normal">
             <div className="text-[#4B465C]">Model</div>
             <div className="w-[90%]">
@@ -135,45 +137,69 @@ const BoatInformation = () => {
                 value={formData.model}
                 onChange={handleChange}
                 placeholder="Enter model"
-                className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
+                className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs outline-none"
               />
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
             <div className="text-[#4B465C]">Year</div>
-            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs">
+            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="number"
                 name="year"
                 min={2010}
-
                 value={formData.year}
                 onChange={handleChange}
-                className="w-[100%] h-[100%] py-3 px-4 bg-transparent"
+                className="w-[100%] h-[100%] py-3 px-4 bg-transparent outline-none"
               />
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-                          <div className="text-[#4B465C]">Region</div>
-                          <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs">
-                <input
-                  type="text"
-                  name="region"
-                  placeholder="Livorno, Italy"
-                  value={formData.region}
-                  onChange={handleChange}
-                  className="w-[100%] bg-transparent border-none py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
-                />
-              </div>
+            <div className="text-[#4B465C]">Region</div>
+            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
+              <input
+                type="text"
+                name="region"
+                placeholder="Livorno, Italy"
+                value={formData.region}
+                onChange={handleChange}
+                className="w-[100%] bg-transparent border-none py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 w-[100%] font-normal">
+            <div className="text-[#4B465C]">City</div>
+            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
+              <input
+                type="text"
+                name="city"
+                placeholder="Livorno"
+                value={formData.city}
+                onChange={handleChange}
+                className="w-[100%] bg-transparent border-none py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 w-[100%] font-normal">
+            <div className="text-[#4B465C]">Harbour</div>
+            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
+              <input
+                type="text"
+                name="harbour"
+                placeholder=""
+                value={formData.harbour}
+                onChange={handleChange}
+                className="w-[100%] bg-transparent border-none py-3 px-4 rounded 1000px:text-sm 300px:text-xs"
+              />
+            </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
             <div className="text-[#4B465C]">Boarding Capacity</div>
-            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs">
+            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="number"
                 name="boardingCapacity"
                 min={0}
-
                 value={formData.boardingCapacity}
                 onChange={handleChange}
                 className="w-[100%] h-[100%] py-3 px-4 bg-transparent"
@@ -182,11 +208,11 @@ const BoatInformation = () => {
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
             <div className="text-[#4B465C]">Total Engine power (in hp)</div>
-            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs">
+            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="number"
                 name="totalEnginePowerHP"
-
+                step="0.1"
                 value={formData.totalEnginePowerHP}
                 onChange={handleChange}
                 className="w-[100%] h-[100%] py-3 px-4 bg-transparent"
@@ -195,12 +221,11 @@ const BoatInformation = () => {
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
             <div className="text-[#4B465C]">Length (in meters)</div>
-            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs">
+            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
-                type="float"
+                type="Number"
                 name="lengthMeters"
-                min={5}
-                max={70}
+                step="0.1"
                 value={formData.lengthMeters}
                 onChange={handleChange}
                 className="w-[100%] h-[100%] py-3 px-4 bg-transparent"
@@ -209,7 +234,7 @@ const BoatInformation = () => {
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
             <div className="text-[#4B465C]">Telephone</div>
-            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs">
+            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="text"
                 name="telephone"
@@ -221,12 +246,12 @@ const BoatInformation = () => {
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
             <div className="text-[#4B465C]">Water Tank (in liter)</div>
-            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs">
+            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
-                type="number"
+                type="Number"
                 name="waterTankLiters"
                 min={0}
-
+                step="0.1"
                 value={formData.waterTankLiters}
                 onChange={handleChange}
                 className="w-[100%] h-[100%] py-3 px-4 bg-transparent"
@@ -235,11 +260,12 @@ const BoatInformation = () => {
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
             <div className="text-[#4B465C]">Fuel Tank (in liter)</div>
-            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs">
+            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="number"
                 name="fuelTankLiters"
                 min={0}
+                step="0.1"
                 value={formData.fuelTankLiters}
                 onChange={handleChange}
                 className="w-[100%] h-[100%] py-3 px-4 bg-transparent"
@@ -248,13 +274,12 @@ const BoatInformation = () => {
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
             <div className="text-[#4B465C]">Drought (in meters)</div>
-            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs">
+            <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="number"
                 name="droughtMeters"
                 min={0}
-                max={90}
-                step="0.1" 
+                step="0.1"
                 value={formData.droughtMeters}
                 onChange={handleChange}
                 className="w-[100%] h-[100%] py-3 px-4 bg-transparent"

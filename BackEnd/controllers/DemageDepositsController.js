@@ -2,12 +2,20 @@ import DemageDeposits from "../models/DemageDeposits.js";
 import { createError } from "../utils/createError.js";
 import Joi from "joi";
 
+
+
 export const createDamageDeposit = async (req, res, next) => {
   const schema = Joi.object({
-    type: Joi.string().required(),
-    amount: Joi.string().required(),
-    boatId: Joi.string().required(), // Uncomment this line once ready to include boatId
+    type: Joi.array().items(Joi.string().valid('Check', 'Cash', 'Pre-Authorization', 'Other'))
+      .when('manageDeposit', { is: 'directly', then: Joi.required(), otherwise: Joi.optional() }),
+    amount: Joi.string().optional().allow(""),
+    withSkipper: Joi.string().optional().allow(""),
+    withoutSkipper: Joi.string().optional().allow(""),
+    guaranteeAmount: Joi.string().optional().allow(""),
+    manageDeposit: Joi.string().valid('directly', 'samboat').optional().allow("")
   });
+
+  console.log("req", req.body);
 
   const { error, value } = schema.validate(req.body);
 

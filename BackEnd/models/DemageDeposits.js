@@ -2,18 +2,29 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const damageDepositSchema = new Schema({
-  boatId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Boat',
-    required: true
-  },
   type: {
-    type: String,
-    required: true,
+    type: [String], // To store multiple types
+    default: [],
   },
   amount: {
     type: String,
-    required: true,
+    default: ""
+  },
+  withSkipper: {
+    type: String,
+    default: ""
+  },
+  withoutSkipper: {
+    type: String,
+    default: ""
+  },
+  guaranteeAmount: {
+    type: String,
+    default: ""
+  },
+  manageDeposit: {
+    type: String,
+    default: ""
   },
   createdAt: {
     type: Date,
@@ -25,4 +36,4 @@ const damageDepositSchema = new Schema({
   },
 });
 
-export default mongoose.model("DamageDeposit", damageDepositSchema);
+export default mongoose.model("DemageDeposits", damageDepositSchema);

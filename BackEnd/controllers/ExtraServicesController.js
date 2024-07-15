@@ -3,14 +3,16 @@ import { createError } from "../utils/createError.js";
 import ExtraServices from "../models/ExtraServices.js";
 
 const extraServiceValidationSchema = Joi.object({
-  boatId: Joi.string().required(), // Add boatId validation
+  // boatId: Joi.string().required(), 
   serviceName: Joi.string().required(),
   pricePerPerson: Joi.number().required(),
   isObligatory: Joi.boolean().default(false),
+  priceUnit: Joi.string().valid('per rental', 'per day', 'per week', '% rental').default('per rental'),
+  minDuration: Joi.number().optional().allow(null),
+  maxDuration: Joi.number().optional().allow(null)
 });
-// Create Extra Service
+
 export const createExtraService = async (req, res, next) => {
-  // Validate the request body against the schema
   const { error, value } = extraServiceValidationSchema.validate(req.body);
 
   if (error) {
@@ -18,7 +20,6 @@ export const createExtraService = async (req, res, next) => {
   }
 
   try {
-    // Create the new extra service with the validated data
     const newExtraService = await ExtraServices.create(value);
     res.status(201).json({
       success: true,
@@ -29,6 +30,8 @@ export const createExtraService = async (req, res, next) => {
     next(err);
   }
 };
+
+
 
 export const getAllExtraServices = async (req, res, next) => {
   try {

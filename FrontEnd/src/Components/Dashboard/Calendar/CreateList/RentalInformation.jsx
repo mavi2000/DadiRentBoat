@@ -97,26 +97,23 @@ const RentalInformation = () => {
             value={rentalData.BoatName}
             onChange={handleChange}
             placeholder="Write boat name"
-            className="border border-[#DBDADE] p-2 rounded-md text-sm"
+            className="border border-[#DBDADE] p-2 rounded-md text-sm outline-none"
           />
         </div>
         <div className="grid grid-cols-2 gap-5  w-[100%]">
-          <div className="flex flex-col gap-2 w-[100%]">
-            <div className="text-[#4B465C] font-light">Place</div>
-            <div className=" w-[80%] border border-[#DBDADE] text-gray-400 rounded">
-              <select
-                name="Port"
-                value={rentalData.Port}
-                onChange={handleChange}
-                className="w-[100%] bg-transparent border-none py-3 px-4 rounded text-sm"
-              >
-                <option value="">Select a port</option>
-                <option value="Livorno">Livorno, Italy</option>
-                <option value="Germany">Germany</option>
-                <option value="England">England</option>
-              </select>
-            </div>
-          </div>
+        <div className="flex flex-col gap-2 w-[100%] font-normal">
+  <div className="text-[#4B465C]">Place</div>
+  <div className="w-[90%]">
+    <input
+      type="text"
+      name="Port"
+      value={rentalData.Port}
+      onChange={handleChange}
+      placeholder="Enter port"
+      className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs outline-none"
+    />
+  </div>
+</div>
           <div className="flex flex-col gap-2 w-[100%]">
             <div className="text-[#4B465C] font-light">City</div>
             <div className=" w-[80%] border border-[#DBDADE] text-gray-400 rounded">
@@ -126,7 +123,7 @@ const RentalInformation = () => {
                 value={rentalData.city}
                 onChange={handleChange}
                 placeholder="Enter city"
-                className="w-[100%] bg-transparent border-none py-3 px-4 rounded text-sm"
+                className="w-[100%] bg-transparent border-none py-3 px-4 rounded text-sm outline-none"
               />
             </div>
           </div>
@@ -139,7 +136,7 @@ const RentalInformation = () => {
                 value={rentalData.minPrice}
                 onChange={handleChange}
                 placeholder="Enter minimum price"
-                className="w-[100%] bg-transparent border-none py-3 px-4 rounded text-sm"
+                className="w-[100%] bg-transparent border-none py-3 px-4 rounded text-sm outline-none"
               />
             </div>
           </div>
@@ -150,7 +147,7 @@ const RentalInformation = () => {
                 name="duration"
                 value={rentalData.duration}
                 onChange={handleChange}
-                className="w-[100%] bg-transparent border-none py-3 px-4 rounded text-sm"
+                className="w-[100%] bg-transparent border-none py-3 px-4 rounded text-sm outline-none"
               >
                 <option value="">Select duration</option>
                 <option value="Full Day">Full Day</option>
