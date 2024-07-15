@@ -144,8 +144,8 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-  const InfoAccess = async (infoAccess) => {    
-    
+  const InfoAccess = async (infoAccess) => {
+
     try {
       const response = await baseURL.post(
         "/boatAccess/Boat-Access",
@@ -182,8 +182,8 @@ const AdminProvider = ({ children }) => {
         "/condition/Term-condition",
         conditionData
       );
-      // toast.success("Condition added successfully");
-      return response.data;
+      toast.success("Condition added successfully");
+      return;
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "Failed to add condition";
@@ -243,7 +243,7 @@ const AdminProvider = ({ children }) => {
       throw error;
     }
   };
-  
+
 
   const getUnavailableBoatDates = async ({ startDate, endDate, timeSlot, boatId }) => {
     try {

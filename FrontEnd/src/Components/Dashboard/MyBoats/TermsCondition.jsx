@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { MdElectricBolt } from "react-icons/md";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa6";
+import { AdminContext } from '../../../../Context/AdminContext';
 
 const listPoints = [
   "Instant bookings are automatically approved: no more actions needed on your part to validate a rental.",
@@ -25,6 +26,7 @@ const cancellationPolicy = [
 ];
 
 const TermsCondition = () => {
+  const { addTermAndCondition } = useContext(AdminContext)
   const [isActive, setIsActive] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [notice, setNotice] = useState(noticeOptions[0]);
@@ -46,7 +48,7 @@ const TermsCondition = () => {
       selectedCancellationPolicy,
       applyToFleet
     };
-    console.log(formData);
+    addTermAndCondition({ ...formData, boatId: "60d5ec49e7b4f0b5a8d0c5a4" })
   };
 
   return (

@@ -7,13 +7,37 @@ const TermAndConditionSchema = new mongoose.Schema({
     ref: "Boat", // Reference to the Boat model
     // required: true
   },
-  conditionName: {
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
+  notice: {
     type: String,
     required: true,
   },
-  description: {
+  rentalDisembarkMorning: {
+    type: Boolean,
+    required: true,
+  },
+  rentalEmbarkEvening: {
+    type: Boolean,
+    required: true,
+  },
+  selectedCancellationPolicy: {
     type: String,
     required: true,
+  },
+  allowPets: {
+    type: Boolean,
+    required: false,
+  },
+  applyToFleet: {
+    type: Boolean,
+    required: true,
+  },
+  preBookingMessage: {
+    type: String,
+    required: false,
   },
 });
 
