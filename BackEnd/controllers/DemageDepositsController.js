@@ -12,7 +12,8 @@ export const createDamageDeposit = async (req, res, next) => {
     withSkipper: Joi.string().optional().allow(""),
     withoutSkipper: Joi.string().optional().allow(""),
     guaranteeAmount: Joi.string().optional().allow(""),
-    manageDeposit: Joi.string().valid('directly', 'samboat').optional().allow("")
+    manageDeposit: Joi.string().valid('directly', 'samboat').optional().allow(""),
+    boatId: Joi.string().required(),
   });
 
   console.log("req", req.body);

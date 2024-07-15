@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; // Import calendar CSS for styling
 
+const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
 const RatePopup = ({
   formData,
   selectedDates = [], // Default to an empty array if not provided
@@ -16,12 +18,26 @@ const RatePopup = ({
   const toggleRestrictDays = () => setRestrictDays(!restrictDays);
   const toggleAdvanceRate = () => setAdvanceRate(!advanceRate);
 
-
   const tileClassName = ({ date }) => {
     const dateStr = date.toISOString().split("T")[0];
     return selectedDates && selectedDates.includes(dateStr)
       ? "highlight"
       : null;
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    const [field, subField] = name.split(".");
+    const newValues = checked
+      ? [...formData[field][subField], e.target.value]
+      : formData[field][subField].filter(value => value !== e.target.value);
+
+    handleInputChange({
+      target: {
+        name,
+        value: newValues,
+      },
+    });
   };
 
   return (
@@ -88,6 +104,7 @@ const RatePopup = ({
                 onChange={handleInputChange}
                 className="border py-3 rounded-md px-3 font-light w-full"
               >
+                <option value="">Select minimum duration</option>
                 {[...Array(6).keys()].map(day => (
                   <option key={day} value={`${day + 1} day`}>{`${day + 1} day`}</option>
                 ))}
@@ -103,6 +120,7 @@ const RatePopup = ({
                 onChange={handleInputChange}
                 className="border py-3 rounded-md px-3 font-light w-full"
               >
+                <option value="">Select maximum duration</option>
                 {[...Array(6).keys()].map(day => (
                   <option key={day} value={`${day + 1} day`}>{`${day + 1} day`}</option>
                 ))}
@@ -128,29 +146,39 @@ const RatePopup = ({
             <div className="grid grid-cols-2 gap-5 mt-3">
               <div>
                 <label className="block text-gray-700">Allowed days to depart</label>
-                <select
-                  name="allowedDaysToDepart"
-                  value={formData.allowedDaysToDepart}
-                  onChange={handleInputChange}
-                  className="border py-3 rounded-md px-3 font-light w-full"
-                >
-                  {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
-                    <option key={day} value={day}>{day}</option>
+                <div className="flex flex-wrap">
+                  {daysOfWeek.map(day => (
+                    <label key={day} className="flex items-center mr-4">
+                      <input
+                        type="checkbox"
+                        name="restrictDays.allowedDaysToDepart"
+                        value={day}
+                        checked={formData.restrictDays.allowedDaysToDepart.includes(day)}
+                        onChange={handleCheckboxChange}
+                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                      />
+                      <span className="ml-2 text-gray-700">{day}</span>
+                    </label>
                   ))}
-                </select>
+                </div>
               </div>
               <div>
                 <label className="block text-gray-700">Allowed days to return</label>
-                <select
-                  name="allowedDaysToReturn"
-                  value={formData.allowedDaysToReturn}
-                  onChange={handleInputChange}
-                  className="border py-3 rounded-md px-3 font-light w-full"
-                >
-                  {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
-                    <option key={day} value={day}>{day}</option>
+                <div className="flex flex-wrap">
+                  {daysOfWeek.map(day => (
+                    <label key={day} className="flex items-center mr-4">
+                      <input
+                        type="checkbox"
+                        name="restrictDays.allowedDaysToReturn"
+                        value={day}
+                        checked={formData.restrictDays.allowedDaysToReturn.includes(day)}
+                        onChange={handleCheckboxChange}
+                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                      />
+                      <span className="ml-2 text-gray-700">{day}</span>
+                    </label>
                   ))}
-                </select>
+                </div>
               </div>
             </div>
           )}
@@ -222,8 +250,8 @@ const RatePopup = ({
                 <label className="block text-gray-700">2 Days Advance Rate</label>
                 <input
                   type="number"
-                  name="advanceRate2Days"
-                  value={formData.advanceRate2Days}
+                  name="advanceRates.twoDays"
+                  value={formData.advanceRates?.twoDays || ''}
                   onChange={handleInputChange}
                   className="border py-3 rounded-md px-3 font-light w-full"
                   placeholder="Enter rate"
@@ -233,8 +261,8 @@ const RatePopup = ({
                 <label className="block text-gray-700">3 Days Advance Rate</label>
                 <input
                   type="number"
-                  name="advanceRate3Days"
-                  value={formData.advanceRate3Days}
+                  name="advanceRates.threeDays"
+                  value={formData.advanceRates?.threeDays || ''}
                   onChange={handleInputChange}
                   className="border py-3 rounded-md px-3 font-light w-full"
                   placeholder="Enter rate"
@@ -244,8 +272,8 @@ const RatePopup = ({
                 <label className="block text-gray-700">5 Days Advance Rate</label>
                 <input
                   type="number"
-                  name="advanceRate5Days"
-                  value={formData.advanceRate5Days}
+                  name="advanceRates.fiveDays"
+                  value={formData.advanceRates?.fiveDays || ''}
                   onChange={handleInputChange}
                   className="border py-3 rounded-md px-3 font-light w-full"
                   placeholder="Enter rate"
@@ -255,8 +283,8 @@ const RatePopup = ({
                 <label className="block text-gray-700">6 Days Advance Rate</label>
                 <input
                   type="number"
-                  name="advanceRate6Days"
-                  value={formData.advanceRate6Days}
+                  name="advanceRates.sixDays"
+                  value={formData.advanceRates?.sixDays || ''}
                   onChange={handleInputChange}
                   className="border py-3 rounded-md px-3 font-light w-full"
                   placeholder="Enter rate"
@@ -266,8 +294,8 @@ const RatePopup = ({
                 <label className="block text-gray-700">2 Weeks Advance Rate</label>
                 <input
                   type="number"
-                  name="advanceRate2Weeks"
-                  value={formData.advanceRate2Weeks}
+                  name="advanceRates.twoWeeks"
+                  value={formData.advanceRates?.twoWeeks || ''}
                   onChange={handleInputChange}
                   className="border py-3 rounded-md px-3 font-light w-full"
                   placeholder="Enter rate"

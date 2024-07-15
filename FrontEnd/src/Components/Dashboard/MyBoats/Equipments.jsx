@@ -64,7 +64,7 @@ const Equipments = () => {
     }
     else {
       try {
-        await createEquipment({ ...equipment});
+        await createEquipment({ ...equipment ,boatId});
         toast.success('Equipments added successfully');
       } catch (error) {
         console.error(error);

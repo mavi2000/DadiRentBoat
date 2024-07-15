@@ -5,7 +5,7 @@ const TermAndConditionSchema = new mongoose.Schema({
   boatId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Boat", // Reference to the Boat model
-    // required: true
+    required: true
   },
   isActive: {
     type: Boolean,

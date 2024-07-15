@@ -9,7 +9,14 @@ import baseURL from '../../../../APi/BaseUrl';
 const InfoAccess = () => {
   const id = localStorage.getItem('id');
   const { addBoatAccessInformation, boatId, navigate } = useContext(AdminContext);
-  const [accessInfo, setAccessInfo] = useState({ description: '', documentName: '', uploadDocument: null, documentLink: '', applyToEntireFleet: false });
+  const [accessInfo, setAccessInfo] = useState({
+    description: '',
+    documentName: '',
+    uploadDocument: null,
+    documentLink: '',
+    applyToEntireFleet: false,
+    boatId: boatId
+  });
 
   useEffect(() => {
     setAccessInfo(prevState => ({ ...prevState, boatId }));
@@ -44,6 +51,7 @@ const InfoAccess = () => {
     const formData = new FormData();
     formData.append('description', accessInfo.description);
     formData.append('documentName', accessInfo.documentName);
+    formData.append('boatId', accessInfo.boatId);
     if (accessInfo.uploadDocument) {
       formData.append('pdf', accessInfo.uploadDocument);
     }
@@ -51,12 +59,10 @@ const InfoAccess = () => {
 
     try {
       if (!id) {
-        formData.append('boatId', boatId);
         await addBoatAccessInformation(formData);
         toast.success("Access information added successfully");
-        setAccessInfo({ description: '', documentName: '', uploadDocument: null, documentLink: '' });
+        setAccessInfo({ description: '', documentName: '', uploadDocument: null, documentLink: '', boatId: boatId });
       } else {
-        formData.append('boatId', id);
         await baseURL.patch('/boatAccess/update-access-info/' + id, formData, {
           headers: { "Content-Type": "multipart/form-data" }
         });

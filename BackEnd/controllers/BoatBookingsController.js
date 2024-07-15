@@ -5,7 +5,7 @@ import Joi from "joi";
 
 
 const bookingValidationSchema = Joi.object({
-  // boatId: Joi.string().required(),
+  boatId: Joi.string().required(),
   startDate: Joi.date().required(),
   endDate: Joi.date().required(),
   timeSlots: Joi.array().items(Joi.string()).required(),

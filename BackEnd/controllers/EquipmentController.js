@@ -3,7 +3,7 @@ import Equipment from "../models/Euipment.js";
 import Joi from "joi";
 
 const equipmentValidationSchema = Joi.object({
-  // boatId: Joi.string().required(),
+  boatId: Joi.string().required(),
   security: Joi.string().valid('Basic', 'Coastal', 'Inshore', 'Semi-Offshore', 'Offshore').required(),
   mainUse: Joi.array().items(Joi.string().valid('Full-day excursion', 'Cruise', 'Water sports', 'Fishing', 'Diving', 'Regatta')).max(4).required(),
   comfort: Joi.array().items(Joi.string()).required(),

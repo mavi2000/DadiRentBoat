@@ -8,6 +8,7 @@ import MontlyCalendar from "./MontlyCalendar.jsx"
 
 
 const Calendar = () => {
+
   const [currentDate, setCurrentDate] = useState(new Date());
   const [changeCalendar, setChangeCalendar] = useState(true);
   const [bookings, setBookings] = useState([]);

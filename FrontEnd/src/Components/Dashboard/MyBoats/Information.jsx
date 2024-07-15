@@ -3,16 +3,18 @@ import BoatsNavbar from "./BoatsNavbar";
 import { FiInfo } from "react-icons/fi";
 import { IoAddOutline } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
+import { GiSailboat } from "react-icons/gi";
+import { FaMotorcycle, FaLifeRing, FaWater, FaCrown, FaHome, FaShip } from "react-icons/fa";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 import baseURL from "../../../../APi/BaseUrl";
 
 const Information = () => {
   const id = localStorage.getItem('id');
-
-  const { boatDescription, navigate ,boatId } = useContext(AdminContext);
-  const [descriptionData, setDescriptionData] = useState({
-    boatId,
+  const { boatDescription, navigate, boatId } = useContext(AdminContext);
+  
+  const initialDescriptionData = {
+    boatId: boatId || "",
     boatType: "",
     rentalType: { bareBoat: false, withoutSkipper: false },
     details: {
@@ -41,8 +43,9 @@ const Information = () => {
     draftFeet: 0,
     widthFeet: 0,
     lengthFeet: 0,
-  });
+  };
 
+  const [descriptionData, setDescriptionData] = useState(initialDescriptionData);
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [languageSections, setLanguageSections] = useState([]);
 
@@ -50,16 +53,16 @@ const Information = () => {
     if (id) {
       const getBoatDescription = async () => {
         try {
-          const res = await baseURL('/description/get-boat-description/' + id);
+          const res = await baseURL(`/description/get-boat-description/${id}`);
           const { data: { description } } = res;
-          setDescriptionData({ ...description });
+          setDescriptionData({ ...description, boatId });
         } catch (error) {
           console.log(error);
         }
       };
       getBoatDescription();
     }
-  }, [id]);
+  }, [id, boatId]);
 
   const handleNestedChange = (e, group) => {
     const { name, value, type, checked } = e.target;
@@ -154,6 +157,7 @@ const Information = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
+      boatId,
       ...descriptionData,
       details: {
         ...descriptionData.details,
@@ -175,11 +179,11 @@ const Information = () => {
       }
     } else {
       try {
-        const res = await baseURL.patch('/description/update-boat-description/' + id, payload);
+        const res = await baseURL.patch(`/description/update-boat-description/${id}`, payload);
         toast.success('Description updated successfully');
         localStorage.removeItem('id');
         setTimeout(() => {
-          navigate('/Dashboard/my-boats')
+          navigate('/Dashboard/my-boats');
         }, 3000);
       } catch (error) {
         toast.error('Failed to update description');
@@ -199,24 +203,27 @@ const Information = () => {
           <div>Type of Boat</div>
           <div className="flex gap-10 text-sm">
             {[
-              "Sail Boat",
-              "Motorboat",
-              "Ruber dinghy",
-              "Jet Skis",
-              "Luxury yachts",
-              "Houseboat/Riverboat",
-              "Catamaran/Trimaran",
+              { type: "Sail Boat", icon: <GiSailboat /> },
+              { type: "Motorboat", icon: <FaMotorcycle /> },
+              { type: "Rubber dinghy", icon: <FaLifeRing /> },
+              { type: "Jet Skis", icon: <FaWater /> },
+              { type: "Luxury yachts", icon: <FaCrown /> },
+              { type: "Houseboat/Riverboat", icon: <FaHome /> },
+              { type: "Catamaran/Trimaran", icon: <FaShip /> },
             ].map((boat, index) => (
               <div key={index} className="flex gap-3 items-center">
                 <input
                   type="radio"
                   name="boatType"
-                  value={boat}
-                  checked={descriptionData.boatType === boat}
+                  value={boat.type}
+                  checked={descriptionData.boatType === boat.type}
                   onChange={handleChange}
                   className="outline-none"
                 />
-                <div className="font-light">{boat}</div>
+                <div className="font-light flex items-center gap-2">
+                  {boat.icon}
+                  {boat.type}
+                </div>
               </div>
             ))}
           </div>
@@ -245,9 +252,7 @@ const Information = () => {
             <div className="text-sm">
               <div>Bear Boat (without skipper)</div>
               <div className="font-light">
-                The customer is the person in charge of the ship; The boat is
-                rented with the "boat alone" formula (without skipper) Boat
-                without a license
+                The customer is the person in charge of the ship; The boat is rented with the "boat alone" formula (without skipper) Boat without a license
               </div>
             </div>
           </div>
@@ -262,8 +267,7 @@ const Information = () => {
             <div className="text-sm">
               <div>With skipper</div>
               <div className="font-light">
-                The person in charge of the boat is the skipper/owner/owner. For
-                the customer, only relaxation!
+                The person in charge of the boat is the skipper/owner/owner. For the customer, only relaxation!
               </div>
             </div>
           </div>
@@ -272,9 +276,7 @@ const Information = () => {
           <FiInfo className="text-[#CBA557]" />
           <div className="font-medium text-[#4B465C]">
             New:
-            <span className="font-light">
-              Skipper rates are now managed in the
-            </span>
+            <span className="font-light">Skipper rates are now managed in the</span>
             <span className="text-[#CBA557]"> Extra Options.</span>
           </div>
         </div>
@@ -300,14 +302,12 @@ const Information = () => {
               className="border rounded-md outline-none"
             ></textarea>
             <div className="text-xs">
-              Your description is automatically translated based on the user's
-              country of origin. You can still add your own translation, which
-              will replace the automatic translation.
+              Your description is automatically translated based on the user's country of origin. You can still add your own translation, which will replace the automatic translation.
             </div>
           </div>
           <div className="flex flex-col gap-8">
             <div className="text-[#4B465C] font-light">
-              Optional: To add a translation of the description
+              Optional: To add a translation of the description
             </div>
             <div className="flex gap-5">
               <select

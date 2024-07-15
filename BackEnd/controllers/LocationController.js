@@ -3,7 +3,7 @@ import { createError } from "../utils/createError.js";
 import Joi from "joi";
 
 const locationValidationSchema = Joi.object({
-  // boatId: Joi.string().required(),
+  boatId: Joi.string().required(),
   // place: Joi.string().required(),
   city: Joi.string().required(),
   locationType: Joi.string().valid('mooring', 'other', 'port', 'trailer').optional().allow(''),

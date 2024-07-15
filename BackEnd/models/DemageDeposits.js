@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const damageDepositSchema = new Schema({
+  boatId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Boat',
+  },
   type: {
     type: [String], // To store multiple types
     default: [],

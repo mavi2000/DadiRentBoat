@@ -7,8 +7,14 @@ import BoatsNavbar from '../BoatsNavbar';
 import WinterizingPeriod from './WinterizingPeriod';
 import "./Calender.css";
 import baseURL from '../../../../../APi/BaseUrl';
+import { useContext } from 'react';
+import { AdminContext } from '../../../../../Context/AdminContext';
+
+
 
 const Calendar = () => {
+  const {boatId} =useContext(AdminContext)
+
   const weekdays = weekdaysData;
   const months = monthsData;
 
@@ -64,7 +70,7 @@ const Calendar = () => {
     console.log('Selected time slots:', selectedTimeSlots);
 
     const data = {
-      // boatId,
+      boatId,
       startDate: rangeStart,
       endDate: selectedDay.date,
       timeSlots: selectedTimeSlots.length > 0 ? selectedTimeSlots : ['Full-day'],

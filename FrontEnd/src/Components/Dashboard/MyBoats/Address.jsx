@@ -63,7 +63,7 @@ const Address = () => {
         latitude,
         longitude,
       },
-      // boatId: boatId,
+      boatId: boatId,
     };
     if (!id) {
       try {

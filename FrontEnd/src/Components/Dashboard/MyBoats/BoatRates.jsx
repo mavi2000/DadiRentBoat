@@ -9,44 +9,53 @@ import "react-toastify/dist/ReactToastify.css";
 import baseURL from "../../../../APi/BaseUrl";
 
 const BoatRates = () => {
-  const id = localStorage.getItem('id')
+  const id = localStorage.getItem('id');
   const [popup, setPopup] = useState(id ? true : false);
-  const { addRate, boatId, navigate } = useContext(AdminContext);
+  const { addRate, navigate ,boatId} = useContext(AdminContext);
 
   const initialFormData = {
     startDate: "",
     endDate: "",
-    normalDayRates: {
-      fullDay: "",
-      halfDayMorning: "",
-      halfDayEvening: "",
+    applyRatesOfAnotherPeriod: "",
+    minimumRentalDuration: "",
+    maximumRentalDuration: "",
+    restrictDays: {
+      allowedDaysToDepart: [],
+      allowedDaysToReturn: []
     },
-    weekendRates: {
-      fullDay: "",
-      halfDayMorning: "",
-      halfDayEvening: "",
-    },
+    nameOfTheRate: "",
+    oneDayRate: "",
+    oneWeekRate: "",
+    advanceRates: {
+      twoDays: "",
+      threeDays: "",
+      fiveDays: "",
+      sixDays: "",
+      twoWeeks: ""
+    }
   };
 
   const [formData, setFormData] = useState(initialFormData);
   const [selectedDates, setSelectedDates] = useState([]);
-  // load rates while editing
+
+  // Load rates while editing
   useEffect(() => {
     if (id) {
       const getBoatRates = async () => {
         try {
-          const res = await baseURL('/Rate/get-rate/' + id)
-          const { data: { rate } } = res
-          const { dates, startDate, endDate, normalDayRates, weekendRates, ...rest } = rate;
-          setFormData({ startDate, endDate, normalDayRates, weekendRates });
-          setSelectedDates(dates)
+          const res = await baseURL(`/Rate/get-rate/${id}`);
+          const { data: { rate } } = res;
+          const { dates, startDate, endDate, applyRatesOfAnotherPeriod, minimumRentalDuration, maximumRentalDuration, restrictDays, nameOfTheRate, oneDayRate, oneWeekRate, advanceRates } = rate;
+          setFormData({ startDate, endDate, applyRatesOfAnotherPeriod, minimumRentalDuration, maximumRentalDuration, restrictDays, nameOfTheRate, oneDayRate, oneWeekRate, advanceRates });
+          setSelectedDates(dates);
         } catch (error) {
           console.log(error);
         }
-      }
-      getBoatRates()
+      };
+      getBoatRates();
     }
-  }, [])
+  }, [id]);
+
   const handleDateChange = (dates) => {
     const [start, end] = dates;
     setFormData((prevFormData) => ({
@@ -57,23 +66,46 @@ const BoatRates = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value, type } = e.target;
+    const { name, value, type, options } = e.target;
     const [field, subField] = name.split(".");
 
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [field]: {
-        ...prevFormData[field],
-        [subField]: type === "checkbox" ? e.target.checked : value,
-      },
-    }));
+    if (type === "select-multiple") {
+      const selectedValues = Array.from(options)
+        .filter(option => option.selected)
+        .map(option => option.value);
+
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [field]: {
+          ...prevFormData[field],
+          [subField]: selectedValues,
+        },
+      }));
+    } else if (subField) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [field]: {
+          ...prevFormData[field],
+          [subField]: type === "checkbox" ? e.target.checked : value,
+        },
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.minimumRentalDuration) {
+      toast.error("Minimum rental duration is required.");
+      return;
+    }
     if (!id) {
       try {
-        await addRate({ ...formData, boatId });
+        await addRate({ ...formData ,boatId});
         toast.success("Rates added successfully");
         setSelectedDates([formData.startDate, formData.endDate]);
         setPopup(false);
@@ -87,15 +119,14 @@ const BoatRates = () => {
       }
     } else {
       try {
-        const res = await baseURL.patch('/Rate/update-rate/' + id, { ...formData, boatId: id })
+        await baseURL.patch(`/Rate/update-rate/${id}`, { ...formData });
         toast.success('Rates updated successfully');
-        localStorage.removeItem('id')
-        // setEquipment({ ...res.data.equipment })
+        localStorage.removeItem('id');
         setTimeout(() => {
-          navigate('/Dashboard/my-boats')
-        }, 3000)
+          navigate('/Dashboard/my-boats');
+        }, 3000);
       } catch (error) {
-        toast.error('Failed to update equipments')
+        toast.error('Failed to update rates');
       }
     }
   };
@@ -103,7 +134,6 @@ const BoatRates = () => {
   const handlePopup = () => {
     setPopup(!popup);
   };
-
 
   return (
     <div className="flex flex-col gap-3">

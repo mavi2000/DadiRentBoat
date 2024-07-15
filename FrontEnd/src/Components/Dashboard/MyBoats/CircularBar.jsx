@@ -2,14 +2,14 @@ import React from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 
-const CircularBar = ({ percentage }) => {
+const CircularBar = ({ completionPercentage }) => {
+  const formattedPercentage = completionPercentage.toFixed(1);
 
-  console.log("percentage",percentage)
   return (
     <div className="flex mt-auto">
       <div className="w-24 md:w-36">
         <CircularProgressbarWithChildren
-          value={percentage}
+          value={completionPercentage}
           strokeWidth={10}
           styles={{
             path: { stroke: "#CBA557" },
@@ -19,7 +19,7 @@ const CircularBar = ({ percentage }) => {
         >
           <div style={{ padding: "12px", textAlign: "center" }}>
             <div className="text-[#07474F] text-2xl font-semibold">
-              {percentage}%
+              {formattedPercentage}%
             </div>
             <div className="text-[#07474F] text-sm font-normal">
               completed

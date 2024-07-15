@@ -3,7 +3,7 @@ import { createError } from "../utils/createError.js";
 import ExtraServices from "../models/ExtraServices.js";
 
 const extraServiceValidationSchema = Joi.object({
-  // boatId: Joi.string().required(), 
+  boatId: Joi.string().required(), 
   serviceName: Joi.string().required(),
   pricePerPerson: Joi.number().required(),
   isObligatory: Joi.boolean().default(false),

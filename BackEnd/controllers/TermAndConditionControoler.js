@@ -18,6 +18,9 @@ export const addCondition = async (req, res, next) => {
   }
 };
 
+
+
+
 export const getAllConditions = async (req, res, next) => {
   try {
     const conditions = await TermsAndCondition.find();

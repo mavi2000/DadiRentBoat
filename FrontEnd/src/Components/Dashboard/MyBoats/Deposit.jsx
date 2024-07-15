@@ -73,7 +73,7 @@ const Deposit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const dataToSubmit = { ...depositData };
+    const dataToSubmit = { ...depositData ,boatId };
     if (checkbox) {
       dataToSubmit.type = [];
       dataToSubmit.amount = "";

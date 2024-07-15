@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const extraServiceSchema = new Schema({
-//   boatId: {
-//     type: Schema.Types.ObjectId,
-//     ref: 'Boat',
-//     required: true
-//   },
+  boatId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Boat',
+    required: true
+  },
   serviceName: {
     type: String,
     required: true

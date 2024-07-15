@@ -22,17 +22,36 @@ export const addRate = async (req, res, next) => {
       boatId: Joi.string().required(), // Validate boatId as required
       startDate: Joi.date().required(),
       endDate: Joi.date().required(),
-      normalDayRates: Joi.object({
-        halfDayMorning: Joi.number().required(),
-        halfDayEvening: Joi.number().required(),
-        fullDay: Joi.number().required(),
-      }).required(),
-      weekendRates: Joi.object({
-        halfDayMorning: Joi.number().required(),
-        halfDayEvening: Joi.number().required(),
-        fullDay: Joi.number().required(),
-      }).required(),
+      // normalDayRates: Joi.object({
+      //   halfDayMorning: Joi.number().required(),
+      //   halfDayEvening: Joi.number().required(),
+      //   fullDay: Joi.number().required(),
+      // }).required(),
+      // weekendRates: Joi.object({
+      //   halfDayMorning: Joi.number().required(),
+      //   halfDayEvening: Joi.number().required(),
+      //   fullDay: Joi.number().required(),
+      // }).required(),
+      applyRatesOfAnotherPeriod: Joi.string().optional(),
+      minimumRentalDuration: Joi.string().optional(),
+      maximumRentalDuration: Joi.string().optional(),
+      restrictDays: Joi.object({
+        allowedDaysToDepart: Joi.array().items(Joi.string()).optional(),
+        allowedDaysToReturn: Joi.array().items(Joi.string()).optional()
+      }).optional(),
+      nameOfTheRate: Joi.string().optional(),
+      oneDayRate: Joi.number().optional(),
+      oneWeekRate: Joi.number().optional(),
+      advanceRates: Joi.object({
+        twoDays: Joi.number().optional(),
+        threeDays: Joi.number().optional(),
+        fiveDays: Joi.number().optional(),
+        sixDays: Joi.number().optional(),
+        twoWeeks: Joi.number().optional()
+      }).optional()
     });
+
+    console.log("req",req.body)
 
     // Validate the request body
     const { error, value } = schema.validate(req.body);
@@ -43,7 +62,7 @@ export const addRate = async (req, res, next) => {
     }
 
     // Destructure validated data
-    const { boatId, startDate, endDate, normalDayRates, weekendRates } = value;
+    const { boatId, startDate, endDate, normalDayRates, weekendRates, applyRatesOfAnotherPeriod, minimumRentalDuration, maximumRentalDuration, restrictDays, nameOfTheRate, oneDayRate, oneWeekRate, advanceRates } = value;
 
     // Check for existing rates within the date range for the same boat
     const existingRates = await Rate.find({
@@ -71,6 +90,14 @@ export const addRate = async (req, res, next) => {
       endDate,
       normalDayRates,
       weekendRates,
+      applyRatesOfAnotherPeriod,
+      minimumRentalDuration,
+      maximumRentalDuration,
+      restrictDays,
+      nameOfTheRate,
+      oneDayRate,
+      oneWeekRate,
+      advanceRates
     });
 
     // Save the rate to the database

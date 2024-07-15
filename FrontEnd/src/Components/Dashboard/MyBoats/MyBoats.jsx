@@ -25,90 +25,52 @@ const MyBoats = () => {
 
   const handleDeleteClick = (id) => {
     setBoatIdToDelete(id);
-    console.log("id", id)
     setShowDeletePopup(true);
   };
   const handleConfirmDelete = async () => {
     try {
       await deleteBoat(boatIdToDelete);
       setShowDeletePopup(false);
-      // Optionally, you can fetch the updated list of boats after deletion
+      setBoatData(boatData.filter(boat => boat.boat._id !== boatIdToDelete));
     } catch (error) {
       console.error("Error deleting boat:", error);
-      // Optionally, you can display an error message to the user
     }
   };
 
   const handleCancelDelete = () => {
     setShowDeletePopup(false);
   };
+
   const pages = [
-    {
-      path: "",
-      page: "Select"
-    },
-    {
-      path: "/Dashboard/calender/createlist",
-      page: "Boat Information"
-    },
-    {
-      path: "/Dashboard/calender/createlist",
-      page: "Rental Information"
-    },
-    {
-      path: "/Dashboard/my-boats/equipments",
-      page: "Equipments"
-    },
-    {
-      path: "/Dashboard/my-boats/information",
-      page: "Description"
-    },
-    {
-      path: "/Dashboard/my-boats/extra-services",
-      page: "Extra Service"
-    },
-    {
-      path: "/Dashboard/my-boats/deposit",
-      page: 'Damage Deposit'
-    },
-    {
-      path: "/Dashboard/my-boats/insurance",
-      page: "Insurance"
-    },
-    {
-      path: "/Dashboard/my-boats/address",
-      page: "Address"
-    },
-    {
-      path: '/Dashboard/my-boats/promotion',
-      page: "Promotions"
-    },
-    {
-      path: "/Dashboard/my-boats/rates",
-      page: "Rates"
-    },
-    {
-      path: "/Dashboard/my-boats/photo",
-      page: "Image"
-    },
-    {
-      path: "/Dashboard/my-boats/info-access",
-      page: "Access Information"
-    }
-  ]
+    { path: "", page: "Select" },
+    { path: "/Dashboard/calender/createlist", page: "Boat Information" },
+    { path: "/Dashboard/calender/createlist", page: "Rental Information" },
+    { path: "/Dashboard/my-boats/equipments", page: "Equipments" },
+    { path: "/Dashboard/my-boats/information", page: "Description" },
+    { path: "/Dashboard/my-boats/extra-services", page: "Extra Service" },
+    { path: "/Dashboard/my-boats/deposit", page: "Damage Deposit" },
+    { path: "/Dashboard/my-boats/insurance", page: "Insurance" },
+    { path: "/Dashboard/my-boats/address", page: "Address" },
+    { path: "/Dashboard/my-boats/promotion", page: "Promotions" },
+    { path: "/Dashboard/my-boats/rates", page: "Rates" },
+    { path: "/Dashboard/my-boats/photo", page: "Image" },
+    { path: "/Dashboard/my-boats/info-access", page: "Access Information" },
+  ];
+
   const navigate = useNavigate();
-  // remove the id
-  const id = localStorage.getItem("id")
+
   useEffect(() => {
+    const id = localStorage.getItem("id");
     if (id) {
-      localStorage.removeItem('id')
+      localStorage.removeItem('id');
     }
-  }, [])
+  }, []);
+
   const handleChange = (e, id) => {
-    localStorage.setItem('id', id)
-    navigate(e.target.value)
-  }
-  console.log("data",boatData.percentageCompletion)
+    localStorage.setItem('id', id);
+    navigate(e.target.value);
+  };
+
   return (
     <div className="mx-[4%] mt-[3%]">
       <div className="md:flex md:justify-between justify-center text-center gap-5 md:gap-0 items-center">
@@ -206,12 +168,14 @@ const MyBoats = () => {
                       id=""
                       className="border-t bg-transparent md:text-xl text-xs"
                       onChange={(e) => {
-                        handleChange(e, boat.boat._id)
+                        handleChange(e, boat.boat._id);
                       }}
                     >
-                      {
-                        pages.map((item, index) => <option key={index} value={item.path}>{item.page}</option>)
-                      }
+                      {pages.map((item, index) => (
+                        <option key={index} value={item.path}>
+                          {item.page}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -235,7 +199,7 @@ const MyBoats = () => {
           </div>
 
           <div className="flex justify-center gap-11">
-          <CircularBar completionPercentage={80} />
+            <CircularBar completionPercentage={boat.completionPercentage} />
             <div className="flex flex-col space-y-2">
               <p className="text-[#818C8E] text-sm font-normal">2024</p>
               <div className="w-full border border-[#00151C] border-opacity-[12.5%] rounded">
@@ -244,24 +208,18 @@ const MyBoats = () => {
                   style={{ borderBottomColor: "rgba(0, 21, 28, 0.125)" }}
                 >
                   <div className="text-sm text-[#212529] font-bold">0 €</div>
-                  <div className="text-xs text-[#818C8E] font-normal">
-                    Income
-                  </div>
+                  <div className="text-xs text-[#818C8E] font-normal">Income</div>
                 </div>
                 <div
                   className="flex flex-col w-full pl-4 pr-20 py-2 border-b"
                   style={{ borderBottomColor: "rgba(0, 21, 28, 0.125)" }}
                 >
                   <div className="text-sm text-[#212529] font-bold">0</div>
-                  <div className="text-xs text-[#818C8E] font-normal">
-                    Expenses
-                  </div>
+                  <div className="text-xs text-[#818C8E] font-normal">Expenses</div>
                 </div>
                 <div className="flex flex-col w-full pl-4 pr-20 py-2">
                   <div className="text-sm text-[#212529] font-bold">0</div>
-                  <div className="text-xs text-[#818C8E] font-normal">
-                    Rentals
-                  </div>
+                  <div className="text-xs text-[#818C8E] font-normal">Rentals</div>
                 </div>
               </div>
             </div>

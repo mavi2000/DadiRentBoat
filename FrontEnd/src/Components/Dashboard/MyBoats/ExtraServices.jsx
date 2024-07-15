@@ -53,7 +53,7 @@ const ExtraServices = () => {
     e.preventDefault();
     const payload = {
       ...servicesData,
-      // boatId,
+      boatId,
     };
 
     if (!id) {

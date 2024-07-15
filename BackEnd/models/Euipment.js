@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const equipmentSchema = new Schema({
-//   boatId: {
-//     type: Schema.Types.ObjectId,
-//     ref: 'Boat',
-//     required: true
-//   },
+  boatId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Boat',
+    required: true
+  },
   security: {
     type: String,
     required: true
