@@ -3,6 +3,14 @@ import { AdminContext } from '../../../../../Context/AdminContext.jsx';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import baseURL from '../../../../../APi/BaseUrl.js';
+import yatch from "../../../../assets/Images/Yatch Boat.png";
+import sail from "../../../../assets/Images/Sail Boat.png";
+import catamaran from "../../../../assets/Images/Catamaran Boat.png";
+import jet from "../../../../assets/Images/Jet Skies Boat.png";
+import House from "../../../../assets/Images/House Baot.png";
+import Rib from "../../../../assets/Images/RIB Boat.png";
+import Gullet from "../../../../assets/Images/GullET Boat.png";
+import Motor from "../../../../assets/Images/Motor Boat.png";
 
 const BoatInformation = () => {
   const id = localStorage.getItem("id");
@@ -80,22 +88,34 @@ const BoatInformation = () => {
     }
   };
 
+  const boatTypes = [
+    { name: 'Sail Boat', image: sail },
+    { name: 'Motorboat', image: Motor },
+    { name: 'Ruber dinghy', image: Rib },
+    { name: 'Jet Skis', image: jet },
+    { name: 'Luxury yachts', image: yatch },
+    { name: 'Houseboat/Riverboat', image: House },
+    { name: 'Catamaran/Trimaran', image: catamaran },
+    { name: 'Gullet', image: Gullet },
+  ];
+
   return (
     <div className="flex flex-col w-[100%] gap-20">
       <div className="flex justify-center flex-col gap-4 w-[100%]">
         <div>Type of Boat</div>
         <div className="grid 1200px:grid-cols-6 500px:grid-cols-3 500px:grid-rows-3 300px:grid-cols-2 300px:grid-rows-4 1200px:gap-3 300px:gap-4 w-[90%] justify-between">
-          {['Sail Boat', 'Motorboat', 'Ruber dinghy', 'Jet Skis', 'Luxury yachts', 'Houseboat/Riverboat', 'Catamaran/Trimaran'].map((item, index) => (
-            <label key={index} className="flex items-center gap-2">
+          {boatTypes.map((item, index) => (
+            <label key={index} className="flex flex-col items-center gap-2">
               <input
                 type="radio"
                 name="type"
-                value={item}
-                checked={formData.type === item}
+                value={item.name}
+                checked={formData.type === item.name}
                 onChange={handleChange}
                 className="w-4 h-4"
               />
-              <div className="font-normal text-[#676767] 500px:text-sm 300px:text-xs outline-none">{item}</div>
+              <img src={item.image} alt={item.name} className="w-10 h-10 object-cover" />
+              <div className="font-normal text-[#676767] 500px:text-sm 300px:text-xs outline-none">{item.name}</div>
             </label>
           ))}
         </div>

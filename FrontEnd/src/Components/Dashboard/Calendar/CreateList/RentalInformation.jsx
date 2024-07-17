@@ -8,6 +8,7 @@ import baseURL from "../../../../../APi/BaseUrl.js";
 
 
 
+
 const RentalInformation = () => {
   const id = localStorage.getItem('id')
   const { rentBoat, error, boatId, navigate } = useContext(AdminContext);
