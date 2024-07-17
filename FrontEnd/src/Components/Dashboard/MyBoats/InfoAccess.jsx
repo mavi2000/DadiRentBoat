@@ -14,6 +14,7 @@ const InfoAccess = () => {
     documentName: '',
     uploadDocument: null,
     documentLink: '',
+    documentDescription: '',  // New state for document description
     applyToEntireFleet: false,
     boatId: boatId
   });
@@ -29,8 +30,8 @@ const InfoAccess = () => {
         try {
           const res = await baseURL('/boatAccess/get-access-info/' + id);
           const { data: { boatAccessInfo: { accessDetails } } } = res;
-          const { description, documentLink, documentName, uploadDocument } = accessDetails[0];
-          setAccessInfo({ description, documentLink, documentName, uploadDocument });
+          const { description, documentLink, documentName, uploadDocument, documentDescription } = accessDetails[0];
+          setAccessInfo({ description, documentLink, documentName, uploadDocument, documentDescription });
         } catch (error) {
           console.log(error);
         }
@@ -52,6 +53,7 @@ const InfoAccess = () => {
     formData.append('description', accessInfo.description);
     formData.append('documentName', accessInfo.documentName);
     formData.append('boatId', accessInfo.boatId);
+    formData.append('documentDescription', accessInfo.documentDescription);  // Append document description
     if (accessInfo.uploadDocument) {
       formData.append('pdf', accessInfo.uploadDocument);
     }
@@ -61,7 +63,7 @@ const InfoAccess = () => {
       if (!id) {
         await addBoatAccessInformation(formData);
         toast.success("Access information added successfully");
-        setAccessInfo({ description: '', documentName: '', uploadDocument: null, documentLink: '', boatId: boatId });
+        setAccessInfo({ description: '', documentName: '', uploadDocument: null, documentLink: '', documentDescription: '', boatId: boatId });
       } else {
         await baseURL.patch('/boatAccess/update-access-info/' + id, formData, {
           headers: { "Content-Type": "multipart/form-data" }
@@ -135,8 +137,20 @@ const InfoAccess = () => {
                   className='border-[1.35px] border-[#DBDADE] rounded-md px-4 py-4' />
               </div>
             </div>
+            <p className='text-[#4B465C] font-normal text-xs mb-[2%]'>Size limit: 8MB – Accepted formats: JPEG, JPG, PNG or PDF</p>
+            <div className='w-[90%] flex flex-col gap-8'>
+              <label htmlFor={`docDescription`} className='text-[#4B465C] font-normal'>Document Description</label>
+              <textarea
+                id={`docDescription`}
+                value={accessInfo.documentDescription}
+                onChange={(e) => handleInputChange('documentDescription', e.target.value)}
+                cols="20" rows="5"
+                placeholder='Enter a description for the document'
+                className='border-[1.14px] border-[#D2D2D2] py-4 px-3 placeholder:text-[#C2C2C2] resize-none rounded-md'>
+              </textarea>
+            </div>
           </div>
-          <p className='text-[#4B465C] font-normal text-xs mb-[2%]'>Size limit: 8MB – Accepted formats: JPEG, JPG, PNG or PDF</p>
+         
 
           <div className="flex items-center mt-4">
             <input

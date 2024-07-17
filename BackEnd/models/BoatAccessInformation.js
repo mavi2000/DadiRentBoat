@@ -20,6 +20,9 @@ const boatAccessSchema = new Schema({
     },
     documentLink: {
       type: String
+    },
+    documentDescription: { // New field for document description
+      type: String
     }
   }]
 });

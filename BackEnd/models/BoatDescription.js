@@ -23,7 +23,9 @@ const boatDescriptionSchema = new mongoose.Schema({
   },
   rentalType: {
     bareBoat: { type: Boolean, default: false },
-    withoutSkipper: { type: Boolean, default: false }
+    withoutSkipper: { type: Boolean, default: false },
+    noLicenseRequired: { type: Boolean, default: false },
+    withOwnerOnBoard: { type: Boolean, default: false }
   },
   details: {
     modelOrName: { type: String, required: true },
@@ -43,7 +45,11 @@ const boatDescriptionSchema = new mongoose.Schema({
   },
   motorization: {
     numberOfEngines: { type: Number, required: true },
-    enginePowerHP: { type: Number, required: true }
+    enginePowerHP: { type: Number, required: true },
+    engineMake: { type: String, required: true },
+    engineBrand: { type: String, required: true },
+    model: { type: String, required: true },
+    parkingPort: { type: String, required: true }
   },
   fuel: {
     unleaded: { type: Boolean, default: false },
@@ -61,7 +67,9 @@ const boatDescriptionSchema = new mongoose.Schema({
   lengthMeters: { type: Number, required: true },
   draftFeet: { type: Number },
   widthFeet: { type: Number },
-  lengthFeet: { type: Number }
+  lengthFeet: { type: Number },
+  startTime: { type: String, required: true },
+  endTime: { type: String, required: true }
 });
 
 export default mongoose.model('BoatDescription', boatDescriptionSchema);

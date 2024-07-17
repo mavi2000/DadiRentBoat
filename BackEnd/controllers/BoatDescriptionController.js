@@ -2,9 +2,8 @@ import BoatDescription from "../models/BoatDescription.js";
 import Joi from "joi";
 import createError from "http-errors";
 
-export const createBoatDescription = async (req, res, next) => {
 
-  console.log("ee",req.body)
+export const createBoatDescription = async (req, res, next) => {
   const descriptionSchema = Joi.object({
     language: Joi.string().required(),
     description: Joi.string().required(),
@@ -16,6 +15,8 @@ export const createBoatDescription = async (req, res, next) => {
     rentalType: Joi.object({
       bareBoat: Joi.boolean().required(),
       withoutSkipper: Joi.boolean().required(),
+      noLicenseRequired: Joi.boolean().required(),
+      withOwnerOnBoard: Joi.boolean().required(),
     }).required(),
     details: Joi.object({
       modelOrName: Joi.string().required(),
@@ -40,6 +41,10 @@ export const createBoatDescription = async (req, res, next) => {
     motorization: Joi.object({
       numberOfEngines: Joi.number().integer().min(1).required(),
       enginePowerHP: Joi.number().integer().min(1).required(),
+      engineMake: Joi.string().required(),
+      engineBrand: Joi.string().required(),
+      model: Joi.string().required(),
+      parkingPort: Joi.string().required(),
     }).required(),
     fuel: Joi.object({
       unleaded: Joi.boolean().required(),
@@ -58,6 +63,8 @@ export const createBoatDescription = async (req, res, next) => {
     draftFeet: Joi.number().allow(null),
     widthFeet: Joi.number().allow(null),
     lengthFeet: Joi.number().allow(null),
+    startTime: Joi.string().required(),
+    endTime: Joi.string().required()
   });
 
   const { error, value } = schema.validate(req.body);
@@ -77,6 +84,7 @@ export const createBoatDescription = async (req, res, next) => {
     next(err);
   }
 };
+
 
 
 export const getBoatDescription = async (req, res) => {

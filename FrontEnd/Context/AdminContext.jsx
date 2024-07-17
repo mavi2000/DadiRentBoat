@@ -12,6 +12,14 @@ const AdminProvider = ({ children }) => {
   const [admin, setAdmin] = useState(null);
   const [error, setError] = useState(null);
   const [boatId, setBoatIdState] = useState(null);
+  const [sharedFormData, setSharedFormData] = useState({
+    type: '',
+    brand: '',
+    model: '',
+    year: 2017,
+    boardingCapacity: 8,
+    // Add other shared fields here
+  });
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -25,6 +33,13 @@ const AdminProvider = ({ children }) => {
     setBoatIdState(id);
     sessionStorage.setItem("boatId", id);
   };
+
+
+
+  const updateSharedFormData = (newData) => {
+    setSharedFormData((prevData) => ({ ...prevData, ...newData }));
+  };
+
 
   const createBoat = async (boatData) => {
     console.log("boatData", boatData);
@@ -429,6 +444,8 @@ const AdminProvider = ({ children }) => {
         DeleteTermAndCondition,
         addBoatAccessInformation,
         getBoats,
+        sharedFormData,
+        updateSharedFormData,
         deleteBoat, navigate
       }}
     >

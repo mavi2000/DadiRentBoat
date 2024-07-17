@@ -8,6 +8,7 @@ const accessDetailSchema = Joi.object({
   documentName: Joi.string().allow(""),
   uploadDocument: Joi.string().allow(""),
   documentLink: Joi.string().allow(""),
+  documentDescription: Joi.string().allow("") // New field for document description
 });
 
 const boatAccessSchema = Joi.object({
@@ -17,15 +18,15 @@ const boatAccessSchema = Joi.object({
 
 // Controller function to add boat access information
 export const addBoatAccessInformation = async (req, res, next) => {
-  console.log("req",)
   try {
     const accessDetails = {
       description: req.body.description,
       documentName: req.body.documentName,
       documentLink: req.body.documentLink,
-      uploadDocument: req.files.pdf ? req.files.pdf[0].path : '',
+      uploadDocument: req.files && req.files.pdf ? req.files.pdf[0].path : '',
+      documentDescription: req.body.documentDescription // New field for document description
     };
-    console.log("accessDetails",accessDetails)
+
     const validationData = {
       boatId: req.body.boatId,
       accessDetails: [accessDetails],
@@ -36,11 +37,9 @@ export const addBoatAccessInformation = async (req, res, next) => {
       throw createError(400, error.details[0].message);
     }
 
-    const uploadResults = req.files.pdf
+    const uploadResults = req.files && req.files.pdf
       ? await uploadImages(req.files.pdf[0]) // Adjust based on how you want to handle the file
       : null;
-
-      console.log("uploadResults",uploadResults)
 
     const updatedAccessDetails = value.accessDetails.map((detail) => ({
       ...detail,
@@ -63,7 +62,6 @@ export const addBoatAccessInformation = async (req, res, next) => {
     next(error);
   }
 };
-
 
 
 

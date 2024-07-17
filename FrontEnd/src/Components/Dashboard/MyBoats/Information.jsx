@@ -8,15 +8,27 @@ import { FaMotorcycle, FaLifeRing, FaWater, FaCrown, FaHome, FaShip } from "reac
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 import baseURL from "../../../../APi/BaseUrl";
+import sail from "../../../assets/Images/Sail Boat.png";
+import Motor from "../../../assets/Images/Motor Boat.png";
+import catamaran from "../../../assets/Images/Catamaran Boat.png";
+import jet from '../../../assets/Images/Jet Skies Boat.png';
+import yatch from "../../../assets/Images/Yatch Boat.png";
+import Rubber from '../../../assets/Images/RIB Boat.png';
+import House from "../../../assets/Images/House Baot.png";
 
 const Information = () => {
   const id = localStorage.getItem('id');
   const { boatDescription, navigate, boatId } = useContext(AdminContext);
-  
+
   const initialDescriptionData = {
     boatId: boatId || "",
     boatType: "",
-    rentalType: { bareBoat: false, withoutSkipper: false },
+    rentalType: {
+      bareBoat: false,
+      withoutSkipper: false,
+      noLicenseRequired: false,
+      withOwnerOnBoard: false
+    },
     details: {
       modelOrName: "",
       descriptionItalian: "",
@@ -33,16 +45,33 @@ const Information = () => {
       wc: "",
       cabin: ""
     },
-    motorization: { numberOfEngines: 0, enginePowerHP: 0 },
-    fuel: { unleaded: false, electric: false, diesel: false, ethanol: false },
+    motorization: {
+      numberOfEngines: 0,
+      enginePowerHP: 0,
+      engineMake: "",
+      engineBrand: "",
+      model: "",
+      parkingPort: ""
+    },
+    fuel: {
+      unleaded: false,
+      electric: false,
+      diesel: false,
+      ethanol: false
+    },
     fuelCapacityLiters: 0,
-    engineType: { twoStroke: false, fourStroke: false },
+    engineType: {
+      twoStroke: false,
+      fourStroke: false
+    },
     draftMeters: 0,
     widthMeters: 0,
     lengthMeters: 0,
     draftFeet: 0,
     widthFeet: 0,
     lengthFeet: 0,
+    startTime: "",
+    endTime: ""
   };
 
   const [descriptionData, setDescriptionData] = useState(initialDescriptionData);
@@ -191,6 +220,29 @@ const Information = () => {
     }
   };
 
+  const boatTypes = [
+    { name: 'Sail Boat', image: sail },
+    { name: 'Motorboat', image: Motor },
+    { name: 'Rubber dinghy', image: Rubber },
+    { name: 'Jet Skis', image: jet },
+    { name: 'Luxury yachts', image: yatch },
+    { name: 'Houseboat/Riverboat', image: House },
+    { name: 'Catamaran/Trimaran', image: catamaran },
+  ];
+
+  const generateTimeOptions = () => {
+    const times = [];
+    for (let i = 0; i < 24; i++) {
+      for (let j = 0; j < 60; j += 30) {
+        const hour = i % 12 === 0 ? 12 : i % 12;
+        const minute = j === 0 ? '00' : j;
+        const period = i < 12 ? 'AM' : 'PM';
+        times.push(`${hour}:${minute} ${period}`);
+      }
+    }
+    return times;
+  };
+
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
@@ -201,30 +253,20 @@ const Information = () => {
         <div className="font-medium">Information</div>
         <div className="flex flex-col gap-2">
           <div>Type of Boat</div>
-          <div className="flex gap-10 text-sm">
-            {[
-              { type: "Sail Boat", icon: <GiSailboat /> },
-              { type: "Motorboat", icon: <FaMotorcycle /> },
-              { type: "Rubber dinghy", icon: <FaLifeRing /> },
-              { type: "Jet Skis", icon: <FaWater /> },
-              { type: "Luxury yachts", icon: <FaCrown /> },
-              { type: "Houseboat/Riverboat", icon: <FaHome /> },
-              { type: "Catamaran/Trimaran", icon: <FaShip /> },
-            ].map((boat, index) => (
-              <div key={index} className="flex gap-3 items-center">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+            {boatTypes.map((boat, index) => (
+              <label key={index} className="flex flex-col items-center gap-1 border border-[#CBA557] p-1 rounded cursor-pointer">
                 <input
                   type="radio"
                   name="boatType"
-                  value={boat.type}
-                  checked={descriptionData.boatType === boat.type}
+                  value={boat.name}
+                  checked={descriptionData.boatType === boat.name}
                   onChange={handleChange}
-                  className="outline-none"
+                  className="hidden"
                 />
-                <div className="font-light flex items-center gap-2">
-                  {boat.icon}
-                  {boat.type}
-                </div>
-              </div>
+                <img src={boat.image} alt={boat.name} className="w-16 h-16 object-cover" />
+                <div className="font-normal text-[#CBA557] text-xs outline-none">{boat.name}</div>
+              </label>
             ))}
           </div>
         </div>
@@ -270,6 +312,63 @@ const Information = () => {
                 The person in charge of the boat is the skipper/owner/owner. For the customer, only relaxation!
               </div>
             </div>
+          </div>
+          <div className="flex flex-row gap-3 items-start">
+            <input
+              name="noLicenseRequired"
+              onChange={(e) => handleNestedChange(e, "rentalType")}
+              type="checkbox"
+              className="mt-1 outline-none"
+              checked={descriptionData.rentalType.noLicenseRequired}
+            />
+            <div className="text-sm">
+              <div>No License required</div>
+              <div className="font-light">
+                No boat licence is required to drive the boat
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-row gap-3 items-start">
+            <input
+              name="withOwnerOnBoard"
+              onChange={(e) => handleNestedChange(e, "rentalType")}
+              type="checkbox"
+              className="mt-1 outline-none"
+              checked={descriptionData.rentalType.withOwnerOnBoard}
+            />
+            <div className="text-sm">
+              <div>With owner on board</div>
+              <div className="font-light">
+                You are still on board, but do not touch the controls. The renter is in charge of the controls.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-3 w-[80%]">
+          <label>Rental Schedule</label>
+          <div className="flex gap-4">
+            <select
+              name="startTime"
+              value={descriptionData.startTime}
+              onChange={handleChange}
+              className="border py-2 rounded-md px-3 font-light outline-none"
+            >
+              <option value="">Start Time</option>
+              {generateTimeOptions().map((time, index) => (
+                <option key={index} value={time}>{time}</option>
+              ))}
+            </select>
+            <select
+              name="endTime"
+              value={descriptionData.endTime}
+              onChange={handleChange}
+              className="border py-2 rounded-md px-3 font-light outline-none"
+            >
+              <option value="">End Time</option>
+              {generateTimeOptions().map((time, index) => (
+                <option key={index} value={time}>{time}</option>
+              ))}
+            </select>
           </div>
         </div>
         <div className="bg-[#CBA55714] p-4 flex items-center gap-3 w-[60%] rounded-md">
@@ -479,6 +578,50 @@ const Information = () => {
                   className="border p-3 rounded-md font-light outline-none"
                 />
               </div>
+              <div className="flex flex-col gap-2">
+                <label>Engine Make</label>
+                <input
+                  type="text"
+                  name="engineMake"
+                  value={descriptionData.motorization.engineMake}
+                  onChange={(e) => handleNestedChange(e, "motorization")}
+                  placeholder="Enter the engine make"
+                  className="border p-3 rounded-md font-light outline-none"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label>Engine Brand</label>
+                <input
+                  type="text"
+                  name="engineBrand"
+                  value={descriptionData.motorization.engineBrand}
+                  onChange={(e) => handleNestedChange(e, "motorization")}
+                  placeholder="Enter the engine brand"
+                  className="border p-3 rounded-md font-light outline-none"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label>Model</label>
+                <input
+                  type="text"
+                  name="model"
+                  value={descriptionData.motorization.model}
+                  onChange={(e) => handleNestedChange(e, "motorization")}
+                  placeholder="Enter the model"
+                  className="border p-3 rounded-md font-light outline-none"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label>Parking Port</label>
+                <input
+                  type="text"
+                  name="parkingPort"
+                  value={descriptionData.motorization.parkingPort}
+                  onChange={(e) => handleNestedChange(e, "motorization")}
+                  placeholder="Enter the parking port of the boat"
+                  className="border p-3 rounded-md font-light outline-none"
+                />
+              </div>
             </div>
           </div>
           <div className="flex flex-col gap-6">
@@ -491,11 +634,11 @@ const Information = () => {
                     checked={descriptionData.fuel[fuelType]}
                     onChange={handleRadioChange}
                     type="radio"
-                    className="outline-none"
+                    className="hidden"
                   />
-                  <div className="font-light">
+                  <label htmlFor={fuelType} className="cursor-pointer flex items-center gap-2 font-light">
                     {fuelType.charAt(0).toUpperCase() + fuelType.slice(1)}
-                  </div>
+                  </label>
                 </div>
               ))}
             </div>
@@ -522,11 +665,11 @@ const Information = () => {
                           checked={descriptionData.engineType[engineType]}
                           onChange={handleEngineTypeChange}
                           type="radio"
-                          className="outline-none"
+                          className="hidden"
                         />
-                        <div className="font-light">
+                        <label htmlFor={engineType} className="cursor-pointer flex items-center gap-2 font-light">
                           {engineType === "twoStroke" ? "2 Stroke" : "4 Stroke"}
-                        </div>
+                        </label>
                       </div>
                     ))}
                   </div>

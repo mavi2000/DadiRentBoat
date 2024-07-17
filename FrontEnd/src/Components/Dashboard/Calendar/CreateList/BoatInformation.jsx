@@ -22,7 +22,7 @@ const BoatInformation = () => {
     model: '',
     year: 2017,
     region: 'Livorno ,Italy',
-    city: "",
+    city: "Livorno",
     boardingCapacity: 8,
     harbour: "",
     totalEnginePowerHP: 40,
@@ -89,13 +89,13 @@ const BoatInformation = () => {
   };
 
   const boatTypes = [
-    { name: 'Sail Boat', image: sail },
+    { name: 'Sail', image: sail },
     { name: 'Motorboat', image: Motor },
     { name: 'Ruber dinghy', image: Rib },
     { name: 'Jet Skis', image: jet },
-    { name: 'Luxury yachts', image: yatch },
-    { name: 'Houseboat/Riverboat', image: House },
-    { name: 'Catamaran/Trimaran', image: catamaran },
+    { name: 'yachts', image: yatch },
+    { name: 'Houseboat', image: House },
+    { name: 'Catamaran', image: catamaran },
     { name: 'Gullet', image: Gullet },
   ];
 
@@ -104,20 +104,21 @@ const BoatInformation = () => {
       <div className="flex justify-center flex-col gap-4 w-[100%]">
         <div>Type of Boat</div>
         <div className="grid 1200px:grid-cols-6 500px:grid-cols-3 500px:grid-rows-3 300px:grid-cols-2 300px:grid-rows-4 1200px:gap-3 300px:gap-4 w-[90%] justify-between">
-          {boatTypes.map((item, index) => (
-            <label key={index} className="flex flex-col items-center gap-2">
-              <input
-                type="radio"
-                name="type"
-                value={item.name}
-                checked={formData.type === item.name}
-                onChange={handleChange}
-                className="w-4 h-4"
-              />
-              <img src={item.image} alt={item.name} className="w-10 h-10 object-cover" />
-              <div className="font-normal text-[#676767] 500px:text-sm 300px:text-xs outline-none">{item.name}</div>
-            </label>
-          ))}
+                    {boatTypes.map((item, index) => (
+              <label key={index} className="flex items-center gap-2 border border-[#CBA557] p-4 rounded">
+                <input
+                  type="radio"
+                  name="type"
+                  value={item.name}
+                  checked={formData.type === item.name}
+                  onChange={handleChange}
+                  className="w-4 h-4 hidden"
+                  
+                />
+                <img src={item.image} alt={item.name} className="w-10 h-10 object-cover" />
+                <div className="font-normal text-[#CBA557] 500px:text-sm 300px:text-xs outline-none">{item.name}</div>
+              </label>
+            ))}
         </div>
       </div>
       <form className="flex flex-col gap-12" onSubmit={handleSubmit}>
