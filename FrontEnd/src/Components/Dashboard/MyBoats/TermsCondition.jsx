@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { MdElectricBolt } from "react-icons/md";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa6";
 import { AdminContext } from '../../../../Context/AdminContext';
+import BoatsNavbar from "./BoatsNavbar";
 
 const listPoints = [
   "Instant bookings are automatically approved: no more actions needed on your part to validate a rental.",
@@ -35,6 +36,7 @@ const TermsCondition = () => {
   const [allowPets, setAllowPets] = useState(false);
   const [preBookingMessage, setPreBookingMessage] = useState("");
   const [selectedCancellationPolicy, setSelectedCancellationPolicy] = useState('');
+  const [personalizedPolicy, setPersonalizedPolicy] = useState('');
   const [applyToFleet, setApplyToFleet] = useState(false);
 
   const handleSave = () => {
@@ -46,15 +48,18 @@ const TermsCondition = () => {
       allowPets,
       preBookingMessage,
       selectedCancellationPolicy,
+      personalizedPolicy,
       applyToFleet
     };
     addTermAndCondition({ ...formData, boatId: "60d5ec49e7b4f0b5a8d0c5a4" })
   };
 
   return (
-    <section className='p-8 pb-20'>
+
+    <section className=''>
+      <BoatsNavbar/>
       {/* instant booking block start */}
-      <div className='shadow-lg rounded-md mb-6 p-4 bg-purple-300'>
+      <div className='shadow-lg rounded-md mb-6 p-4 bg-[#dbb666] mt-10'>
         <article className='rounded-md flex items-center justify-between gap-3'>
           <MdElectricBolt size={30} className='font-semibold' />
           <div className='flex-1'>
@@ -94,9 +99,9 @@ const TermsCondition = () => {
       <div className='shadow-lg bg-white rounded-md p-4'>
         {/* conditions block start */}
         <article>
-          <h1 className='text-xl font-bold'>Conditions</h1>
-          <h1 className='text-xl font-bold mt-8'>Advance notice</h1>
-          <p className='my-4 text-sm font-[200]'>You can choose from when renters can send a request, so you have time to prepare</p>
+          <h1 className='text-xl font-semibold'>Conditions</h1>
+          <h1 className='text-xl font-semibold mt-8'>Advance notice</h1>
+          <p className='my-4 text-sm font-lighter'>You can choose from when renters can send a request, so you have time to prepare</p>
           <select
             className='w-full p-2 bg-white outline-none border rounded-md'
             value={notice}
@@ -104,9 +109,9 @@ const TermsCondition = () => {
           >
             {noticeOptions.map((item, i) => <option key={i} value={item}>{item}</option>)}
           </select>
-          <h1 className='text-xl font-bold mt-8'>Minimum rental duration</h1>
-          <p className='my-4 text-sm font-[200]'>Go to the rate section for the minimum rental duration : Rates</p>
-          <h1 className='text-xl font-bold mt-8'>Rental conditions for more than 2 days</h1>
+          <h1 className='text-xl font-semibold mt-8'>Minimum rental duration</h1>
+          <p className='my-4 text-sm font-lighter'>Go to the rate section for the minimum rental duration : Rates</p>
+          <h1 className='text-xl font-semibold mt-8'>Rental conditions for more than 2 days</h1>
           <div className='my-4'>
             <label className='my-20'>
               <input
@@ -114,7 +119,7 @@ const TermsCondition = () => {
                 checked={rentalDisembarkMorning}
                 onChange={(e) => setRentalDisembarkMorning(e.target.checked)}
               />
-              <span className='ms-2'>
+              <span className='ms-2 font-lighter'>
                 I accept that the renter may disembark the boat in the morning. Best option for weekly rentals and saturday to saturday rentals for example (week price = 7 nights price)
               </span>
             </label> <br />
@@ -126,26 +131,26 @@ const TermsCondition = () => {
                 checked={rentalEmbarkEvening}
                 onChange={(e) => setRentalEmbarkEvening(e.target.checked)}
               />
-              <span className='ms-2'>
+              <span className='ms-2 font-lighter'>
                 I accept that the renter can embark the boat in the evening. Best option for week-end rentals and can offer check-in on Friday evening for example (2 nights price = 2 days price).
               </span>
             </label>
           </div>
-          <h1 className='text-xl font-bold mt-8'>Preference</h1>
+          <h1 className='text-xl font-semibold mt-8'>Preference</h1>
           <div className='flex items-center gap-20'>
-            <p className='my-4 text-sm font-[200]'>Pets allowed on board</p>
+            <p className='my-4 text-sm font-lighter'>Pets allowed on board</p>
             <ToggleButton isToggled={allowPets} setIsToggled={setAllowPets} />
           </div>
-          <h1 className='text-xl font-bold mt-8'>Message containing pre-booking information</h1>
-          <p className='my-2 text-sm font-[200]'>Inform your future renters of your rental conditions when they make a request.</p>
+          <h1 className='text-xl font-semibold mt-8'>Message containing pre-booking information</h1>
+          <p className='my-2 text-sm font-lighter'>Inform your future renters of your rental conditions when they make a request.</p>
           <textarea
             value={preBookingMessage}
             rows={10}
             onChange={(e) => setPreBookingMessage(e.target.value)}
             className='w-full outline-none border rounded-md p-2'
           ></textarea>
-          <h1 className='text-xl font-bold mt-8'>Cancellation Policy</h1>
-          <p className='my-3 text-sm font-[200]'>Select the cancellation conditions for your listing to which the renter will be subject:</p>
+          <h1 className='text-xl font-semibold mt-8'>Cancellation Policy</h1>
+          <p className='my-3 text-sm font-lighter'>Select the cancellation conditions for your listing to which the renter will be subject:</p>
           {cancellationPolicy.map((item, i) => (
             <label key={i}>
               <div className='flex items-start gap-3'>
@@ -158,12 +163,23 @@ const TermsCondition = () => {
                   className='mt-1'
                 />
                 <div className='m-0 p-0'>
-                  <h1 className='text-sm font-bold'>{item.heading}</h1>
-                  {item.text && <p className='font-[200] text-sm my-1'>{item.text}</p>}
+                  <h1 className='text-sm font-semibold'>{item.heading}</h1>
+                  {item.text && <p className='font-lighter text-sm my-1'>{item.text}</p>}
                 </div>
               </div>
             </label>
           ))}
+          {selectedCancellationPolicy === 'Personalized' && (
+            <div className='mt-4'>
+              <label className='block text-sm font-semibold mb-2'>Propose your own cancellation conditions.</label>
+              <textarea
+                value={personalizedPolicy}
+                onChange={(e) => setPersonalizedPolicy(e.target.value)}
+                rows={4}
+                className='w-full outline-none border rounded-md p-2'
+              ></textarea>
+            </div>
+          )}
         </article>
         {/* conditions block end */}
         <div className='my-5 p-4 border border-gray-300 rounded-md'>
@@ -178,7 +194,7 @@ const TermsCondition = () => {
           </label>
         </div>
         <button
-          className='text-sm py-2 px-4 text-white bg-purple-500 rounded-md'
+          className='text-sm py-2 px-4 text-white bg-[#a98b4a] rounded-md'
           onClick={handleSave}
         >
           Save

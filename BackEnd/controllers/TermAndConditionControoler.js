@@ -3,10 +3,12 @@ import { createError } from "../utils/createError.js";
 
 export const addCondition = async (req, res, next) => {
   try {
-    // const existingCondition = await TermsAndCondition.findOne({ boatId, conditionName });
-    // if (existingCondition) {
-    //     throw createError(400, 'Condition name already exists');
-    // }
+    const { selectedCancellationPolicy, personalizedPolicy } = req.body;
+
+ 
+    if (selectedCancellationPolicy === "Personalized" && !personalizedPolicy) {
+      throw createError(400, "Personalized cancellation policy is required.");
+    }
 
     const newCondition = new TermsAndCondition(req.body);
 
@@ -17,7 +19,6 @@ export const addCondition = async (req, res, next) => {
     next(error);
   }
 };
-
 
 
 

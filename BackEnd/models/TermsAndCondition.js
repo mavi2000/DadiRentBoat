@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { createError } from "../utils/createError.js";
 
 const TermAndConditionSchema = new mongoose.Schema({
   boatId: {
@@ -26,6 +25,12 @@ const TermAndConditionSchema = new mongoose.Schema({
   selectedCancellationPolicy: {
     type: String,
     required: true,
+  },
+  personalizedPolicy: {
+    type: String,
+    required: function() {
+      return this.selectedCancellationPolicy === "Personalized";
+    },
   },
   allowPets: {
     type: Boolean,

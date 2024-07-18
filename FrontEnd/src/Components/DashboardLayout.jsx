@@ -2,6 +2,8 @@ import { IoIosSearch } from "react-icons/io";
 import Sidebar from "./AdminSidebar/Sidebar";
 import user from "../assets/Images/user.png";
 import { GoBell } from "react-icons/go";
+
+
 const DashboardLayout = ({ Childeren }) => {
   return (
     <div className="flex gap-8 w-full">

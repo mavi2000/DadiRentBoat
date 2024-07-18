@@ -260,7 +260,8 @@ function App() {
                 path="/Dashboard/my-boats/info-access"
                 element={<DashboardLayout Childeren={<InfoAccess />} />}
               />
-              <Route
+        
+               <Route
                 path="/Dashboard/my-boats/termscondition"
                 element={<DashboardLayout Childeren={<TermsCondition />} />}
               />
