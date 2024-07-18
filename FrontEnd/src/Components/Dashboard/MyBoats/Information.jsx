@@ -634,7 +634,7 @@ const Information = () => {
                     checked={descriptionData.fuel[fuelType]}
                     onChange={handleRadioChange}
                     type="radio"
-                    className="hidden"
+                    // className="hidden"
                   />
                   <label htmlFor={fuelType} className="cursor-pointer flex items-center gap-2 font-light">
                     {fuelType.charAt(0).toUpperCase() + fuelType.slice(1)}
