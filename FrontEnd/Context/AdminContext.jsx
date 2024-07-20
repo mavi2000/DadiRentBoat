@@ -53,7 +53,7 @@ const AdminProvider = ({ children }) => {
       return response?.data;
     } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "Failed to create boat";
+        error.response.data.message || "Failed to create boat";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
@@ -67,7 +67,7 @@ const AdminProvider = ({ children }) => {
       return response.data;
     } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "Failed to rent boat";
+        error.response.data.message || "Failed to rent boat";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
@@ -85,7 +85,7 @@ const AdminProvider = ({ children }) => {
       return response.data;
     } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "Failed to deposit amount";
+        error.response.data.message || "Failed to deposit amount";
       setError(errorMessage);
       toast.error(errorMessage);
       throw error;
@@ -101,9 +101,9 @@ const AdminProvider = ({ children }) => {
       // toast.success("deposit amount successfully");
       return response.data;
     } catch (error) {
-      error.response?.data?.message || "Failed to add Insurance";
+      error.response.data.message || "Failed to add Insurance";
       setError(errorMessage);
-      toast.error(errorMessage);
+      toast.error( error.response.data.message);
       throw error;
     }
   };
