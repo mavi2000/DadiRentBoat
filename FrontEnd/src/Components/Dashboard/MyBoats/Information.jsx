@@ -677,7 +677,6 @@ const Information = () => {
                       checked={descriptionData.fuel[fuelType]}
                       onChange={handleRadioChange}
                       type="radio"
-                      className="hidden"
                     />
                     <label
                       htmlFor={fuelType}
