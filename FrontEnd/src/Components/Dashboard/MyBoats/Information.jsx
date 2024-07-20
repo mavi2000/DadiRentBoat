@@ -711,7 +711,7 @@ const Information = () => {
                           checked={descriptionData.engineType[engineType]}
                           onChange={handleEngineTypeChange}
                           type="radio"
-                          className="hidden"
+                        
                         />
                         <label
                           htmlFor={engineType}
