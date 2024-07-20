@@ -34,12 +34,12 @@ export const CreateBoat = async (req, res, next) => {
     region: Joi.string().required(),
     city: Joi.string().required(),
     harbour: Joi.string().required(),
-    boardingCapacity: Joi.number().integer().min(1).required(),
-    totalEnginePowerHP: Joi.number().integer().min(1).required(),
+    boardingCapacity: Joi.number().min(1).required(),
+    totalEnginePowerHP: Joi.number().min(1).required(),
     lengthMeters: Joi.number().min(0).required(),
     telephone: Joi.string().required(),
-    waterTankLiters: Joi.number().integer().min(0).required(),
-    fuelTankLiters: Joi.number().integer().min(0).required(),
+    waterTankLiters: Joi.number().min(0).required(),
+    fuelTankLiters: Joi.number().min(0).required(),
     droughtMeters: Joi.number().min(0).required(),
   });
 
@@ -60,7 +60,6 @@ export const CreateBoat = async (req, res, next) => {
     next(err);
   }
 };
-
 
 export const getBoat = async (req,res,next)=>{
   try {
