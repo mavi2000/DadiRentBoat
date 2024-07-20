@@ -12,9 +12,7 @@ const NavbarDropDown = () => {
       <Link to="/user/account-info">
         <button>My Account</button>
       </Link>
-      <Link>
-        <button>Logout</button>
-      </Link>
+      
     </div>
   );
 };

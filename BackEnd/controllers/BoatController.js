@@ -1,19 +1,25 @@
 import mongoose from "mongoose";
-import Boat from "../models/Boat.js";
-import Location from "../models/Location.js";
-import BoatImage from "../models/BoatImage.js";
-import voucher from "../models/voucher.js";
-import Rental from "../models/Rent.js";
-import ExtraServices from "../models/ExtraServices.js"; // Corrected spelling
-// import Insurance from "../models/Insurance.js"; // Corrected spelling
-import Insurence from "../models/Insurence.js";
-// import Equipment from "../models/Equipment.js"; // Corrected spelling
-import Rate from "../models/Rates.js"
-import BoatDescription from "../models/BoatDescription.js"
-import DamageDeposits from "../models/DemageDeposits.js"
-import Equipments from "../models/Euipment.js"
+import {
+  Boat,
+  Location,
+  Booking,
+  BoatImage,
+  voucher,
+  Rental,
+  ExtraServices,
+  Insurence,
+  Rate,
+  BoatDescription,
+  DamageDeposits,
+  Equipments,
+} from "../models/index.js";
+
+
+
+
 import Joi from "joi";
 import { createError } from "../utils/createError.js";
+
 
 export const CreateBoat = async (req, res, next) => {
   const schema = Joi.object({
@@ -72,12 +78,12 @@ export const getBoat = async (req,res,next)=>{
   }
 }
 
-
 const getBoatDetailsById = async (boatId) => {
   try {
     const boatObjectId = new mongoose.Types.ObjectId(boatId);
 
     const boatPromise = Boat.findById(boatObjectId).exec();
+    const BoatBookingPromise = Booking.find({ boatId: boatObjectId }).exec();
     const boatImagePromise = BoatImage.find({ boatId: boatObjectId }).exec();
     const locationPromise = Location.find({ boatId: boatObjectId }).exec();
     const voucherPromise = voucher.find({ boatId: boatObjectId }).exec();
@@ -86,10 +92,10 @@ const getBoatDetailsById = async (boatId) => {
     const insurancePromise = Insurence.find({ boatId: boatObjectId }).exec();
     const equipmentPromise = Equipments.find({ boatId: boatObjectId }).exec();
     const ratePromise = Rate.find({ boatId: boatObjectId }).exec();
-    const descriptionPromise = BoatDescription.find({ boatId: boatObjectId }).exec(); // Added
-    const damageDepositsPromise = DamageDeposits.find({ boatId: boatObjectId }).exec(); // Added
+    const descriptionPromise = BoatDescription.find({ boatId: boatObjectId }).exec();
+    const damageDepositsPromise = DamageDeposits.find({ boatId: boatObjectId }).exec();
 
-    const [boat, boatImages, location, vouchers, rental, extraServices, insurance, equipment, rate, description, damageDeposits] = await Promise.all([
+    const [boat, boatImages, location, vouchers, rental, extraServices, insurance, equipment, rate, description, damageDeposits, boatBookings] = await Promise.all([
       boatPromise,
       boatImagePromise,
       locationPromise,
@@ -100,7 +106,8 @@ const getBoatDetailsById = async (boatId) => {
       equipmentPromise,
       ratePromise,
       descriptionPromise,
-      damageDepositsPromise
+      damageDepositsPromise,
+      BoatBookingPromise,
     ]);
 
     const totalFields = 11; // Total number of fields to check
@@ -132,14 +139,14 @@ const getBoatDetailsById = async (boatId) => {
       rate,
       description,
       damageDeposits,
-      completionPercentage
+      completionPercentage,
+      boatBookings,
     };
   } catch (error) {
     console.error("Error fetching boat details:", error);
     throw error;
   }
 };
-
 
 const getAllBoatsDetails = async () => {
   try {
@@ -154,6 +161,8 @@ const getAllBoatsDetails = async () => {
     throw error;
   }
 };
+
+
 
 export const getAllDetail = async (req, res) => {
   try {

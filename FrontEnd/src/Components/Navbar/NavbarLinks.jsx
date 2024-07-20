@@ -59,20 +59,20 @@ const NavbarLinks = () => {
             </p>
           </Link>
           <Link to="/">
-            <p
+            {/* <p
               className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700`}
             >
               Dadi Boats
-            </p>
+            </p> */}
           </Link>
         </>
       ) : (
         <Link to="/">
-          <p
+          {/* <p
             className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700`}
           >
             About Us
-          </p>
+          </p> */}
         </Link>
       )}
 

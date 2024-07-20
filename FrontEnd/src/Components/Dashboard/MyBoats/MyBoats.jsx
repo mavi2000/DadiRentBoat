@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { IoSearchOutline } from "react-icons/io5";
 import { TiLocation } from "react-icons/ti";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -71,6 +74,14 @@ const MyBoats = () => {
     navigate(e.target.value);
   };
 
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
+
   return (
     <div className="mx-[4%] mt-[3%]">
       <div className="md:flex md:justify-between justify-center text-center gap-5 md:gap-0 items-center">
@@ -129,11 +140,13 @@ const MyBoats = () => {
         <div key={index} className="flex flex-col md:flex-row md:justify-between w-full mt-[4%]">
           <div className="flex gap-[3%] flex-col md:flex-row items-center md:items-start">
             {boat.boatImages && boat.boatImages.length > 0 ? (
-              boat.boatImages.map((image, imageIndex) => (
-                <div key={imageIndex} className="md:w-64 w-1/2">
-                  <img src={image.avatar} alt="" className="w-full" />
-                </div>
-              ))
+              <Slider {...sliderSettings} className="md:w-64 w-1/2">
+                {boat.boatImages[0].images.map((image, imageIndex) => (
+                  <div key={imageIndex} className="w-full">
+                    <img src={image} alt="" className="w-full" />
+                  </div>
+                ))}
+              </Slider>
             ) : (
               <div className="md:w-64 w-1/2 flex flex-col items-center justify-center border border-dashed border-[#B7B7B7] rounded p-4">
                 <AiOutlinePlus className="text-[#CBA557] text-4xl" />

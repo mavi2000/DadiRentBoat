@@ -3,6 +3,10 @@ import fleetCardIcon from '../../assets/Images/fleetCardIcon.png';
 import { FaPeopleGroup } from 'react-icons/fa6';
 import { HiOutlineIdentification } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+
 const FleetCard = ({
   boatImg,
   title,
@@ -11,46 +15,68 @@ const FleetCard = ({
   power,
   licenseRequired,
   id,
-
+  images // Add images prop to receive the array of images
 }) => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    customPaging: i => (
+      <div className="w-3 h-3 bg-yellow-500 rounded-full mx-1 cursor-pointer"></div>
+    ),
+    dotsClass: "slick-dots custom-slick-dots",
+    arrows: true,
+    nextArrow: <button type="button" className="slick-next text-black">&#9654;</button>,
+    prevArrow: <button type="button" className="slick-prev text-black">&#9664;</button>,
+  };
+
+  console.log("images", images);
+
   return (
     <div className="bg-white rounded-md p-3 w-full md:w-[350px] shadow-md">
-      <img src={boatImg} alt="Boat" className="w-full h-56 " />
+      <Slider {...settings}>
+        {images?.map((img, index) => (
+          <div key={index}>
+            <img src={img} alt={`Boat ${index}`} className="w-full h-56 object-cover rounded-md" />
+          </div>
+        ))}
+      </Slider>
       <div className="bg-white relative -top-12 ml-8 -mb-12">
         <img src={fleetCardIcon} alt="aim" className="w-12" />
         <h1 className="text-black text-xl font-semibold mt-8">{title}</h1>
         <table className="w-full text-[#1919199e] text-base mt-4">
-          <tr className="border-collapse border-y-[1px] border-[#19191923] ">
-            <td className="py-2">
-              <FaPeopleGroup size={25} className="text-[--primary-color]" />
-            </td>
-            <td className="py-2 px-4 ml-0 mr-auto">Persons</td>
-            <td className="py-2 text-right">{numberOfPersons}</td>
-          </tr>
-          <tr className="border-collapse border-y-[1px] border-[#19191923] ">
-            <td className="py-2">
-              <RiRulerLine size={25} className="text-[--primary-color]" />
-            </td>
-            <td className="py-2 px-4 ml-0 mr-auto">Length</td>
-            <td className="py-2 text-right">{length} Meters</td>
-          </tr>
-          <tr className="border-collapse border-y-[1px] border-[#19191923] ">
-            <td className="py-2">
-              <RiAnchorLine size={25} className="text-[--primary-color]" />
-            </td>
-            <td className="py-2 px-4 ml-0 mr-auto">Engine Power</td>
-            <td className="py-2 text-right">{power}hp</td>
-          </tr>
-          <tr className="border-collapse border-y-[1px] border-[#19191923] ">
-            <td className="py-2">
-              <HiOutlineIdentification
-                size={25}
-                className="text-[--primary-color]"
-              />
-            </td>
-            <td className="py-2 px-4 ml-0 mr-auto">License Required</td>
-            <td className="py-2 text-right">{licenseRequired}</td>
-          </tr>
+          <tbody>
+            <tr className="border-collapse border-y-[1px] border-[#19191923] ">
+              <td className="py-2">
+                <FaPeopleGroup size={25} className="text-[--primary-color]" />
+              </td>
+              <td className="py-2 px-4 ml-0 mr-auto">Persons</td>
+              <td className="py-2 text-right">{numberOfPersons}</td>
+            </tr>
+            <tr className="border-collapse border-y-[1px] border-[#19191923] ">
+              <td className="py-2">
+                <RiRulerLine size={25} className="text-[--primary-color]" />
+              </td>
+              <td className="py-2 px-4 ml-0 mr-auto">Length</td>
+              <td className="py-2 text-right">{length} Meters</td>
+            </tr>
+            <tr className="border-collapse border-y-[1px] border-[#19191923] ">
+              <td className="py-2">
+                <RiAnchorLine size={25} className="text-[--primary-color]" />
+              </td>
+              <td className="py-2 px-4 ml-0 mr-auto">Engine Power</td>
+              <td className="py-2 text-right">{power}hp</td>
+            </tr>
+            <tr className="border-collapse border-y-[1px] border-[#19191923] ">
+              <td className="py-2">
+                <HiOutlineIdentification size={25} className="text-[--primary-color]" />
+              </td>
+              <td className="py-2 px-4 ml-0 mr-auto">License Required</td>
+              <td className="py-2 text-right">{licenseRequired}</td>
+            </tr>
+          </tbody>
         </table>
         <div className="w-full mt-12 mb-4 flex gap-4">
           <Link to={`/book-now/${id}`}>
@@ -68,4 +94,5 @@ const FleetCard = ({
     </div>
   );
 };
+
 export default FleetCard;

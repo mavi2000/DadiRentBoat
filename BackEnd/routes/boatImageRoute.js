@@ -8,6 +8,8 @@ const upload = multer({ dest: "uploads/" });
 import {
   upDateBoatImages,
   uploadBoatImages,
+  getBoatImages,
+  deleteImage
 } from "../controllers/BoatImageController.js";
 
 router.post("/uploadBoatImages", upload.fields([
@@ -16,7 +18,13 @@ router.post("/uploadBoatImages", upload.fields([
 ]), uploadBoatImages);
 
 
+router.get("/getBoatImages/:id",getBoatImages)
+router.delete("/deleteImage",deleteImage)
 
-router.patch("/update-image/:id", upload.single("image"), upDateBoatImages);
+
+router.patch("/update-image/:id",upload.fields([
+  { name: 'images', maxCount: 10 },
+  { name: 'videos', maxCount: 10 }
+]), upDateBoatImages);
 
 export default router;

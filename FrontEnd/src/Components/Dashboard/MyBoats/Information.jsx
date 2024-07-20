@@ -3,21 +3,22 @@ import BoatsNavbar from "./BoatsNavbar";
 import { FiInfo } from "react-icons/fi";
 import { IoAddOutline } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
-import { GiSailboat } from "react-icons/gi";
-import { FaMotorcycle, FaLifeRing, FaWater, FaCrown, FaHome, FaShip } from "react-icons/fa";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 import baseURL from "../../../../APi/BaseUrl";
 import sail from "../../../assets/Images/Sail Boat.png";
 import Motor from "../../../assets/Images/Motor Boat.png";
 import catamaran from "../../../assets/Images/Catamaran Boat.png";
-import jet from '../../../assets/Images/Jet Skies Boat.png';
+import jet from "../../../assets/Images/Jet Skies Boat.png";
 import yatch from "../../../assets/Images/Yatch Boat.png";
-import Rubber from '../../../assets/Images/RIB Boat.png';
+import Rubber from "../../../assets/Images/RIB Boat.png";
 import House from "../../../assets/Images/House Baot.png";
 
 const Information = () => {
-  const id = localStorage.getItem('id');
+  const id = localStorage.getItem("id");
+  console.log("id",id)
+
+
   const { boatDescription, navigate, boatId } = useContext(AdminContext);
 
   const initialDescriptionData = {
@@ -27,7 +28,7 @@ const Information = () => {
       bareBoat: false,
       withoutSkipper: false,
       noLicenseRequired: false,
-      withOwnerOnBoard: false
+      withOwnerOnBoard: false,
     },
     details: {
       modelOrName: "",
@@ -43,7 +44,7 @@ const Information = () => {
       berth: "",
       showerRoom: 0,
       wc: "",
-      cabin: ""
+      cabin: "",
     },
     motorization: {
       numberOfEngines: 0,
@@ -51,18 +52,18 @@ const Information = () => {
       engineMake: "",
       engineBrand: "",
       model: "",
-      parkingPort: ""
+      parkingPort: "",
     },
     fuel: {
       unleaded: false,
       electric: false,
       diesel: false,
-      ethanol: false
+      ethanol: false,
     },
     fuelCapacityLiters: 0,
     engineType: {
       twoStroke: false,
-      fourStroke: false
+      fourStroke: false,
     },
     draftMeters: 0,
     widthMeters: 0,
@@ -71,27 +72,34 @@ const Information = () => {
     widthFeet: 0,
     lengthFeet: 0,
     startTime: "",
-    endTime: ""
+    endTime: "",
   };
 
   const [descriptionData, setDescriptionData] = useState(initialDescriptionData);
-  const [selectedLanguage, setSelectedLanguage] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState("");
   const [languageSections, setLanguageSections] = useState([]);
 
   useEffect(() => {
     if (id) {
       const getBoatDescription = async () => {
         try {
-          const res = await baseURL(`/description/get-boat-description/${id}`);
+          const res = await baseURL(`/decription/get-boat-description/${id}`);
           const { data: { description } } = res;
-          setDescriptionData({ ...description, boatId });
+          setDescriptionData({
+            ...description,
+            details: {
+              ...description.details,
+              descriptionOtherLanguages: description.details.descriptionOtherLanguages || [],
+            },
+          });
+          setLanguageSections(description.details.descriptionOtherLanguages || []);
         } catch (error) {
           console.log(error);
         }
       };
       getBoatDescription();
     }
-  }, [id, boatId]);
+  }, [id]);
 
   const handleNestedChange = (e, group) => {
     const { name, value, type, checked } = e.target;
@@ -144,7 +152,7 @@ const Information = () => {
     setDescriptionData((prevState) => ({
       ...prevState,
       [name]: value,
-      [`${name.replace('Meters', 'Feet')}`]: feetValue,
+      [`${name.replace("Meters", "Feet")}`]: feetValue,
     }));
   };
 
@@ -154,21 +162,31 @@ const Information = () => {
     setDescriptionData((prevState) => ({
       ...prevState,
       [name]: value,
-      [`${name.replace('Feet', 'Meters')}`]: metersValue,
+      [`${name.replace("Feet", "Meters")}`]: metersValue,
     }));
   };
 
   const translateText = async (text, targetLanguage) => {
-    const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=it|${targetLanguage}`);
+    const response = await fetch(
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(
+        text
+      )}&langpair=it|${targetLanguage}`
+    );
     const data = await response.json();
     return data.responseData.translatedText;
   };
 
   const addLanguageSection = async () => {
     if (selectedLanguage) {
-      const translatedText = await translateText(descriptionData.details.descriptionItalian, selectedLanguage);
-      setLanguageSections([...languageSections, { language: selectedLanguage, description: translatedText }]);
-      setSelectedLanguage('');
+      const translatedText = await translateText(
+        descriptionData.details.descriptionItalian,
+        selectedLanguage
+      );
+      setLanguageSections([
+        ...languageSections,
+        { language: selectedLanguage, description: translatedText },
+      ]);
+      setSelectedLanguage("");
     }
   };
 
@@ -191,7 +209,7 @@ const Information = () => {
       details: {
         ...descriptionData.details,
         descriptionOtherLanguages: languageSections,
-      }
+      },
     };
     if (!id) {
       try {
@@ -208,26 +226,29 @@ const Information = () => {
       }
     } else {
       try {
-        const res = await baseURL.patch(`/description/update-boat-description/${id}`, payload);
-        toast.success('Description updated successfully');
-        localStorage.removeItem('id');
+        await baseURL.patch(
+          `/decription/updatedescription/${id}`,
+          payload
+        );
+        toast.success("Description updated successfully");
+        localStorage.removeItem("id");
         setTimeout(() => {
-          navigate('/Dashboard/my-boats');
+          navigate("/Dashboard/my-boats");
         }, 3000);
       } catch (error) {
-        toast.error('Failed to update description');
+        toast.error("Failed to update description");
       }
     }
   };
 
   const boatTypes = [
-    { name: 'Sail Boat', image: sail },
-    { name: 'Motorboat', image: Motor },
-    { name: 'Rubber dinghy', image: Rubber },
-    { name: 'Jet Skis', image: jet },
-    { name: 'Luxury yachts', image: yatch },
-    { name: 'Houseboat/Riverboat', image: House },
-    { name: 'Catamaran/Trimaran', image: catamaran },
+    { name: "Sail Boat", image: sail },
+    { name: "Motorboat", image: Motor },
+    { name: "Rubber dinghy", image: Rubber },
+    { name: "Jet Skis", image: jet },
+    { name: "Luxury yachts", image: yatch },
+    { name: "Houseboat/Riverboat", image: House },
+    { name: "Catamaran/Trimaran", image: catamaran },
   ];
 
   const generateTimeOptions = () => {
@@ -235,8 +256,8 @@ const Information = () => {
     for (let i = 0; i < 24; i++) {
       for (let j = 0; j < 60; j += 30) {
         const hour = i % 12 === 0 ? 12 : i % 12;
-        const minute = j === 0 ? '00' : j;
-        const period = i < 12 ? 'AM' : 'PM';
+        const minute = j === 0 ? "00" : j;
+        const period = i < 12 ? "AM" : "PM";
         times.push(`${hour}:${minute} ${period}`);
       }
     }
@@ -255,7 +276,10 @@ const Information = () => {
           <div>Type of Boat</div>
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
             {boatTypes.map((boat, index) => (
-              <label key={index} className="flex flex-col items-center gap-1 border border-[#CBA557] p-1 rounded cursor-pointer">
+              <label
+                key={index}
+                className="flex flex-col items-center gap-1 border border-[#CBA557] p-1 rounded cursor-pointer"
+              >
                 <input
                   type="radio"
                   name="boatType"
@@ -264,8 +288,14 @@ const Information = () => {
                   onChange={handleChange}
                   className="hidden"
                 />
-                <img src={boat.image} alt={boat.name} className="w-16 h-16 object-cover" />
-                <div className="font-normal text-[#CBA557] text-xs outline-none">{boat.name}</div>
+                <img
+                  src={boat.image}
+                  alt={boat.name}
+                  className="w-16 h-16 object-cover"
+                />
+                <div className="font-normal text-[#CBA557] text-xs outline-none">
+                  {boat.name}
+                </div>
               </label>
             ))}
           </div>
@@ -294,7 +324,9 @@ const Information = () => {
             <div className="text-sm">
               <div>Bear Boat (without skipper)</div>
               <div className="font-light">
-                The customer is the person in charge of the ship; The boat is rented with the "boat alone" formula (without skipper) Boat without a license
+                The customer is the person in charge of the ship; The boat is
+                rented with the "boat alone" formula (without skipper) Boat
+                without a license
               </div>
             </div>
           </div>
@@ -309,7 +341,8 @@ const Information = () => {
             <div className="text-sm">
               <div>With skipper</div>
               <div className="font-light">
-                The person in charge of the boat is the skipper/owner/owner. For the customer, only relaxation!
+                The person in charge of the boat is the skipper/owner/owner. For
+                the customer, only relaxation!
               </div>
             </div>
           </div>
@@ -339,7 +372,8 @@ const Information = () => {
             <div className="text-sm">
               <div>With owner on board</div>
               <div className="font-light">
-                You are still on board, but do not touch the controls. The renter is in charge of the controls.
+                You are still on board, but do not touch the controls. The
+                renter is in charge of the controls.
               </div>
             </div>
           </div>
@@ -355,7 +389,9 @@ const Information = () => {
             >
               <option value="">Start Time</option>
               {generateTimeOptions().map((time, index) => (
-                <option key={index} value={time}>{time}</option>
+                <option key={index} value={time}>
+                  {time}
+                </option>
               ))}
             </select>
             <select
@@ -366,7 +402,9 @@ const Information = () => {
             >
               <option value="">End Time</option>
               {generateTimeOptions().map((time, index) => (
-                <option key={index} value={time}>{time}</option>
+                <option key={index} value={time}>
+                  {time}
+                </option>
               ))}
             </select>
           </div>
@@ -375,7 +413,9 @@ const Information = () => {
           <FiInfo className="text-[#CBA557]" />
           <div className="font-medium text-[#4B465C]">
             New:
-            <span className="font-light">Skipper rates are now managed in the</span>
+            <span className="font-light">
+              Skipper rates are now managed in the
+            </span>
             <span className="text-[#CBA557]"> Extra Options.</span>
           </div>
         </div>
@@ -401,7 +441,9 @@ const Information = () => {
               className="border rounded-md outline-none"
             ></textarea>
             <div className="text-xs">
-              Your description is automatically translated based on the user's country of origin. You can still add your own translation, which will replace the automatic translation.
+              Your description is automatically translated based on the user's
+              country of origin. You can still add your own translation, which
+              will replace the automatic translation.
             </div>
           </div>
           <div className="flex flex-col gap-8">
@@ -627,20 +669,25 @@ const Information = () => {
           <div className="flex flex-col gap-6">
             <div>Fuel</div>
             <div className="grid grid-cols-4 w-[50%] text-sm">
-              {["unleaded", "electric", "ethanol", "diesel"].map((fuelType, index) => (
-                <div key={index} className="flex gap-3">
-                  <input
-                    name={fuelType}
-                    checked={descriptionData.fuel[fuelType]}
-                    onChange={handleRadioChange}
-                    type="radio"
-                    // className="hidden"
-                  />
-                  <label htmlFor={fuelType} className="cursor-pointer flex items-center gap-2 font-light">
-                    {fuelType.charAt(0).toUpperCase() + fuelType.slice(1)}
-                  </label>
-                </div>
-              ))}
+              {["unleaded", "electric", "ethanol", "diesel"].map(
+                (fuelType, index) => (
+                  <div key={index} className="flex gap-3">
+                    <input
+                      name={fuelType}
+                      checked={descriptionData.fuel[fuelType]}
+                      onChange={handleRadioChange}
+                      type="radio"
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor={fuelType}
+                      className="cursor-pointer flex items-center gap-2 font-light"
+                    >
+                      {fuelType.charAt(0).toUpperCase() + fuelType.slice(1)}
+                    </label>
+                  </div>
+                )
+              )}
             </div>
             {!descriptionData.fuel.electric && (
               <>
@@ -667,7 +714,10 @@ const Information = () => {
                           type="radio"
                           className="hidden"
                         />
-                        <label htmlFor={engineType} className="cursor-pointer flex items-center gap-2 font-light">
+                        <label
+                          htmlFor={engineType}
+                          className="cursor-pointer flex items-center gap-2 font-light"
+                        >
                           {engineType === "twoStroke" ? "2 Stroke" : "4 Stroke"}
                         </label>
                       </div>

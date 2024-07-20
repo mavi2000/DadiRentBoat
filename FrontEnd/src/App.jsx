@@ -68,14 +68,12 @@ import ExtraServices from './Components/Dashboard/MyBoats/ExtraServices.jsx';
 import Insurance from './Components/Dashboard/MyBoats/Insurance.jsx';
 import Address from './Components/Dashboard/MyBoats/Address.jsx';
 import Equipments from './Components/Dashboard/MyBoats/Equipments.jsx';
-import { UserProvider } from '../Context/UserContext.jsx';
 import Calendar from './Components/Dashboard/MyBoats/Calander/Calender.jsx';
-
+import { UserProvider } from '../Context/UserContext.jsx';
 //new commit
 function App() {
   return (
     <BrowserRouter>
-      <ToastContainer />
       <AuthProvider>
         <AdminProvider>
           <UserProvider>
