@@ -100,22 +100,32 @@ export const getBoatDescription = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-// update boat description
+
+
+
 export const updateBoatDescription = async (req, res) => {
   try {
     const { id } = req.params;
+
+    console.log("id",id)
     const description = await BoatDescription.findOne({ boatId: id });
-    if (!description) {
-      return res.status(404).json({ message: "Description does not exists" });
+
+    let updatedDescription;
+
+    if (description) {
+      updatedDescription = await BoatDescription.findOneAndUpdate(
+        { boatId: id },
+        req.body,
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    } else {
+      const newDescription = new BoatDescription({ boatId: id, ...req.body });
+      updatedDescription = await newDescription.save();
     }
-    const updatedDescription = await BoatDescription.findOneAndUpdate(
-      { boatId: id },
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+
     return res.status(200).json({ updatedDescription });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });

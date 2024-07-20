@@ -1,17 +1,27 @@
-import React, { useContext, useEffect, useState } from 'react'
-import Profile from '../../../assets/Images/account-person.png'
-import { AuthContext } from '../../../../Context/AuthContext'
+import React, { useContext, useEffect, useState } from 'react';
+import Profile from '../../../assets/Images/account-person.png';
+import { AuthContext } from '../../../../Context/AuthContext';
 import "react-datepicker/dist/react-datepicker.css";
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import FormControl from '../../Form/FormControl';
-import { format } from 'date-fns'
+import { format } from 'date-fns';
 import { validationSchema, fieldClasses, languageOptions, genderOptions, nationalityOptions, initialValues } from './data';
 import ChangePassword from '../../LoginSignupPopups/ChangePassword';
+import { UserContext } from '../../../../Context/UserContext';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Model from './Model';
+
+
+
 const AccountInfo = () => {
-  const { user, updateUser } = useContext(AuthContext)
-  const [values, setValues] = useState(null)
-  const [active, setActive] = useState('info')
-  const [file, setFile] = useState('')
+  const { user } = useContext(AuthContext);
+  const { updateUser, deleteUser } = useContext(UserContext);
+  const [values, setValues] = useState(null);
+  const [active, setActive] = useState('info');
+  const [file, setFile] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal
+
   useEffect(() => {
     if (user) {
       setValues({
@@ -26,10 +36,11 @@ const AccountInfo = () => {
         state: user?.state || "",
         country: user?.country || "",
         image: user?.image || ""
-      })
+      });
     }
-  }, [user])
-  const onSubmit = (values) => {
+  }, [user]);
+
+  const onSubmit = async (values) => {
     const formData = new FormData();
     formData.append('username', values.username);
     formData.append('phoneNumber', values.phoneNumber);
@@ -41,9 +52,21 @@ const AccountInfo = () => {
     formData.append('zip', values.zip);
     formData.append('state', values.state);
     formData.append('country', values.country);
-    formData.append('image', file);
-    updateUser(formData)
-  }
+    if (file) {
+      formData.append('image', file);
+    }
+    await updateUser(formData);
+  };
+
+  const handleDeleteAccount = async () => {
+    setIsModalOpen(true);
+  };
+
+  const confirmDeleteAccount = async () => {
+    setIsModalOpen(false);
+    await deleteUser();
+  };
+
   return (
     <div className=' mt-[5%] md:mt-[8%] mb-[1%] mx-[3%] md:mx-[6%]'>
 
@@ -53,12 +76,10 @@ const AccountInfo = () => {
           <ul className=' flex flex-col items-center '>
             <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]' onClick={() => setActive("info")}>Account Information</li>
             <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]' onClick={() => setActive("password")}>Change Password</li>
-            <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]'>Payment Information</li>
-            <li className='px-9 py-5 w-full it text-center font-normal hover:bg-[#CBA557] hover:bg-opacity-[8%]'>Logout</li>
           </ul>
         </div>
 
-        {active == "info" && <div className='w-full md:w-[78%]'>
+        {active === "info" && <div className='w-full md:w-[78%]'>
 
           <div className='accountInfo bg-[#FFFFFF] rounded-[10px]'>
             <div className=' mx-[3%] mb-[3%]'>
@@ -148,9 +169,6 @@ const AccountInfo = () => {
                 }
               </Formik>
             </div>
-
-
-
           </div>
 
 
@@ -169,33 +187,36 @@ const AccountInfo = () => {
               <div className="flex mt-12  items-center">
                 <input
                   type="checkbox"
-                  id="governementID"
-                  name="governementID"
+                  id="confirmDelete"
+                  name="confirmDelete"
                   className=" w-5 h-5 mr-4 rounded"
                 />
-                <label htmlFor="governementID" className=" font-normal text-xl text-[#4B465C]">
+                <label htmlFor="confirmDelete" className=" font-normal text-xl text-[#4B465C]">
                   I confirm my account deactivation
                 </label>
               </div>
 
-              <button className='btn-5 py-3 px-7 bg-[#EA5455] font-medium text-xl deactivateBtn'>Deactivate Account</button>
-
-
+              <button onClick={handleDeleteAccount} className='btn-5 py-3 px-7 bg-[#EA5455] font-medium text-xl deactivateBtn'>Deactivate Account</button>
             </div>
           </div>
-
-
         </div>}
         {
-          active == "password" && <div className='bg-white p-8 w-full md:w-[78%]'>
+          active === "password" && <div className='bg-white p-8 w-full md:w-[78%]'>
             <ChangePassword />
           </div>
         }
-
-
       </div>
+
+      <Model
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={confirmDeleteAccount}
+        title="Confirm Account Deactivation"
+      >
+        <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+      </Model>
     </div>
-  )
+  );
 }
 
-export default AccountInfo
+export default AccountInfo;

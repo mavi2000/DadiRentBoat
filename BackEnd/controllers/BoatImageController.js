@@ -42,6 +42,32 @@ export const uploadBoatImages = async (req, res, next) => {
 
 
 
+export const getBoatImages = async (req, res, next) => {
+  const { id } = req.params;
+  console.log("boatId",id)
+
+  try {
+    const boatImages = await BoatImage.findOne({boatId: id });
+
+    if (!boatImages) {
+      return res.status(404).json({
+        success: false,
+        message: 'Boat images not found',
+      });
+    }
+
+    console.log("boatImages",boatImages)
+
+    res.status(200).json({
+      success: true,
+      data: boatImages,
+    });
+  } catch (error) {
+    console.error('Error retrieving boat images:', error);
+    next(error);
+  }
+};
+
 
 
 
@@ -67,3 +93,40 @@ export const upDateBoatImages = async (req, res, next) => {
     next(error);
   }
 };
+
+
+
+
+export const deleteImage =async(req,res)=>{
+  const { boatId, type, url } = req.body;
+
+  try {
+    const boatImage = await BoatImage.findOne({ boatId });
+
+    if (!boatImage) {
+      return res.status(404).json({
+        success: false,
+        message: 'Boat images not found',
+      });
+    }
+
+    if (type === 'images') {
+      boatImage.images = boatImage.images.filter((image) => image !== url);
+    } else if (type === 'videos') {
+      boatImage.videos = boatImage.videos.filter((video) => video !== url);
+    }
+
+    await boatImage.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Media deleted successfully',
+    });
+  } catch (error) {
+    console.error('Error deleting boat media:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+    });
+  }
+}

@@ -8,6 +8,6 @@ import {
 
 router.post("/add-Description", createBoatDescription);
 router.get("/get-boat-description/:id", getBoatDescription);
-router.patch("/update-boat-description/:id", updateBoatDescription);
+router.patch("/updatedescription/:id",updateBoatDescription);
 
 export default router;

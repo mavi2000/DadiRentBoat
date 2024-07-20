@@ -172,6 +172,10 @@ export const logout = async (req, res, next) => {
 
   res.status(200).send("User has been logged out.");
 };
+
+
+
+
 export const updateUser = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -198,6 +202,8 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ error: "Failed to update user" });
   }
 };
+
+
 // auth controller
 export const authController = async (req, res) => {
   try {
@@ -211,6 +217,9 @@ export const authController = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+
 // get user by id
 export const getUser = async (req, res) => {
   try {
@@ -225,6 +234,9 @@ export const getUser = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+
 
 // update user password controller
 export const updatePassword = async (req, res) => {
@@ -253,6 +265,17 @@ export const updatePassword = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+export const deleteUser = async (req,res)=>{
+  try {
+    const user = await User.findByIdAndDelete(req.user._id);
+    if (!user) return res.status(404).send({ message: 'User not found' });
+    res.send({ message: 'Account deleted successfully' });
+  } catch (error) {
+    res.status(500).send({ message: 'Failed to delete account' });
+  }
+}
 
 
 

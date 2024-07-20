@@ -1,3 +1,4 @@
+// Rates.jsx
 import { Link } from 'react-router-dom';
 import { BsClock, BsFiletypePdf } from 'react-icons/bs';
 import { TbMessageCircleQuestion } from 'react-icons/tb';
@@ -27,7 +28,7 @@ const Rates = () => {
         <br />
         <p className="text-[#676767] text-lg">
           All current expenses relating to use and consumption on board for the
-          rental period are the responsibility of the charterer.Fuel will be
+          rental period are the responsibility of the charterer. Fuel will be
           paid upon return of the boat based on consumption. <br />
           Alternatively, the vehicle must be returned with a full tank of fuel
         </p>
@@ -38,7 +39,7 @@ const Rates = () => {
 
         <p className="text-[#676767] text-lg">
           The delivery of our rental inflatable boats takes place starting from
-          7:00 in the morning,the maximum return time is 10:00 pm.
+          7:00 in the morning, the maximum return time is 10:00 pm.
         </p>
       </section>
 
@@ -54,7 +55,7 @@ const Rates = () => {
       </section>
       <br />
       <br />
-      <Link to="/check-out">
+      <Link to="/Our-fleet">
         <button className="bg-[var(--primary-color)] mx-auto block text-white text-lg font-bold rounded-lg px-12 py-2">
           Book Now
         </button>
@@ -98,7 +99,7 @@ const Rates = () => {
             <RuleOfCunduct setShowRuleOfConduct={setShowRuleOfConduct} />
           )}
 
-          <Link to="#">
+          <Link to="/RecreationalVehicleRentalAgreement">
             <button className="bg-[var(--primary-color)] flex gap-2 items-center text-white text-base font-bold rounded-lg px-12 py-2">
               <BsFiletypePdf size={32} /> Rental Agreement
             </button>
@@ -109,7 +110,7 @@ const Rates = () => {
         </h1>
         <p className="text-lg text-[#383838]">
           The security deposit is mandatory and set at €100.00 to be paid upon
-          collection of the vessel.This deposit will be returned, except for the
+          collection of the vessel. This deposit will be returned, except for the
           separation of any amounts withheld for various reasons by the tenant
           at the end of the rental.  
         </p>
@@ -135,4 +136,5 @@ const Rates = () => {
     </>
   );
 };
+
 export default Rates;

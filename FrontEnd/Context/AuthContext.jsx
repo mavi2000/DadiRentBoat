@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import baseURL from '../APi/BaseUrl.js';
-import axios from 'axios';
+
 
 const AuthContext = createContext();
 
@@ -52,15 +52,18 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+
+
   const login = async (loginData) => {
     try {
       const response = await baseURL.post('/login', loginData);
       if (response.data?.user && response.data?.token) {
         setUser(response.data.user);
         const role = response.data.user.roles;
+        toast.success('Loginup successful!');
         localStorage.setItem('authToken', response.data.token);
         localStorage.setItem('Token', response.data.token);
-        toast.success('Loginup successful!');
+  
         return role; // Return the role for navigation purposes
       } else {
         setError('Unexpected response format');
@@ -157,6 +160,8 @@ const AuthProvider = ({ children }) => {
       console.log(error);
     }
   }
+
+
   return (
     <AuthContext.Provider
       value={{ user, error, signUp, login, logout, forgotPassword, resetPassword, inviteUser, updateUser }}

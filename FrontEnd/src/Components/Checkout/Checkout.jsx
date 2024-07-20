@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import baseURL from "../../../APi/BaseUrl";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import { format } from "date-fns";
-
-// Import your Details, Greeting, and Payment components
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import Details from "./Details";
 import Greeting from "./Greeting";
 import Payment from "./Payment";
@@ -13,21 +13,19 @@ import { UserContext } from "../../../Context/UserContext";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const stripePromise = loadStripe('pk_test_51OwXJ9RtqZkTuUjdPn7IZ2nUJQ77VYiDdsW3s8ddWFQRUh4yUWKiXhYLAy54Y2249fgzSTPtcvfgUr2MoiWhBE5p00zp6MUFHe');
 
 const Checkout = () => {
   const { fetchBoatDetailsById } = useContext(UserContext);
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [boatDetails, setBoatDetails] = useState(null);
-  const [selectedRateType, setSelectedRateType] = useState(""); // Use a string to store selected rate type
-  const [selectedDate, setSelectedDate] = useState(""); // State for selected date
+  const [selectedRate, setSelectedRate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [paymentOption, setPaymentOption] = useState('full');
   const [user, setUser] = useState("");
-  const [activeComponent, setActiveComponent] = useState("details"); // Default to 'details' component
-
-  const [bookingDate, setBookingDate] = useState('');
+  const [activeComponent, setActiveComponent] = useState("details");
   const [isAvailable, setIsAvailable] = useState(true);
   const [isWeekend, setIsWeekend] = useState(false);
 
@@ -37,6 +35,7 @@ const Checkout = () => {
       try {
         const details = await fetchBoatDetailsById(id);
         setBoatDetails(details);
+        setSelectedRate(details?.rate?.[0]);
       } catch (error) {
         console.error('Error fetching boat details:', error);
       }
@@ -52,101 +51,64 @@ const Checkout = () => {
     }
   }, [id, fetchBoatDetailsById]);
 
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
 
-  const handleSelection = (rateType, isChecked,) => {
-    if (isChecked) {
-      setSelectedRateType(rateType);
+    const minimumRentalDuration = boatDetails?.rate[0]?.minimumRentalDuration;
+    const durationInDays = minimumRentalDuration ? parseInt(minimumRentalDuration.split(' ')[0]) : 1;
 
-    } else {
-      setSelectedRateType(""); // Deselect the rate type if unchecked
+    const newEndDate = new Date(date);
+    newEndDate.setDate(date.getDate() + durationInDays - 1);
+    setEndDate(newEndDate);
 
-    }
-  };
-
-
-  const handleDateChange = (event) => {
-    const selectedDate = new Date(event.target.value);
-
-    const { rate } = boatDetails;
-    if (rate && rate.length > 0) {
-      const available = rate.some(rate => {
-        const startDate = new Date(rate.startDate);
-        const endDate = new Date(rate.endDate);
-        return selectedDate >= startDate && selectedDate <= endDate;
+    if (boatDetails && boatDetails.boatBookings) {
+      const available = !boatDetails.boatBookings.some(booking => {
+        const startDate = new Date(booking.startDate);
+        const endDate = new Date(booking.endDate);
+        return (date >= startDate && date <= endDate) || (newEndDate >= startDate && newEndDate <= endDate);
       });
 
       setIsAvailable(available);
     } else {
-      setIsAvailable(false); // If no rates are defined, assume not available
+      setIsAvailable(true);
     }
 
-    const dayOfWeek = selectedDate.getDay();
+    const dayOfWeek = date.getDay();
     setIsWeekend(dayOfWeek === 0 || dayOfWeek === 6);
-
-    setBookingDate(event.target.value);
   };
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!user) {
-      toast.error("User must be login to book a boat");
+      toast.error("User must be logged in to book a boat");
       setTimeout(() => {
-        navigate('/login')
-      }, 2500)
-    }
-    if (!selectedRateType) {
-      toast.error('Please select a rate type.');
+        navigate('/login');
+      }, 2500);
       return;
     }
 
-    // Determine the rateType based on selectedRateType and update amountToCharge accordingly
-    let amountToCharge = 0;
-    let rateType = '';
-
-    console.log("selectedRateType", selectedRateType);
-    console.log("boatDetails", boatDetails);
-
-    if (boatDetails && boatDetails.rate) {
-      boatDetails.rate.forEach(rateDetails => {
-        if (selectedRateType === rateDetails.normalDayRates.halfDayMorning) {
-          rateType = 'halfDayMorning';
-        } else if (selectedRateType === rateDetails.normalDayRates.halfDayEvening) {
-          rateType = 'halfDayEvening';
-        } else if (selectedRateType === rateDetails.normalDayRates.fullDay) {
-          rateType = 'fullDay';
-        } else if (selectedRateType === rateDetails.weekendRates.halfDayMorning) {
-          rateType = 'weekendHalfDayMorning';
-        } else if (selectedRateType === rateDetails.weekendRates.halfDayEvening) {
-          rateType = 'weekendHalfDayEvening';
-        } else if (selectedRateType === rateDetails.weekendRates.fullDay) {
-          rateType = 'weekendFullDay';
-        }
-      });
+    if (!selectedRate) {
+      toast.error("Please select a rate.");
+      return;
     }
 
-
-    console.log("rateType",)
-
-    // Calculate amountToCharge based on payment option
+    let amountToCharge = selectedRate.oneDayRate; // Example rate for one day
     if (paymentOption === 'partial') {
-      amountToCharge = selectedRateType * 0.3; // Adjust this calculation based on your business logic
-    } else {
-      amountToCharge = selectedRateType; // This assumes selectedRateType is already in dollars
+      amountToCharge = amountToCharge * 0.3;
     }
 
     const amountToChargeInCents = Math.round(amountToCharge * 100);
 
     try {
-      const boatName = boatDetails?.rental.map((item) => item.BoatName).join(', ');
+      const boatName = boatDetails?.rental?.map((item) => item.BoatName).join(', ');
 
       const response = await baseURL.post('/checkout/payment', {
         userId: user,
         boatName,
         amount: amountToChargeInCents,
-        rateType,
+        rateType: selectedRate.nameOfTheRate,
         totalAmount: amountToCharge,
-        availableDate: bookingDate,
+        availableDate: selectedDate,
         boatId: boatDetails?.boat._id
       });
 
@@ -160,12 +122,7 @@ const Checkout = () => {
       }
     } catch (error) {
       console.error('Payment failed:', error);
-
-      if (error.response && error.response.data && error.response.data.message) {
-        toast.error(`Payment failed: ${error.response.data.message}`);
-      } else {
-        toast.error('Payment failed. Please try again.');
-      }
+      toast.error(error.response?.data?.message || 'Payment failed. Please try again.');
     }
   };
 
@@ -180,9 +137,24 @@ const Checkout = () => {
     }
   };
 
-  //new chnages
+  const getDisabledDates = () => {
+    if (!boatDetails || !boatDetails.boatBookings) {
+      return [];
+    }
 
-  console.log("boatDetails", boatDetails)
+    return boatDetails.boatBookings.map(booking => {
+      const start = new Date(booking.startDate);
+      const end = new Date(booking.endDate);
+      const dates = [];
+      while (start <= end) {
+        dates.push(new Date(start));
+        start.setDate(start.getDate() + 1);
+      }
+      return dates;
+    }).flat();
+  };
+
+  const disabledDates = getDisabledDates();
 
   return (
     <div>
@@ -215,112 +187,61 @@ const Checkout = () => {
             <hr className="border border-[#DCDCDC]" />
 
             <div className="py-9 px-12 flex justify-center flex-col text-[#383838]">
-              {boatDetails?.boatImages.map((item) => (
-                <img key={item.id} src={item.avatar} alt="" className="md:w-64 mb-4" />
+              {boatDetails?.boatImages?.map((item) => (
+                <img key={item.id} src={item.images[0]} alt="" className="md:w-64 mb-4" />
               ))}
               {boatDetails ? (
                 <>
                   <h2 className="heading-book mt-[4%] text-[#383838]">
-                    {boatDetails?.rental.map((item) => (item.BoatName))}
+                    {boatDetails?.rental?.map((item) => (item.BoatName))}
                   </h2>
-                  {boatDetails?.rate.map((item, key) => (
-                    <div className="flex flex-col gap-1 mt-[3%]" key={key}>
-                      <p>
-                        From:{" "}
-                        <span className="text-[#676767] font-normal">
-                          {format(new Date(item?.startDate), 'dd MMMM yyyy')}
-                        </span>
+                  <div className="flex flex-col gap-1 mt-[3%]">
+                    <p>
+                      From:{" "}
+                      <span className="text-[#676767] font-normal">
+                        {format(new Date(boatDetails?.boatBookings.map((item)=>(item.startDate))), 'dd MMMM yyyy')}
+                      </span>
+                    </p>
+                    <p>
+                      To:{" "}
+                      <span className="text-[#676767] font-normal">
+                        {format(new Date(boatDetails?.boatBookings.map((item)=>(item.endDate))), 'dd MMMM yyyy')}
+                      </span>
+                    </p>
+                    <p className="text-[#676767] font-normal">{boatDetails?.description?.map((item) => (
+                      <p className="text-[#676767] font-normal">
+                        {item.rentalType === "bareBoat" ? " withSkipper" : "without Skipper"}
                       </p>
-                      <p>
-                        To:{" "}
-                        <span className="text-[#676767] font-normal">
-                          {format(new Date(item?.endDate), 'dd MMMM yyyy')}
-                        </span>
-                      </p>
-                      <p className="text-[#676767] font-normal">{boatDetails?.description.map((item) => (
-                        <p className="text-[#676767] font-normal">
-                          {item.rentalType === "bareBoat" ? " withSkipper" : "without Skipper"}
-                        </p>
-                      ))}</p>
-                      <div className="mb-4">
-                        <label htmlFor="bookingDate" className="block text-gray-700 text-sm font-bold mb-2">
-                          Select Booking Date:
-                        </label>
-                        <input
-                          type="date"
-                          id="bookingDate"
-                          name="bookingDate"
-                          value={bookingDate}
-                          onChange={handleDateChange}
-                          className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${!isAvailable ? 'border-red-500' : ''}`}
-                        />
-                        {!isAvailable && (
-                          <p className="text-red-500 text-xs italic">This boat is not available on the selected date.</p>
-                        )}
-                      </div>
+                    ))}</p>
+                    <div className="mb-4">
+                      <label htmlFor="bookingDate" className="block text-gray-700 text-sm font-bold mb-2">
+                        Select Booking Date:
+                      </label>
+                      <DatePicker
+                        selected={selectedDate}
+                        onChange={handleDateChange}
+                        minDate={new Date()}
+                        monthsShown={2}
+                        excludeDates={disabledDates}
+                        dateFormat="dd/MM/yyyy"
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${!isAvailable ? 'border-red-500' : ''}`}
+                      />
+                      {!isAvailable && (
+                        <p className="text-red-500 text-xs italic">This boat is not available on the selected date.</p>
+                      )}
                     </div>
-                  ))}
+                  </div>
                 </>
               ) : (
                 <p>Loading boat details...</p>
               )}
-
-              {/* Rate selection checkboxes */}
-              {boatDetails?.rate.map((item, key) => (
-                <div key={key} className="border rounded-lg p-4 my-4 shadow-lg">
-                  {/* Half Day Morning */}
-                  <div className="flex items-center gap-4">
-                    <input
-                      type="checkbox"
-                      id={`rate-${key}-halfDayMorning`}
-                      name={`rate-${key}-halfDayMorning`}
-                      value={`halfDayMorning-${item?.normalDayRates?.halfDayMorning}`} // Unique value including rate type
-                      onChange={(e) => handleSelection(`halfDayMorning-${item?.normalDayRates?.halfDayMorning}`, e.target.checked, "Half Day Morning")}
-                      checked={selectedRateType === `halfDayMorning-${item?.normalDayRates?.halfDayMorning}`} // Check against unique value
-                      className="ml-2"
-                    />
-                    <label htmlFor={`rate-${key}-halfDayMorning`} className="font-medium text-[#383838] text-md mb-2">
-                      {isWeekend ? "Weekend Price Half Day Morning:" : "Price Half Day Morning:"}
-                      <span className="text-[#676767] font-normal"> ${isWeekend ? item?.weekendRates?.halfDayMorning : item?.normalDayRates?.halfDayMorning}</span>
-                    </label>
-                  </div>
-
-                  {/* Half Day Evening */}
-                  <div className="flex items-center gap-4">
-                    <input
-                      type="checkbox"
-                      id={`rate-${key}-halfDayEvening`}
-                      name={`rate-${key}-halfDayEvening`}
-                      value={item?.normalDayRates?.halfDayEvening}
-                      onChange={(e) => handleSelection(item?.normalDayRates?.halfDayEvening, e.target.checked, "Half Day Evening")}
-                      checked={selectedRateType === item?.normalDayRates?.halfDayEvening}
-                      className="ml-2"
-                    />
-                    <label htmlFor={`rate-${key}-halfDayEvening`} className="font-medium text-[#383838] text-md mb-2">
-                      {isWeekend ? "Weekend Price Half Day Evening:" : "Price Half Day Evening:"}
-                      <span className="text-[#676767] font-normal"> ${isWeekend ? item?.weekendRates?.halfDayEvening : item?.normalDayRates?.halfDayEvening}</span>
-                    </label>
-                  </div>
-
-                  {/* Full Day */}
-                  <div className="flex items-center gap-4">
-                    <input
-                      type="checkbox"
-                      id={`rate-${key}-fullDay`}
-                      name={`rate-${key}-fullDay`}
-                      value={item?.normalDayRates?.fullDay}
-                      onChange={(e) => handleSelection(item?.normalDayRates?.fullDay, e.target.checked, "Full Day")}
-                      checked={selectedRateType === item?.normalDayRates?.fullDay}
-                      className="ml-2"
-                    />
-                    <label htmlFor={`rate-${key}-fullDay`} className="font-medium text-[#383838] text-md mb-2">
-                      {isWeekend ? "Weekend Price Full Day:" : "Price Full Day:"}
-                      <span className="text-[#676767] font-normal"> ${isWeekend ? item?.weekendRates?.fullDay : item?.normalDayRates?.fullDay}</span>
-                    </label>
-                  </div>
-                </div>
-              ))}
-              {/* Payment options */}
+              <div className="mb-4">
+                {selectedRate && (
+                  <p className="text-gray-700 text-xl font-bold">
+                    Starting from: {selectedRate.oneDayRate} per day
+                  </p>
+                )}
+              </div>
               <div className="my-4">
                 <h2 className="font-medium text-lg mb-2">Payment Option:</h2>
                 <label className="block mt-2">
@@ -357,7 +278,6 @@ const Checkout = () => {
           <div className="md:w-[65%] bg-white rounded-xl shadow-checkout px-3">
             {renderComponent()}
             <div className="flex flex-col items-center">
-              {/* Additional buttons if needed */}
             </div>
           </div>
         </div>

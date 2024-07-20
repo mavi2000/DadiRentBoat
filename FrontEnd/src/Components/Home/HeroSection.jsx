@@ -56,7 +56,7 @@ const HeroSection = () => {
             in Livorno, whether you are in the company of family or friends.
           </p>
           <Link
-            to={'/book-now'}
+            to={'/Our-Fleet'}
             className="text-white bg-[var(--primary-color)] mb-4 rounded-lg border-[1px] border-[var(--primary-color)] font-bold px-8 py-3"
           >
             Book Now
