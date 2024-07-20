@@ -44,15 +44,12 @@ export const updateLocation = async (req, res, next) => {
     const updatedLocation = await Location.findOneAndUpdate(
       { boatId: req.params.id },
       value,
-      { new: true }
+      { new: true, upsert: true } // upsert: true creates a new document if none exists
     );
 
-    if (!updatedLocation) {
-      return next(createError(404, "Location not found"));
-    }
     res.status(200).json({
       success: true,
-      message: "Location updated successfully",
+      message: updatedLocation.isNew ? "Location created successfully" : "Location updated successfully",
       location: updatedLocation,
     });
   } catch (err) {

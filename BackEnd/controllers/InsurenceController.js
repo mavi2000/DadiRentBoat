@@ -60,12 +60,7 @@ export const updateInsurance = async (req, res, next) => {
       return next(createError(400, error.details[0].message));
     }
 
-    const {
-      currentInsurer,
-      amountDeductible,
-      insuredValueOfBoat,
-      boatRegistration,
-    } = value;
+    const { currentInsurer, amountDeductible, insuredValueOfBoat, boatRegistration, boatId } = value;
 
     const updatedInsurance = await Insurence.findOneAndUpdate(
       { boatId: req.params.id },
@@ -76,16 +71,12 @@ export const updateInsurance = async (req, res, next) => {
         boatRegistration,
         updatedAt: Date.now(),
       },
-      { new: true }
+      { new: true, upsert: true } // upsert: true creates a new document if none exists
     );
-
-    if (!updatedInsurance) {
-      return next(createError(404, "Insurance record not found"));
-    }
 
     res.status(200).json({
       success: true,
-      message: "Insurance updated successfully",
+      message: updatedInsurance.isNew ? "Insurance created successfully" : "Insurance updated successfully",
       insurance: updatedInsurance,
     });
   } catch (error) {

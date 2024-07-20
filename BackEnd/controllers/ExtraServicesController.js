@@ -42,6 +42,9 @@ export const getAllExtraServices = async (req, res, next) => {
     next(err);
   }
 };
+
+
+
 export const updateExtraService = async (req, res, next) => {
   const { id } = req.params;
 
@@ -49,23 +52,18 @@ export const updateExtraService = async (req, res, next) => {
     const updatedExtraService = await ExtraServices.findOneAndUpdate(
       { boatId: id },
       req.body,
-      { new: true }
+      { new: true, upsert: true } // upsert: true creates a new document if none exists
     );
-
-    if (!updatedExtraService) {
-      return next(createError(404, "Extra service not found"));
-    }
 
     res.json({
       success: true,
-      message: "Extra service updated successfully",
+      message: updatedExtraService.isNew ? "Extra service created successfully" : "Extra service updated successfully",
       extraService: updatedExtraService,
     });
   } catch (err) {
     next(err);
   }
 };
-
 export const deleteExtraService = async (req, res, next) => {
   const { id } = req.params;
 

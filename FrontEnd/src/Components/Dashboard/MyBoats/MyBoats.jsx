@@ -13,6 +13,10 @@ const MyBoats = () => {
   const { getBoats, deleteBoat } = useContext(AdminContext);
   const [boatData, setBoatData] = useState([]);
   const [boatIdToDelete, setBoatIdToDelete] = useState(null);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchBoats = async () => {
       try {
@@ -24,17 +28,17 @@ const MyBoats = () => {
     };
     fetchBoats();
   }, [getBoats]);
-  const [showDeletePopup, setShowDeletePopup] = useState(false);
 
   const handleDeleteClick = (id) => {
     setBoatIdToDelete(id);
     setShowDeletePopup(true);
   };
+
   const handleConfirmDelete = async () => {
     try {
       await deleteBoat(boatIdToDelete);
       setShowDeletePopup(false);
-      setBoatData(boatData.filter(boat => boat.boat._id !== boatIdToDelete));
+      setBoatData(boatData.filter((boat) => boat.boat._id !== boatIdToDelete));
     } catch (error) {
       console.error("Error deleting boat:", error);
     }
@@ -42,6 +46,19 @@ const MyBoats = () => {
 
   const handleCancelDelete = () => {
     setShowDeletePopup(false);
+  };
+
+  const handleChange = (e, id) => {
+    localStorage.setItem("id", id);
+    navigate(e.target.value);
+  };
+
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
   };
 
   const pages = [
@@ -59,28 +76,6 @@ const MyBoats = () => {
     { path: "/Dashboard/my-boats/photo", page: "Image" },
     { path: "/Dashboard/my-boats/info-access", page: "Access Information" },
   ];
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const id = localStorage.getItem("id");
-    if (id) {
-      localStorage.removeItem('id');
-    }
-  }, []);
-
-  const handleChange = (e, id) => {
-    localStorage.setItem('id', id);
-    navigate(e.target.value);
-  };
-
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  };
 
   return (
     <div className="mx-[4%] mt-[3%]">
@@ -143,7 +138,7 @@ const MyBoats = () => {
               <Slider {...sliderSettings} className="md:w-64 w-1/2">
                 {boat.boatImages[0].images.map((image, imageIndex) => (
                   <div key={imageIndex} className="w-full">
-                    <img src={image} alt="" className="w-full" />
+                    <img src={image} alt="" className="w-full h-48 object-cover" />
                   </div>
                 ))}
               </Slider>
@@ -155,7 +150,7 @@ const MyBoats = () => {
             )}
 
             <div className="flex flex-col gap-2 items-center md:items-start">
-              <h1 className="text-[#00151C] font-semibold">{boat.rental.map((item)=>(item.BoatName))}</h1>
+              <h1 className="text-[#00151C] font-semibold">{boat.rental.map((item) => item.BoatName)}</h1>
               <p className="text-[#818C8E] font-normal text-sm">
                 {boat.boat.brand} - {boat.boat.year}
               </p>
@@ -167,7 +162,10 @@ const MyBoats = () => {
               </div>
 
               <div className="flex gap-2 my-[1%] flex-wrap">
-                <button className="md:px-4 md:py-2 px-3 py-1 bg-[#CBA557] border border-[#CBA557] rounded text-xs font-bold text-[#FFFFFF]">
+                <button
+                  className="md:px-4 md:py-2 px-3 py-1 bg-[#CBA557] border border-[#CBA557] rounded text-xs font-bold text-[#FFFFFF]"
+                  onClick={() => handleManageCalendar(boat.boat._id)}
+                >
                   Manage your calendar
                 </button>
 

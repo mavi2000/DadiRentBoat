@@ -36,23 +36,15 @@ export const createEquipment = async (req, res, next) => {
   }
 };
 
+
+
 export const updateEquipment = async (req, res, next) => {
-  //   const { error, value } = equipmentValidationSchema.validate(req.body);
-
-  //   if (error) {
-  //     return next(createError(400, error.details[0].message));
-  //   }
-
   try {
-    const updatedEquipment = await Euipment.findOneAndUpdate(
+    const updatedEquipment = await Equipment.findOneAndUpdate(
       { boatId: req.params.id },
       req.body,
-      { new: true }
+      { new: true, upsert: true } // Add upsert option
     );
-
-    if (!updatedEquipment) {
-      return next(createError(404, "Equipment not found"));
-    }
 
     res.status(200).json({
       success: true,

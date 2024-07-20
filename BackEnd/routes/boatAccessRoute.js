@@ -20,9 +20,13 @@ router.post('/Boat-Access', upload.fields([
 
 
 router.get("/get-access-info/:id", getBoatAccessInformationById);
+
+
 router.patch(
   "/update-access-info/:id",
-  upload.array("accessDetails[0][pdf]"),
+  upload.fields([
+    { name: 'pdf', maxCount: 10 },
+  ]),
   updateBoatAccessInformation
 );
 

@@ -4,6 +4,8 @@ import BoatImage from "../models/BoatImage.js";
 
 export const uploadBoatImages = async (req, res, next) => {
   const { boatId } = req.body;
+
+  console.log("boatId", boatId);
   try {
     console.log("Received files:", req.files);
 
