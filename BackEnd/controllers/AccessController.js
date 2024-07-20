@@ -18,6 +18,7 @@ const boatAccessSchema = Joi.object({
 
 // Controller function to add boat access information
 export const addBoatAccessInformation = async (req, res, next) => {
+  console.log("req.body",req.body)
   try {
     const accessDetails = {
       description: req.body.description,
@@ -31,6 +32,8 @@ export const addBoatAccessInformation = async (req, res, next) => {
       boatId: req.body.boatId,
       accessDetails: [accessDetails],
     };
+
+ 
 
     const { error, value } = boatAccessSchema.validate(validationData);
     if (error) {
@@ -90,42 +93,51 @@ export const getBoatAccessInformationById = async (req, res, next) => {
 export const updateBoatAccessInformation = async (req, res, next) => {
   try {
     const { id } = req.params;
-    // const { error, value } = boatAccessSchema.validate(req.body);
-    // if (error) {
-    //   throw createError(400, error.details[0].message);
-    // }
 
-    const uploadResults = await Promise.all(
-      req.files.map(async (file) => {
-        return await uploadImages(file);
-      })
-    );
+    const accessDetails = {
+      description: req.body.description,
+      documentName: req.body.documentName,
+      documentLink: req.body.documentLink,
+      uploadDocument: req.files && req.files.pdf ? req.files.pdf[0].path : '',
+      documentDescription: req.body.documentDescription // New field for document description
+    };
 
-    const accessDetails = req.body.accessDetails.map((detail, index) => ({
-      ...detail,
-      uploadDocument: uploadResults[index]?.url || null,
-    }));
-    // console.log("access details", accessDetails);
-    const updatedAccessInfo = await BoatAccessInformation.findOneAndUpdate(
-      {
-        boatId: id,
-      },
-      { accessDetails, boatId: id },
-      { new: true }
-    );
-    if (!updatedAccessInfo) {
-      return res.status(404).json({ message: "Access information not found" });
+    const validationData = {
+      boatId: id,
+      accessDetails: [accessDetails],
+    };
+
+    const { error, value } = boatAccessSchema.validate(validationData);
+    if (error) {
+      throw createError(400, error.details[0].message);
     }
+
+    const uploadResults = req.files && req.files.pdf
+      ? await uploadImages(req.files.pdf[0]) // Adjust based on how you want to handle the file
+      : null;
+
+    const updatedAccessDetails = value.accessDetails.map((detail) => ({
+      ...detail,
+      uploadDocument: uploadResults ? uploadResults.url : detail.uploadDocument,
+    }));
+
+    const updatedAccessInfo = await BoatAccessInformation.findOneAndUpdate(
+      { boatId: id },
+      { accessDetails: updatedAccessDetails, boatId: id },
+      { new: true, upsert: true } // Use upsert to create a new document if it doesn't exist
+    );
+
     res.status(200).json({
       success: true,
       message: "Boat access information updated successfully",
       boatAccessInfo: updatedAccessInfo,
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
+
+
 
 export const deleteBoatAccessInformation = async (req, res, next) => {
   try {

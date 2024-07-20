@@ -2,36 +2,28 @@ import Rate from "../models/Rates.js";
 import { createError } from "../utils/createError.js";
 import Joi from "joi";
 
-const getDatesInRange = (startDate, endDate) => {
-  let dates = [];
-  let currentDate = new Date(startDate);
-  const end = new Date(endDate);
-
-  while (currentDate <= end) {
-    dates.push(new Date(currentDate));
-    currentDate.setDate(currentDate.getDate() + 1);
+export const getRates = async (req, res, next) => {
+  try {
+    const rates = await Rate.find().populate('boatId');
+    if (!rates) {
+      return next(createError(404, 'Rates not found'));
+    }
+    res.status(200).json({
+      success: true,
+      rates
+    });
+  } catch (error) {
+    next(error);
   }
-
-  return dates;
 };
+
 
 export const addRate = async (req, res, next) => {
   try {
-    // Define the validation schema
     const schema = Joi.object({
-      boatId: Joi.string().required(), // Validate boatId as required
+      boatId: Joi.string().required(),
       startDate: Joi.date().required(),
       endDate: Joi.date().required(),
-      // normalDayRates: Joi.object({
-      //   halfDayMorning: Joi.number().required(),
-      //   halfDayEvening: Joi.number().required(),
-      //   fullDay: Joi.number().required(),
-      // }).required(),
-      // weekendRates: Joi.object({
-      //   halfDayMorning: Joi.number().required(),
-      //   halfDayEvening: Joi.number().required(),
-      //   fullDay: Joi.number().required(),
-      // }).required(),
       applyRatesOfAnotherPeriod: Joi.string().optional(),
       minimumRentalDuration: Joi.string().optional(),
       maximumRentalDuration: Joi.string().optional(),
@@ -51,20 +43,14 @@ export const addRate = async (req, res, next) => {
       }).optional()
     });
 
-    console.log("req",req.body)
-
-    // Validate the request body
     const { error, value } = schema.validate(req.body);
 
-    // Handle validation errors
     if (error) {
       return next(createError(400, error.details[0].message));
     }
 
-    // Destructure validated data
-    const { boatId, startDate, endDate, normalDayRates, weekendRates, applyRatesOfAnotherPeriod, minimumRentalDuration, maximumRentalDuration, restrictDays, nameOfTheRate, oneDayRate, oneWeekRate, advanceRates } = value;
+    const { boatId, startDate, endDate, applyRatesOfAnotherPeriod, minimumRentalDuration, maximumRentalDuration, restrictDays, nameOfTheRate, oneDayRate, oneWeekRate, advanceRates } = value;
 
-    // Check for existing rates within the date range for the same boat
     const existingRates = await Rate.find({
       boatId,
       $or: [
@@ -73,23 +59,14 @@ export const addRate = async (req, res, next) => {
       ],
     });
 
-    // If there are existing rates, return an error
     if (existingRates.length > 0) {
-      return next(
-        createError(
-          400,
-          "Rate already exists within the provided date range for the same boat"
-        )
-      );
+      return next(createError(400, "Rate already exists within the provided date range for the same boat"));
     }
 
-    // Create a new Rate instance
     const rate = new Rate({
       boatId,
       startDate,
       endDate,
-      normalDayRates,
-      weekendRates,
       applyRatesOfAnotherPeriod,
       minimumRentalDuration,
       maximumRentalDuration,
@@ -100,17 +77,14 @@ export const addRate = async (req, res, next) => {
       advanceRates
     });
 
-    // Save the rate to the database
     const savedRate = await rate.save();
 
-    // Send response with the saved rate
     res.status(201).json({
       success: true,
       message: "Rate created successfully",
       rate: savedRate,
     });
   } catch (error) {
-    // Handle errors
     next(error);
   }
 };
@@ -139,32 +113,21 @@ export const getRateById = async (req, res, next) => {
   }
 };
 
-// Controller to update a rate
 export const updateRate = async (req, res, next) => {
   try {
     const rateId = req.params.id;
-    // Find the rate by ID
-    let rate = await Rate.findOne({ boatId: rateId });
-    if (!rate) {
-      throw createError(404, "Rate not found");
-    }
+    const updateData = req.body;
 
-    // Update the rate fields
-    // rate.date = date;
-    // rate.rateType = rateType;
-    // rate.fullDayRate = fullDayRate;
-    // rate.halfDayMorningRate = halfDayMorningRate;
-    // rate.halfDayEveningRate = halfDayEveningRate;
+    console.log("updateData",updateData)
+
     const updatedRate = await Rate.findOneAndUpdate(
       { boatId: rateId },
-      req.body,
+      updateData,
       {
         new: true,
+        upsert: true // This option creates a new document if no document matches the query.
       }
     );
-
-    // Save the updated rate
-    // rate = await rate.save();
 
     res.status(200).json({ rate: updatedRate });
   } catch (error) {

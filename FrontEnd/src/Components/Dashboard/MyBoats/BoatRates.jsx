@@ -11,7 +11,7 @@ import baseURL from "../../../../APi/BaseUrl";
 const BoatRates = () => {
   const id = localStorage.getItem('id');
   const [popup, setPopup] = useState(id ? true : false);
-  const { addRate, navigate ,boatId} = useContext(AdminContext);
+  const { addRate, navigate, boatId } = useContext(AdminContext);
 
   const initialFormData = {
     startDate: "",
@@ -43,7 +43,7 @@ const BoatRates = () => {
     if (id) {
       const getBoatRates = async () => {
         try {
-          const res = await baseURL(`/Rate/get-rate/${id}`);
+          const res = await baseURL.get(`/Rate/get-rate/${id}`);
           const { data: { rate } } = res;
           const { dates, startDate, endDate, applyRatesOfAnotherPeriod, minimumRentalDuration, maximumRentalDuration, restrictDays, nameOfTheRate, oneDayRate, oneWeekRate, advanceRates } = rate;
           setFormData({ startDate, endDate, applyRatesOfAnotherPeriod, minimumRentalDuration, maximumRentalDuration, restrictDays, nameOfTheRate, oneDayRate, oneWeekRate, advanceRates });
@@ -105,7 +105,7 @@ const BoatRates = () => {
     }
     if (!id) {
       try {
-        await addRate({ ...formData ,boatId});
+        await addRate({ ...formData, boatId });
         toast.success("Rates added successfully");
         setSelectedDates([formData.startDate, formData.endDate]);
         setPopup(false);

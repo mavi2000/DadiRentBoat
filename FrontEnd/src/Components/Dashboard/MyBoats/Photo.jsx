@@ -6,11 +6,10 @@ import Download from "../../../assets/Images/Download-Cloud.png";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 import LoadingSpinner from "./LoadingSpinner";
-import baseURL from "../../../../APi/BaseUrl";
 
 const Photo = () => {
   const id = localStorage.getItem("id");
-  const { navigate, boatId } = useContext(AdminContext);
+  const { navigate, boatId, uploadBoatImages } = useContext(AdminContext);
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
@@ -56,13 +55,10 @@ const Photo = () => {
 
       setLoading(true);
       try {
-        const response = await baseURL.patch(`/image/update-image/${id || boatId}`, formData);
+        await uploadBoatImages(formData);
         setSelectedImages([]);
         setSelectedVideos([]);
         toast.success("Files uploaded successfully");
-        setTimeout(() => {
-          navigate("/Dashboard/my-boats");
-        }, 3000);
       } catch (error) {
         console.error("Failed to upload files", error);
         toast.error("Failed to upload files");
