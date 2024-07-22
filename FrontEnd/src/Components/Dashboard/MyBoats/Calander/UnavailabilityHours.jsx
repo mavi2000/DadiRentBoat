@@ -1,7 +1,21 @@
 import { useState } from 'react';
 
-const UnavailabilityHours = ({ onCancel, onConfirm }) => {
+const UnavailabilityHours = ({ onCancel, onConfirm, startTime, endTime, setStartTime, setEndTime }) => {
   const [selectedHours, setSelectedHours] = useState([]);
+  const [isTimeToTimeChecked, setIsTimeToTimeChecked] = useState(false);
+
+  const times = [
+    '12:00 AM', '1:00 AM', '2:00 AM', '3:00 AM', '4:00 AM', '5:00 AM', '6:00 AM', '7:00 AM',
+    '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM',
+    '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM', '11:00 PM'
+  ];
+
+  const predefinedSlots = [
+    '4h00 - Starting Free', 'Morning (4h00) - Starting 8:30 AM',
+    'Noon (4h00) - Starting 12:00 PM', 'Afternoon (4h00) - Starting 2:30 PM',
+    'Evening (4h00) - Starting 6:00 PM', 'Sunrise (4h00) - Starting 5:00 AM',
+    'After work (4h00) - Starting 6:00 PM', 'Bachelor (ette) party (4h00) - Starting Free'
+  ];
 
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
@@ -15,8 +29,10 @@ const UnavailabilityHours = ({ onCancel, onConfirm }) => {
   };
 
   const handleConfirm = () => {
-    console.log('Confirmed hours:', selectedHours);
-    onConfirm(selectedHours);
+    const timeToTimeSlot = isTimeToTimeChecked ? [`${startTime} to ${endTime}`] : [];
+    const confirmedSlots = [...selectedHours, ...timeToTimeSlot];
+    console.log('Confirmed hours:', confirmedSlots);
+    onConfirm(confirmedSlots);
   };
 
   return (
@@ -31,95 +47,54 @@ const UnavailabilityHours = ({ onCancel, onConfirm }) => {
             x
           </button>
         </h1>
-        <label className="flex gap-2 items-center text-[#CBA557] font-medium">
-          <input
-            type="checkbox"
-            name="hours"
-            value="4h00 - Starting Free"
-            onChange={handleCheckboxChange}
-            className="appearance-none w-4 h-4 border-2 border-[#CBA557] checked:bg-[#CBA557]"
-          />
-          4h00 -{' '}
-          <span className="text-gray-500 font-normal">Starting Free</span>
+        {predefinedSlots.map((slot, index) => (
+          <label key={index} className="flex gap-2 items-center text-[#CBA557] font-medium">
+            <input
+              type="checkbox"
+              name="hours"
+              value={slot}
+              onChange={handleCheckboxChange}
+              className="appearance-none w-4 h-4 border-2 border-[#CBA557] checked:bg-[#CBA557]"
+            />
+            {slot}
+          </label>
+        ))}
+        <label className="flex flex-col gap-2 text-[#CBA557] font-medium">
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={isTimeToTimeChecked}
+              onChange={() => setIsTimeToTimeChecked(!isTimeToTimeChecked)}
+              className="appearance-none w-4 h-4 border-2 border-[#CBA557] checked:bg-[#CBA557]"
+            />
+            Time to Time
+          </div>
+          {isTimeToTimeChecked && (
+            <div className="flex gap-2 items-center">
+              <select
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                className="appearance-none w-full border-2 border-[#CBA557] rounded-md px-2 py-1"
+              >
+                <option value="" disabled>Select start time</option>
+                {times.map((time, idx) => (
+                  <option key={idx} value={time}>{time}</option>
+                ))}
+              </select>
+              <span>to</span>
+              <select
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                className="appearance-none w-full border-2 border-[#CBA557] rounded-md px-2 py-1"
+              >
+                <option value="" disabled>Select end time</option>
+                {times.map((time, idx) => (
+                  <option key={idx} value={time}>{time}</option>
+                ))}
+              </select>
+            </div>
+          )}
         </label>
-        <label className="flex gap-2 items-center text-[#CBA557] font-medium">
-          <input
-            type="checkbox"
-            name="hours"
-            value="Morning (4h00) - Starting 8:30 AM"
-            onChange={handleCheckboxChange}
-            className="appearance-none w-4 h-4 border-2 border-[#CBA557] checked:bg-[#CBA557]"
-          />
-          Morning (4h00) -{' '}
-          <span className="text-gray-500 font-normal">Starting 8:30 AM</span>
-        </label>
-        <label className="flex gap-2 items-center text-[#CBA557] font-medium">
-          <input
-            type="checkbox"
-            name="hours"
-            value="Noon (4h00) - Starting 12:00 PM"
-            onChange={handleCheckboxChange}
-            className="appearance-none w-4 h-4 border-2 border-[#CBA557] checked:bg-[#CBA557]"
-          />
-          Noon (4h00) -{' '}
-          <span className="text-gray-500 font-normal">Starting 12:00 PM</span>
-        </label>
-        <label className="flex gap-2 items-center text-[#CBA557] font-medium">
-          <input
-            type="checkbox"
-            name="hours"
-            value="Afternoon (4h00) - Starting 2:30 PM"
-            onChange={handleCheckboxChange}
-            className="appearance-none w-4 h-4 border-2 border-[#CBA557] checked:bg-[#CBA557]"
-          />
-          Afternoon (4h00) -{' '}
-          <span className="text-gray-500 font-normal">Starting 2:30 PM</span>
-        </label>
-        <label className="flex gap-2 items-center text-[#CBA557] font-medium">
-          <input
-            type="checkbox"
-            name="hours"
-            value="Evening (4h00) - Starting 6:00 PM"
-            onChange={handleCheckboxChange}
-            className="appearance-none w-4 h-4 border-2 border-[#CBA557] checked:bg-[#CBA557]"
-          />
-          Evening (4h00) -{' '}
-          <span className="text-gray-500 font-normal">Starting 6:00 PM</span>
-        </label>
-        <label className="flex gap-2 items-center text-[#CBA557] font-medium">
-          <input
-            type="checkbox"
-            name="hours"
-            value="Sunrise (4h00) - Starting 5:00 AM"
-            onChange={handleCheckboxChange}
-            className="appearance-none w-4 h-4 border-2 border-[#CBA557] checked:bg-[#CBA557]"
-          />
-          Sunrise (4h00) -{' '}
-          <span className="text-gray-500 font-normal">Starting 5:00 AM</span>
-        </label>
-        <label className="flex gap-2 items-center text-[#CBA557] font-medium">
-          <input
-            type="checkbox"
-            name="hours"
-            value="After work (4h00) - Starting 6:00 PM"
-            onChange={handleCheckboxChange}
-            className="appearance-none w-4 h-4 border-2 border-[#CBA557] checked:bg-[#CBA557]"
-          />
-          After work (4h00) -{' '}
-          <span className="text-gray-500 font-normal">Starting 6:00 PM</span>
-        </label>
-        <label className="flex gap-2 items-center text-[#CBA557] font-medium">
-          <input
-            type="checkbox"
-            name="hours"
-            value="Bachelor (ette) party (4h00) - Starting Free"
-            onChange={handleCheckboxChange}
-            className="appearance-none w-4 h-4 border-2 border-[#CBA557] checked:bg-[#CBA557]"
-          />
-          Bachelor (ette) party (4h00) -{' '}
-          <span className="text-gray-500 font-normal">Starting Free</span>
-        </label>
-
         <div className="flex gap-4 justify-end mt-8">
           <button
             className="border-2 border-red-400 text-red-400 hover:text-white hover:bg-red-400 px-3 py-2 rounded"

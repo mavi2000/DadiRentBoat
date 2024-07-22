@@ -53,6 +53,10 @@ const MyBoats = () => {
     navigate(e.target.value);
   };
 
+  const handleManageCalendar = (boatId) => {
+    navigate(`/Dashboard/my-boats/calender`, { state: { boatId } });
+  };
+
   const sliderSettings = {
     dots: true,
     infinite: true,

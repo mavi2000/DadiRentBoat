@@ -16,11 +16,16 @@ const bookingValidationSchema = Joi.object({
   }).optional()
 });
 
+
+
 export const createBooking = async (req, res, next) => {
   try {
     const { error, value } = bookingValidationSchema.validate(req.body);
 
-    console.log("req",req.body)
+
+    console.log("aaDa",req.body)
+
+    console.log("req", req.body);
 
     if (error) {
       return next(createError(400, error.details[0].message));
@@ -39,6 +44,61 @@ export const createBooking = async (req, res, next) => {
   }
 };
 
+
+export const getBookingsByBoatId = async (req, res, next) => {
+  try {
+    const { boatId } = req.params;
+
+    const bookings = await Booking.find({ boatId });
+
+    if (!bookings) {
+      return next(createError(404, 'No bookings found for this boat'));
+    }
+
+    res.status(200).json({
+      success: true,
+      bookings
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export const updateboatCalender =async (req,res,next)=>{
+  try {
+    const { boatId } = req.params;
+    const { error, value } = bookingValidationSchema.validate(req.body);
+
+    if (error) {
+      return next(createError(400, error.details[0].message));
+    }
+
+    let booking = await Booking.findOne({ boatId });
+
+    if (booking) {
+      // Update the existing booking
+      booking = await Booking.findOneAndUpdate({ boatId }, value, { new: true });
+      res.status(200).json({
+        success: true,
+        message: "Booking updated successfully",
+        booking
+      });
+    } else {
+      // Create a new booking
+      booking = new Booking({ boatId, ...value });
+      await booking.save();
+      res.status(201).json({
+        success: true,
+        message: "Booking created successfully",
+        booking
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+
+}
 
 
 
