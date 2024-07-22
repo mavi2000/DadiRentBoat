@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
 import CalendarDays from './CalendarDays';
 import { monthsData, weekdaysData } from './data';
 import UnavailabilityHours from './UnavailabilityHours';
@@ -7,13 +7,18 @@ import BoatsNavbar from '../BoatsNavbar';
 import WinterizingPeriod from './WinterizingPeriod';
 import "./Calender.css";
 import baseURL from '../../../../../APi/BaseUrl';
-import { useContext } from 'react';
 import { AdminContext } from '../../../../../Context/AdminContext';
 
 
 
+
 const Calendar = () => {
-  const {boatId} =useContext(AdminContext)
+  const id = localStorage.getItem('id');
+
+
+  console.log("id",id)
+  const {  boatId } = useContext(AdminContext);
+  // const boatId = "669b9620135e1210b2c8e50c";
 
   const weekdays = weekdaysData;
   const months = monthsData;
@@ -28,7 +33,38 @@ const Calendar = () => {
   const [winterizingPeriod, setWinterizingPeriod] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
   const [unavailabilityHours, setUnavailabilityHours] = useState({});
-  // const boatId = "2321321321321"; 
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+
+  useEffect(() => {
+    if (boatId) {
+      const fetchBookings = async () => {
+        try {
+          const response = await baseURL.get(`/booking/getBookingsByBoatId/${id}`);
+          const bookings = response.data.bookings;
+
+          const newUnavailableRanges = bookings.map(booking => ({
+            start: new Date(booking.startDate),
+            end: new Date(booking.endDate),
+            timeSlots: booking.timeSlots,
+          }));
+
+          const newUnavailabilityHours = bookings.reduce((acc, booking) => {
+            const key = new Date(booking.startDate).toDateString();
+            acc[key] = booking.timeSlots;
+            return acc;
+          }, {});
+
+          setUnavailableRanges(newUnavailableRanges);
+          setUnavailabilityHours(newUnavailabilityHours);
+        } catch (error) {
+          console.error('Error fetching bookings:', error.response?.data || error.message);
+        }
+      };
+
+      fetchBookings();
+    }
+  }, [boatId]);
 
   const nextMonth = () => {
     setCurrentDay(new Date(currentDay.setMonth(currentDay.getMonth() + numMonths)));
@@ -104,9 +140,36 @@ const Calendar = () => {
     handleDaySelection(hours.length > 0 ? hours : ['Full-day']);
   };
 
-  useEffect(() => {
-    console.log('Unavailability hours updated:', unavailabilityHours); // Use useEffect to see the updated state
-  }, [unavailabilityHours]);
+  const updateBooking = (selectedTimeSlots) => {
+    const key = selectedDay.date.toDateString();
+    const data = {
+      boatId,
+      startDate: rangeStart,
+      endDate: selectedDay.date,
+      timeSlots: selectedTimeSlots.length > 0 ? selectedTimeSlots : ['Full-day'],
+      type: 'booking'
+    };
+
+    console.log('Data to be sent for update:', data);
+
+    baseURL.put(`/booking/updateboatCalender/${id}`, data)
+      .then(response => {
+        console.log('Booking updated successfully:', response.data);
+        const updatedUnavailableRanges = unavailableRanges.map(range => {
+          if (range.start.toDateString() === key) {
+            return { ...range, timeSlots: selectedTimeSlots };
+          }
+          return range;
+        });
+        setUnavailableRanges(updatedUnavailableRanges);
+        setRangeStart(null);
+        setHoverDate(null);
+        setShowPopup(false);
+      })
+      .catch(error => {
+        console.error('Error updating booking:', error.response?.data || error.message);
+      });
+  };
 
   const resetUnavailability = () => {
     setUnavailableRanges([]);
@@ -199,16 +262,22 @@ const Calendar = () => {
               setShowHours(false);
               setShowPopup(false);
             }}
-            onConfirm={handleSlotSelection}
+            onConfirm={(hours) => {
+              const existingRange = unavailableRanges.find(
+                range => range.start.toDateString() === selectedDay.date.toDateString()
+              );
+              if (existingRange) {
+                updateBooking(hours);
+              } else {
+                handleSlotSelection(hours);
+              }
+            }}
+            startTime={startTime}
+            endTime={endTime}
+            setStartTime={setStartTime}
+            setEndTime={setEndTime}
           />
         )}
-        <div className="unavailability-list">
-          {Object.keys(unavailabilityHours).map((date) => (
-            <div key={date}>
-              <strong>{date}</strong>: {unavailabilityHours[date].join(', ')}
-            </div>
-          ))}
-        </div>
         <div className="flex justify-end mt-4">
           <button
             onClick={resetUnavailability}

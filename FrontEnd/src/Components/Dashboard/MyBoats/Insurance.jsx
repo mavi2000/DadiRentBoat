@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import baseURL from "../../../../APi/BaseUrl";
 const Insurance = () => {
   const id = localStorage.getItem('id')
+  console.log("id",id)
   const { Insurances, boatId, navigate } = useContext(AdminContext);
   const [insuranceData, setInsuranceData] = useState({
     currentInsurer: "",
