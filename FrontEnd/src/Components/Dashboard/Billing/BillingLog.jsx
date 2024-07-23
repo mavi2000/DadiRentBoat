@@ -69,23 +69,23 @@ const BillingLog = () => {
           </div>
 
           {/* Display Each Booking */}
-          {bookings.map((booking) => (
+          {bookings?.map((booking) => (
             <div key={booking._id} className="flex w-full">
               <div className="w-[10%] border-b border-[#DBDADE] p-3">
-                #{booking._id.slice(-7)} {/* Example of displaying part of ID */}
+                #{booking?._id.slice(-7)} {/* Example of displaying part of ID */}
               </div>
               <div className="flex items-center gap-2 w-[20%] border-b border-[#DBDADE] p-3">
                 <div className="flex justify-center rounded-full bg-[#CBA55726] items-center w-8 h-8 text-[#CBA557]">
                   {/* Example of displaying initials */}
-                  <div>{booking.userId.username.charAt(0)}</div>
-                  <div>{booking.userId.username.charAt(1)}</div>
+                  <div>{booking.userId?.username.charAt(0)}</div>
+                  <div>{booking.userId?.username.charAt(1)}</div>
                 </div>
                 <div>
-                  <div className="text-sm">{booking.userId.username}</div>
-                  <div className="text-xs text-[#a9a3ba]">{booking.userId.email}</div>
+                  <div className="text-sm">{booking.userId?.username}</div>
+                  <div className="text-xs text-[#a9a3ba]">{booking.userId?.email}</div>
                 </div>
               </div>
-              <div className="w-[20%] border-b border-[#DBDADE] p-3">{booking.boatName}</div>
+              <div className="w-[20%] border-b border-[#DBDADE] p-3">{booking?.boatName}</div>
               <div className="w-[10%] border-b border-[#DBDADE] p-3">
                 {new Date(booking.createdAt).toLocaleDateString()} {/* Format date */}
               </div>

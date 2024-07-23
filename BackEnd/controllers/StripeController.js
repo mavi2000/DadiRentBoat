@@ -80,6 +80,9 @@ export const checkout = async (req, res) => {
   }
 };
 
+
+
+
 export const getPayment = async (req, res) => {
   try {
     const payments = await Payment.find().populate(
@@ -92,6 +95,9 @@ export const getPayment = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
 
 export const calculateBoatRevenue = async (req, res) => {
   try {
@@ -117,7 +123,10 @@ export const calculateBoatRevenue = async (req, res) => {
   }
 };
 
-// get all payments of a user
+
+
+
+
 export const getUserPayment = async (req, res) => {
   try {
     const { id } = req.params;

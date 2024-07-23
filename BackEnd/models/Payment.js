@@ -34,7 +34,8 @@ const PaymentSchema = new Schema(
         "weekendHalfDayMorning",
         "weekendHalfDayEvening",
         "weekendFullDay",
-        "new rates"
+        "new rates",
+        "1 day rate"
       ],
       required: true,
     },
