@@ -92,7 +92,11 @@ const BillingLog = () => {
               <div className="w-[15%] border-b border-[#DBDADE] p-3">${booking.amount}</div>
               <div className="w-[15%] border-b border-[#DBDADE] p-3">${booking.totalAmount}</div>
               <div className="w-[10%] border-b border-[#DBDADE] p-3">
-                {booking.paymentStatus}
+                {booking.amount === booking.totalAmount ? (
+                  <span className="text-green-500 font-bold">Paid</span>
+                ) : (
+                  <span className="text-red-500 font-bold">30%</span>
+                )}
               </div>
             </div>
           ))}

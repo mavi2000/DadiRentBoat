@@ -17,6 +17,10 @@ const PaymentSchema = new Schema(
       type: String,
       required: false,
     },
+    boatImage: {
+      type: [String], // Changed to an array of strings
+      required: true,
+    },
     amount: {
       type: Number,
       required: true,

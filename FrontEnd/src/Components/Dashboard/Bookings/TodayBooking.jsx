@@ -94,7 +94,11 @@ const TodayBooking = () => {
                   </td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
                     <div className="flex items-center justify-center">
-                      <img src={BoatType} alt="" className="md:w-9 w-6 rounded-full" />
+                    <img
+                        src={booking?.boatImage[0] || BoatType}
+                        alt=''
+                        className='md:w-9 w-6 rounded-full aspect-square'
+                      />
                       <p className="px-2">{booking.boatName}</p>
                     </div>
                   </td>

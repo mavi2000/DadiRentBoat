@@ -4,6 +4,7 @@ import Payment from "../models/Payment.js";
 import { jwtDecode } from "jwt-decode";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+
 export const checkout = async (req, res) => {
   try {
     const {
@@ -13,10 +14,11 @@ export const checkout = async (req, res) => {
       rateType,
       totalAmount,
       availableDate,
+      boatImage,
       boatId,
     } = req.body;
 
-    console.log("req.body",req.body)
+    console.log("req.body", req.body);
 
     const parsedAvailableDate = new Date(availableDate);
     if (isNaN(parsedAvailableDate.getTime())) {
@@ -61,8 +63,9 @@ export const checkout = async (req, res) => {
       stripeDetails: session,
       rateType,
       totalAmount,
+      boatImage, // This is now an array
       paymentStatus: "paid",
-      availableDate: parsedAvailableDate, // Use parsedAvailableDate instead of availableDate directly
+      availableDate: parsedAvailableDate,
       boatId,
     });
 
@@ -79,7 +82,6 @@ export const checkout = async (req, res) => {
     });
   }
 };
-
 
 
 

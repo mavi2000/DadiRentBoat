@@ -97,7 +97,7 @@ const Checkout = () => {
       amountToCharge = amountToCharge * 0.3;
     }
 
-    const amountToChargeInCents = Math.round(amountToCharge * 100);
+    const amountToChargeInCents = Math.round(amountToCharge);
 
     try {
       const boatName = boatDetails?.rental?.map((item) => item.BoatName).join(', ');
@@ -105,9 +105,10 @@ const Checkout = () => {
       const response = await baseURL.post('/checkout/payment', {
         userId: user,
         boatName,
-        amount: amountToChargeInCents,
+        amount: amountToChargeInCents * 100,
         rateType: selectedRate.nameOfTheRate,
-        totalAmount: amountToCharge,
+        totalAmount: amountToCharge * 100,
+        boatImage:boatDetails.boatImages.map((item)=>(item.images[0])),
         availableDate: selectedDate,
         boatId: boatDetails?.boat._id
       });
@@ -118,7 +119,7 @@ const Checkout = () => {
 
       if (error) {
         console.error('Stripe Checkout error:', error);
-        toast.error('Payment failed. Please try again.');
+        toast.error(response.data.error);
       }
     } catch (error) {
       console.error('Payment failed:', error);
