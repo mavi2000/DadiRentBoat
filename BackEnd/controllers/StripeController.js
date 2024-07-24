@@ -141,3 +141,24 @@ export const getUserPayment = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
+
+
+
+export const getSinglePayment = async (req, res) => {
+  try {
+    const paymentId = req.params.id;
+
+    const payment = await Payment.findById(paymentId).populate('userId');;
+    if (!payment) {
+      return res.status(404).json({ error: 'Payment not found' });
+    }
+
+    res.status(200).json(payment);
+  } catch (error) {
+    console.error('Error fetching payment:', error);
+    res.status(500).json({ error: error.message });
+  }
+};

@@ -1,29 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import dummyBoatImage from "../../../assets/Images/annina.webp";
 import ReminderModal from "./ReminderModal";
+import { AdminContext } from "../../../../Context/AdminContext";
+import { useParams } from "react-router-dom";
+
 const BookingDetails = () => {
+  const { id } = useParams();
+  const { getSinglePayment } = useContext(AdminContext);
+  const [booking, setBooking] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [fuelQuantity, setFuelQuantity] = useState(1);
   const [fuelPrice, setFuelPrice] = useState(100);
-  const totalPrice = fuelQuantity * fuelPrice;
   const [isRPopUp, setIsRPopUp] = useState(null);
-  const user = {
-    name: "John Doe",
-    phone: "0998123171",
-    email: "abc123@email.com",
-    profilePic: "/images/account-person.png",
-    bookingNumber: "750391",
-    bookingStartDate: "5/15/2024 at 08:00",
-    bookingStartTime: "8:00am",
-    bookingEndDate: "5/5/2023",
-    bookingEndTime: "5:00pm",
-    boatImage: dummyBoatImage,
-    boatName: "Sea Ghost open",
-    subtotal: 5712,
-    skipperCharges: 0,
-    total: 5712,
-    amountPaid: 0,
-    amountDue: 5712,
-  };
+
+  const totalPrice = fuelQuantity * fuelPrice;
+
+  useEffect(() => {
+    const fetchBooking = async () => {
+      try {
+        const bookingData = await getSinglePayment(id);
+        setBooking(bookingData);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBooking();
+  }, [id, getSinglePayment]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  if (!booking) return <div>No booking details found</div>;
 
   return (
     <div className="sm:m-8 mt-8 grid md:grid-cols-5 bg-white rounded-2xl">
@@ -31,20 +42,20 @@ const BookingDetails = () => {
       <div className=" md:col-span-3 pr-4">
         <div className="p-4 sm:p-8">
           <div className="mb-4 flex items-center gap-3">
-            <img src="/icons/icon-yellow-back-arrow-box.svg" />
+            <img src="/icons/icon-yellow-back-arrow-box.svg" alt="Back" />
             <h3 className=" text-black text-2xl">User Details</h3>
           </div>
           <div className="flex items-center">
             <img
-              src={user.profilePic}
+              src={booking.userId?.image || "/images/account-person.png"}
               alt="profile"
               className="w-24 h-24 rounded-lg mr-4"
             />
             <div>
-              <h2 className="text-xl font-bold">{user.name}</h2>
-              <p>{user.phone}</p>
+              <h2 className="text-xl font-bold">{booking.userId?.username}</h2>
+              <p>{booking.userId?.phoneNumber}</p>
               <p className="flex items-center flex-wrap gap-3">
-                {user.email}{" "}
+                {booking.userId?.email}{" "}
                 <span
                   onClick={() => setIsRPopUp(!isRPopUp)}
                   className="bg-[#faf6ef] cursor-pointer text-[#cba353] text-sm font-semibold mr-2 px-6 py-2 rounded"
@@ -64,15 +75,15 @@ const BookingDetails = () => {
             <h3 className="text-lg font-bold">Documents</h3>
             <div className="flex gap-4 flex-wrap mt-4">
               <button className="bg-[#cba353] text-white py-2 px-4 rounded-lg flex items-center gap-2">
-                <img src="/icons/icon-white-pdf-file.svg" />
+                <img src="/icons/icon-white-pdf-file.svg" alt="PDF" />
                 RULES OF CONDUCT
               </button>
               <button className="bg-[#cba353] text-white py-2 px-4 rounded-lg flex items-center gap-2">
-                <img src="/icons/icon-white-pdf-file.svg" />
+                <img src="/icons/icon-white-pdf-file.svg" alt="PDF" />
                 RENTAL AGREEMENT
               </button>
               <button className="bg-[#cba353] text-white py-2 px-4 rounded-lg flex items-center gap-2">
-                <img src="/icons/icon-white-pdf-file.svg" />
+                <img src="/icons/icon-white-pdf-file.svg" alt="PDF" />
                 INVOICE
               </button>
             </div>
@@ -125,55 +136,55 @@ const BookingDetails = () => {
       </div>
       <div className=" md:col-span-2 p-4">
         <div className="p-4 border rounded-2xl sm:p-8">
-          <h2 className="text-xl font-bold">Booking No.{user.bookingNumber}</h2>
+          <h2 className="text-xl font-bold">Booking No.{booking._id}</h2>
           <p className="mt-2">Rental was There.</p>
           <p className="mt-2">
-            The rental was begin on {user.bookingStartDate}.
+            The rental began on {new Date(booking.availableDate).toLocaleDateString()}.
           </p>
           <div className="flex space-x-4 mt-4">
             <div>
               <p className="text-gray-600">Arrive</p>
-              <p className="font-bold">{user.bookingStartTime}</p>
+              <p className="font-bold">{booking.arrivalTime || "N/A"}</p>
             </div>
             <div>
               <p className="text-gray-600">Departure</p>
-              <p className="font-bold">{user.bookingEndTime}</p>
+              <p className="font-bold">{booking.departureTime || "N/A"}</p>
             </div>
           </div>
           <div className="mt-4">
             <img
-              src={user.boatImage}
+              src={booking.boatImage ? booking.boatImage[0] : dummyBoatImage}
               alt="boat"
               className="w-full rounded-lg"
             />
-            <p className="text-center font-bold mt-2">{user.boatName}</p>
+            <p className="text-center font-bold mt-2">{booking.boatName}</p>
           </div>
           <div className="mt-4">
             <div className="flex justify-between">
               <p>Subtotal:</p>
-              <p>${user.subtotal}</p>
+              <p>€{booking.subtotal || booking.totalAmount}</p>
             </div>
             <div className="flex justify-between">
               <p>Skipper Charges:</p>
-              <p>${user.skipperCharges}</p>
+              <p>€{booking.skipperCharges || 0}</p>
             </div>
             <div className="flex justify-between font-bold">
               <p>Total:</p>
-              <p>${user.total}</p>
+              <p>€{booking.totalAmount}</p>
             </div>
             <div className="flex justify-between">
               <p>Amount Paid:</p>
-              <p>${user.amountPaid}</p>
+              <p>€{booking.amountPaid || 0}</p>
             </div>
             <div className="flex justify-between">
               <p>Amount Due:</p>
-              <p>${user.amountDue}</p>
+              <p>€{booking.amountDue || booking.totalAmount}</p>
             </div>
           </div>
           <div className="mt-4">
             <button className="bg-[#e6f3e6] text-[#0d860d] flex items-center gap-2 justify-center font-semibold py-2 px-4 rounded-lg w-full">
               Change reservation Status
-              <img src="/icons/icon-green-down-arrow.svg" />
+              <img src="/icons/icon-green-down-arrow.svg" alt="Arrow" />
             </button>
           </div>
           <div className="mt-2 text-center">

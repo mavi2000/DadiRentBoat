@@ -415,6 +415,19 @@ const AdminProvider = ({ children }) => {
     }
   };
 
+
+  const getSinglePayment = async (paymentId) => {
+    try {
+      const response = await baseURL.get(`/checkout/getSinglePayment/${paymentId}`);
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to fetch payment";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
   return (
     <AdminContext.Provider
       value={{
@@ -446,7 +459,8 @@ const AdminProvider = ({ children }) => {
         getBoats,
         sharedFormData,
         updateSharedFormData,
-        deleteBoat, navigate
+        deleteBoat, navigate,
+        getSinglePayment
       }}
     >
       {children}
