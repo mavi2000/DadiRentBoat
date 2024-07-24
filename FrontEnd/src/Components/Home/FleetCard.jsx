@@ -1,12 +1,34 @@
-import { RiAnchorLine, RiRulerLine } from 'react-icons/ri';
-import fleetCardIcon from '../../assets/Images/fleetCardIcon.png';
-import { FaPeopleGroup } from 'react-icons/fa6';
-import { HiOutlineIdentification } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { RiAnchorLine, RiRulerLine } from "react-icons/ri";
+import fleetCardIcon from "../../assets/Images/fleetCardIcon.png";
+import { FaPeopleGroup } from "react-icons/fa6";
+import { HiOutlineIdentification } from "react-icons/hi";
+import { Link } from "react-router-dom";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
+const ArrowLeft = ({ className, style, onClick }) => (
+  <div
+    className={`${className} bg-black rounded-full flex items-center justify-center`}
+    style={{ ...style, left: "10px", zIndex: 1 }}
+    onClick={onClick}
+  >
+    <FaArrowLeft color="white" />
+  </div>
+);
+
+const ArrowRight = ({ className, style, onClick }) => (
+  <div
+    className={`${className} bg-black rounded-full flex items-center justify-center`}
+    style={{ ...style, right: "10px", zIndex: 1 }}
+    onClick={onClick}
+  >
+    <FaArrowRight color="white" />
+  </div>
+);
+const getRandomAutoplaySpeed = () => Math.floor(Math.random() * 1000) + 3000;
 const FleetCard = ({
   boatImg,
   title,
@@ -15,31 +37,29 @@ const FleetCard = ({
   power,
   licenseRequired,
   id,
-  images // Add images prop to receive the array of images
+  images, // Add images prop to receive the array of images
 }) => {
   const settings = {
-    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    customPaging: i => (
-      <div className="w-3 h-3 bg-yellow-500 rounded-full mx-1 cursor-pointer"></div>
-    ),
-    dotsClass: "slick-dots custom-slick-dots",
-    arrows: true,
-    nextArrow: <button type="button" className="slick-next text-black">&#9654;</button>,
-    prevArrow: <button type="button" className="slick-prev text-black">&#9664;</button>,
+    autoplay: true,
+    cssEase: "linear",
+    nextArrow: <ArrowRight />,
+    prevArrow: <ArrowLeft />,
   };
-
-  console.log("images", images);
 
   return (
     <div className="bg-white rounded-md p-3 w-full md:w-[350px] shadow-md">
-      <Slider {...settings}>
+      <Slider {...settings} autoplaySpeed={getRandomAutoplaySpeed()}>
         {images?.map((img, index) => (
           <div key={index}>
-            <img src={img} alt={`Boat ${index}`} className="w-full h-56 object-cover rounded-md" />
+            <img
+              src={img}
+              alt={`Boat ${index}`}
+              className="w-full h-56 object-cover rounded-md"
+            />
           </div>
         ))}
       </Slider>
@@ -71,7 +91,10 @@ const FleetCard = ({
             </tr>
             <tr className="border-collapse border-y-[1px] border-[#19191923] ">
               <td className="py-2">
-                <HiOutlineIdentification size={25} className="text-[--primary-color]" />
+                <HiOutlineIdentification
+                  size={25}
+                  className="text-[--primary-color]"
+                />
               </td>
               <td className="py-2 px-4 ml-0 mr-auto">License Required</td>
               <td className="py-2 text-right">{licenseRequired}</td>
