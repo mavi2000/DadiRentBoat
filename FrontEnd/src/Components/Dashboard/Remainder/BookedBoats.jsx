@@ -13,6 +13,7 @@ const BookedBoats = () => {
     const [showReminderPopup, setShowReminderPopup] = useState(false);
     const [paymentData, setPaymentData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchInput, setSearchInput] = useState(""); // State for search input
 
     useEffect(() => {
         const fetchPaymentData = async () => {
@@ -71,7 +72,8 @@ const BookedBoats = () => {
         return bookingsOnDate.map(payment => payment.rateType);
     };
 
-    const boatNames = [...new Set(paymentData.map(payment => payment.boatName))].filter(name => name);
+    const filteredBoatNames = [...new Set(paymentData.map(payment => payment.boatName))]
+        .filter(name => name && name.toLowerCase().includes(searchInput.toLowerCase()));
 
     const statusColors = {
         'Half Day Morning': '#FFD700', // Gold
@@ -91,7 +93,13 @@ const BookedBoats = () => {
                 <div className='flex justify-between mt-[2%] md:gap-6'>
                     <div className='flex gap-2 items-center py-2 pl-3 pr-4 bg-[#ffff] w-[35%] rounded-xl border border-[#DBDADE] md:flex-grow'>
                         <IoSearchOutline className='text-gray-500' />
-                        <input type="text" placeholder='Search' className='bg-transparent outline-none focus:ring-0 w-full' />
+                        <input 
+                            type="text" 
+                            placeholder='Search' 
+                            className='bg-transparent outline-none focus:ring-0 w-full'
+                            value={searchInput} // Set the value of the search input
+                            onChange={(e) => setSearchInput(e.target.value)} // Update state on input change
+                        />
                     </div>
 
                     <div className='flex gap-2 items-center px-3 py-1 md:py-2 md:pl-3 md:pr-4 border border-[#DBDADE] rounded-xl w-[30%] md:w-[16%] bg-[#ffff]'>
@@ -118,11 +126,11 @@ const BookedBoats = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {boatNames.map((boatName, index) => (
+                                {filteredBoatNames.map((boatName, index) => (
                                     <tr key={index} className="border-b border-[#DBDADE] hover:bg-gray-100">
                                         <td className="px-4 py-3 md:px-5 md:py-5 whitespace-nowrap text-sm text-[#4B465C]">
                                             <div className='flex flex-col gap-2'>
-                                                <img src={Boat} alt="Boat" className='w-28 md:w-36' />
+                                            <img src={(paymentData.find(payment => payment.boatName === boatName && payment.boatImage.length > 0)?.boatImage[0]) || Boat} alt="Boat" className='w-28 md:w-36' />
                                                 <p className='text-[#808080] font-medium text-sm'>{boatName}</p>
                                             </div>
                                         </td>

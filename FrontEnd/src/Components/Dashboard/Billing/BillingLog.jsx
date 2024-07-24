@@ -89,8 +89,8 @@ const BillingLog = () => {
               <div className="w-[10%] border-b border-[#DBDADE] p-3">
                 {new Date(booking.createdAt).toLocaleDateString()} {/* Format date */}
               </div>
-              <div className="w-[15%] border-b border-[#DBDADE] p-3">${booking.amount}</div>
-              <div className="w-[15%] border-b border-[#DBDADE] p-3">${booking.totalAmount}</div>
+              <div className="w-[15%] border-b border-[#DBDADE] p-3">${booking.amount.toFixed(2)}</div>
+              <div className="w-[15%] border-b border-[#DBDADE] p-3">${booking.totalAmount.toFixed(2)}</div>
               <div className="w-[10%] border-b border-[#DBDADE] p-3">
                 {booking.amount === booking.totalAmount ? (
                   <span className="text-green-500 font-bold">Paid</span>

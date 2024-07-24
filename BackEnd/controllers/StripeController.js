@@ -18,7 +18,6 @@ export const checkout = async (req, res) => {
       boatId,
     } = req.body;
 
-    console.log("req.body", req.body);
 
     const parsedAvailableDate = new Date(availableDate);
     if (isNaN(parsedAvailableDate.getTime())) {

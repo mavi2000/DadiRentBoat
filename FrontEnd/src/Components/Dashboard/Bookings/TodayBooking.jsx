@@ -102,8 +102,8 @@ const TodayBooking = () => {
                       <p className="px-2">{booking.boatName}</p>
                     </div>
                   </td>
-                  <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking.totalAmount}</td>
-                  <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking.amount}</td>
+                  <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking.totalAmount.toFixed(2)}</td>
+                  <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">{booking.amount.toFixed(2)}</td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
                     <span className="px-4 py-2 rounded-[10px] bg-[#17AC41] bg-opacity-10 text-[#17AC41] font-bold text-sm">
                       Active

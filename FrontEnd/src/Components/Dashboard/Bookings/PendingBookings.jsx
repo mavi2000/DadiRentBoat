@@ -98,7 +98,7 @@ const PendingBookings = () => {
                     </div>
                   </td>
                   <td className='px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]'>
-                    €{booking.amount}
+                    €{booking.amount.toFixed(2)}
                   </td>
                   <td className='px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]'>
                     €{booking.totalAmount.toFixed(2)}
