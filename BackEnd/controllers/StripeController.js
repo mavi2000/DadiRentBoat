@@ -150,6 +150,7 @@ export const getUserPayment = async (req, res) => {
 export const getSinglePayment = async (req, res) => {
   try {
     const paymentId = req.params.id;
+   
 
     const payment = await Payment.findById(paymentId).populate('userId');;
     if (!payment) {

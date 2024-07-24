@@ -24,6 +24,7 @@ import PaymentRoute from "./routes/paymentRoutes.js";
 import rentalAgreementRoutes from "./routes/rentalAgreementRoutes.js";
 import rentalOTPRoutes from "./routes/rentalOTPRoutes.js";
 import ExpenseRoute from "./routes/expenseRoute.js"
+import reminderRoutes from "./routes/reminderRoutes.js"
 
 const app = express();
 const PORT = process.env.PORT || 3800;
@@ -60,6 +61,7 @@ app.use("/checkout", PaymentRoute);
 app.use("/rental", rentalAgreementRoutes);
 app.use("/otp", rentalOTPRoutes);
 app.use("/Expense",ExpenseRoute)
+app.use("/Reminder",reminderRoutes)
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

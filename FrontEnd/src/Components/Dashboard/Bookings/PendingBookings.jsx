@@ -29,7 +29,7 @@ const PendingBookings = () => {
     fetchBookings();
   }, []);
 
-  console.log("bookings", bookings);
+  // console.log("bookings", bookings);
   return (
     <>
       <BookingNavbar />
@@ -142,64 +142,35 @@ const PendingBookings = () => {
         <img src={BoatType} alt="" className=' md:w-9 w-6 rounded-full'/>
         <p className='px-2'>Boat Type</p>
         </div>
+        </td>
+      <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">€54</td>
+      <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">€54</td>
+      <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
+        <span className=' px-4 py-3 rounded-[10px] bg-[#FF7A00] bg-opacity-10 text-[#FF7A00] font-bold text-sm'>
+          Pending
+        </span>
+      </td>
 
-        <div className='container overflow-x-auto'>
-          <table className='w-full my-[3%] border border-[#DBDADE]'>
-            <thead className='bg-[#CBA557] bg-opacity-30'>
-              <tr className='text-gray-600 text-left uppercase font-medium'>
-                <th className='px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium'>Order ID</th>
-                <th className='px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium'>Requester Name</th>
-                <th className='px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium'>Request Date</th>
-                <th className='px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium'>Boat Type</th>
-                <th className='px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium'>Total Price</th>
-                <th className='px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium'>Deposit Price</th>
-                <th className='px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium'>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings?.map((booking) => (
-                <tr key={booking._id} className='border-b border-[#DBDADE] hover:bg-gray-100'>
-                  <td className='px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]'>
-                    #{booking._id}
-                  </td>
-                  <td className='px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]'>
-                    {booking.userId?.username || 'N/A'}
-                  </td>
-                  <td className='px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]'>
-                    {new Date(booking.availableDate).toLocaleDateString()}
-                  </td>
-                  <td className='px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]'>
-                    <div className='flex items-center justify-center'>
-                      <img
-                        src={booking?.boatImage[0] || BoatType}
-                        alt=''
-                        className='md:w-9 w-6 rounded-full aspect-square'
-                      />
-                      <p className='px-2'>{booking.boatName}</p>
-                    </div>
-                  </td>
-                  <td className='px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]'>
-                    €{booking.amount.toFixed(2)}
-                  </td>
-                  <td className='px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]'>
-                    €{booking.totalAmount.toFixed(2)}
-                  </td>
-                  <td className='px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]'>
-                    <span className='px-4 py-3 rounded-[10px] bg-[#FF7A00] bg-opacity-10 text-[#FF7A00] font-bold text-sm'>
-                      Pending
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+
+    </tr>
+    <tr className="border-b border-[#DBDADE] hover:bg-gray-100">
+      <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">#827930</td>
+      <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">Thomas Charles</td>
+      <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">13 April 2024</td>
+      <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
+        <div className=' flex items-center justify-center'>
+        <img src={BoatType} alt="" className=' md:w-9 w-6 rounded-full'/>
+        <p className='px-2'>Boat Type</p>
         </div>
+        </td>
+      <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">€54</td>
+      <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">€54</td>
+      <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
+        <span className=' px-4 py-3 rounded-[10px] bg-[#FF7A00] bg-opacity-10 text-[#FF7A00] font-bold text-sm'>
+          Pending
+        </span>
+      </td>
 
-        <Pagination />
-      </div>
-    </>
-  );
-};
 
     </tr>
     <tr className="border-b border-[#DBDADE] hover:bg-gray-100">

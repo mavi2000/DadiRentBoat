@@ -1,7 +1,14 @@
 import React from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-export default function InvoiceModal({ isINPopUp, setIsINPopUp }) {
+import {format} from 'date-fns'
+
+
+export default function InvoiceModal({ isINPopUp, setIsINPopUp,booking }) {
+
+  console.log("booking invoce",booking)
+
+  const formattedDate = format(new Date(booking.createdAt), 'MM/dd/yyyy, hh:mm:ss aa');
   return (
     <>
       <Transition appear show={isINPopUp} as={Fragment}>
@@ -65,16 +72,16 @@ export default function InvoiceModal({ isINPopUp, setIsINPopUp }) {
                               Date Issues:
                             </div>
                             <div className=" 700px:w-[50%] 300px:w-[100%] ">
-                              25/08/2020
+                            {formattedDate}
                             </div>
                           </div>
                           <div className="flex justify-between w-[90%] 700px:flex-row 300px:flex-col font-light 1000px:text-lg 500px:text-sm 300px:text-xs ">
-                            <div className=" 700px:w-[50%] 300px:w-[100%] 1000px:font-light 300px:font-medium ">
+                            {/* <div className=" 700px:w-[50%] 300px:w-[100%] 1000px:font-light 300px:font-medium ">
                               Date Due:
                             </div>
                             <div className="700px:w-[50%] 300px:w-[100%] ">
                               29/08/2020
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
@@ -85,13 +92,13 @@ export default function InvoiceModal({ isINPopUp, setIsINPopUp }) {
                               Invoice To:
                             </div>
                             <div className=" 1000px:text-lg 700px:text-sm 300px:text-xs w-[100%]">
-                              <div className=" font-light">Thomas shelby</div>
+                              <div className=" font-light">{booking.userId?.username}</div>
                               <div className=" font-light">
-                                Small Heath, B10 0HF, UK
+                            {booking.userId?.address}
                               </div>
-                              <div className=" font-light">718-986-6062</div>
+                              <div className=" font-light">  {booking.userId?.phoneNumber}</div>
                               <div className=" font-light">
-                                peakyFBlinders@gmail.com
+                              {booking.userId.email}
                               </div>
                             </div>
                           </div>
@@ -107,7 +114,7 @@ export default function InvoiceModal({ isINPopUp, setIsINPopUp }) {
                                   Total Due:
                                 </div>
                                 <div className="font-light 900px:w-[50%] 300px:w-[100%]">
-                                  $12,110.55
+                                {booking.totalAmount}
                                 </div>
                               </div>
                               <div className=" w-[90%]  flex justify-between 700px:flex-row 300px:flex-col font-light 1000px:text-lg 500px:text-sm 300px:text-xs  ">
@@ -123,7 +130,7 @@ export default function InvoiceModal({ isINPopUp, setIsINPopUp }) {
                                   Country:
                                 </div>
                                 <div className=" 900px:w-[50%] 300px:w-[100%]  font-light">
-                                  Italy
+                            {booking.userId.country}
                                 </div>
                               </div>
                               <div className=" w-[90%]  flex justify-between 700px:flex-row 300px:flex-col font-light 1000px:text-lg 500px:text-sm 300px:text-xs  ">
@@ -164,45 +171,21 @@ export default function InvoiceModal({ isINPopUp, setIsINPopUp }) {
                       </div>
                       <div className="flex w-[100%] ">
                         <div className="w-[50%] border-b border[#DBDADE] 900px:text-lg 500px:text-sm 300px:text-xs p-3">
-                          Boat Name
+                        {booking.boatName}
                         </div>
                         <div className="w-[15%] border-b border[#DBDADE] 900px:text-sm 300px:text-xs p-3">
-                          $32
+                     {booking?.amount}
                         </div>
                         <div className="w-[15%] border-b border[#DBDADE] 900px:text-sm 300px:text-xs p-3">
                           1
                         </div>
                         <div className="w-[20%] border-b border[#DBDADE] 900px:text-sm 300px:text-xs p-3">
-                          $32.00
+                        {booking?.amount}
                         </div>
                       </div>
                       <div className="flex w-[100%] ">
-                        <div className="w-[50%] border-b border[#DBDADE] 900px:text-lg 500px:text-sm 300px:text-xs p-3">
-                          Skipper
-                        </div>
-                        <div className="w-[15%] border-b border[#DBDADE] 900px:text-sm 300px:text-xs p-3">
-                          $15
-                        </div>
-                        <div className="w-[15%] border-b border[#DBDADE] 900px:text-sm 300px:text-xs p-3">
-                          1
-                        </div>
-                        <div className="w-[20%] border-b border[#DBDADE] 900px:text-sm 300px:text-xs p-3">
-                          $15.00
-                        </div>
                       </div>
                       <div className="flex w-[100%] ">
-                        <div className="w-[50%] border-b border[#DBDADE] 900px:text-lg 500px:text-sm 300px:text-xs p-3">
-                          Ticket
-                        </div>
-                        <div className="w-[15%] border-b border[#DBDADE] 900px:text-sm 300px:text-xs p-3">
-                          $15
-                        </div>
-                        <div className="w-[15%] border-b border[#DBDADE] 900px:text-sm 300px:text-xs p-3">
-                          1
-                        </div>
-                        <div className="w-[20%] border-b border[#DBDADE] 900px:text-sm 300px:text-xs p-3">
-                          $15.00
-                        </div>
                       </div>
                     </div>
                     <div className=" flex 900px:p-10 300px:p-6 gap-3 ">
@@ -217,43 +200,21 @@ export default function InvoiceModal({ isINPopUp, setIsINPopUp }) {
                         <div className="flex flex-col gap-3 text-[#4B465C]">
                           <div className="text-[#4B465C] flex w-[100%] flex-col">
                             <div className=" w-[100%] flex justify-between 700px:flex-row 300px:flex-col font-light 1000px:text-lg 500px:text-sm 300px:text-xs ">
-                              <div className=" 900px:w-[50%] 300px:w-[100%] 900px:font-light 300px:font-medium">
-                                Subtotal:
-                              </div>
-                              <div className=" 900px:w-[50%] 300px:w-[100%] font-light">
-                                $154.25
-                              </div>
                             </div>
                             <div className=" w-[100%] flex justify-between 700px:flex-row 300px:flex-col font-light 1000px:text-lg 500px:text-sm 300px:text-xs ">
-                              <div className=" 900px:w-[50%] 300px:w-[100%] 900px:font-light 300px:font-medium">
-                                Service Charges:
-                              </div>
-                              <div className=" 900px:w-[50%] 300px:w-[100%] font-light">
-                                $10{" "}
-                              </div>
                             </div>
                             <div className=" w-[100%] flex justify-between 700px:flex-row 300px:flex-col font-light 1000px:text-lg 500px:text-sm 300px:text-xs ">
-                              <div className="900px:w-[50%] 300px:w-[100%] 900px:font-light 300px:font-medium">
-                                Discount:
-                              </div>
-                              <div className="900px:w-[50%] 300px:w-[100%] font-light">
-                                $00.00
-                              </div>
+                      
                             </div>
                             <div className=" w-[100%] flex justify-between 700px:flex-row 300px:flex-col font-light 1000px:text-lg 500px:text-sm 300px:text-xs">
-                              <div className=" 900px:w-[50%] 300px:w-[100%] 900px:font-light 300px:font-medium">
-                                VAT:
-                              </div>
-                              <div className="900px:w-[50%] 300px:w-[100%] font-light">
-                                $50.00
-                              </div>
+
                             </div>
                             <div className=" w-[100%] flex justify-between 700px:flex-row 300px:flex-col font-light 1000px:text-lg 500px:text-sm 300px:text-xs ">
                               <div className=" 900px:w-[50%] 300px:w-[100%] 900px:font-light 300px:font-medium">
                                 Total:
                               </div>
                               <div className="900px:w-[50%] 300px:w-[100%] font-light">
-                                $204.25
+                              {booking.totalAmount}
                               </div>
                             </div>
                             <div className=" w-[100%] flex justify-between 700px:flex-row 300px:flex-col font-light 1000px:text-lg 500px:text-sm 300px:text-xs ">
@@ -261,7 +222,7 @@ export default function InvoiceModal({ isINPopUp, setIsINPopUp }) {
                                 Amount Paid
                               </div>
                               <div className=" 900px:w-[50%] 300px:w-[100%] font-light">
-                                $204.25
+                              {booking.amount}
                               </div>
                             </div>
                             <div className=" w-[100%] flex justify-between 700px:flex-row 300px:flex-col font-light 1000px:text-lg 500px:text-sm 300px:text-xs ">
@@ -269,7 +230,7 @@ export default function InvoiceModal({ isINPopUp, setIsINPopUp }) {
                                 To Pay at Harbor
                               </div>
                               <div className="900px:w-[50%] 300px:w-[100%] font-light">
-                                $204.25
+                                {booking.totalAmount  - booking.amount}
                               </div>
                             </div>
                           </div>

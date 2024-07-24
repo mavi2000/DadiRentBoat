@@ -36,3 +36,23 @@ export const createAgreement = async (req, res) => {
     res.status(500).json({ message: error.message || "Internal server error" });
   }
 };
+
+export const getAgreementByUserId = async (req, res) => {
+  try {
+ // Add this line to log req.params
+    const { userId } = req.params;
+
+
+    
+    // Fetch the agreement using the user ID
+    const agreement = await Agreement.findOne({ userId });
+
+    if (!agreement) {
+      return res.status(404).json({ message: 'Rental agreement not found' });
+    }
+
+    return res.status(200).json(agreement);
+  } catch (error) {
+    res.status(500).json({ message: error.message || 'Internal server error' });
+  }
+};

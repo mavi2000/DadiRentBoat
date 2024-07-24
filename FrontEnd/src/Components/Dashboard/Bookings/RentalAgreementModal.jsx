@@ -1,32 +1,74 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { AdminContext } from "../../../../Context/AdminContext";
 
-export default function RentalAgreementModal({ isRAPopUp, setIsRAPopUp }) {
+export default function RentalAgreementModal({ isRAPopUp, setIsRAPopUp, booking }) {
+  const { getAgreementByUserId } = useContext(AdminContext);
+
   const [data, setData] = useState({
-    userId: "123",
-    firstName: 'John',
-    lastName: 'Doe',
-    dob: '1990-01-01',
-    birthCity: 'New York',
-    birthProvince: 'NY',
-    taxId: '123-45-6789',
-    address: '123 Main St',
-    city: 'New York',
-    state: 'NY',
-    zip: '10001',
-    country: 'USA',
-    phone: '+923131528118',
-    email: 'john.doe@example.com',
-    members: 4,
-    leaseStart: '2023-01-01',
-    leaseEnd: '2023-12-31',
-    leasePrice: 1200,
-    faithPlace: 'New York',
-    faithDate: '2023-01-01',
-    docFront: "",
-    docBack: "",
+    userId: "N/A",
+    firstName: "N/A",
+    lastName: "N/A",
+    dob: "N/A",
+    birthCity: "N/A",
+    birthProvince: "N/A",
+    taxId: "N/A",
+    address: "N/A",
+    city: "N/A",
+    state: "N/A",
+    zip: "N/A",
+    country: "N/A",
+    phone: "N/A",
+    email: "N/A",
+    members: "N/A",
+    leaseStart: "N/A",
+    leaseEnd: "N/A",
+    leasePrice: "N/A",
+    faithPlace: "N/A",
+    faithDate: "N/A",
+    docFront: "N/A",
+    docBack: "N/A",
     valid: false,
   });
+
+  useEffect(() => {
+    const fetchAgreement = async () => {
+      try {
+        const agreementData = await getAgreementByUserId(booking.userId._id);
+        setData({
+          userId: agreementData.userId || "N/A",
+          firstName: agreementData.firstName || "N/A",
+          lastName: agreementData.lastName || "N/A",
+          dob: agreementData.dob || "N/A",
+          birthCity: agreementData.birthCity || "N/A",
+          birthProvince: agreementData.birthProvince || "N/A",
+          taxId: agreementData.taxId || "N/A",
+          address: agreementData.address || "N/A",
+          city: agreementData.city || "N/A",
+          state: agreementData.state || "N/A",
+          zip: agreementData.zip || "N/A",
+          country: agreementData.country || "N/A",
+          phone: agreementData.phone || "N/A",
+          email: agreementData.email || "N/A",
+          members: agreementData.members || "N/A",
+          leaseStart: agreementData.leaseStart || "N/A",
+          leaseEnd: agreementData.leaseEnd || "N/A",
+          leasePrice: agreementData.leasePrice || "N/A",
+          faithPlace: agreementData.faithPlace || "N/A",
+          faithDate: agreementData.faithDate || "N/A",
+          docFront: agreementData.docFront || "N/A",
+          docBack: agreementData.docBack || "N/A",
+          valid: agreementData.valid || false,
+        });
+      } catch (error) {
+        console.error("Error fetching rental agreement:", error);
+      }
+    };
+
+    if (booking?.userId?._id) {
+      fetchAgreement();
+    }
+  }, [booking, getAgreementByUserId]);
 
   return (
     <Transition appear show={isRAPopUp} as={Fragment}>
@@ -99,7 +141,23 @@ export default function RentalAgreementModal({ isRAPopUp, setIsRAPopUp }) {
                     </div>
                     <div className="flex justify-between font-light text-sm">
                       <div>Address:</div>
-                      <div>{data.address}, {data.city}, {data.state}, {data.zip}, {data.country}</div>
+                      <div>{data.address}</div>
+                    </div>
+                    <div className="flex justify-between font-light text-sm">
+                      <div>City:</div>
+                      <div>{data.city}</div>
+                    </div>
+                    <div className="flex justify-between font-light text-sm">
+                      <div>State:</div>
+                      <div>{data.state}</div>
+                    </div>
+                    <div className="flex justify-between font-light text-sm">
+                      <div>Zip:</div>
+                      <div>{data.zip}</div>
+                    </div>
+                    <div className="flex justify-between font-light text-sm">
+                      <div>Country:</div>
+                      <div>{data.country}</div>
                     </div>
                     <div className="flex justify-between font-light text-sm">
                       <div>Phone:</div>
@@ -135,11 +193,11 @@ export default function RentalAgreementModal({ isRAPopUp, setIsRAPopUp }) {
                     </div>
                     <div className="flex justify-between font-light text-sm">
                       <div>Document Front:</div>
-                      <div>{data.docFront ? "Uploaded" : "Not Uploaded"}</div>
+                      <div>{data.docFront !== "N/A" ? <a href={data.docFront} target="_blank" rel="noopener noreferrer">View</a> : "Not Uploaded"}</div>
                     </div>
                     <div className="flex justify-between font-light text-sm">
                       <div>Document Back:</div>
-                      <div>{data.docBack ? "Uploaded" : "Not Uploaded"}</div>
+                      <div>{data.docBack !== "N/A" ? <a href={data.docBack} target="_blank" rel="noopener noreferrer">View</a> : "Not Uploaded"}</div>
                     </div>
                     <div className="flex justify-between font-light text-sm">
                       <div>Valid:</div>

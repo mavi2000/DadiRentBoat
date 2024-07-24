@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { AdminContext } from "../../../../Context/AdminContext";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
-const ReminderForm = ({ isRPopUp, setIsRPopUp }) => {
+import { Fragment } from "react";
+
+const ReminderForm = ({ isRPopUp, setIsRPopUp, booking }) => {
+  const { sendReminder } = useContext(AdminContext); // Use the sendReminder function from context
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [sendImmediately, setSendImmediately] = useState(true);
   const [specificTime, setSpecificTime] = useState("");
   const [specificDate, setSpecificDate] = useState("");
+  const [footerMessage, setFooterMessage] = useState("");
 
   const handleMessageChange = (value) => {
     setMessage(value);
@@ -24,16 +28,28 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp }) => {
     setSendImmediately(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const reminderData = {
+      userId: booking.userId._id, // Get userId from booking.userId._id
+      userName: booking.userId.username,
       subject,
       message,
       sendImmediately,
       specificTime: sendImmediately ? null : specificTime,
       specificDate: sendImmediately ? null : specificDate,
+      email: booking.userId.email, // Get email from booking.userId.email
+      footerMessage,
     };
     console.log("Reminder Data:", reminderData);
+
+    try {
+      const response = await sendReminder(reminderData); // Call the sendReminder function
+      console.log("Reminder sent successfully", response);
+      setIsRPopUp(false);
+    } catch (error) {
+      console.error("Error sending reminder:", error);
+    }
   };
 
   return (
@@ -43,10 +59,7 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp }) => {
         <form onSubmit={handleSubmit}>
           <div className="bg-[#fafafa] mb-4 rounded-lg p-4">
             <div className="mb-4">
-              <label
-                htmlFor="specificDate"
-                className="block text-gray-700 font-bold mb-2"
-              >
+              <label htmlFor="subject" className="block text-gray-700 font-bold mb-2">
                 Subject
               </label>
               <input
@@ -63,7 +76,7 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp }) => {
                 Attachments
               </label>
               <div className="border-dashed bg-[#f5f1ea] border-2 border-gray-300 p-4 rounded flex flex-col items-center justify-center">
-                <img src="/icons/icon-yellow-upload.svg" />
+                <img src="/icons/icon-yellow-upload.svg" alt="Upload Icon" />
                 <p className="text-gray-500">
                   Drag & drop files or{" "}
                   <span className="text-blue-500 cursor-pointer">Browse</span>
@@ -74,10 +87,7 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp }) => {
               </div>
             </div>
             <div className="mb-4">
-              <label
-                htmlFor="message"
-                className="block text-gray-700 font-bold mb-2"
-              >
+              <label htmlFor="message" className="block text-gray-700 font-bold mb-2">
                 Message
               </label>
               <ReactQuill
@@ -85,6 +95,19 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp }) => {
                 onChange={handleMessageChange}
                 className="h-40 pb-12"
                 placeholder="Enter your mail body"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="footerMessage" className="block text-gray-700 font-bold mb-2">
+                Footer Message
+              </label>
+              <input
+                type="text"
+                id="footerMessage"
+                placeholder="Enter footer message"
+                value={footerMessage}
+                onChange={(e) => setFooterMessage(e.target.value)}
+                className="block w-full border border-gray-300 rounded p-2"
               />
             </div>
             <div className="mb-4">
@@ -119,10 +142,7 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp }) => {
             {!sendImmediately && (
               <div className="flex space-x-4 mb-4">
                 <div>
-                  <label
-                    htmlFor="specificDate"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
+                  <label htmlFor="specificDate" className="block text-gray-700 font-bold mb-2">
                     Date
                   </label>
                   <input
@@ -134,10 +154,7 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp }) => {
                   />
                 </div>
                 <div>
-                  <label
-                    htmlFor="specificTime"
-                    className="block text-gray-700 font-bold mb-2"
-                  >
+                  <label htmlFor="specificTime" className="block text-gray-700 font-bold mb-2">
                     Time
                   </label>
                   <input
@@ -171,7 +188,11 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp }) => {
     </div>
   );
 };
-export default function ReminderModal({ isRPopUp, setIsRPopUp }) {
+
+
+
+
+export default function ReminderModal({ isRPopUp, setIsRPopUp, booking }) {
   return (
     <>
       <Transition appear show={isRPopUp} as={Fragment}>
@@ -204,7 +225,7 @@ export default function ReminderModal({ isRPopUp, setIsRPopUp }) {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <ReminderForm isRPopUp={isRPopUp} setIsRPopUp={setIsRPopUp} />
+                  <ReminderForm isRPopUp={isRPopUp} setIsRPopUp={setIsRPopUp} booking={booking} />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

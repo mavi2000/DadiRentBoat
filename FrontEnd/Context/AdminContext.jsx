@@ -428,6 +428,35 @@ const AdminProvider = ({ children }) => {
     }
   };
 
+  
+  const getAgreementByUserId = async (userId) => {
+    try {
+      const response = await baseURL.get(`/rental/getAgreementByUserId/${userId}`);
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to fetch rental agreement";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+
+  const sendReminder = async (reminderData) => {
+    console.log("reminderData",reminderData)
+    try {
+      const response = await baseURL.post("/Reminder/send-Reminder", reminderData);
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to send reminder";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+
+
   return (
     <AdminContext.Provider
       value={{
@@ -460,7 +489,9 @@ const AdminProvider = ({ children }) => {
         sharedFormData,
         updateSharedFormData,
         deleteBoat, navigate,
-        getSinglePayment
+        getSinglePayment,
+        getAgreementByUserId,
+        sendReminder
       }}
     >
       {children}
