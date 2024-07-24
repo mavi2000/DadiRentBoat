@@ -1,142 +1,102 @@
-import { TbWheel } from 'react-icons/tb';
+import { TbWheel } from "react-icons/tb";
+import Box from "@mui/material/Box";
+import Slider from "@mui/material/Slider";
 
-const Filters = () => {
+function valuetext(value) {
+  return `${value}°C`;
+}
+const Filters = ({ filters, handleFilterChange, handleAccessoriesChange }) => {
   return (
-    <aside className="shadow-xl h-fit grow bg-white pb-6 mb-12">
-      <h1 className="text-2xl font-medium p-6 mb-6 flex gap-2 items-center border-b-[1px] border-[#F5F5F5]">
-        <TbWheel size={36} className="text-[var(--primary-color)]" />
-        Boat Type
-      </h1>
-
-      <div className="flex flex-col gap-3 p-6 pt-3 text-[#676767] text-sm">
-        <div className="flex gap-2">
-          <input
-            type="checkbox"
-            name="boatType"
-            id="boatType"
-            className="w-4 h-4 accent-[var(--primary-color)]"
-          />
-          <label htmlFor="boatType">Motor Boat</label>
-        </div>
-        <div className="flex gap-2">
-          <input
-            type="checkbox"
-            name="boatType"
-            id="boatType"
-            className="w-4 h-4 accent-[var(--primary-color)]"
-          />
-          <label htmlFor="boatType">Sail Boat</label>
-        </div>
-        <div className="flex gap-2">
-          <input
-            type="checkbox"
-            name="boatType"
-            id="boatType"
-            className="w-4 h-4 accent-[var(--primary-color)]"
-          />
-          <label htmlFor="boatType">Jet Skies</label>
+    <div className="w-full md:w-[300px] bg-white p-4 rounded-md shadow-md">
+      <h3 className="text-lg font-bold mb-4">Filters</h3>
+      <div className="mb-4">
+        <label className="block text-gray-700 mb-2">Boat Type</label>
+        <select
+          value={filters.boatType}
+          onChange={(e) => handleFilterChange("boatType", e.target.value)}
+          className="w-full p-2 border rounded-md"
+        >
+          <option value="">All Types</option>
+          <option value="Motorboat">Motorboat</option>
+          <option value="Sail Boat">Sail Boat</option>
+        </select>
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 mb-2">Price Range</label>
+        <Slider
+          getAriaLabel={() => "Temperature range"}
+          value={filters.priceRange}
+          onChange={(event, newValue) =>
+            handleFilterChange("priceRange", newValue)
+          }
+          max={100000}
+          valueLabelDisplay="auto"
+          color="#000"
+          getAriaValueText={valuetext}
+        />
+        <span>
+          ${filters.priceRange[0]} - ${filters.priceRange[1]}
+        </span>
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 mb-2">Length (meters)</label>
+        <Slider
+          getAriaLabel={() => "Temperature range"}
+          value={filters.length}
+          onChange={(event, newValue) => handleFilterChange("length", newValue)}
+          max={100}
+          valueLabelDisplay="auto"
+          color="#000"
+          getAriaValueText={valuetext}
+        />
+        <span>
+          {filters.length[0]}m - {filters.length[1]}m
+        </span>
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 mb-2">Engine Power (HP)</label>
+        <Slider
+          getAriaLabel={() => "Temperature range"}
+          value={filters.enginePower}
+          onChange={(event, newValue) =>
+            handleFilterChange("enginePower", newValue)
+          }
+          max={1000}
+          valueLabelDisplay="auto"
+          color="#000"
+          getAriaValueText={valuetext}
+        />
+        <span>
+          {filters.enginePower[0]}HP - {filters.enginePower[1]}HP
+        </span>
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 mb-2">Accessories</label>
+        <div>
+          {["Awning", "Wifi and internet", "Flybridge"].map((accessory) => (
+            <div key={accessory} className="flex items-center">
+              <input
+                type="checkbox"
+                value={accessory}
+                checked={filters.accessories.includes(accessory)}
+                onChange={() => handleAccessoriesChange(accessory)}
+                className="mr-2"
+              />
+              <label>{accessory}</label>
+            </div>
+          ))}
         </div>
       </div>
-
-      <br />
-
-      <h1 className="text-2xl font-medium p-6 mb-6 flex gap-2 items-center border-b-[1px] border-[#F5F5F5]">
-        <TbWheel size={38} className="text-[var(--primary-color)]" />
-        Price Range
-      </h1>
-
-      <div className="relative w-[calc(100%-5rem)] h-[4px] bg-[var(--primary-color)] mx-8 mt-8 mb-4">
-        <p className="absolute -left-3 -top-1 w-3 h-3 rounded-full border-2 border-[var(--primary-color)]"></p>
-        <p className="absolute -right-3 -top-1 w-3 h-3 rounded-full border-2 border-[var(--primary-color)]"></p>
+      <div className="mb-4">
+        <label className="block text-gray-700 mb-2">Location</label>
+        <input
+          type="text"
+          value={filters.location}
+          onChange={(e) => handleFilterChange("location", e.target.value)}
+          className="w-full p-2 border rounded-md"
+        />
       </div>
-      <p className="text-[#191919] text-xl px-6 pb-6">$95 - $161</p>
-      <br />
-      <h1 className="text-2xl font-medium p-6 mb-6 flex gap-2 items-center border-b-[1px] border-[#F5F5F5]">
-        <TbWheel size={36} className="text-[var(--primary-color)]" />
-        Length
-      </h1>
-
-      <div className="relative w-[calc(100%-5rem)] h-[4px] bg-[var(--primary-color)] mx-8 mt-8 mb-4">
-        <p className="absolute -left-3 -top-1 w-3 h-3 rounded-full border-2 border-[var(--primary-color)]"></p>
-        <p className="absolute -right-3 -top-1 w-3 h-3 rounded-full border-2 border-[var(--primary-color)]"></p>
-      </div>
-      <p className="text-[#191919] text-xl px-6 pb-6">5 meter - 15 meter</p>
-
-      <br />
-      <h1 className="text-2xl font-medium p-6 mb-6 flex gap-2 items-center border-b-[1px] border-[#F5F5F5]">
-        <TbWheel size={36} className="text-[var(--primary-color)]" />
-        Engine
-      </h1>
-
-      <div className="relative w-[calc(100%-5rem)] h-[4px] bg-[var(--primary-color)] mx-8 mt-8 mb-4">
-        <p className="absolute -left-3 -top-1 w-3 h-3 rounded-full border-2 border-[var(--primary-color)]"></p>
-        <p className="absolute -right-3 -top-1 w-3 h-3 rounded-full border-2 border-[var(--primary-color)]"></p>
-      </div>
-      <p className="text-[#191919] text-xl px-6 pb-6">40 hp - 60 hp</p>
-
-      <br />
-      <h1 className="text-2xl font-medium p-6 mb-6 flex gap-2 items-center border-b-[1px] border-[#F5F5F5]">
-        <TbWheel size={36} className="text-[var(--primary-color)]" />
-        Accessories
-      </h1>
-      <div className="flex flex-col gap-3 p-6 pt-3 text-[#676767] text-sm">
-        <div className="flex gap-2">
-          <input
-            type="checkbox"
-            name="Accessories"
-            id="Accessories"
-            className="w-4 h-4 accent-[var(--primary-color)]"
-          />
-          <label htmlFor="Accessories">Awning</label>
-        </div>
-        <div className="flex gap-2">
-          <input
-            type="checkbox"
-            name="Accessories"
-            id="Accessories"
-            className="w-4 h-4 accent-[var(--primary-color)]"
-          />
-          <label htmlFor="Accessories">Sundeck</label>
-        </div>
-        <div className="flex gap-2">
-          <input
-            type="checkbox"
-            name="Accessories"
-            id="Accessories"
-            className="w-4 h-4 accent-[var(--primary-color)]"
-          />
-          <label htmlFor="Accessories">Deck shower</label>
-        </div>
-        <div className="flex gap-2">
-          <input
-            type="checkbox"
-            name="Accessories"
-            id="Accessories"
-            className="w-4 h-4 accent-[var(--primary-color)]"
-          />
-          <label htmlFor="Accessories">DVD Player</label>
-        </div>
-      </div>
-
-      <br />
-      <h1 className="text-2xl font-medium p-6 mb-6 flex gap-2 items-center border-b-[1px] border-[#F5F5F5]">
-        <TbWheel size={36} className="text-[var(--primary-color)]" />
-        Destination
-      </h1>
-      <div className="flex flex-col gap-3 p-6 pt-3 text-[#676767] text-sm">
-        <div className="flex gap-2">
-          <input
-            type="checkbox"
-            name="Accessories"
-            id="Accessories"
-            className="w-4 h-4 accent-[var(--primary-color)]"
-          />
-          <label htmlFor="Accessories">
-            Meloria Shoals Marine Protected Area
-          </label>
-        </div>
-      </div>
-    </aside>
+    </div>
   );
 };
 export default Filters;
