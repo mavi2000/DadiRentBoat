@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import dummyBoatImage from "../../../assets/Images/annina.webp";
 import ReminderModal from "./ReminderModal";
-import { AdminContext } from "../../../../Context/AdminContext";
-import { useParams } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import InvoiceModal from "./InvoiceModal";
+import RentalAgreementModal from "./RentalAgreementModal";
+import CheckInModal from "./CheckInModal";
+import CheckOutModal from "./CheckOutModal";
+import CancelReservationModal from "./CancelReservationModal";
 const BookingDetails = () => {
   const { id } = useParams();
   const { getSinglePayment } = useContext(AdminContext);
@@ -13,37 +16,47 @@ const BookingDetails = () => {
   const [fuelQuantity, setFuelQuantity] = useState(1);
   const [fuelPrice, setFuelPrice] = useState(100);
   const [isRPopUp, setIsRPopUp] = useState(null);
-
-  const totalPrice = fuelQuantity * fuelPrice;
-
-  useEffect(() => {
-    const fetchBooking = async () => {
-      try {
-        const bookingData = await getSinglePayment(id);
-        setBooking(bookingData);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBooking();
-  }, [id, getSinglePayment]);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
-  if (!booking) return <div>No booking details found</div>;
+  const [isINPopUp, setIsINPopUp] = useState(null);
+  const [isRAPopUp, setIsRAPopUp] = useState(null);
+  const [isCheckIN, setIsCheckIN] = useState(null);
+  const [isCheckOut, setIsCheckOut] = useState(null);
+  const [isCancel, setIsCancel] = useState(null);
+  const navigate = useNavigate();
+  const user = {
+    name: "John Doe",
+    phone: "0998123171",
+    email: "abc123@email.com",
+    profilePic: "/images/account-person.png",
+    bookingNumber: "750391",
+    bookingStartDate: "5/15/2024 at 08:00",
+    bookingStartTime: "8:00am",
+    bookingEndDate: "5/5/2023",
+    bookingEndTime: "5:00pm",
+    boatImage: dummyBoatImage,
+    boatName: "Sea Ghost open",
+    subtotal: 5712,
+    skipperCharges: 0,
+    total: 5712,
+    amountPaid: 0,
+    amountDue: 5712,
+  };
 
   return (
     <div className="sm:m-8 mt-8 grid md:grid-cols-5 bg-white rounded-2xl">
       <ReminderModal isRPopUp={isRPopUp} setIsRPopUp={setIsRPopUp} />
+      <InvoiceModal isINPopUp={isINPopUp} setIsINPopUp={setIsINPopUp} />
+      <RentalAgreementModal isRAPopUp={isRAPopUp} setIsRAPopUp={setIsRAPopUp} />
+      <CheckInModal isCheckIN={isCheckIN} setIsCheckIN={setIsCheckIN} />
+      <CheckOutModal isCheckOut={isCheckOut} setIsCheckOut={setIsCheckOut} />
+      <CancelReservationModal isCancel={isCancel} setIsCancel={setIsCancel} />
       <div className=" md:col-span-3 pr-4">
         <div className="p-4 sm:p-8">
           <div className="mb-4 flex items-center gap-3">
-            <img src="/icons/icon-yellow-back-arrow-box.svg" alt="Back" />
-            <h3 className=" text-black text-2xl">User Details</h3>
+            <img
+              onClick={() => navigate(-1)}
+              src="/icons/icon-yellow-back-arrow-box.svg"
+            />
+            <h3 className=" text-black text-2xl">Booking Details</h3>
           </div>
           <div className="flex items-center">
             <img
@@ -78,12 +91,18 @@ const BookingDetails = () => {
                 <img src="/icons/icon-white-pdf-file.svg" alt="PDF" />
                 RULES OF CONDUCT
               </button>
-              <button className="bg-[#cba353] text-white py-2 px-4 rounded-lg flex items-center gap-2">
-                <img src="/icons/icon-white-pdf-file.svg" alt="PDF" />
+              <button
+                onClick={() => setIsRAPopUp(!isRAPopUp)}
+                className="bg-[#cba353] text-white py-2 px-4 rounded-lg flex items-center gap-2"
+              >
+                <img src="/icons/icon-white-pdf-file.svg" />
                 RENTAL AGREEMENT
               </button>
-              <button className="bg-[#cba353] text-white py-2 px-4 rounded-lg flex items-center gap-2">
-                <img src="/icons/icon-white-pdf-file.svg" alt="PDF" />
+              <button
+                onClick={() => setIsINPopUp(!isINPopUp)}
+                className="bg-[#cba353] text-white py-2 px-4 rounded-lg flex items-center gap-2"
+              >
+                <img src="/icons/icon-white-pdf-file.svg" />
                 INVOICE
               </button>
             </div>
@@ -125,10 +144,16 @@ const BookingDetails = () => {
           </div>
           <hr className="mt-6" />
           <div className="mt-6 flex flex-wrap justify-center sm:justify-start gap-4">
-            <button className="bg-[#cba353] text-white  py-2 px-4 rounded-lg">
+            <button
+              onClick={() => setIsCheckIN(!isCheckIN)}
+              className="bg-[#cba353] text-white  py-2 px-4 rounded-lg"
+            >
               CHECK IN
             </button>
-            <button className="bg-[#cba353] text-white py-2 px-4 rounded-lg">
+            <button
+              onClick={() => setIsCheckOut(!isCheckOut)}
+              className="bg-[#cba353] text-white py-2 px-4 rounded-lg"
+            >
               CHECK OUT
             </button>
           </div>
@@ -188,7 +213,12 @@ const BookingDetails = () => {
             </button>
           </div>
           <div className="mt-2 text-center">
-            <button className="text-red-500">Cancel Reservation</button>
+            <button
+              onClick={() => setIsCancel(!isCancel)}
+              className="text-red-500"
+            >
+              Cancel Reservation
+            </button>
           </div>
         </div>
       </div>

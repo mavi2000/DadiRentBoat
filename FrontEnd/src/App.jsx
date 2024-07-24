@@ -316,7 +316,7 @@ function App() {
                 element={<DashboardLayout Childeren={<PreviousBooking />} />}
               />
               <Route
-                path="/Dashboard/booking-details/:id"
+                path="/Dashboard/booking-details"
                 element={<DashboardLayout Childeren={<BookingDetails />} />}
               />
               <Route

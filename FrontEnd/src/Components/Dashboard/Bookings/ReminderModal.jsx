@@ -4,15 +4,11 @@ import "react-quill/dist/quill.snow.css";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 const ReminderForm = ({ isRPopUp, setIsRPopUp }) => {
-  const [platform, setPlatform] = useState("");
+  const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [sendImmediately, setSendImmediately] = useState(true);
   const [specificTime, setSpecificTime] = useState("");
   const [specificDate, setSpecificDate] = useState("");
-
-  const handlePlatformChange = (e) => {
-    setPlatform(e.target.value);
-  };
 
   const handleMessageChange = (value) => {
     setMessage(value);
@@ -31,7 +27,7 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const reminderData = {
-      platform,
+      subject,
       message,
       sendImmediately,
       specificTime: sendImmediately ? null : specificTime,
@@ -48,24 +44,19 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp }) => {
           <div className="bg-[#fafafa] mb-4 rounded-lg p-4">
             <div className="mb-4">
               <label
-                htmlFor="platform"
+                htmlFor="specificDate"
                 className="block text-gray-700 font-bold mb-2"
               >
-                Select Platform (WhatsApp, Email, Text Message)
+                Subject
               </label>
-              <select
-                id="platform"
-                value={platform}
-                onChange={handlePlatformChange}
+              <input
+                type="text"
+                id="subject"
+                placeholder="Enter your Subject"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
                 className="block w-full border border-gray-300 rounded p-2"
-              >
-                <option value="" disabled>
-                  Select Platform
-                </option>
-                <option value="WhatsApp">WhatsApp</option>
-                <option value="Email">Email</option>
-                <option value="TextMessage">Text Message</option>
-              </select>
+              />
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">
@@ -93,6 +84,7 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp }) => {
                 value={message}
                 onChange={handleMessageChange}
                 className="h-40 pb-12"
+                placeholder="Enter your mail body"
               />
             </div>
             <div className="mb-4">
