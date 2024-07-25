@@ -9,7 +9,7 @@ const Dashboard = () => {
       <Statistics />
       <div className="flex gap-5 flex-col md:flex-row my-4">
         <RevenueChart />
-        {/* <Reservations /> */}
+        <Reservations />
       </div>
       <div className="flex gap-5 flex-col md:flex-row my-4">
         <Pickups title="Recent Booking" opt3="Last 3 Days" />
