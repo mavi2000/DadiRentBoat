@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import baseURL from "../../../../APi/BaseUrl";
 
 const BoatRates = () => {
-  const id = localStorage.getItem('id');
+  const id = localStorage.getItem("id");
   const [popup, setPopup] = useState(id ? true : false);
   const { addRate, navigate, boatId } = useContext(AdminContext);
 
@@ -21,9 +21,9 @@ const BoatRates = () => {
     maximumRentalDuration: "",
     restrictDays: {
       allowedDaysToDepart: [],
-      allowedDaysToReturn: []
+      allowedDaysToReturn: [],
     },
-    nameOfTheRate: "",
+    oneHourRate: "",
     oneDayRate: "",
     oneWeekRate: "",
     advanceRates: {
@@ -31,8 +31,8 @@ const BoatRates = () => {
       threeDays: "",
       fiveDays: "",
       sixDays: "",
-      twoWeeks: ""
-    }
+      twoWeeks: "",
+    },
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -44,9 +44,34 @@ const BoatRates = () => {
       const getBoatRates = async () => {
         try {
           const res = await baseURL.get(`/Rate/get-rate/${id}`);
-          const { data: { rate } } = res;
-          const { dates, startDate, endDate, applyRatesOfAnotherPeriod, minimumRentalDuration, maximumRentalDuration, restrictDays, nameOfTheRate, oneDayRate, oneWeekRate, advanceRates } = rate;
-          setFormData({ startDate, endDate, applyRatesOfAnotherPeriod, minimumRentalDuration, maximumRentalDuration, restrictDays, nameOfTheRate, oneDayRate, oneWeekRate, advanceRates });
+          const {
+            data: { rate },
+          } = res;
+          const {
+            dates,
+            startDate,
+            endDate,
+            applyRatesOfAnotherPeriod,
+            minimumRentalDuration,
+            maximumRentalDuration,
+            restrictDays,
+            oneHourRate,
+            oneDayRate,
+            oneWeekRate,
+            advanceRates,
+          } = rate;
+          setFormData({
+            startDate,
+            endDate,
+            applyRatesOfAnotherPeriod,
+            minimumRentalDuration,
+            maximumRentalDuration,
+            restrictDays,
+            oneHourRate,
+            oneDayRate,
+            oneWeekRate,
+            advanceRates,
+          });
           setSelectedDates(dates);
         } catch (error) {
           console.log(error);
@@ -71,8 +96,8 @@ const BoatRates = () => {
 
     if (type === "select-multiple") {
       const selectedValues = Array.from(options)
-        .filter(option => option.selected)
-        .map(option => option.value);
+        .filter((option) => option.selected)
+        .map((option) => option.value);
 
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -110,7 +135,11 @@ const BoatRates = () => {
         setSelectedDates([formData.startDate, formData.endDate]);
         setPopup(false);
       } catch (error) {
-        if (error.response && error.response.data && error.response.data.error) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
           const errorMessage = error.response.data.error;
           toast.error(errorMessage);
         } else {
@@ -120,13 +149,13 @@ const BoatRates = () => {
     } else {
       try {
         await baseURL.patch(`/Rate/update-rate/${id}`, { ...formData });
-        toast.success('Rates updated successfully');
-        localStorage.removeItem('id');
+        toast.success("Rates updated successfully");
+        localStorage.removeItem("id");
         setTimeout(() => {
-          navigate('/Dashboard/my-boats');
+          navigate("/Dashboard/my-boats");
         }, 3000);
       } catch (error) {
-        toast.error('Failed to update rates');
+        toast.error("Failed to update rates");
       }
     }
   };
@@ -185,6 +214,7 @@ const BoatRates = () => {
       {popup && (
         <RatePopup
           formData={formData}
+          setFormData={setFormData}
           selectedDates={selectedDates}
           handleDateChange={handleDateChange}
           handleInputChange={handleInputChange}

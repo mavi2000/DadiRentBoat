@@ -60,6 +60,7 @@ const BookNow = () => {
     boatName: "",
     rateType: "new rates",
     availableDate: "",
+    boatImage:"",
     rentalType: [],
     extraOptions: []
   });
@@ -141,11 +142,12 @@ const BookNow = () => {
     try {
       const response = await baseURL.post('/checkout/payment', {
         userId,
-        amount: totalAmount * 100,
+        amount: totalAmount,
         boatName: data.boatName,
         rateType: "new rates",
-        totalAmount: totalAmount * 100,
+        totalAmount: totalAmount,
         availableDate: data.availableDate,
+        boatImage:boatDetails.boatImages.map((item)=>(item.images[0])),
         boatId: boatDetails?.boat?._id
       });
       const { sessionId } = response.data;

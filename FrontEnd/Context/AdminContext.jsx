@@ -415,6 +415,74 @@ const AdminProvider = ({ children }) => {
     }
   };
 
+
+  const getSinglePayment = async (paymentId) => {
+    try {
+      const response = await baseURL.get(`/checkout/getSinglePayment/${paymentId}`);
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to fetch payment";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+  
+  const getAgreementByUserId = async (userId) => {
+    try {
+      const response = await baseURL.get(`/rental/getAgreementByUserId/${userId}`);
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to fetch rental agreement";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+
+  const sendReminder = async (reminderData) => {
+    console.log("reminderData",reminderData)
+    try {
+      const response = await baseURL.post("/Reminder/send-Reminder", reminderData);
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to send reminder";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+  const getAllReminders = async () => {
+    try {
+      const response = await baseURL.get("/Reminder/getAllReminders");
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to fetch reminders";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+  const deleteReminder = async (id) => {
+    try {
+      const response = await baseURL.delete(`/Reminder/deleteReminder/${id}`);
+      toast.success("Reminder deleted successfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to delete reminder";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+
+
+
   return (
     <AdminContext.Provider
       value={{
@@ -446,7 +514,12 @@ const AdminProvider = ({ children }) => {
         getBoats,
         sharedFormData,
         updateSharedFormData,
-        deleteBoat, navigate
+        deleteBoat, navigate,
+        getSinglePayment,
+        getAgreementByUserId,
+        sendReminder,
+        getAllReminders,
+        deleteReminder
       }}
     >
       {children}

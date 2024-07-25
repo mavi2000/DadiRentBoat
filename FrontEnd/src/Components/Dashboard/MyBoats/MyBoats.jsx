@@ -14,6 +14,10 @@ const MyBoats = () => {
   const [boatData, setBoatData] = useState([]);
   const [boatIdToDelete, setBoatIdToDelete] = useState(null);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [boatType, setBoatType] = useState("");
+  const [boatLength, setBoatLength] = useState("");
+  const [filteredBoats, setFilteredBoats] = useState([]);
 
   const navigate = useNavigate();
 
@@ -28,6 +32,42 @@ const MyBoats = () => {
     };
     fetchBoats();
   }, [getBoats]);
+  useEffect(() => {
+    const applyFilters = () => {
+      let filtered = boatData;
+
+      // Filter by search text
+      if (searchText) {
+        filtered = filtered.filter(
+          (boat) =>
+            boat.rental[0].BoatName.toLowerCase().includes(
+              searchText.toLowerCase()
+            ) ||
+            boat.boat.brand.toLowerCase().includes(searchText.toLowerCase()) ||
+            boat.boat.model.toLowerCase().includes(searchText.toLowerCase()) ||
+            boat.boat._id.toLowerCase().includes(searchText.toLowerCase())
+        );
+      }
+
+      // Filter by boat type
+      if (boatType) {
+        filtered = filtered.filter((boat) =>
+          boat.boat.type.toLowerCase().includes(boatType.toLowerCase())
+        );
+      }
+
+      // Filter by boat length
+      if (boatLength) {
+        filtered = filtered.filter(
+          (boat) => boat.boat.lengthMeters <= parseFloat(boatLength)
+        );
+      }
+
+      setFilteredBoats(filtered);
+    };
+
+    applyFilters();
+  }, [boatData, searchText, boatType, boatLength]);
 
   const handleDeleteClick = (id) => {
     setBoatIdToDelete(id);
@@ -80,26 +120,16 @@ const MyBoats = () => {
     { path: "/Dashboard/my-boats/photo", page: "Image" },
     { path: "/Dashboard/my-boats/info-access", page: "Access Information" },
   ];
-
   return (
     <div className="mx-[4%] mt-[3%]">
       <div className="md:flex md:justify-between justify-center text-center gap-5 md:gap-0 items-center">
         <h1 className="text-[#07474F] text-lg font-bold">My Boats</h1>
         <div className="flex md:gap-5 flex-wrap justify-center gap-3">
-          <button className="px-4 py-2 text-[#07474F] text-xs text-center border border-[#07474F] rounded">
-            Default configuration
-          </button>
-          <button className="px-4 py-2 text-[#07474F] text-xs text-center border border-[#07474F] rounded">
-            Multi Edit
-          </button>
           <Link to="/Dashboard/calender/createlist">
             <button className="px-4 py-2 text-[#07474F] text-xs text-center border border-[#07474F] rounded">
               Add a boat
             </button>
           </Link>
-          <button className="px-5 py-2 bg-[#CBA557] text-[#FFFFFF] text-xs text-center rounded md:whitespace-nowrap">
-            Filters
-          </button>
         </div>
       </div>
 
@@ -110,6 +140,8 @@ const MyBoats = () => {
             type="text"
             placeholder="Name, ID, Brand, Model"
             className="bg-transparent outline-none focus:ring-0 lg:w-full md:w-1/3 w-1/2 text-sm text-[#4B465C] font-normal"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
         <div className="items-center py-2 px-3 rounded-xl border border-[#B7B7B7]">
@@ -117,6 +149,8 @@ const MyBoats = () => {
             type="text"
             placeholder="Boat Type"
             className="bg-transparent outline-none focus:ring-0 lg:w-full md:w-1/3 w-1/2 text-sm text-[#4B465C] font-normal"
+            value={boatType}
+            onChange={(e) => setBoatType(e.target.value)}
           />
         </div>
         <div className="items-center py-2 px-3 rounded-xl border border-[#B7B7B7]">
@@ -124,25 +158,27 @@ const MyBoats = () => {
             type="text"
             placeholder="Boat Length"
             className="bg-transparent outline-none focus:ring-0 lg:w-full md:w-1/3 w-1/2 text-sm text-[#4B465C] font-normal"
-          />
-        </div>
-        <div className="items-center py-2 px-3 rounded-xl border border-[#B7B7B7]">
-          <input
-            type="text"
-            placeholder="Minimum Price"
-            className="bg-transparent outline-none focus:ring-0 lg:w-full md:w-1/3 w-1/2 text-sm text-[#4B465C] font-normal"
+            value={boatLength}
+            onChange={(e) => setBoatLength(e.target.value)}
           />
         </div>
       </div>
 
-      {boatData.map((boat, index) => (
-        <div key={index} className="flex flex-col md:flex-row md:justify-between w-full mt-[4%]">
+      {filteredBoats.map((boat, index) => (
+        <div
+          key={index}
+          className="flex flex-col md:flex-row md:justify-between w-full mt-[4%]"
+        >
           <div className="flex gap-[3%] flex-col md:flex-row items-center md:items-start">
             {boat.boatImages && boat.boatImages.length > 0 ? (
               <Slider {...sliderSettings} className="md:w-64 w-1/2">
                 {boat.boatImages[0].images.map((image, imageIndex) => (
                   <div key={imageIndex} className="w-full">
-                    <img src={image} alt="" className="w-full h-48 object-cover" />
+                    <img
+                      src={image}
+                      alt=""
+                      className="w-full h-48 object-cover"
+                    />
                   </div>
                 ))}
               </Slider>
@@ -154,7 +190,9 @@ const MyBoats = () => {
             )}
 
             <div className="flex flex-col gap-2 items-center md:items-start">
-              <h1 className="text-[#00151C] font-semibold">{boat.rental.map((item) => item.BoatName)}</h1>
+              <h1 className="text-[#00151C] font-semibold">
+                {boat.rental.map((item) => item.BoatName)}
+              </h1>
               <p className="text-[#818C8E] font-normal text-sm">
                 {boat.boat.brand} - {boat.boat.year}
               </p>
@@ -174,7 +212,10 @@ const MyBoats = () => {
                 </button>
 
                 <div className="flex">
-                  <button type="button" className="md:px-4 md:py-2 px-3 py-1 border border-[#07474F] rounded-l-[4px]">
+                  <button
+                    type="button"
+                    className="md:px-4 md:py-2 px-3 py-1 border border-[#07474F] rounded-l-[4px]"
+                  >
                     Edit your boat
                   </button>
                   <div className="p-1 border border-[#07474F] border-l-0 rounded-r-[4px] flex items-center">
@@ -223,18 +264,24 @@ const MyBoats = () => {
                   style={{ borderBottomColor: "rgba(0, 21, 28, 0.125)" }}
                 >
                   <div className="text-sm text-[#212529] font-bold">0 €</div>
-                  <div className="text-xs text-[#818C8E] font-normal">Income</div>
+                  <div className="text-xs text-[#818C8E] font-normal">
+                    Income
+                  </div>
                 </div>
                 <div
                   className="flex flex-col w-full pl-4 pr-20 py-2 border-b"
                   style={{ borderBottomColor: "rgba(0, 21, 28, 0.125)" }}
                 >
                   <div className="text-sm text-[#212529] font-bold">0</div>
-                  <div className="text-xs text-[#818C8E] font-normal">Expenses</div>
+                  <div className="text-xs text-[#818C8E] font-normal">
+                    Expenses
+                  </div>
                 </div>
                 <div className="flex flex-col w-full pl-4 pr-20 py-2">
                   <div className="text-sm text-[#212529] font-bold">0</div>
-                  <div className="text-xs text-[#818C8E] font-normal">Rentals</div>
+                  <div className="text-xs text-[#818C8E] font-normal">
+                    Rentals
+                  </div>
                 </div>
               </div>
             </div>
@@ -245,7 +292,9 @@ const MyBoats = () => {
       {showDeletePopup && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div className="bg-white p-4 rounded-md shadow-md w-80">
-            <p className="text-center text-gray-800">Are you sure you want to delete?</p>
+            <p className="text-center text-gray-800">
+              Are you sure you want to delete?
+            </p>
             <div className="flex justify-center mt-4 gap-4">
               <button
                 className="px-4 py-2 bg-red-500 text-white rounded"
