@@ -245,7 +245,7 @@ const OurFleet = () => {
 
           <input
             type="text"
-            className="bg-white h-full p-4 grow w-fit outline-none rounded-full text-[var(--primary-color)] placeholder:text-[var(--primary-color)] text-base font-bold"
+            className="bg-white h-full p-4 w-full outline-none rounded-full text-[var(--primary-color)] placeholder:text-[var(--primary-color)] text-base font-bold"
             placeholder="Search"
             onChange={(e) => setSearchText(e.target.value)}
           />

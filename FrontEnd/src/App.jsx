@@ -173,8 +173,14 @@ function App() {
                 path="/booking/extra-services"
                 element={<Layout Children={<Invoice />} isLocation={false} />}
               />
-              <Route path="/user/booking-list" element={<Booking />} />
-              <Route path="/user/booking/:id" element={<Booking2 />} />
+              <Route
+                path="/user/booking-list"
+                element={<Layout Children={<Booking />} isLocation={false} />}
+              />
+              <Route
+                path="/user/booking/:id"
+                element={<Layout Children={<Booking2 />} isLocation={false} />}
+              />
               <Route path="/Login" element={<Login />} />
               <Route path="/Signup" element={<SignUp />} />
               <Route path="/Forgot-Password" element={<ForgotPassword />} />

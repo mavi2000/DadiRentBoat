@@ -7,7 +7,7 @@ import fleetBoat3 from '../../../assets/Images/fleetBoat3.webp';
 
 const MyFavourite = () => {
   return (
-    <div className='flex flex-col items-center justify-center my-[10%] mx-[3%] md:mx-[6%]'>
+    <div className='flex flex-col items-center justify-center my-36 mx-[3%] md:mx-[6%]'>
     <div className="flex flex-wrap gap-4 justify-center items-center">
     <FleetFav
       boatImg={fleetBoat1}

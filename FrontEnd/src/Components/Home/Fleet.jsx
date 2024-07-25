@@ -38,7 +38,7 @@ const Fleet = () => {
         View our
       </h1>
       <h1 className="text-3xl font-medium text-black mb-16">Fleet</h1>
-      <div className="flex flex-wrap gap-4 justify-center items-center">
+      <div className="flex flex-wrap gap-4 w-full justify-center items-center">
         {boatDetails.map((boat, index) => (
           <FleetCard
             key={index}
