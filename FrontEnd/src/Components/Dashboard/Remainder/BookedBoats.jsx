@@ -87,7 +87,6 @@ const BookedBoats = () => {
             <div className='mx-[3%] md:mx-[1%] mt-[3%]'>
                 <div className='flex md:justify-between flex-col md:flex-row space-y-3 md:space-y-0 items-center md:items-baseline'>
                     <h1 className='text-lg font-medium text-[#4B465C]'>Booked Boats</h1>
-                    <button className='px-[30px] py-[14px] rounded-[10px] border border-[#DBDADE] text-[#4B465C] font-normal text-sm'>Add new booking</button>
                 </div>
 
                 <div className='flex justify-between mt-[2%] md:gap-6'>
@@ -102,12 +101,6 @@ const BookedBoats = () => {
                         />
                     </div>
 
-                    <div className='flex gap-2 items-center px-3 py-1 md:py-2 md:pl-3 md:pr-4 border border-[#DBDADE] rounded-xl w-[30%] md:w-[16%] bg-[#ffff]'>
-                        <span><IoMdSwap /></span>
-                        <select name="filter" className='bg-[#ffff] rounded-md outline-none focus:ring-0 appearance-none w-full'>
-                            <option value="">Filter</option>
-                        </select>
-                    </div>
                 </div>
 
                 <div className="container overflow-x-auto">

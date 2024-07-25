@@ -1,18 +1,19 @@
 import React, { useState, useContext } from "react";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {jwtDecode} from "jwt-decode";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from "jwt-decode";
 import { UserContext } from "../../../Context/UserContext";
-
 
 const ChangePassword = () => {
   const { updatePassword } = useContext(UserContext);
   const [data, setData] = useState({
-    oldPass: "", newPass: "", confirmPass: ""
+    oldPass: "",
+    newPass: "",
+    confirmPass: "",
   });
 
   const handleChange = (e) => {
-    setData(prev => {
+    setData((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
@@ -24,28 +25,31 @@ const ChangePassword = () => {
       return;
     }
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem("authToken");
       if (!token) {
         toast.error("Authentication failed");
         return;
       }
       const decoded = jwtDecode(token);
-      const res = await updatePassword({ oldPass: data.oldPass, newPass: data.newPass, userId: decoded._id });
-      toast.success(res.message);
+      const res = await updatePassword({
+        oldPass: data.oldPass,
+        newPass: data.newPass,
+        userId: decoded._id,
+      });
     } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong");
+      console.log(error);
     }
   };
 
   return (
     <div className="flex flex-col gap-10">
       <div className="text-lg">Change Password</div>
-      <form className="flex flex-col gap-5 text-sm font-light" onSubmit={handleSubmit}>
+      <form
+        className="flex flex-col gap-5 text-sm font-light"
+        onSubmit={handleSubmit}
+      >
         <div>
-          <label
-            htmlFor="oldPass"
-            className="block text-sm text-gray-700"
-          >
+          <label htmlFor="oldPass" className="block text-sm text-gray-700">
             Current Password
           </label>
           <input
@@ -58,10 +62,7 @@ const ChangePassword = () => {
           ></input>
         </div>
         <div>
-          <label
-            htmlFor="newPass"
-            className="block text-sm text-gray-700"
-          >
+          <label htmlFor="newPass" className="block text-sm text-gray-700">
             New Password
           </label>
           <input
@@ -74,10 +75,7 @@ const ChangePassword = () => {
           ></input>
         </div>
         <div>
-          <label
-            htmlFor="confirmPass"
-            className="block text-sm text-gray-700"
-          >
+          <label htmlFor="confirmPass" className="block text-sm text-gray-700">
             Confirm New password
           </label>
           <input
