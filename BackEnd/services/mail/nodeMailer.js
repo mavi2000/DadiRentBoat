@@ -94,3 +94,31 @@ export const ReminderEmail = async (email, subject, message, footerMessage) => {
       }
     });
   };
+
+
+
+
+  export const cancelEmail = async (email, subject, message) => {
+    try {
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL, // your email
+          pass: process.env.APP_PASSWORD, // your app password
+        },
+      });
+  
+      const mailOptions = {
+        from: `DadiRent <${process.env.EMAIL}>`,
+        to: email,
+        subject: subject || 'Notification from DadiRent',
+        text: message,
+      };
+  
+      await transporter.sendMail(mailOptions);
+      console.log('Email sent successfully');
+    } catch (error) {
+      console.error('Error sending email:', error);
+      throw new Error('Failed to send email');
+    }
+  };

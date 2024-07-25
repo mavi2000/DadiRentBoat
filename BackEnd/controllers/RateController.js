@@ -32,6 +32,7 @@ export const addRate = async (req, res, next) => {
         allowedDaysToReturn: Joi.array().items(Joi.string()).optional()
       }).optional(),
       nameOfTheRate: Joi.string().optional(),
+      oneHourRate: Joi.number().optional(),
       oneDayRate: Joi.number().optional(),
       oneWeekRate: Joi.number().optional(),
       advanceRates: Joi.object({
@@ -49,7 +50,7 @@ export const addRate = async (req, res, next) => {
       return next(createError(400, error.details[0].message));
     }
 
-    const { boatId, startDate, endDate, applyRatesOfAnotherPeriod, minimumRentalDuration, maximumRentalDuration, restrictDays, nameOfTheRate, oneDayRate, oneWeekRate, advanceRates } = value;
+    const { boatId, startDate, endDate, applyRatesOfAnotherPeriod, minimumRentalDuration, maximumRentalDuration, restrictDays, nameOfTheRate, oneHourRate, oneDayRate, oneWeekRate, advanceRates } = value;
 
     const existingRates = await Rate.find({
       boatId,
@@ -72,6 +73,7 @@ export const addRate = async (req, res, next) => {
       maximumRentalDuration,
       restrictDays,
       nameOfTheRate,
+      oneHourRate,
       oneDayRate,
       oneWeekRate,
       advanceRates
@@ -88,6 +90,7 @@ export const addRate = async (req, res, next) => {
     next(error);
   }
 };
+
 // Controller to retrieve all rates
 
 export const getAllRates = async (req, res, next) => {
@@ -112,6 +115,9 @@ export const getRateById = async (req, res, next) => {
     next(error);
   }
 };
+
+
+
 
 export const updateRate = async (req, res, next) => {
   try {

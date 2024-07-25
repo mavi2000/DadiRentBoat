@@ -64,3 +64,35 @@ export const sendReminder = async (req, res) => {
     res.status(400).send(error);
   }
 };
+
+
+
+export const getAllReminders = async (req, res) => {
+    try {
+      const reminders = await Reminder.find();
+      res.status(200).json(reminders);
+    } catch (error) {
+      console.error("Error in getAllReminders:", error);
+      res.status(400).send({ error: 'Failed to fetch reminders' });
+    }
+  };
+
+
+
+export const deleteReminder = async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      // Find the reminder by ID and delete it
+      const deletedReminder = await Reminder.findByIdAndDelete(id);
+  
+      if (!deletedReminder) {
+        return res.status(404).json({ error: 'Reminder not found' });
+      }
+  
+      res.status(200).json({ message: 'Reminder deleted successfully' });
+    } catch (error) {
+      console.error("Error in deleteReminder:", error);
+      res.status(500).json({ error: error.message });
+    }
+  };  

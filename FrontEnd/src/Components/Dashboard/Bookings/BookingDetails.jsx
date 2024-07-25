@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { format, isValid } from 'date-fns';
 import dummyBoatImage from "../../../assets/Images/annina.webp";
 import ReminderModal from "./ReminderModal";
 import InvoiceModal from "./InvoiceModal";
@@ -47,15 +48,17 @@ const BookingDetails = () => {
   if (!booking) return <div>No booking details found</div>;
 
   const totalPrice = fuelQuantity * fuelPrice;
+  const arrivalDate = isValid(new Date(booking?.createdAt)) ? format(new Date(booking?.createdAt), 'PPPP') : "N/A";
+  const departureDate = isValid(new Date(booking?.availableDates[0])) ? format(new Date(booking?.availableDates[0]), 'PPPP') : "N/A";
 
   return (
     <div className="sm:m-8 mt-8 grid md:grid-cols-5 bg-white rounded-2xl">
-      <ReminderModal isRPopUp={isRPopUp} setIsRPopUp={setIsRPopUp}  booking={booking}/>
-      <InvoiceModal isINPopUp={isINPopUp} setIsINPopUp={setIsINPopUp}  booking={booking}/>
-      <RentalAgreementModal isRAPopUp={isRAPopUp} setIsRAPopUp={setIsRAPopUp}  booking={booking} />
+      <ReminderModal isRPopUp={isRPopUp} setIsRPopUp={setIsRPopUp} booking={booking} />
+      <InvoiceModal isINPopUp={isINPopUp} setIsINPopUp={setIsINPopUp} booking={booking} />
+      <RentalAgreementModal isRAPopUp={isRAPopUp} setIsRAPopUp={setIsRAPopUp} booking={booking} />
       <CheckInModal isCheckIN={isCheckIN} setIsCheckIN={setIsCheckIN} />
       <CheckOutModal isCheckOut={isCheckOut} setIsCheckOut={setIsCheckOut} />
-      <CancelReservationModal isCancel={isCancel} setIsCancel={setIsCancel} />
+      <CancelReservationModal isCancel={isCancel} setIsCancel={setIsCancel} booking={booking} />
       <div className="md:col-span-3 pr-4">
         <div className="p-4 sm:p-8">
           <div className="mb-4 flex items-center gap-3">
@@ -116,41 +119,6 @@ const BookingDetails = () => {
             </div>
           </div>
           <hr className="mt-6" />
-          <div className="mt-6">
-            <h3 className="text-lg font-bold">Fuel Charges</h3>
-            <div className="flex gap-4 flex-wrap items-start mt-2">
-              <div className="flex flex-col gap-2">
-                <label className="text-black">Price per Liter</label>
-                <div className="flex items-center">
-                  <span className="text-lg border border-gray-300 rounded p-1.5 border-r-0 rounded-r-none">
-                    €
-                  </span>
-                  <input
-                    type="number"
-                    value={fuelPrice}
-                    onChange={(e) => setFuelPrice(e.target.value)}
-                    className="w-20 border border-gray-300 outline-none rounded rounded-l-none p-2"
-                    placeholder="Enter"
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-black">Fuel Quantity</label>
-                <input
-                  type="number"
-                  value={fuelQuantity}
-                  onChange={(e) => setFuelQuantity(e.target.value)}
-                  placeholder="1 Liter"
-                  className="w-20 border border-gray-300 outline-none rounded p-2"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-black">Total Price</label>
-                <span className="ml-auto font-bold">{totalPrice}</span>
-              </div>
-            </div>
-          </div>
-          <hr className="mt-6" />
           <div className="mt-6 flex flex-wrap justify-center sm:justify-start gap-4">
             <button
               onClick={() => setIsCheckIN(!isCheckIN)}
@@ -172,16 +140,16 @@ const BookingDetails = () => {
           <h2 className="text-xl font-bold">Booking No. {booking._id}</h2>
           <p className="mt-2">Rental was There.</p>
           <p className="mt-2">
-            The rental began on {new Date(booking.availableDate).toLocaleDateString()}.
+            The rental began on {departureDate}.
           </p>
           <div className="flex space-x-4 mt-4">
             <div>
               <p className="text-gray-600">Arrive</p>
-              <p className="font-bold">{booking.arrivalTime || "N/A"}</p>
+              <p className="font-bold">{arrivalDate}</p>
             </div>
             <div>
               <p className="text-gray-600">Departure</p>
-              <p className="font-bold">{booking.departureTime || "N/A"}</p>
+              <p className="font-bold">{departureDate}</p>
             </div>
           </div>
           <div className="mt-4">
@@ -204,10 +172,6 @@ const BookingDetails = () => {
             <div className="flex justify-between font-bold">
               <p>Total:</p>
               <p>€{booking.totalAmount}</p>
-            </div>
-            <div className="flex justify-between">
-              <p>Amount Paid:</p>
-              <p>€{booking.amountPaid || 0}</p>
             </div>
             <div className="flex justify-between">
               <p>Amount Due:</p>

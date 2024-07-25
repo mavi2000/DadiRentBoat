@@ -18,7 +18,7 @@ const PaymentSchema = new Schema(
       required: false,
     },
     boatImage: {
-      type: [String], // Changed to an array of strings
+      type: [String], // Array of strings
       required: true,
     },
     amount: {
@@ -53,10 +53,16 @@ const PaymentSchema = new Schema(
       required: true,
       default: "unpaid",
     },
-    availableDate: {
-      type: Date,
+    availableDates: {
+      type: [Date], // Array of dates
       required: true,
     },
+    bookingStatus: {
+      type: String,
+      enum: ["pending", "confirmed", "cancelled"],
+      required: true,
+      default: "pending",
+    }
   },
   { timestamps: true }
 );

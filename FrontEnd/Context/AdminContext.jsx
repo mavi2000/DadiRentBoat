@@ -455,6 +455,32 @@ const AdminProvider = ({ children }) => {
     }
   };
 
+  const getAllReminders = async () => {
+    try {
+      const response = await baseURL.get("/Reminder/getAllReminders");
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to fetch reminders";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+  const deleteReminder = async (id) => {
+    try {
+      const response = await baseURL.delete(`/Reminder/deleteReminder/${id}`);
+      toast.success("Reminder deleted successfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to delete reminder";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+
 
 
   return (
@@ -491,7 +517,9 @@ const AdminProvider = ({ children }) => {
         deleteBoat, navigate,
         getSinglePayment,
         getAgreementByUserId,
-        sendReminder
+        sendReminder,
+        getAllReminders,
+        deleteReminder
       }}
     >
       {children}

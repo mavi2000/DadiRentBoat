@@ -1,8 +1,12 @@
 import React, { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import axios from "axios";
+// import baseURL from "../../../APi/BaseUrl";
+import baseURL from "../../../../APi/BaseUrl";
 
-export default function CancelReservationModal({ isCancel, setIsCancel }) {
-  const [formData, setFormData] = useState({ cancellationReason: "" });
+
+export default function CancelReservationModal({ isCancel, setIsCancel, booking }) {
+  const [formData, setFormData] = useState({ subject: "", message: "" });
   const [errors, setErrors] = useState({});
 
   const handleInputChange = (e) => {
@@ -12,19 +16,30 @@ export default function CancelReservationModal({ isCancel, setIsCancel }) {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.cancellationReason)
-      newErrors.cancellationReason = "Cancellation reason is required";
+    if (!formData.subject) newErrors.subject = "Subject is required";
+    if (!formData.message) newErrors.message = "Cancellation reason is required";
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      console.log(formData);
-      setIsCancel(false);
+      try {
+        await baseURL.post("/checkout/cancelBooking", {
+          bookingId: booking._id,
+          userId: booking.userId._id,
+          subject: formData.subject,
+          message: formData.message,
+          username: booking.userId.username,
+          boatName: booking.boatName
+        });
+        setIsCancel(false);
+      } catch (error) {
+        console.error("Error cancelling booking:", error);
+      }
     }
   };
 
@@ -67,20 +82,30 @@ export default function CancelReservationModal({ isCancel, setIsCancel }) {
                 </Dialog.Title>
                 <form onSubmit={handleSubmit} className="mt-4 space-y-4">
                   <div>
-                    <h4 className="text-md font-medium text-gray-700">
-                      Write a reason of Cancellation
-                    </h4>
+                    <h4 className="text-md font-medium text-gray-700">Subject</h4>
+                    <input
+                      type="text"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      placeholder="Subject"
+                      className="mt-2 block w-full border outline-none border-gray-500 p-4 rounded-md shadow-sm sm:text-sm"
+                    />
+                    {errors.subject && (
+                      <p className="text-red-500 text-sm">{errors.subject}</p>
+                    )}
+                  </div>
+                  <div>
+                    <h4 className="text-md font-medium text-gray-700">Write a reason for Cancellation</h4>
                     <textarea
-                      name="cancellationReason"
-                      value={formData.cancellationReason}
+                      name="message"
+                      value={formData.message}
                       onChange={handleInputChange}
                       placeholder="Details"
                       className="mt-2 block w-full border outline-none border-gray-500 p-4 rounded-md shadow-sm sm:text-sm"
                     />
-                    {errors.cancellationReason && (
-                      <p className="text-red-500 text-sm">
-                        {errors.cancellationReason}
-                      </p>
+                    {errors.message && (
+                      <p className="text-red-500 text-sm">{errors.message}</p>
                     )}
                   </div>
 

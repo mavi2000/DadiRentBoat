@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 import { RiHome5Line } from "react-icons/ri";
 import { SlCalender } from "react-icons/sl";
@@ -11,8 +12,12 @@ import logo from "../../assets/Images/logo.png";
 import { HiOutlineCurrencyDollar } from "react-icons/hi";
 import { IoCalendarOutline } from "react-icons/io5";
 import { FaSackDollar } from "react-icons/fa6";
+import { AuthContext } from "../../../Context/AuthContext";
 
 const Sidebar = () => {
+  const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const activeDashboard =
     window.location.pathname.includes("/Dashboard/pending-bookings") ||
     window.location.pathname.includes("/Dashboard/my-boats") ||
@@ -22,6 +27,7 @@ const Sidebar = () => {
     window.location.pathname.includes("/Dashboard/customer-support") ||
     window.location.pathname.includes("/Dashboard/profile") ||
     window.location.pathname.includes("/Dashboard/calendar");
+
   return (
     <div
       className={`rounded-tr-3xl 880px:rounded-lg super-admin-left-sidebar pt-8 pb-20 px-2 gap-2 content-start text-base font-medium`}
@@ -92,7 +98,7 @@ const Sidebar = () => {
         }`}
       >
         <IoCalendarOutline size={20} />
-        Remainders
+        Reminders
       </Link>
 
       <Link
@@ -107,7 +113,7 @@ const Sidebar = () => {
         Cash Flow
       </Link>
 
-      <Link
+      {/* <Link
         to={"/Dashboard/customer-support"}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
           window.location.pathname.includes("/customer-support")
@@ -117,9 +123,9 @@ const Sidebar = () => {
       >
         <TfiHeadphoneAlt size={20} />
         Customer Support
-      </Link>
+      </Link> */}
 
-      <Link
+      {/* <Link
         to={"/Dashboard/profile"}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white ${
           window.location.pathname.includes("/Dashboard/profile")
@@ -129,8 +135,9 @@ const Sidebar = () => {
       >
         <PiFolderSimpleStar size={20} />
         Profile
-      </Link>
+      </Link> */}
       <button
+        onClick={logout}
         className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white`}
       >
         <BiLogOutCircle size={20} />

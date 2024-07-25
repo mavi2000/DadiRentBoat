@@ -16,34 +16,6 @@ const rateSchema = new Schema({
         required: true
     },
     dates: [Date], // Array of dates within the range
-    // normalDayRates: {
-    //     halfDayMorning: {
-    //         type: Number,
-    //         required: true
-    //     },
-    //     halfDayEvening: {
-    //         type: Number,
-    //         required: true
-    //     },
-    //     fullDay: {
-    //         type: Number,
-    //         required: true
-    //     }
-    // },
-    // weekendRates: {
-    //     halfDayMorning: {
-    //         type: Number,
-    //         required: true
-    //     },
-    //     halfDayEvening: {
-    //         type: Number,
-    //         required: true
-    //     },
-    //     fullDay: {
-    //         type: Number,
-    //         required: true
-    //     }
-    // },
     applyRatesOfAnotherPeriod: {
         type: String
     },
@@ -59,6 +31,9 @@ const rateSchema = new Schema({
     },
     nameOfTheRate: {
         type: String
+    },
+    oneHourRate: {
+        type: Number
     },
     oneDayRate: {
         type: Number
@@ -81,6 +56,18 @@ const rateSchema = new Schema({
         type: Date,
         default: Date.now
     }
+});
+
+// Middleware to add dates within the range
+rateSchema.pre('save', function(next) {
+    const rate = this;
+    rate.dates = [];
+    const currentDate = new Date(rate.startDate);
+    while (currentDate <= rate.endDate) {
+        rate.dates.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+    next();
 });
 
 export default mongoose.model('Rate', rateSchema);
