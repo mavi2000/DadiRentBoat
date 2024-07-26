@@ -239,13 +239,13 @@ const Checkout = () => {
   ));
 
   const CustomCalendarContainer = ({ className, children }) => (
-    <div className={className}>
+    <div className={`${className} mx-8`}>
       <CalendarContainer className="relative">{children}</CalendarContainer>
       {selectedDates && selectedDates.length > 0 && (
         <div className="w-full flex flex-col gap-3 py-2">
           <div className="h-[1px] bg-black w-full"></div>
-          <div className=" flex gap-3">
-            <button className=" text-black font-semibold px-4 py-2">
+          <div className=" flex flex-wrap px-3 gap-3">
+            <button className=" text-black font-semibold py-2">
               Quick Choice :
             </button>
             {boatDetails?.rate[0]?.minimumRentalDuration === "1 day" && (
