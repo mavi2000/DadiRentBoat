@@ -55,12 +55,13 @@ const stripePromise = loadStripe(
   "pk_test_51OwXJ9RtqZkTuUjdPn7IZ2nUJQ77VYiDdsW3s8ddWFQRUh4yUWKiXhYLAy54Y2249fgzSTPtcvfgUr2MoiWhBE5p00zp6MUFHe"
 );
 
+
 const BookNow = () => {
   const { id } = useParams();
   const { fetchBoatDetailsById } = useContext(UserContext);
+  const navigate = useNavigate();
   const [boatDetails, setBoatDetails] = useState(null);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
   const [data, setData] = useState({
     date: null,
     duration: "oneDay",
@@ -81,6 +82,7 @@ const BookNow = () => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const datePickerRef = useRef(null);
+
   const dummyTimeSlots = [
     {
       id: 1,
@@ -118,6 +120,7 @@ const BookNow = () => {
       departure: "6:00 PM",
     },
   ];
+
   const handleSave = () => {
     setIsDatePickerOpen(false);
     console.log("Saved dates:", selectedDates);
@@ -160,6 +163,7 @@ const BookNow = () => {
     const dayOfWeek = start.getDay();
     setIsWeekend(dayOfWeek === 0 || dayOfWeek === 6);
   };
+
   const getDisabledDates = () => {
     if (!boatDetails || !boatDetails.boatBookings) {
       return [];
@@ -283,15 +287,21 @@ const BookNow = () => {
   };
 
   const calculateTotalAmount = () => {
-    const selectedRate = ratesArr.oneDayRate;
-    let totalAmount = selectedRate ? Number(selectedRate) : 0;
+    let totalAmount;
 
-    if (data.rentalType.includes("with skipper")) {
-      totalAmount += 10; // Adding $10 for skipper
-    }
+    if (selectedTimeSlot) {
+      totalAmount = parseFloat(selectedTimeSlot.price.replace("$", ""));
+    } else {
+      const selectedRate = ratesArr.oneDayRate;
+      totalAmount = selectedRate ? Number(selectedRate) : 0;
 
-    if (data.extraOptions.includes("Bagni Pancaldi Tickets")) {
-      totalAmount += 10; // Adding $10 for extra option
+      if (data.rentalType.includes("with skipper")) {
+        totalAmount += 10; // Adding $10 for skipper
+      }
+
+      if (data.extraOptions.includes("Bagni Pancaldi Tickets")) {
+        totalAmount += 10; // Adding $10 for extra option
+      }
     }
 
     return totalAmount;
@@ -309,7 +319,7 @@ const BookNow = () => {
     if (!userId) {
       return toast.error("Something went wrong");
     }
-    if (!data.availableDate) {
+    if (!selectedDates.length) {
       toast.error("Please select a date");
       return;
     }
@@ -323,9 +333,9 @@ const BookNow = () => {
         userId,
         amount: totalAmount,
         boatName: data.boatName,
-        rateType: "new rates",
+        rateType: selectedTimeSlot ? "Time Slot" : "new rates",
         totalAmount: totalAmount,
-        availableDate: data.availableDate,
+        availableDates: selectedDates,
         boatImage: boatDetails.boatImages.map((item) => item.images[0]),
         boatId: boatDetails?.boat?._id,
       });
@@ -814,7 +824,6 @@ const BookNow = () => {
               <RxChevronRight />
             </span>
           </button>
-          {/* <p className="text-center text-lg font-medium text-[#CBA557]">Show price list</p> */}
         </div>
       </div>
       <div className="my-[5%] mx-[6%]">

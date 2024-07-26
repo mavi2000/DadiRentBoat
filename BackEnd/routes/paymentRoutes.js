@@ -9,7 +9,8 @@ import {
   getDashboardMetrics,
   getStatistics,
   getUpcomingBookings,
-  cancelBooking
+  cancelBooking,
+  unAvailableDates
 } from "../controllers/StripeController.js";
 import { auth } from "../middlewares/auth.js";
 
@@ -23,4 +24,5 @@ router.get("/getDashboardMetrics", getDashboardMetrics);
 router.get("/getStatistics",getStatistics);
 router.get("/getUpcomingBookings",getUpcomingBookings);
 router.post("/cancelBooking",cancelBooking);
+router.post("/unAvailableDates",unAvailableDates);
 export default router;

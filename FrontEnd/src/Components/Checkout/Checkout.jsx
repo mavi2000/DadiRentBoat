@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import baseURL from "../../../APi/BaseUrl";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { format } from "date-fns";
 import DatePicker, { CalendarContainer } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -10,7 +10,7 @@ import Details from "./Details";
 import Greeting from "./Greeting";
 import Payment from "./Payment";
 import { UserContext } from "../../../Context/UserContext";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const stripePromise = loadStripe(
@@ -24,12 +24,11 @@ const Checkout = () => {
   const [boatDetails, setBoatDetails] = useState(null);
   const [selectedRate, setSelectedRate] = useState(null);
   const [selectedDates, setSelectedDates] = useState([]);
-  const [endDate, setEndDate] = useState(null);
+  const [customRate, setCustomRate] = useState("");
   const [paymentOption, setPaymentOption] = useState("full");
   const [user, setUser] = useState("");
   const [activeComponent, setActiveComponent] = useState("details");
   const [isAvailable, setIsAvailable] = useState(true);
-  const [isWeekend, setIsWeekend] = useState(false);
   const [quickChoice, setQuickChoice] = useState(null);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
@@ -106,17 +105,40 @@ const Checkout = () => {
     setSelectedTimeSlot(selectedSlot);
   };
 
-  const handleDateChange = (dates) => {
-    const [start] = dates;
-    const minimumRentalDuration = boatDetails?.rate[0]?.minimumRentalDuration;
-    const durationInDays = minimumRentalDuration
-      ? parseInt(minimumRentalDuration.split(" ")[0])
-      : 1; // Default to 1 day if not specified
+  const parseDuration = (duration) => {
+    const [amount, unit] = duration.split(" ");
+    if (unit.startsWith("week")) {
+      return parseInt(amount) * 7;
+    }
+    if (unit.startsWith("day")) {
+      return parseInt(amount);
+    }
+    return 1; // default to 1 day if no unit is provided
+  };
 
-    const newEndDate = new Date(start);
-    newEndDate.setDate(start.getDate() + durationInDays - 1);
-    setSelectedDates([start, newEndDate]);
-    setEndDate(newEndDate);
+  const handleDateChange = (dates) => {
+    const [start, end] = dates;
+    setSelectedDates([start, end]);
+
+    const minimumRentalDuration = boatDetails?.rate[0]?.minimumRentalDuration || "1 day";
+    const maximumRentalDuration = boatDetails?.rate[0]?.maximumRentalDuration || "Infinity days";
+
+    const durationInDays = (end ? (end - start) : (start - start)) / (1000 * 60 * 60 * 24) + 1;
+
+    const minDays = parseDuration(minimumRentalDuration);
+    const maxDays = parseDuration(maximumRentalDuration);
+
+    if (durationInDays < minDays) {
+      toast.error(`Minimum rental duration is ${minimumRentalDuration}`);
+      setIsAvailable(false);
+      return;
+    }
+
+    if (durationInDays > maxDays) {
+      toast.error(`Maximum rental duration is ${maximumRentalDuration}`);
+      setIsAvailable(false);
+      return;
+    }
 
     if (boatDetails && boatDetails.boatBookings) {
       const available = !boatDetails.boatBookings.some((booking) => {
@@ -124,7 +146,7 @@ const Checkout = () => {
         const endDate = new Date(booking.endDate);
         return (
           (start >= startDate && start <= endDate) ||
-          (newEndDate >= startDate && newEndDate <= endDate)
+          (end && end >= startDate && end <= endDate)
         );
       });
 
@@ -132,9 +154,18 @@ const Checkout = () => {
     } else {
       setIsAvailable(true);
     }
+  };
 
-    const dayOfWeek = start.getDay();
-    setIsWeekend(dayOfWeek === 0 || dayOfWeek === 6);
+  const handleQuickChoice = (choice) => {
+    const start = selectedDates[0] || new Date();
+    const end = new Date(start);
+    if (choice === "day") {
+      end.setDate(start.getDate() + parseDuration(boatDetails?.rate[0]?.minimumRentalDuration) - 1);
+    } else if (choice === "week") {
+      end.setDate(start.getDate() + parseDuration(boatDetails?.rate[0]?.maximumRentalDuration) - 1);
+    }
+    setSelectedDates([start, end]);
+    handleSave();
   };
 
   const handleSubmit = async (event) => {
@@ -147,17 +178,26 @@ const Checkout = () => {
       return;
     }
 
-    if (!selectedRate) {
-      toast.error("Please select a rate.");
+    if (!selectedRate && !selectedTimeSlot) {
+      toast.error("Please select a rate or time slot.");
       return;
     }
 
-    let amountToCharge = selectedRate.oneDayRate * selectedDates.length; // Example rate for the total duration
+    let amountToCharge;
+
+    if (selectedTimeSlot) {
+      amountToCharge = parseFloat(selectedTimeSlot.price.replace("$", ""));
+    } else {
+      const durationInDays = (selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24) + 1;
+      const rate = customRate || selectedRate.oneDayRate;
+      amountToCharge = rate * durationInDays;
+    }
+
     if (paymentOption === "partial") {
       amountToCharge = amountToCharge * 0.3;
     }
 
-    const amountToChargeInCents = Math.round(amountToCharge);
+    const amountToChargeInCents = Math.round(amountToCharge * 100);
 
     try {
       const boatName = boatDetails?.rental
@@ -167,12 +207,13 @@ const Checkout = () => {
       const response = await baseURL.post("/checkout/payment", {
         userId: user,
         boatName,
-        amount: amountToChargeInCents * 100,
-        rateType: selectedRate.nameOfTheRate,
-        totalAmount: amountToCharge * 100,
+        amount: amountToChargeInCents,
+        rateType: selectedRate ? selectedRate.nameOfTheRate : "Time Slot",
+        totalAmount: amountToChargeInCents,
         boatImage: boatDetails.boatImages.map((item) => item.images[0]),
         availableDates: selectedDates,
         boatId: boatDetails?.boat._id,
+        selectedTimeSlot: selectedTimeSlot ? selectedTimeSlot.slot : null,
       });
 
       const { sessionId } = await response.data;
@@ -202,26 +243,25 @@ const Checkout = () => {
     }
   };
 
-  const getDisabledDates = () => {
-    if (!boatDetails || !boatDetails.boatBookings) {
+  const getDisabledDates = async () => {
+    try {
+      const response = await baseURL.post("/checkout/unAvailableDates", {
+        boatName: boatDetails?.rental?.[0]?.BoatName,
+      });
+      return response.data.availableDates.map(date => new Date(date));
+    } catch (error) {
+      console.error("Error fetching unavailable dates:", error);
       return [];
     }
-
-    return boatDetails.boatBookings
-      .map((booking) => {
-        const start = new Date(booking.startDate);
-        const end = new Date(booking.endDate);
-        const dates = [];
-        while (start <= end) {
-          dates.push(new Date(start));
-          start.setDate(start.getDate() + 1);
-        }
-        return dates;
-      })
-      .flat();
   };
 
-  const disabledDates = getDisabledDates();
+  useEffect(() => {
+    if (boatDetails) {
+      getDisabledDates().then(dates => setDisabledDates(dates));
+    }
+  }, [boatDetails]);
+
+  const [disabledDates, setDisabledDates] = useState([]);
 
   const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
     <input
@@ -244,13 +284,13 @@ const Checkout = () => {
       {selectedDates && selectedDates.length > 0 && (
         <div className="w-full flex flex-col gap-3 py-2">
           <div className="h-[1px] bg-black w-full"></div>
-          <div className=" flex gap-3">
-            <button className=" text-black font-semibold px-4 py-2">
+          <div className="flex gap-3">
+            <button className="text-black font-semibold px-4 py-2">
               Quick Choice :
             </button>
             {boatDetails?.rate[0]?.minimumRentalDuration === "1 day" && (
               <button
-                className=" text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
+                className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
                 onClick={() => {
                   setQuickChoice("slot");
                   handleSave();
@@ -260,10 +300,10 @@ const Checkout = () => {
               </button>
             )}
             <button
-              className=" text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
+              className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
               onClick={() => {
                 setQuickChoice("day");
-                handleSave();
+                handleQuickChoice("day");
               }}
             >
               {boatDetails?.rate[0]?.minimumRentalDuration}
@@ -272,10 +312,10 @@ const Checkout = () => {
               boatDetails?.rate[0]?.maximumRentalDuration
             ) && (
               <button
-                className=" text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
+                className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
                 onClick={() => {
                   setQuickChoice("week");
-                  handleSave();
+                  handleQuickChoice("week");
                 }}
               >
                 {boatDetails?.rate[0]?.maximumRentalDuration}
@@ -290,13 +330,13 @@ const Checkout = () => {
   return (
     <div>
       <div className="checkout-bg !h-[50svh] md:!h-[100svh]">
-        <div className="h-[50svh] md:h-[100svh] flex flex-col justify-center mx-[6%] ">
+        <div className="h-[50svh] md:h-[100svh] flex flex-col justify-center mx-[6%]">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
             Check Out
           </h1>
         </div>
       </div>
-      <div className=" mx-[6%] mt-[3%]">
+      <div className="mx-[6%] mt-[3%]">
         <h1 className="font-medium text-3xl text-[#000000]">Check Out</h1>
         <p className="para-book mt-2">
           Book your rental in two simple steps. <br />
@@ -446,10 +486,30 @@ const Checkout = () => {
                 <p>Loading boat details...</p>
               )}
               <div className="mb-4">
-                {selectedRate && (
-                  <p className="text-gray-700 text-xl font-bold">
-                    Starting from: {selectedRate.oneDayRate} per day
-                  </p>
+                {selectedRate && isAvailable && !selectedTimeSlot && (
+                  <div>
+                    <label
+                      htmlFor="customRate"
+                      className="block text-gray-700 text-sm font-bold mb-2"
+                    >
+                      Per Day Rate:
+                    </label>
+                    <input
+                      type="number"
+                      id="customRate"
+                      value={customRate || selectedRate.oneDayRate}
+                      onChange={(e) => setCustomRate(e.target.value)}
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                    <p className="text-gray-700 text-xl font-bold mt-2">
+                      Total: ${((customRate || selectedRate.oneDayRate) * ((selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24) + 1)).toFixed(2)}
+                    </p>
+                  </div>
+                )}
+                {selectedTimeSlot && (
+                  <div className="text-gray-700 text-xl font-bold mt-2">
+                    Total: {selectedTimeSlot.price}
+                  </div>
                 )}
               </div>
               <div className="my-4">
