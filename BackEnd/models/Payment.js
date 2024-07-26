@@ -31,17 +31,11 @@ const PaymentSchema = new Schema(
     },
     rateType: {
       type: String,
-      enum: [
-        "halfDayMorning",
-        "halfDayEvening",
-        "fullDay",
-        "weekendHalfDayMorning",
-        "weekendHalfDayEvening",
-        "weekendFullDay",
-        "new rates",
-        "1 day rate"
-      ],
       required: true,
+    },
+    timeSlot: {
+      type: String, // Add timeSlot field to handle selected time slot
+      required: false,
     },
     totalAmount: {
       type: Number,

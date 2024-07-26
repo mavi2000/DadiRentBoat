@@ -17,6 +17,7 @@ export const checkout = async (req, res) => {
       availableDates,
       boatImage,
       boatId,
+      timeSlot, // Add timeSlot to destructured variables
     } = req.body;
 
     console.log("availableDates", req.body);
@@ -63,6 +64,7 @@ export const checkout = async (req, res) => {
       amount: unitAmount,
       stripeDetails: session,
       rateType,
+      timeSlot, // Include timeSlot in the payment details
       totalAmount,
       boatImage, // This is now an array
       paymentStatus: "paid",
@@ -84,7 +86,6 @@ export const checkout = async (req, res) => {
     });
   }
 };
-
 
 
 export const getPayment = async (req, res) => {
@@ -310,5 +311,28 @@ export const  cancelBooking =async(req,res)=>{
   } catch (error) {
     console.error('Error cancelling booking:', error);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+
+
+export const unAvailableDates =async(req,res)=>{
+  try {
+    const { boatName } = req.body;
+
+    // Fetch the payment details based on the boat name
+    const payments = await Payment.find({ boatName });
+
+    if (!payments || payments.length === 0) {
+      return res.status(404).json({ error: 'No available dates found for this boat' });
+    }
+
+    // Extract available dates from the payments
+    const availableDates = payments.map(payment => payment.availableDates).flat();
+
+    res.status(200).json({ availableDates });
+  } catch (error) {
+    console.error('Error fetching available dates:', error);
+    res.status(500).json({ error: error.message });
   }
 }
