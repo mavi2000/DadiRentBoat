@@ -3,6 +3,8 @@ import user from "../../../assets/Images/user.png";
 import { useNavigate } from "react-router-dom";
 
 const StatusDropdownMonthly = ({ statuses }) => {
+
+  console.log("statuses",statuses)
   if (!statuses || statuses.length === 0) {
     return null; // Handle case where statuses are not provided
   }
@@ -39,7 +41,7 @@ const StatusDropdownMonthly = ({ statuses }) => {
             <p className="text-sm mb-2">Boat: <span className="font-medium">{status.boatName}</span></p>
             <p className="text-sm mb-2">Rate Type: <span className="font-medium">{status.rateType}</span></p>
             <button
-              onClick={() => navigate(`/dashboard/booking-details/${status.bookingId}`)}
+              onClick={() => navigate(`/dashboard/booking-details/${status?.userId?._id}`)}
               className="text-sm text-blue-500 underline"
             >
               View Details
