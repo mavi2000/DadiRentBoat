@@ -120,10 +120,13 @@ const Checkout = () => {
     const [start, end] = dates;
     setSelectedDates([start, end]);
 
-    const minimumRentalDuration = boatDetails?.rate[0]?.minimumRentalDuration || "1 day";
-    const maximumRentalDuration = boatDetails?.rate[0]?.maximumRentalDuration || "Infinity days";
+    const minimumRentalDuration =
+      boatDetails?.rate[0]?.minimumRentalDuration || "1 day";
+    const maximumRentalDuration =
+      boatDetails?.rate[0]?.maximumRentalDuration || "Infinity days";
 
-    const durationInDays = (end ? (end - start) : (start - start)) / (1000 * 60 * 60 * 24) + 1;
+    const durationInDays =
+      (end ? end - start : start - start) / (1000 * 60 * 60 * 24) + 1;
 
     const minDays = parseDuration(minimumRentalDuration);
     const maxDays = parseDuration(maximumRentalDuration);
@@ -160,9 +163,17 @@ const Checkout = () => {
     const start = selectedDates[0] || new Date();
     const end = new Date(start);
     if (choice === "day") {
-      end.setDate(start.getDate() + parseDuration(boatDetails?.rate[0]?.minimumRentalDuration) - 1);
+      end.setDate(
+        start.getDate() +
+          parseDuration(boatDetails?.rate[0]?.minimumRentalDuration) -
+          1
+      );
     } else if (choice === "week") {
-      end.setDate(start.getDate() + parseDuration(boatDetails?.rate[0]?.maximumRentalDuration) - 1);
+      end.setDate(
+        start.getDate() +
+          parseDuration(boatDetails?.rate[0]?.maximumRentalDuration) -
+          1
+      );
     }
     setSelectedDates([start, end]);
     handleSave();
@@ -188,7 +199,8 @@ const Checkout = () => {
     if (selectedTimeSlot) {
       amountToCharge = parseFloat(selectedTimeSlot.price.replace("$", ""));
     } else {
-      const durationInDays = (selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24) + 1;
+      const durationInDays =
+        (selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24) + 1;
       const rate = customRate || selectedRate.oneDayRate;
       amountToCharge = rate * durationInDays;
     }
@@ -248,7 +260,7 @@ const Checkout = () => {
       const response = await baseURL.post("/checkout/unAvailableDates", {
         boatName: boatDetails?.rental?.[0]?.BoatName,
       });
-      return response.data.availableDates.map(date => new Date(date));
+      return response.data.availableDates.map((date) => new Date(date));
     } catch (error) {
       console.error("Error fetching unavailable dates:", error);
       return [];
@@ -257,7 +269,7 @@ const Checkout = () => {
 
   useEffect(() => {
     if (boatDetails) {
-      getDisabledDates().then(dates => setDisabledDates(dates));
+      getDisabledDates().then((dates) => setDisabledDates(dates));
     }
   }, [boatDetails]);
 
@@ -279,48 +291,50 @@ const Checkout = () => {
   ));
 
   const CustomCalendarContainer = ({ className, children }) => (
-    <div className={className}>
+    <div className={`${className} mx-8`}>
       <CalendarContainer className="relative">{children}</CalendarContainer>
       {selectedDates && selectedDates.length > 0 && (
         <div className="w-full flex flex-col gap-3 py-2">
           <div className="h-[1px] bg-black w-full"></div>
-          <div className="flex gap-3">
-            <button className="text-black font-semibold px-4 py-2">
-              Quick Choice :
-            </button>
-            {boatDetails?.rate[0]?.minimumRentalDuration === "1 day" && (
+          <div className=" flex flex-wrap px-3 gap-3">
+            <div className="flex flex-wrap gap-3 px-3">
+              <button className="text-black font-semibold py-2">
+                Quick Choice :
+              </button>
+              {boatDetails?.rate[0]?.minimumRentalDuration === "1 day" && (
+                <button
+                  className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
+                  onClick={() => {
+                    setQuickChoice("slot");
+                    handleSave();
+                  }}
+                >
+                  Time slot
+                </button>
+              )}
               <button
                 className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
                 onClick={() => {
-                  setQuickChoice("slot");
-                  handleSave();
+                  setQuickChoice("day");
+                  handleQuickChoice("day");
                 }}
               >
-                Time slot
+                {boatDetails?.rate[0]?.minimumRentalDuration}
               </button>
-            )}
-            <button
-              className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
-              onClick={() => {
-                setQuickChoice("day");
-                handleQuickChoice("day");
-              }}
-            >
-              {boatDetails?.rate[0]?.minimumRentalDuration}
-            </button>
-            {["1 week", "2 weeks"].includes(
-              boatDetails?.rate[0]?.maximumRentalDuration
-            ) && (
-              <button
-                className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
-                onClick={() => {
-                  setQuickChoice("week");
-                  handleQuickChoice("week");
-                }}
-              >
-                {boatDetails?.rate[0]?.maximumRentalDuration}
-              </button>
-            )}
+              {["1 week", "2 weeks"].includes(
+                boatDetails?.rate[0]?.maximumRentalDuration
+              ) && (
+                <button
+                  className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
+                  onClick={() => {
+                    setQuickChoice("week");
+                    handleQuickChoice("week");
+                  }}
+                >
+                  {boatDetails?.rate[0]?.maximumRentalDuration}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -502,7 +516,13 @@ const Checkout = () => {
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     <p className="text-gray-700 text-xl font-bold mt-2">
-                      Total: ${((customRate || selectedRate.oneDayRate) * ((selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24) + 1)).toFixed(2)}
+                      Total: $
+                      {(
+                        (customRate || selectedRate.oneDayRate) *
+                        ((selectedDates[1] - selectedDates[0]) /
+                          (1000 * 60 * 60 * 24) +
+                          1)
+                      ).toFixed(2)}
                     </p>
                   </div>
                 )}
