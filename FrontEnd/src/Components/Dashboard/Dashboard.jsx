@@ -1,7 +1,7 @@
-import Pickups from './DashboardCards/Pickups';
-import Reservations from './DashboardCards/Reservations';
-import RevenueChart from './DashboardCards/RevenueChart';
-import Statistics from './DashboardCards/Statistics';
+import Pickups from "./DashboardCards/Pickups";
+import Reservations from "./DashboardCards/Reservations";
+import RevenueChart from "./DashboardCards/RevenueChart";
+import Statistics from "./DashboardCards/Statistics";
 
 const Dashboard = () => {
   return (

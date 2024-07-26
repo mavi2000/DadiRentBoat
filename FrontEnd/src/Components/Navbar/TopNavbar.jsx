@@ -9,7 +9,7 @@ import { HiOutlineMail } from 'react-icons/hi';
 const TopNavbar = () => {
   return (
     <>
-      <div className="hidden 500px:flex justify-between gap-4 items-center my-4 mx-[3%] md:mx-[6%]">
+      <div className="hidden md:flex justify-between gap-4 items-center my-4 mx-[3%] md:mx-[6%]">
         <div className="text-[--primary-color] text-base flex gap-8">
           <a href="tel:+39 3701564317" className="flex gap-2 items-baseline">
             <FaPhoneAlt />

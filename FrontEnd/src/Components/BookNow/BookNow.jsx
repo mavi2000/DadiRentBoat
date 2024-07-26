@@ -1,58 +1,67 @@
-import { FaLocationDot } from 'react-icons/fa6';
-import { IoShareSocialOutline, IoHeartOutline, IoHammerOutline } from 'react-icons/io5';
-import { HiOutlineUserGroup } from 'react-icons/hi2';
-import { PiEngine, PiDiamondsFourLight } from 'react-icons/pi';
-import { RiAnchorLine, RiRulerLine } from 'react-icons/ri';
-import { TbTool } from 'react-icons/tb';
-import { GrUserPolice } from 'react-icons/gr';
-import { IoIosArrowUp } from 'react-icons/io';
-import { RxChevronRight } from 'react-icons/rx';
-import FleetCard from '../Home/FleetCard';
-import fleetBoat1 from '../../assets/Images/fleetBoat1.webp';
-import fleetBoat2 from '../../assets/Images/fleetBoat2.webp';
-import fleetBoat3 from '../../assets/Images/fleetBoat3.webp';
-import Awning from '../../assets/Images/awning.png';
-import Table1 from '../../assets/Images/table.png';
-import Sundeck from '../../assets/Images/sundeck.png';
-import DeckShower from '../../assets/Images/deckShower.png';
-import FreeParking from '../../assets/Images/freeParking.png';
-import SwimPlatform from '../../assets/Images/swimPlatform.png';
-import OutdoorCushion from '../../assets/Images/outdoorCushion.png';
-import Mp3 from '../../assets/Images/mp3.png';
-import Bluetooth from '../../assets/Images/bluetooth.png';
-import Dvd from '../../assets/Images/dvdPlayer.png';
-import Socket220 from '../../assets/Images/socket220.png';
-import UsbPlug from '../../assets/Images/usbPlug.png';
-import GPS from '../../assets/Images/GPS.png';
-import Sounder from '../../assets/Images/Sounder.png';
-import ElectricWindlass from '../../assets/Images/electric-windlass.png';
-import OutboardEngine from '../../assets/Images/outboard-engine.png';
-import Speedometer from '../../assets/Images/speedometer.png';
-import Anemometer from '../../assets/Images/anemometer.png';
-import Compass from '../../assets/Images/compass.png';
-import Surbed from '../../assets/Images/surbed.png';
-import UmbrellaRental from '../../assets/Images/umbrella-rental.png';
-import PoolLifeguard from '../../assets/Images/pool-lifeguard.png';
-import Draught from '../../assets/Images/Draught.png';
-import FuelType from '../../assets/Images/FuelType.png';
-import FuelTank from '../../assets/Images/FuelTank.png';
-import { jwtDecode } from 'jwt-decode';
-import Prices from './Prices';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../../../Context/UserContext';
-import { toast } from 'react-toastify';
-import baseURL from '../../../APi/BaseUrl';
-import { loadStripe } from '@stripe/stripe-js';
+import React from "react";
+import { FaLocationDot } from "react-icons/fa6";
+import {
+  IoShareSocialOutline,
+  IoHeartOutline,
+  IoHammerOutline,
+} from "react-icons/io5";
+import { HiOutlineUserGroup } from "react-icons/hi2";
+import { PiEngine, PiDiamondsFourLight } from "react-icons/pi";
+import { RiAnchorLine, RiRulerLine } from "react-icons/ri";
+import { TbTool } from "react-icons/tb";
+import { GrUserPolice } from "react-icons/gr";
+import { IoIosArrowUp } from "react-icons/io";
+import { RxChevronRight } from "react-icons/rx";
+import FleetCard from "../Home/FleetCard";
+import fleetBoat1 from "../../assets/Images/fleetBoat1.webp";
+import fleetBoat2 from "../../assets/Images/fleetBoat2.webp";
+import fleetBoat3 from "../../assets/Images/fleetBoat3.webp";
+import Awning from "../../assets/Images/awning.png";
+import Table1 from "../../assets/Images/table.png";
+import Sundeck from "../../assets/Images/sundeck.png";
+import DeckShower from "../../assets/Images/deckShower.png";
+import FreeParking from "../../assets/Images/freeParking.png";
+import SwimPlatform from "../../assets/Images/swimPlatform.png";
+import OutdoorCushion from "../../assets/Images/outdoorCushion.png";
+import Mp3 from "../../assets/Images/mp3.png";
+import Bluetooth from "../../assets/Images/bluetooth.png";
+import Dvd from "../../assets/Images/dvdPlayer.png";
+import Socket220 from "../../assets/Images/socket220.png";
+import UsbPlug from "../../assets/Images/usbPlug.png";
+import GPS from "../../assets/Images/GPS.png";
+import Sounder from "../../assets/Images/Sounder.png";
+import ElectricWindlass from "../../assets/Images/electric-windlass.png";
+import OutboardEngine from "../../assets/Images/outboard-engine.png";
+import Speedometer from "../../assets/Images/speedometer.png";
+import Anemometer from "../../assets/Images/anemometer.png";
+import Compass from "../../assets/Images/compass.png";
+import Surbed from "../../assets/Images/surbed.png";
+import UmbrellaRental from "../../assets/Images/umbrella-rental.png";
+import PoolLifeguard from "../../assets/Images/pool-lifeguard.png";
+import Draught from "../../assets/Images/Draught.png";
+import FuelType from "../../assets/Images/FuelType.png";
+import FuelTank from "../../assets/Images/FuelTank.png";
+import { jwtDecode } from "jwt-decode";
+import Prices from "./Prices";
+import { useParams, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { UserContext } from "../../../Context/UserContext";
+import { toast } from "react-toastify";
+import baseURL from "../../../APi/BaseUrl";
+import { loadStripe } from "@stripe/stripe-js";
+import DatePicker, { CalendarContainer } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+const stripePromise = loadStripe(
+  "pk_test_51OwXJ9RtqZkTuUjdPn7IZ2nUJQ77VYiDdsW3s8ddWFQRUh4yUWKiXhYLAy54Y2249fgzSTPtcvfgUr2MoiWhBE5p00zp6MUFHe"
+);
 
-const stripePromise = loadStripe('pk_test_51OwXJ9RtqZkTuUjdPn7IZ2nUJQ77VYiDdsW3s8ddWFQRUh4yUWKiXhYLAy54Y2249fgzSTPtcvfgUr2MoiWhBE5p00zp6MUFHe');
 
 const BookNow = () => {
   const { id } = useParams();
   const { fetchBoatDetailsById } = useContext(UserContext);
+  const navigate = useNavigate();
   const [boatDetails, setBoatDetails] = useState(null);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
   const [data, setData] = useState({
     date: null,
     duration: "oneDay",
@@ -60,20 +69,194 @@ const BookNow = () => {
     boatName: "",
     rateType: "new rates",
     availableDate: "",
-    boatImage:"",
+    boatImage: "",
     rentalType: [],
-    extraOptions: []
+    extraOptions: [],
   });
   const [ratesArr, setRatesArr] = useState(null);
+  const [selectedDates, setSelectedDates] = useState([]);
+  const [endDate, setEndDate] = useState(null);
+  const [isAvailable, setIsAvailable] = useState(true);
+  const [isWeekend, setIsWeekend] = useState(false);
+  const [quickChoice, setQuickChoice] = useState(null);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const datePickerRef = useRef(null);
+
+  const dummyTimeSlots = [
+    {
+      id: 1,
+      slot: "4h00",
+      price: "$238.92",
+      duration: "4h00",
+      departure: "Schedule to be agreed with the owner",
+    },
+    {
+      id: 2,
+      slot: "Morning",
+      price: "$179.19",
+      duration: "4h00",
+      departure: "8:00 AM",
+    },
+    {
+      id: 3,
+      slot: "Noon",
+      price: "$238.92",
+      duration: "4h00",
+      departure: "12:00 PM",
+    },
+    {
+      id: 4,
+      slot: "Afternoon",
+      price: "$238.92",
+      duration: "4h00",
+      departure: "2:00 PM",
+    },
+    {
+      id: 5,
+      slot: "Evening",
+      price: "$238.92",
+      duration: "5h00",
+      departure: "6:00 PM",
+    },
+  ];
+
+  const handleSave = () => {
+    setIsDatePickerOpen(false);
+    console.log("Saved dates:", selectedDates);
+  };
+
+  const handleTimeSlotChange = (e) => {
+    const selectedSlot = dummyTimeSlots.find(
+      (slot) => slot.id === parseInt(e.target.value)
+    );
+    setSelectedTimeSlot(selectedSlot);
+  };
+
+  const handleDateChange = (dates) => {
+    const [start] = dates;
+    const minimumRentalDuration = boatDetails?.rate[0]?.minimumRentalDuration;
+    const durationInDays = minimumRentalDuration
+      ? parseInt(minimumRentalDuration.split(" ")[0])
+      : 1; // Default to 1 day if not specified
+
+    const newEndDate = new Date(start);
+    newEndDate.setDate(start.getDate() + durationInDays - 1);
+    setSelectedDates([start, newEndDate]);
+    setEndDate(newEndDate);
+
+    if (boatDetails && boatDetails.boatBookings) {
+      const available = !boatDetails.boatBookings.some((booking) => {
+        const startDate = new Date(booking.startDate);
+        const endDate = new Date(booking.endDate);
+        return (
+          (start >= startDate && start <= endDate) ||
+          (newEndDate >= startDate && newEndDate <= endDate)
+        );
+      });
+
+      setIsAvailable(available);
+    } else {
+      setIsAvailable(true);
+    }
+
+    const dayOfWeek = start.getDay();
+    setIsWeekend(dayOfWeek === 0 || dayOfWeek === 6);
+  };
+
+  const getDisabledDates = () => {
+    if (!boatDetails || !boatDetails.boatBookings) {
+      return [];
+    }
+
+    return boatDetails.boatBookings
+      .map((booking) => {
+        const start = new Date(booking.startDate);
+        const end = new Date(booking.endDate);
+        const dates = [];
+        while (start <= end) {
+          dates.push(new Date(start));
+          start.setDate(start.getDate() + 1);
+        }
+        return dates;
+      })
+      .flat();
+  };
+
+  const disabledDates = getDisabledDates();
+
+  const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
+    <input
+      className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+        !isAvailable ? "border-red-500" : ""
+      }`}
+      onClick={(e) => {
+        onClick(e);
+        setIsDatePickerOpen(true);
+      }}
+      ref={ref}
+      value={value}
+      readOnly
+    />
+  ));
+
+  const CustomCalendarContainer = ({ className, children }) => (
+    <div className={className}>
+      <CalendarContainer className="relative">{children}</CalendarContainer>
+      {selectedDates && selectedDates.length > 0 && (
+        <div className="w-full flex flex-col gap-3 py-2">
+          <div className="h-[1px] bg-black w-full"></div>
+          <div className=" flex gap-3">
+            <button className=" text-black font-semibold px-4 py-2">
+              Quick Choice :
+            </button>
+            {boatDetails?.rate[0]?.minimumRentalDuration === "1 day" && (
+              <button
+                className=" text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
+                onClick={() => {
+                  setQuickChoice("slot");
+                  handleSave();
+                }}
+              >
+                Time slot
+              </button>
+            )}
+            <button
+              className=" text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
+              onClick={() => {
+                setQuickChoice("day");
+                handleSave();
+              }}
+            >
+              {boatDetails?.rate[0]?.minimumRentalDuration}
+            </button>
+            {["1 week", "2 weeks"].includes(
+              boatDetails?.rate[0]?.maximumRentalDuration
+            ) && (
+              <button
+                className=" text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
+                onClick={() => {
+                  setQuickChoice("week");
+                  handleSave();
+                }}
+              >
+                {boatDetails?.rate[0]?.maximumRentalDuration}
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 
   useEffect(() => {
     const getBoatDetails = async () => {
       try {
         const details = await fetchBoatDetailsById(id);
         setBoatDetails(details);
-        setData(prevData => ({ ...prevData, boatName: details.boat.type }));
+        setData((prevData) => ({ ...prevData, boatName: details.boat.type }));
       } catch (error) {
-        setError(error.message || 'Error loading boat details');
+        setError(error.message || "Error loading boat details");
       }
     };
     getBoatDetails();
@@ -91,38 +274,44 @@ const BookNow = () => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    if (type === 'checkbox') {
-      setData(prev => {
+    if (type === "checkbox") {
+      setData((prev) => {
         const updated = prev[name].includes(value)
-          ? prev[name].filter(item => item !== value)
+          ? prev[name].filter((item) => item !== value)
           : [...prev[name], value];
         return { ...prev, [name]: updated };
       });
     } else {
-      setData(prev => ({ ...prev, [name]: value }));
+      setData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
   const calculateTotalAmount = () => {
-    const selectedRate = ratesArr.oneDayRate;
-    let totalAmount = selectedRate ? Number(selectedRate) : 0;
+    let totalAmount;
 
-    if (data.rentalType.includes("with skipper")) {
-      totalAmount += 10; // Adding $10 for skipper
-    }
+    if (selectedTimeSlot) {
+      totalAmount = parseFloat(selectedTimeSlot.price.replace("$", ""));
+    } else {
+      const selectedRate = ratesArr.oneDayRate;
+      totalAmount = selectedRate ? Number(selectedRate) : 0;
 
-    if (data.extraOptions.includes("Bagni Pancaldi Tickets")) {
-      totalAmount += 10; // Adding $10 for extra option
+      if (data.rentalType.includes("with skipper")) {
+        totalAmount += 10; // Adding $10 for skipper
+      }
+
+      if (data.extraOptions.includes("Bagni Pancaldi Tickets")) {
+        totalAmount += 10; // Adding $10 for extra option
+      }
     }
 
     return totalAmount;
   };
 
   const handleSubmit = async () => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem("authToken");
     if (!token) {
       toast.error("User must be logged in to book a boat");
-      setTimeout(() => navigate('/login'), 2500);
+      setTimeout(() => navigate("/login"), 2500);
       return;
     }
     const decoded = jwtDecode(token);
@@ -130,7 +319,7 @@ const BookNow = () => {
     if (!userId) {
       return toast.error("Something went wrong");
     }
-    if (!data.availableDate) {
+    if (!selectedDates.length) {
       toast.error("Please select a date");
       return;
     }
@@ -140,24 +329,24 @@ const BookNow = () => {
       return;
     }
     try {
-      const response = await baseURL.post('/checkout/payment', {
+      const response = await baseURL.post("/checkout/payment", {
         userId,
         amount: totalAmount,
         boatName: data.boatName,
-        rateType: "new rates",
+        rateType: selectedTimeSlot ? "Time Slot" : "new rates",
         totalAmount: totalAmount,
-        availableDate: data.availableDate,
-        boatImage:boatDetails.boatImages.map((item)=>(item.images[0])),
-        boatId: boatDetails?.boat?._id
+        availableDates: selectedDates,
+        boatImage: boatDetails.boatImages.map((item) => item.images[0]),
+        boatId: boatDetails?.boat?._id,
       });
       const { sessionId } = response.data;
       const stripe = await stripePromise;
       const { error } = await stripe.redirectToCheckout({ sessionId });
       if (error) {
-        console.error('Stripe Checkout error:', error);
+        console.error("Stripe Checkout error:", error);
       }
     } catch (error) {
-      console.error('Payment failed', error);
+      console.error("Payment failed", error);
     }
   };
 
@@ -181,7 +370,7 @@ const BookNow = () => {
         <div className="left-container md:w-[60%]">
           <div className="top mt-[3%]">
             <h1 className="font-sans font-poppins font-medium text-3xl text-[#000000]">
-              {boatDetails?.rental?.map(item => item.BoatName)}
+              {boatDetails?.rental?.map((item) => item.BoatName)}
             </h1>
             <div className="flex my-3 md:justify-between justify-center flex-wrap space-y-3 space-x-3">
               <div className="flex justify-center items-center">
@@ -376,9 +565,14 @@ const BookNow = () => {
                   <ul>
                     {boatDetails?.equipment?.map((item) => (
                       <li key={item._id}>
-                        <ul className='flex gap-10'>
+                        <ul className="flex gap-10">
                           {item?.comfort?.map((comfortItem, index) => (
-                            <li key={index} className="text-[#000000] font-normal text-opacity-50">{comfortItem}</li>
+                            <li
+                              key={index}
+                              className="text-[#000000] font-normal text-opacity-50"
+                            >
+                              {comfortItem}
+                            </li>
                           ))}
                         </ul>
                       </li>
@@ -388,9 +582,14 @@ const BookNow = () => {
                   <ul>
                     {boatDetails?.equipment?.map((item) => (
                       <li key={item?._id}>
-                        <ul className='flex gap-10'>
+                        <ul className="flex gap-10">
                           {item?.navigation?.map((navItem, index) => (
-                            <li key={index} className="text-[#000000] font-normal text-opacity-50">{navItem}</li>
+                            <li
+                              key={index}
+                              className="text-[#000000] font-normal text-opacity-50"
+                            >
+                              {navItem}
+                            </li>
                           ))}
                         </ul>
                       </li>
@@ -402,7 +601,12 @@ const BookNow = () => {
                       <li key={item._id}>
                         <ul className="flex gap-10">
                           {item?.services?.map((serviceItem, index) => (
-                            <li key={index} className="text-[#000000] font-normal text-opacity-50">{serviceItem}</li>
+                            <li
+                              key={index}
+                              className="text-[#000000] font-normal text-opacity-50"
+                            >
+                              {serviceItem}
+                            </li>
                           ))}
                         </ul>
                       </li>
@@ -414,7 +618,12 @@ const BookNow = () => {
                       <li key={item?._id}>
                         <ul className="flex gap-10">
                           {item?.energy?.map((energyItem, index) => (
-                            <li key={index} className="text-[#000000] font-normal text-opacity-50 ">{energyItem}</li>
+                            <li
+                              key={index}
+                              className="text-[#000000] font-normal text-opacity-50 "
+                            >
+                              {energyItem}
+                            </li>
                           ))}
                         </ul>
                       </li>
@@ -432,8 +641,8 @@ const BookNow = () => {
                 <p className="font-medium text-[#191919]">
                   Security Deposit <br className="mb-[1%]" />
                   <p className="text-sm font-normal text-opacity-70 text-[#4B465C]">
-                    Please note that the rental fee does not include Security Deposit
-                    costs.
+                    Please note that the rental fee does not include Security
+                    Deposit costs.
                   </p>
                 </p>
               </div>
@@ -520,76 +729,245 @@ const BookNow = () => {
             </p>
           </div>
           <div className="flex flex-col">
-            <label htmlFor='date' className="text-sm text-[#000000] font-normal mb-[1%]">
+            <label
+              htmlFor="date"
+              className="text-sm text-[#000000] font-normal mb-[1%]"
+            >
               Date
             </label>
-            <input
-              type="date"
-              name="availableDate"
-              onChange={handleChange}
-              id="date"
-              placeholder="Choose Date"
-              className="border border-[#E8E8E8] px-6 py-4 rounded-lg"
+            <DatePicker
+              ref={datePickerRef}
+              selected={selectedDates[0]}
+              onChange={handleDateChange}
+              startDate={selectedDates[0]}
+              endDate={selectedDates[1]}
+              selectsRange
+              minDate={new Date()}
+              monthsShown={2}
+              excludeDates={disabledDates}
+              dateFormat="dd/MM/yyyy"
+              calendarContainer={CustomCalendarContainer}
+              customInput={<CustomInput />}
+              open={isDatePickerOpen}
+              onClickOutside={() => setIsDatePickerOpen(false)}
             />
           </div>
           <div className="">
-            <h2 className="text-sm font-normal text-[#000000] mb-[2%]">No of Persons</h2>
-            <h1 className='border p-4 rounded-md'>{boatDetails?.boat?.boardingCapacity}</h1>
+            <h2 className="text-sm font-normal text-[#000000] mb-[2%]">
+              No of Persons
+            </h2>
+            <h1 className="border p-4 rounded-md">
+              {boatDetails?.boat?.boardingCapacity}
+            </h1>
           </div>
           <div className="space-y-4">
-            <h1 className="font-normal text-lg text-[#000000]">Type of Rental</h1>
+            <h1 className="font-normal text-lg text-[#000000]">
+              Type of Rental
+            </h1>
             <div className="flex justify-between">
               <div className="flex gap-2 items-center">
-                <input type="checkbox" checked={data.rentalType.includes("with skipper")} onChange={handleChange} id='rentalType' name='rentalType' className="w-5 h-5" value={"with skipper"} />
-                <label htmlFor='rentalType' className="font-normal text-[#676767] text-sm">With Skipper</label>
+                <input
+                  type="checkbox"
+                  checked={data.rentalType.includes("with skipper")}
+                  onChange={handleChange}
+                  id="rentalType"
+                  name="rentalType"
+                  className="w-5 h-5"
+                  value={"with skipper"}
+                />
+                <label
+                  htmlFor="rentalType"
+                  className="font-normal text-[#676767] text-sm"
+                >
+                  With Skipper
+                </label>
               </div>
               <p className="font-normal text-[#676767] text-sm">$10</p>
             </div>
           </div>
           <div className="space-y-4">
-            <h1 className="font-normal text-lg text-[#000000]">Extra options</h1>
+            <h1 className="font-normal text-lg text-[#000000]">
+              Extra options
+            </h1>
             <div className="flex justify-between">
               <div className="flex gap-2 items-center">
-                <input name='extraOptions' id='extraOptions' type="checkbox" onChange={handleChange} className="w-5 h-5" value={"Bagni Pancaldi Tickets"} />
-                <label htmlFor='extraOptions' className="font-normal text-[#676767] text-sm">Bagni Pancaldi Tickets</label>
+                <input
+                  name="extraOptions"
+                  id="extraOptions"
+                  type="checkbox"
+                  onChange={handleChange}
+                  className="w-5 h-5"
+                  value={"Bagni Pancaldi Tickets"}
+                />
+                <label
+                  htmlFor="extraOptions"
+                  className="font-normal text-[#676767] text-sm"
+                >
+                  Bagni Pancaldi Tickets
+                </label>
               </div>
               <p className="font-normal text-[#676767] text-sm">$10</p>
             </div>
-            <p className="font-normal text-[#FF6347] text-sm">Fuel is excluded</p>
+            <p className="font-normal text-[#FF6347] text-sm">
+              Fuel is excluded
+            </p>
           </div>
-          <p className="font-normal text-[#676767] text-sm">You will only be charged if your request is confirmed</p>
-          <button onClick={handleSubmit} className="btn-5 flex items-center justify-center space-x-2">
+          <p className="font-normal text-[#676767] text-sm">
+            You will only be charged if your request is confirmed
+          </p>
+          <button
+            onClick={handleSubmit}
+            className="btn-5 flex items-center justify-center space-x-2"
+          >
             <p>Instant Booking</p>
-            <span className="text-2xl"><RxChevronRight /></span>
+            <span className="text-2xl">
+              <RxChevronRight />
+            </span>
           </button>
-          {/* <p className="text-center text-lg font-medium text-[#CBA557]">Show price list</p> */}
         </div>
       </div>
       <div className="my-[5%] mx-[6%]">
         <div className="mt-[4%]">
           <h1 className="mb-[2%] heading-book">Prices</h1>
           <div className="flex flex-wrap gap-4">
-            <Prices month="January" normalDay="$30" normalHalfMorning="$30" normalHalfAfternoon="$30" weekend="$30" weekendHalfMorning="$30" weekendHalfAfternoon="$30" />
-            <Prices month="February" normalDay="$30" normalHalfMorning="$30" normalHalfAfternoon="$30" weekend="$30" weekendHalfMorning="$30" weekendHalfAfternoon="$30" />
-            <Prices month="March" normalDay="$30" normalHalfMorning="$30" normalHalfAfternoon="$30" weekend="$30" weekendHalfMorning="$30" weekendHalfAfternoon="$30" />
-            <Prices month="April" normalDay="$30" normalHalfMorning="$30" normalHalfAfternoon="$30" weekend="$30" weekendHalfMorning="$30" weekendHalfAfternoon="$30" />
-            <Prices month="May" normalDay="$30" normalHalfMorning="$30" normalHalfAfternoon="$30" weekend="$30" weekendHalfMorning="$30" weekendHalfAfternoon="$30" />
-            <Prices month="June" normalDay="$30" normalHalfMorning="$30" normalHalfAfternoon="$30" weekend="$30" weekendHalfMorning="$30" weekendHalfAfternoon="$30" />
-            <Prices month="July" normalDay="$30" normalHalfMorning="$30" normalHalfAfternoon="$30" weekend="$30" weekendHalfMorning="$30" weekendHalfAfternoon="$30" />
-            <Prices month="August" normalDay="$30" normalHalfMorning="$30" normalHalfAfternoon="$30" weekend="$30" weekendHalfMorning="$30" weekendHalfAfternoon="$30" />
-            <Prices month="September" normalDay="$30" normalHalfMorning="$30" normalHalfAfternoon="$30" weekend="$30" weekendHalfMorning="$30" weekendHalfAfternoon="$30" />
-            <Prices month="October" normalDay="$30" normalHalfMorning="$30" normalHalfAfternoon="$30" weekend="$30" weekendHalfMorning="$30" weekendHalfAfternoon="$30" />
-            <Prices month="November" normalDay="$30" normalHalfMorning="$30" normalHalfAfternoon="$30" weekend="$30" weekendHalfMorning="$30" weekendHalfAfternoon="$30" />
-            <Prices month="December" normalDay="$30" normalHalfMorning="$30" normalHalfAfternoon="$30" weekend="$30" weekendHalfMorning="$30" weekendHalfAfternoon="$30" />
+            <Prices
+              month="January"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+            <Prices
+              month="February"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+            <Prices
+              month="March"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+            <Prices
+              month="April"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+            <Prices
+              month="May"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+            <Prices
+              month="June"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+            <Prices
+              month="July"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+            <Prices
+              month="August"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+            <Prices
+              month="September"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+            <Prices
+              month="October"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+            <Prices
+              month="November"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
+            <Prices
+              month="December"
+              normalDay="$30"
+              normalHalfMorning="$30"
+              normalHalfAfternoon="$30"
+              weekend="$30"
+              weekendHalfMorning="$30"
+              weekendHalfAfternoon="$30"
+            />
           </div>
         </div>
       </div>
       <div className="my-[5%] mx-[6%]">
         <h1 className="heading-book">Similar Sailboats Nearby</h1>
         <div className="flex flex-wrap gap-4 justify-center items-center">
-          <FleetCard boatImg={fleetBoat1} title="Lady Gio - Inflatable Boat Tornado 525 Fasty" numberOfPersons={8} length="5.4 Meters" power="40 HP" licenseRequired="No" />
-          <FleetCard boatImg={fleetBoat2} title="Annina Open Sea Boat Ghost 550" numberOfPersons={6} length="5.4 Meters" power="40 HP" licenseRequired="No" />
-          <FleetCard boatImg={fleetBoat3} title="Super Mario Sessa Key Wide 16" numberOfPersons={5} length="5.4 Meters" power="40 HP" licenseRequired="No" />
+          <FleetCard
+            boatImg={fleetBoat1}
+            title="Lady Gio - Inflatable Boat Tornado 525 Fasty"
+            numberOfPersons={8}
+            length="5.4 Meters"
+            power="40 HP"
+            licenseRequired="No"
+          />
+          <FleetCard
+            boatImg={fleetBoat2}
+            title="Annina Open Sea Boat Ghost 550"
+            numberOfPersons={6}
+            length="5.4 Meters"
+            power="40 HP"
+            licenseRequired="No"
+          />
+          <FleetCard
+            boatImg={fleetBoat3}
+            title="Super Mario Sessa Key Wide 16"
+            numberOfPersons={5}
+            length="5.4 Meters"
+            power="40 HP"
+            licenseRequired="No"
+          />
         </div>
       </div>
     </div>

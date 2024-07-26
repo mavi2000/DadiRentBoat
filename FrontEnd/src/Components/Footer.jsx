@@ -12,7 +12,7 @@ const Footer = () => {
         <FaWhatsapp size={25} />
       </div>
       <p className="uppercase text-base font-medium text-white">Quick Links</p>
-      <div className="flex flex-wrap gap-5 items-center justify-between text-sm font-semibold md:w-[50%] my-3">
+      <div className="flex flex-wrap gap-5 px-3 items-center justify-center sm:justify-between text-sm font-semibold md:w-[50%] my-3">
         <Link to="/">
           <p
             className={`hover:text-[--primary-color]   ${
@@ -81,7 +81,7 @@ const Footer = () => {
       <p className=" text-base font-medium text-white">
         Copyright © 2024 DiDI rent - FAQ
       </p>
-      <p className="uppercase text-base font-medium text-white">
+      <p className="uppercase text-center text-base font-medium text-white">
         Website Created by Deventia Tech private ltd
       </p>
     </footer>

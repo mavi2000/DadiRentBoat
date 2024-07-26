@@ -1,23 +1,23 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-const NavbarLinks = () => {
+const NavbarLinks = ({ user }) => {
   const homePage =
-    window.location.pathname.includes('/services') ||
-    window.location.pathname.includes('/Contact-Information') ||
-    window.location.pathname.includes('/Our-Fleet') ||
-    window.location.pathname.includes('/Rates') ||
-    window.location.pathname.includes('/where-we-are') ||
-    window.location.pathname.includes('/Contact-Information') ||
-    window.location.pathname.includes('/faq');
+    window.location.pathname.includes("/services") ||
+    window.location.pathname.includes("/Contact-Information") ||
+    window.location.pathname.includes("/Our-Fleet") ||
+    window.location.pathname.includes("/Rates") ||
+    window.location.pathname.includes("/where-we-are") ||
+    window.location.pathname.includes("/Contact-Information") ||
+    window.location.pathname.includes("/faq");
 
   return (
     <>
       <Link to="/services">
         <p
           className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ${
-            window.location.pathname.includes('/services')
-              ? 'text-[--primary-color]'
-              : ''
+            window.location.pathname.includes("/services")
+              ? "text-[--primary-color]"
+              : ""
           }`}
         >
           Services
@@ -26,9 +26,9 @@ const NavbarLinks = () => {
       <Link to="/Our-Fleet">
         <p
           className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ${
-            window.location.pathname.includes('/Our-Fleet')
-              ? 'text-[--primary-color]'
-              : ''
+            window.location.pathname.includes("/Our-Fleet")
+              ? "text-[--primary-color]"
+              : ""
           }`}
         >
           Fleet
@@ -37,9 +37,9 @@ const NavbarLinks = () => {
       <Link to="/Rates">
         <p
           className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ${
-            window.location.pathname.includes('/Rates')
-              ? 'text-[--primary-color]'
-              : ''
+            window.location.pathname.includes("/Rates")
+              ? "text-[--primary-color]"
+              : ""
           }`}
         >
           Rates
@@ -50,9 +50,9 @@ const NavbarLinks = () => {
           <Link to="/where-we-are">
             <p
               className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ${
-                window.location.pathname.includes('/where-we-are')
-                  ? 'text-[--primary-color]'
-                  : ''
+                window.location.pathname.includes("/where-we-are")
+                  ? "text-[--primary-color]"
+                  : ""
               }`}
             >
               Where we are
@@ -79,14 +79,51 @@ const NavbarLinks = () => {
       <Link to="/Contact-Information">
         <p
           className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ${
-            window.location.pathname.includes('/Contact-Information')
-              ? 'text-[--primary-color]'
-              : ''
+            window.location.pathname.includes("/Contact-Information")
+              ? "text-[--primary-color]"
+              : ""
           }`}
         >
           Contact Us
         </p>
       </Link>
+      {user && (
+        <div className=" md:hidden flex flex-col gap-3">
+          <Link to="/user/booking">
+            <p
+              className={` hover:text-[var(--primary-color)] hover:underline hover:scale-110 transition-all duration-700 ${
+                window.location.pathname.includes("/user/booking")
+                  ? "text-[var(--primary-color)]"
+                  : "text-black"
+              }`}
+            >
+              My Booking
+            </p>
+          </Link>
+          <Link to="/user/favourites">
+            <p
+              className={` hover:text-[var(--primary-color)] hover:underline hover:scale-110 transition-all duration-700 ${
+                window.location.pathname.includes("/user/favourites")
+                  ? "text-[var(--primary-color)]"
+                  : "text-black"
+              }`}
+            >
+              My Favorite
+            </p>
+          </Link>
+          <Link to="/user/account-info">
+            <p
+              className={` hover:text-[var(--primary-color)] hover:underline hover:scale-110 transition-all duration-700 ${
+                window.location.pathname.includes("/user/account-info")
+                  ? "text-[var(--primary-color)]"
+                  : "text-black"
+              }`}
+            >
+              My Account
+            </p>
+          </Link>
+        </div>
+      )}
     </>
   );
 };
