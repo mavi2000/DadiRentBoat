@@ -941,7 +941,7 @@ const BookNow = () => {
           </div>
         </div>
       </div>
-      <div className="my-[5%] mx-[6%]">
+      {/* <div className="my-[5%] mx-[6%]">
         <h1 className="heading-book">Similar Sailboats Nearby</h1>
         <div className="flex flex-wrap gap-4 justify-center items-center">
           <FleetCard
@@ -969,7 +969,7 @@ const BookNow = () => {
             licenseRequired="No"
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
