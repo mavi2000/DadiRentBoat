@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import baseURL from "../../../../APi/BaseUrl";
 
 const Deposit = () => {
-  const id = localStorage.getItem('id');
+  const id = localStorage.getItem("id");
   const { damageDeposit, boatId, navigate } = useContext(AdminContext);
   const [checkbox, setCheckbox] = useState(false);
   const [toggleSkipperDeposit, setToggleSkipperDeposit] = useState(false);
@@ -15,15 +15,17 @@ const Deposit = () => {
     withoutSkipper: "",
     withSkipper: "",
     guaranteeAmount: "",
-    manageDeposit: ""
+    manageDeposit: "",
   });
 
   useEffect(() => {
     if (id) {
       const getDeposit = async () => {
         try {
-          const res = await baseURL('/demage/get-damage-deposit/' + id);
-          const { data: { deposit } } = res;
+          const res = await baseURL("/demage/get-damage-deposit/" + id);
+          const {
+            data: { deposit },
+          } = res;
           setDepositData(deposit);
         } catch (error) {
           console.log(error);
@@ -62,7 +64,7 @@ const Deposit = () => {
         withoutSkipper: "",
         withSkipper: "",
         guaranteeAmount: "",
-        manageDeposit: ""
+        manageDeposit: "",
       });
     }
   };
@@ -73,7 +75,7 @@ const Deposit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const dataToSubmit = { ...depositData ,boatId };
+    const dataToSubmit = { ...depositData, boatId };
     if (checkbox) {
       dataToSubmit.type = [];
       dataToSubmit.amount = "";
@@ -82,7 +84,14 @@ const Deposit = () => {
       try {
         await damageDeposit(dataToSubmit);
         toast.success("Deposit amount successfully saved");
-        setDepositData({ type: [], amount: "", withoutSkipper: "", withSkipper: "", guaranteeAmount: "", manageDeposit: "" });
+        setDepositData({
+          type: [],
+          amount: "",
+          withoutSkipper: "",
+          withSkipper: "",
+          guaranteeAmount: "",
+          manageDeposit: "",
+        });
         setCheckbox(false);
       } catch (error) {
         if (error.response) {
@@ -95,14 +104,17 @@ const Deposit = () => {
       }
     } else {
       try {
-        const res = await baseURL.patch('/demage/update-damage-deposit/' + id, dataToSubmit);
-        toast.success('Deposit updated successfully');
-        localStorage.removeItem('id');
+        const res = await baseURL.patch(
+          "/demage/update-damage-deposit/" + id,
+          dataToSubmit
+        );
+        toast.success("Deposit updated successfully");
+        localStorage.removeItem("id");
         setTimeout(() => {
-          navigate('/Dashboard/my-boats');
+          navigate("/Dashboard/my-boats");
         }, 3000);
       } catch (error) {
-        toast.error('Failed to update deposit');
+        toast.error("Failed to update deposit");
       }
     }
   };
@@ -110,7 +122,7 @@ const Deposit = () => {
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
-      <div className="bg-white mx-2 py-8 mb-10 px-12 flex flex-col gap-10 text-[#4B465C]">
+      <div className="bg-white mx-2 py-8 mb-10 px-4 sm:px-12 flex flex-col gap-10 text-[#4B465C]">
         <div className="font-medium">Damage Deposit</div>
         <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
           <div className="flex items-center gap-3">
@@ -145,13 +157,17 @@ const Deposit = () => {
                   checked={toggleSkipperDeposit}
                   onChange={handleSkipperToggle}
                 />
-                <div className="text-sm font-light">Different security deposit for rentals with a skipper</div>
+                <div className="text-sm font-light">
+                  Different security deposit for rentals with a skipper
+                </div>
               </div>
 
               {toggleSkipperDeposit && (
                 <div className="flex gap-5">
                   <div className="flex flex-col gap-2">
-                    <div className="font-light">Security deposit with a skipper</div>
+                    <div className="font-light">
+                      Security deposit with a skipper
+                    </div>
                     <div className="border rounded-md flex items-center w-[350px]">
                       <input
                         className="px-3 w-[80%] py-3 bg-transparent"
@@ -168,21 +184,26 @@ const Deposit = () => {
               )}
 
               <div className="flex flex-col gap-2">
-                <div className="font-light">Security deposit without a skipper</div>
-                <div className="border rounded-md flex items-center w-[350px]">
+                <div className="font-light">
+                  Security deposit without a skipper
+                </div>
+                <div className="border relative rounded-md flex items-center px-3">
                   <input
-                    className="px-3 w-[80%] py-3 bg-transparent"
+                    className="px-3 py-3 outline-none bg-transparent"
                     name="withoutSkipper"
                     type="number"
                     placeholder="Enter"
                     value={depositData.withoutSkipper}
                     onChange={handleChange}
                   />
-                  <span className="px-3">€</span>
+                  <span className=" absolute right-2">€</span>
                 </div>
               </div>
 
-              <p className="bg-orange-100 font- p-auto rounded font-light text-center px-4 py-4">Please note that you have indicated 1 € for your security deposit without skipper. This amount seems low.</p>
+              <p className="bg-orange-100 font- p-auto rounded font-light text-center px-4 py-4">
+                Please note that you have indicated 1 € for your security
+                deposit without skipper. This amount seems low.
+              </p>
 
               <div className="flex items-start gap-4 font-light">
                 <input
@@ -194,16 +215,21 @@ const Deposit = () => {
                   className="mt-1"
                 />
                 <div>
-                  <div className="font-light">Security deposit managed directly</div>
                   <div className="font-light">
-                    By indicating the types of bond you accept, you reduce the risk of last-minute cancellations
+                    Security deposit managed directly
+                  </div>
+                  <div className="font-light">
+                    By indicating the types of bond you accept, you reduce the
+                    risk of last-minute cancellations
                   </div>
                 </div>
               </div>
 
               {depositData.manageDeposit === "directly" && (
                 <div className="flex flex-col gap-3 pl-8 ">
-                  <div className="font-light">What type of bonds do you accept?</div>
+                  <div className="font-light">
+                    What type of bonds do you accept?
+                  </div>
                   <div className="flex items-center gap-3">
                     <input
                       type="checkbox"
@@ -257,20 +283,26 @@ const Deposit = () => {
                   className="mt-1"
                 />
                 <div>
-                  <div className="font-light">Security deposit managed by Samboat</div>
                   <div className="font-light">
-                    Via a bank pre-authorization
+                    Security deposit managed by Samboat
                   </div>
+                  <div className="font-light">Via a bank pre-authorization</div>
                 </div>
               </div>
 
               {depositData.manageDeposit === "samboat" && (
                 <div className="p-2 rounded">
                   <p className="bg-blue-100 p-2 rounded font-light text-center m-auto ">
-                    SamBoat offers a service to guarantee the amount of your security deposit in the event of a claim, even if the renter is not solvent. Depending on the amount guaranteed, an additional commission is charged on all your bookings.
+                    SamBoat offers a service to guarantee the amount of your
+                    security deposit in the event of a claim, even if the renter
+                    is not solvent. Depending on the amount guaranteed, an
+                    additional commission is charged on all your bookings.
                   </p>
                   <div className="flex flex-col gap-3 mt-3 ">
-                    <div className="font-light mt-10">I would like Samboat to guarantee the security deposit in the amount of:</div>
+                    <div className="font-light mt-10">
+                      I would like Samboat to guarantee the security deposit in
+                      the amount of:
+                    </div>
                     <div className="flex items-center gap-3">
                       <input
                         type="radio"
@@ -279,7 +311,9 @@ const Deposit = () => {
                         onChange={handleChange}
                         checked={depositData.guaranteeAmount === "0"}
                       />
-                      <label className="font-light">0 € (+ 0% commission)      (Commission taken by Samboat: 18%)</label>
+                      <label className="font-light">
+                        0 € (+ 0% commission) (Commission taken by Samboat: 18%)
+                      </label>
                     </div>
                     <div className="flex items-center gap-3">
                       <input
@@ -289,7 +323,10 @@ const Deposit = () => {
                         onChange={handleChange}
                         checked={depositData.guaranteeAmount === "1000"}
                       />
-                      <label className="font-light">1 000 € (+ 2% commission) (Commission taken by Samboat: 20%)</label>
+                      <label className="font-light">
+                        1 000 € (+ 2% commission) (Commission taken by Samboat:
+                        20%)
+                      </label>
                     </div>
                     <div className="flex items-center gap-3">
                       <input
@@ -299,7 +336,10 @@ const Deposit = () => {
                         onChange={handleChange}
                         checked={depositData.guaranteeAmount === "2000"}
                       />
-                      <label className="font-light">2 000 € (+ 3% commission) (Commission taken by Samboat: 21%)</label>
+                      <label className="font-light">
+                        2 000 € (+ 3% commission) (Commission taken by Samboat:
+                        21%)
+                      </label>
                     </div>
                     <div className="flex items-center gap-3">
                       <input
@@ -309,7 +349,10 @@ const Deposit = () => {
                         onChange={handleChange}
                         checked={depositData.guaranteeAmount === "5000"}
                       />
-                      <label className="font-light">5 000 € (+ 5% commission) (Commission taken by Samboat: 23%)</label>
+                      <label className="font-light">
+                        5 000 € (+ 5% commission) (Commission taken by Samboat:
+                        23%)
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -319,7 +362,7 @@ const Deposit = () => {
 
           <button
             type="submit"
-            className="bg-[#CBA557] w-[15%] py-4 rounded-lg text-white"
+            className="bg-[#CBA557] py-4 sm:w-max px-6 rounded-lg text-white"
           >
             {id ? "Update" : "Save"}
           </button>

@@ -86,14 +86,14 @@ const Equipments = () => {
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
-      <form className="bg-white mx-2 py-8 px-12 flex flex-col gap-10 text-[#4B465C]" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-8 w-[80%]">
+      <form className="bg-white mx-2 py-8 px-4 sm:px-12 flex flex-col gap-10 text-[#4B465C]" onSubmit={handleSubmit}>
+        <div className="flex flex-col gap-8">
           <div className="font-medium text-xl">Equipment and Uses</div>
 
           {/* Security Equipment */}
           <div className="flex flex-col gap-4">
             <div className="font-light">Type of security equipment*</div>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               {["Basic", "Coastal", "Inshore", "Semi-Offshore", "Offshore"].map((type) => (
                 <label key={type} className="flex items-center gap-2">
                   <input type="radio" name="security" value={type} checked={equipment.security === type} onChange={handleRadioChange} />
@@ -106,7 +106,7 @@ const Equipments = () => {
           {/* Main Use */}
           <div className="flex flex-col gap-4">
             <div className="font-medium">Main use (4 main uses maximum)</div>
-            <div className="grid grid-cols-3 gap-5 text-sm font-light text-[#4B465C]">
+            <div className="flex flex-wrap gap-5 text-sm font-light text-[#4B465C]">
               {["Full-day excursion", "Cruise", "Water sports", "Fishing", "Diving", "Regatta"].map((use) => (
                 <label key={use} className="flex items-center gap-3">
                   <input type="checkbox" checked={equipment.mainUse.includes(use)} onChange={() => handleCheckboxChange("mainUse", use)} />
@@ -119,7 +119,7 @@ const Equipments = () => {
           {/* Comfort Equipment */}
           <div className="flex flex-col gap-4">
             <div className="font-medium">Comfort</div>
-            <div className="grid grid-cols-3 gap-5 text-sm font-light text-[#4B465C]">
+            <div className="flex flex-wrap gap-5 text-sm font-light text-[#4B465C]">
               {[
                 { label: "Awning", icon: <FaUmbrellaBeach /> },
                 { label: "Table", icon: <FaTable /> },
@@ -153,7 +153,7 @@ const Equipments = () => {
           {/* Energy Equipment */}
           <div className="flex flex-col gap-4">
             <div className="font-medium">Energy</div>
-            <div className="grid grid-cols-3 gap-5 text-sm font-light text-[#4B465C]">
+            <div className=" flex flex-wrap gap-5 text-sm font-light text-[#4B465C]">
               {[
                 { label: "Socket 220V", icon: <FaPlug /> },
                 { label: "USB plug", icon: <FaPlug /> },
@@ -167,7 +167,7 @@ const Equipments = () => {
           {/* Kitchen Equipment */}
           <div className="flex flex-col gap-4">
             <div className="font-medium">Kitchen</div>
-            <div className="grid grid-cols-3 gap-5 text-sm font-light text-[#4B465C]">
+            <div className="flex flex-wrap gap-5 text-sm font-light text-[#4B465C]">
               {[
                 { label: "Cooking hob", icon: <FaUtensils /> },
                 { label: "Fridge", icon: <FaUtensils /> },
@@ -189,7 +189,7 @@ const Equipments = () => {
           {/* Leisure Equipment */}
           <div className="flex flex-col gap-4">
             <div className="font-medium">Leisure</div>
-            <div className="grid grid-cols-3 gap-5 text-sm font-light text-[#4B465C]">
+            <div className="flex flex-wrap gap-5 text-sm font-light text-[#4B465C]">
               {[
                 { label: "Wakeboard", icon: <FaFish /> },
                 { label: "Swim ladder", icon: <FaSwimmer /> },
@@ -212,7 +212,7 @@ const Equipments = () => {
           {/* Navigation Equipment */}
           <div className="flex flex-col gap-4">
             <div className="font-medium">Navigation</div>
-            <div className="grid grid-cols-3 gap-5 text-sm font-light text-[#4B465C]">
+            <div className="flex flex-wrap gap-5 text-sm font-light text-[#4B465C]">
               {[
                 { label: "GPS", icon: <FaCompass /> },
                 { label: "Sounder", icon: <FaAnchor /> },
@@ -242,7 +242,7 @@ const Equipments = () => {
           {/* Sanitary Equipment */}
           <div className="flex flex-col gap-4">
             <div className="font-medium">Sanitary</div>
-            <div className="grid grid-cols-3 gap-5 text-sm font-light text-[#4B465C]">
+            <div className="flex flex-wrap gap-5 text-sm font-light text-[#4B465C]">
               {[
                 { label: "WC", icon: <FaToilet /> },
                 { label: "Shower", icon: <FaShower /> },
@@ -258,7 +258,7 @@ const Equipments = () => {
             </div>
           </div>
 
-          <button className="bg-[#CBA557] w-[15%] py-4 rounded-lg text-white">
+          <button className="bg-[#CBA557] sm:w-max p-4 rounded-lg text-white">
             {!id ? "Add" : "Update"}
           </button>
         </div>

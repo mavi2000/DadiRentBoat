@@ -82,9 +82,9 @@ const Insurance = () => {
       <BoatsNavbar />
       <form
         onSubmit={handleSubmit}
-        className="bg-white mx-2 py-8 px-14 text-[#4B465C]"
+        className="bg-white mx-2 py-8 px-4 sm:px-14 text-[#4B465C]"
       >
-        <div className="w-[80%] flex flex-col gap-10">
+        <div className="flex flex-col gap-10">
           <div className="font-medium">Insurance</div>
           <div className="gap-4 flex flex-col">
             <div className="font-normal text-sm">
@@ -156,7 +156,7 @@ const Insurance = () => {
 
           <button
             type="submit"
-            className="bg-[#CBA557] w-[15%] py-4 rounded-lg text-white"
+            className="bg-[#CBA557] sm:w-max p-4 rounded-lg text-white"
           >
             {id ? "Update" : "Add"}
           </button>

@@ -105,29 +105,29 @@ const Address = () => {
   return (
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
-      <form onSubmit={handleSubmit} className="bg-white mx-2 py-8 px-12 text-[#4B465C]">
-        <div className="flex flex-col gap-10 w-[80%]">
+      <form onSubmit={handleSubmit} className="bg-white mx-2 py-8 px-4 sm:px-12 text-[#4B465C]">
+        <div className="flex flex-col gap-10">
           <div>Addresses</div>
           <div className="grid grid-cols-2 gap-8">
    
             <div className="flex flex-col gap-2">
               <label htmlFor="city" className="flex items-center font-light gap-2 ">City</label>
-              <div className="border flex items-center rounded-md font-light outline-none">
+              <div className="border relative flex items-center rounded-md font-light outline-none">
                 <input
                   type="text"
                   id="city"
-                  className="p-3 w-[85%] bg-transparent outline-none"
+                  className="p-3  bg-transparent outline-none"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                 />
                 <MdCancel
-                  className="text-xl text-[#CBA557] flex w-[15%] items-center justify-center"
+                  className="text-xl text-[#CBA557] flex absolute right-2 items-center justify-center"
                   onClick={() => setCity("")}
                 />
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid sm:grid-cols-2 gap-8">
             <div className="flex flex-col gap-2">
               <label htmlFor="locationType" className="flex items-center font-light gap-2">Location Type</label>
               <select
@@ -173,7 +173,7 @@ const Address = () => {
               <LocationMarker />
             </MapContainer>
           </div>
-          <button type="submit" className="bg-[#CBA557] w-[15%] py-4 rounded-lg text-white">
+          <button type="submit" className="bg-[#CBA557] sm:w-max p-4 rounded-lg text-white">
             {id ? "Update" : "Save"}
           </button>
         </div>

@@ -8,7 +8,27 @@ import { AiOutlinePlus } from "react-icons/ai";
 import CircularBar from "./CircularBar";
 import { Link, useNavigate } from "react-router-dom";
 import { AdminContext } from "../../../../Context/AdminContext";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
+const ArrowLeft = ({ className, style, onClick }) => (
+  <div
+    className={`${className} bg-black rounded-full flex items-center justify-center`}
+    style={{ ...style, left: "10px", zIndex: 1 }}
+    onClick={onClick}
+  >
+    <FaArrowLeft color="white" />
+  </div>
+);
+
+const ArrowRight = ({ className, style, onClick }) => (
+  <div
+    className={`${className} bg-black rounded-full flex items-center justify-center`}
+    style={{ ...style, right: "10px", zIndex: 1 }}
+    onClick={onClick}
+  >
+    <FaArrowRight color="white" />
+  </div>
+);
 const MyBoats = () => {
   const { getBoats, deleteBoat } = useContext(AdminContext);
   const [boatData, setBoatData] = useState([]);
@@ -98,11 +118,14 @@ const MyBoats = () => {
   };
 
   const sliderSettings = {
-    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
+    cssEase: "linear",
+    nextArrow: <ArrowRight />,
+    prevArrow: <ArrowLeft />,
   };
 
   const pages = [
@@ -120,6 +143,8 @@ const MyBoats = () => {
     { path: "/Dashboard/my-boats/photo", page: "Image" },
     { path: "/Dashboard/my-boats/info-access", page: "Access Information" },
   ];
+  const getRandomAutoplaySpeed = () => Math.floor(Math.random() * 1000) + 3000;
+
   return (
     <div className="mx-[4%] mt-[3%]">
       <div className="md:flex md:justify-between justify-center text-center gap-5 md:gap-0 items-center">
@@ -165,23 +190,25 @@ const MyBoats = () => {
       </div>
 
       {filteredBoats.map((boat, index) => (
-        <div
-          key={index}
-          className="flex flex-col md:flex-row md:justify-between w-full mt-[4%]"
-        >
-          <div className="flex gap-[3%] flex-col md:flex-row items-center md:items-start">
+        <div key={index} className=" grid  grid-cols-1 gap-3 mt-[4%]">
+          <div className=" w-full  gap-3 grid md:grid-cols-2">
             {boat.boatImages && boat.boatImages.length > 0 ? (
-              <Slider {...sliderSettings} className="md:w-64 w-1/2">
-                {boat.boatImages[0].images.map((image, imageIndex) => (
-                  <div key={imageIndex} className="w-full">
+              <>
+                <Slider
+                  {...sliderSettings}
+                  className="min-w-44"
+                  autoplaySpeed={getRandomAutoplaySpeed()}
+                >
+                  {boat.boatImages[0].images.map((image, imageIndex) => (
                     <img
+                      key={imageIndex}
                       src={image}
                       alt=""
-                      className="w-full h-48 object-cover"
+                      className="w-full h-80 min-h-full object-cover"
                     />
-                  </div>
-                ))}
-              </Slider>
+                  ))}
+                </Slider>
+              </>
             ) : (
               <div className="md:w-64 w-1/2 flex flex-col items-center justify-center border border-dashed border-[#B7B7B7] rounded p-4">
                 <AiOutlinePlus className="text-[#CBA557] text-4xl" />
@@ -189,7 +216,7 @@ const MyBoats = () => {
               </div>
             )}
 
-            <div className="flex flex-col gap-2 items-center md:items-start">
+            <div className="flex flex-col gap-2 items-start">
               <h1 className="text-[#00151C] font-semibold">
                 {boat.rental.map((item) => item.BoatName)}
               </h1>
@@ -211,33 +238,31 @@ const MyBoats = () => {
                   Manage your calendar
                 </button>
 
-                <div className="flex">
+                <div className="flex gap-2 flex-wrap">
                   <button
                     type="button"
-                    className="md:px-4 md:py-2 px-3 py-1 border border-[#07474F] rounded-l-[4px]"
+                    className="md:px-4 md:py-2 px-3 py-1 border border-[#000]"
                   >
                     Edit your boat
                   </button>
-                  <div className="p-1 border border-[#07474F] border-l-0 rounded-r-[4px] flex items-center">
-                    <select
-                      name=""
-                      id=""
-                      className="border-t bg-transparent md:text-xl text-xs"
-                      onChange={(e) => {
-                        handleChange(e, boat.boat._id);
-                      }}
-                    >
-                      {pages.map((item, index) => (
-                        <option key={index} value={item.path}>
-                          {item.page}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <select
+                    name=""
+                    id=""
+                    className="bg-transparent py-2 px-3 border-0 outline-none md:text-xl text-xs"
+                    onChange={(e) => {
+                      handleChange(e, boat.boat._id);
+                    }}
+                  >
+                    {pages.map((item, index) => (
+                      <option key={index} value={item.path}>
+                        {item.page}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
-              <div className="flex gap-1 md:whitespace-nowrap">
+              <div className="flex gap-1 flex-wrap">
                 <p className="text-xs font-normal text-[#FAB10A]">
                   This announcement is not complete
                 </p>
@@ -254,7 +279,7 @@ const MyBoats = () => {
             </div>
           </div>
 
-          <div className="flex justify-center gap-11">
+          <div className=" w-full  md:grid-cols-2 justify-center grid gap-3">
             <CircularBar completionPercentage={boat.completionPercentage} />
             <div className="flex flex-col space-y-2">
               <p className="text-[#818C8E] text-sm font-normal">2024</p>

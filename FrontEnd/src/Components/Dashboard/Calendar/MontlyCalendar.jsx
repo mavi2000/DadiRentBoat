@@ -311,7 +311,7 @@ const MonthlyCalendar = ({ currentDate }) => {
                       key={colIndex}
                     >
                       {dayObj.day ? (
-                        <div className=" grid grid-cols-3 items-center gap-2">
+                        <div className=" grid sm:grid-cols-3 items-center gap-2">
                           {dayObj.day}
                           {confirmedStatuses.length > 0 && (
                             <div

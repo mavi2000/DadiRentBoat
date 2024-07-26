@@ -102,7 +102,7 @@ const Voucher = () => {
         <div className="mx-8 py-8 flex flex-col gap-10 text-[#4B465C] w-[80%]">
           <div className="font-medium">Voucher</div>
           <div className="text-sm">You can create voucher for customers.</div>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid sm:grid-cols-2 gap-8">
             <div className="flex flex-col gap-2">
               <label>Voucher Name</label>
               <input
@@ -155,7 +155,7 @@ const Voucher = () => {
           </div>
           <button
             type="submit"
-            className="bg-[#CBA557] w-[15%] py-2 rounded-lg text-white font-semibold"
+            className="bg-[#CBA557] sm:w-max p-2 rounded-lg text-white font-semibold"
           >
             {id ? "Update" : "Create"} Voucher
           </button>
@@ -252,13 +252,13 @@ const Voucher = () => {
                 </select>
               </div>
             </div>
-            <button className="bg-[#CBA557] w-[15%] py-2 rounded-lg text-white font-semibold">
+            <button className="bg-[#CBA557] sm:w-max p-2 rounded-lg text-white font-semibold">
               Add
             </button>
             <div className="flex flex-col gap-5">
               <div>My Promotions</div>
-              <div className=" w-[80%] flex flex-col gap-5">
-                <div className="flex justify-between">
+              <div className="flex flex-col gap-5">
+                <div className="flex flex-wrap gap-3 justify-between">
                   <div>
                     <div>Discount 5%</div>
                     <div className="text-sm text-[#8881a0]">
@@ -274,7 +274,7 @@ const Voucher = () => {
                     </button>
                   </div>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-wrap gap-3 justify-between">
                   <div>
                     <div>Discount 5%</div>
                     <div className="text-sm text-[#8881a0]">
@@ -290,7 +290,7 @@ const Voucher = () => {
                     </button>
                   </div>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-wrap gap-3 justify-between">
                   <div>
                     <div>Discount 5%</div>
                     <div className="text-sm text-[#8881a0]">

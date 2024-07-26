@@ -6,8 +6,8 @@ const CircularBar = ({ completionPercentage }) => {
   const formattedPercentage = completionPercentage.toFixed(1);
 
   return (
-    <div className="flex mt-auto">
-      <div className="w-24 md:w-36">
+    <div className="flex mx-auto mt-auto">
+      <div className="w-36">
         <CircularProgressbarWithChildren
           value={completionPercentage}
           strokeWidth={10}

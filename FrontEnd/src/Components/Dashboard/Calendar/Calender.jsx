@@ -65,7 +65,7 @@ const Calendar = () => {
   console.log(changeCalendar);
   return (
     <div className="bg-white rounded-md shadow-lg px-8 py-4 grow my-4 mb-[210px]">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between flex-wrap gap-3 items-center">
         <div className="flex gap-4 items-center">
           <button onClick={changeCalendar ? getPreviousWeek : getPreviousMonth}>
             <GrFormPrevious size={25} className="text-[#4b465cc1]" />

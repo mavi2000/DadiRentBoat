@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { format, isValid } from 'date-fns';
+import { format, isValid } from "date-fns";
 import dummyBoatImage from "../../../assets/Images/annina.webp";
 import ReminderModal from "./ReminderModal";
 import InvoiceModal from "./InvoiceModal";
@@ -48,17 +48,37 @@ const BookingDetails = () => {
   if (!booking) return <div>No booking details found</div>;
 
   const totalPrice = fuelQuantity * fuelPrice;
-  const arrivalDate = isValid(new Date(booking?.createdAt)) ? format(new Date(booking?.createdAt), 'PPPP') : "N/A";
-  const departureDate = isValid(new Date(booking?.availableDates[0])) ? format(new Date(booking?.availableDates[0]), 'PPPP') : "N/A";
+  const arrivalDate = isValid(new Date(booking?.createdAt))
+    ? format(new Date(booking?.createdAt), "PPPP")
+    : "N/A";
+  const departureDate = isValid(new Date(booking?.availableDates[0]))
+    ? format(new Date(booking?.availableDates[0]), "PPPP")
+    : "N/A";
 
   return (
     <div className="sm:m-8 mt-8 grid md:grid-cols-5 bg-white rounded-2xl">
-      <ReminderModal isRPopUp={isRPopUp} setIsRPopUp={setIsRPopUp} booking={booking} />
-      <InvoiceModal isINPopUp={isINPopUp} setIsINPopUp={setIsINPopUp} booking={booking} />
-      <RentalAgreementModal isRAPopUp={isRAPopUp} setIsRAPopUp={setIsRAPopUp} booking={booking} />
+      <ReminderModal
+        isRPopUp={isRPopUp}
+        setIsRPopUp={setIsRPopUp}
+        booking={booking}
+      />
+      <InvoiceModal
+        isINPopUp={isINPopUp}
+        setIsINPopUp={setIsINPopUp}
+        booking={booking}
+      />
+      <RentalAgreementModal
+        isRAPopUp={isRAPopUp}
+        setIsRAPopUp={setIsRAPopUp}
+        booking={booking}
+      />
       <CheckInModal isCheckIN={isCheckIN} setIsCheckIN={setIsCheckIN} />
       <CheckOutModal isCheckOut={isCheckOut} setIsCheckOut={setIsCheckOut} />
-      <CancelReservationModal isCancel={isCancel} setIsCancel={setIsCancel} booking={booking} />
+      <CancelReservationModal
+        isCancel={isCancel}
+        setIsCancel={setIsCancel}
+        booking={booking}
+      />
       <div className="md:col-span-3 pr-4">
         <div className="p-4 sm:p-8">
           <div className="mb-4 flex items-center gap-3">
@@ -69,16 +89,16 @@ const BookingDetails = () => {
             />
             <h3 className="text-black text-2xl">Booking Details</h3>
           </div>
-          <div className="flex items-center">
+          <div className="flex flex-col text-center sm:text-start sm:flex-row gap-3 items-center">
             <img
               src={booking?.userId?.image || "/images/account-person.png"}
               alt="profile"
-              className="w-24 h-24 rounded-lg mr-4"
+              className="w-24 h-24 rounded-lg sm:mr-4"
             />
             <div>
               <h2 className="text-xl font-bold">{booking.userId?.username}</h2>
               <p>{booking?.userId?.phoneNumber}</p>
-              <p className="flex items-center flex-wrap gap-3">
+              <p className="flex items-center flex-col flex-wrap sm:flex-row gap-3">
                 {booking?.userId?.email}{" "}
                 <span
                   onClick={() => setIsRPopUp(!isRPopUp)}
@@ -89,7 +109,7 @@ const BookingDetails = () => {
               </p>
             </div>
           </div>
-          <p className="mt-6 text-gray-600">
+          <p className="mt-6 px-5 text-gray-600">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Pellentesque habitant morbi tristique senectus et netus et malesuada
             fames ac turpis egestas.
@@ -135,13 +155,13 @@ const BookingDetails = () => {
           </div>
         </div>
       </div>
-      <div className="md:col-span-2 p-4">
+      <div className="md:col-span-2 min-w-full p-4">
         <div className="p-4 border rounded-2xl sm:p-8">
-          <h2 className="text-xl font-bold">Booking No. {booking._id}</h2>
+          <h2 className="text-xl font-bold truncate">
+            Booking No. {booking._id}
+          </h2>
           <p className="mt-2">Rental was There.</p>
-          <p className="mt-2">
-            The rental began on {departureDate}.
-          </p>
+          <p className="mt-2">The rental began on {departureDate}.</p>
           <div className="flex space-x-4 mt-4">
             <div>
               <p className="text-gray-600">Arrive</p>
