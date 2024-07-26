@@ -130,13 +130,13 @@ const Checkout = () => {
 
     if (durationInDays < minDays) {
       toast.error(`Minimum rental duration is ${minimumRentalDuration}`);
-      setIsAvailable(false);
+      // setIsAvailable(false);
       return;
     }
 
     if (durationInDays > maxDays) {
       toast.error(`Maximum rental duration is ${maximumRentalDuration}`);
-      setIsAvailable(false);
+      // setIsAvailable(false);
       return;
     }
 
