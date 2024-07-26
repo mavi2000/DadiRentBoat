@@ -83,7 +83,7 @@ const Rates = () => {
         </p>
         <div className="flex gap-4 flex-col items-stretch mt-12 mb-20 md:flex-row">
           <Link to="/faq">
-            <button className="bg-[var(--primary-color)] flex gap-2 items-center text-white text-base font-bold rounded-lg px-12 py-2">
+            <button className="bg-[var(--primary-color)] flex w-full sm:w-max gap-2 items-center text-white text-base font-bold rounded-lg px-12 py-2">
               <TbMessageCircleQuestion size={32} />
               FAQ
             </button>
@@ -91,7 +91,7 @@ const Rates = () => {
 
           <button
             onClick={() => setShowRuleOfConduct(true)}
-            className="bg-[var(--primary-color)] flex gap-2 items-center text-white text-base font-bold rounded-lg px-12 py-2"
+            className="bg-[var(--primary-color)] flex w-full sm:w-max gap-2 items-center text-white text-base font-bold rounded-lg px-12 py-2"
           >
             <BsFiletypePdf size={32} /> Rules of conduct
           </button>
@@ -100,7 +100,7 @@ const Rates = () => {
           )}
 
           <Link to="/RecreationalVehicleRentalAgreement">
-            <button className="bg-[var(--primary-color)] flex gap-2 items-center text-white text-base font-bold rounded-lg px-12 py-2">
+            <button className="bg-[var(--primary-color)] flex w-full sm:w-max gap-2 items-center text-white text-base font-bold rounded-lg px-12 py-2">
               <BsFiletypePdf size={32} /> Rental Agreement
             </button>
           </Link>
