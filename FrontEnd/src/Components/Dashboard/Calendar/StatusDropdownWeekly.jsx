@@ -26,7 +26,7 @@ const StatusDropdownWeekly = ({ statuses }) => {
           <div key={index} className="mb-2">
             <div className="flex items-center gap-2 mb-2">
               <img src={user} alt="avatar" className="w-8 h-8 rounded-full" />
-              <h1 className="text-black text-base font-semibold">{status.userId?.username}</h1>
+              <h1 className="text-black text-base font-semibold">{status?.username}</h1>
             </div>
             <p
               className={`text-sm mb-2 ${
@@ -42,7 +42,7 @@ const StatusDropdownWeekly = ({ statuses }) => {
               Rate Type: <span className="font-medium">{status.rateType}</span>
             </p>
             <button
-              onClick={() => navigate(`/dashboard/booking-details/${status?.userId?._id}`)}
+              onClick={() => navigate(`/dashboard/booking-details/${status?.bookingId}`)}
               className="text-sm text-blue-500 underline"
             >
               View Details

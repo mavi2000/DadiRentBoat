@@ -6,8 +6,8 @@ const upload = multer({ dest: "uploads/" });
 
 
 import {
-  upDateBoatImages,
-  uploadBoatImages,
+upDateBoatImages,
+uploadBoatImages,
   getBoatImages,
   deleteImage
 } from "../controllers/BoatImageController.js";

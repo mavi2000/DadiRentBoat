@@ -93,13 +93,15 @@ export const getPayment = async (req, res) => {
     const payments = await Payment.find().populate(
       "userId",
       "username email phoneNumber"
-    ); // Add other user fields if necessary
+    ); 
     res.status(200).json(payments);
   } catch (error) {
     console.error("Error fetching payments:", error);
     res.status(500).json({ error: error.message });
   }
 };
+
+
 
 
 

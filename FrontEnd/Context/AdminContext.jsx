@@ -480,6 +480,20 @@ const AdminProvider = ({ children }) => {
     }
   };
 
+  const updateBoats = async (id) => {
+    console.log("id",id)
+    try {
+      const response = await baseURL.patch(`/image/update-image/${id}`);
+      toast.success("boats Updates sucessfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to delete reminder";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
 
 
 
@@ -519,7 +533,8 @@ const AdminProvider = ({ children }) => {
         getAgreementByUserId,
         sendReminder,
         getAllReminders,
-        deleteReminder
+        deleteReminder,
+        updateBoats
       }}
     >
       {children}

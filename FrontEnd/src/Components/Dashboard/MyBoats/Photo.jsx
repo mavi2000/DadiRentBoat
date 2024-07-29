@@ -6,6 +6,7 @@ import Download from "../../../assets/Images/Download-Cloud.png";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 import LoadingSpinner from "./LoadingSpinner";
+import baseUrl from "../../../../APi/BaseUrl.js";
 
 const Photo = () => {
   const id = localStorage.getItem("id");
@@ -19,12 +20,13 @@ const Photo = () => {
   useEffect(() => {
     const fetchBoatMedia = async () => {
       try {
-        const res = await baseURL.get(`/image/getBoatImages/${id}`);
+        const res = await baseUrl.get(`/image/getBoatImages/${id || boatId}`);
         const { images, videos } = res.data.data;
         setExistingImages(images);
         setExistingVideos(videos);
       } catch (error) {
         console.error("Failed to fetch boat media", error);
+        toast.error("Failed to fetch boat media");
       }
     };
 
@@ -51,14 +53,21 @@ const Photo = () => {
       selectedVideos.forEach((file) => {
         formData.append("videos", file);
       });
-      formData.append("boatId", id || boatId);
+      formData.append("boatId", boatId);
 
       setLoading(true);
       try {
-        await uploadBoatImages(formData);
+        if (id) {
+          // Updating existing boat media
+          await baseUrl.patch(`/image/update-image/${id}`, formData);
+          toast.success("Media updated successfully");
+        } else {
+          // Adding new boat media
+          await uploadBoatImages(formData);
+          toast.success("Files uploaded successfully");
+        }
         setSelectedImages([]);
         setSelectedVideos([]);
-        toast.success("Files uploaded successfully");
       } catch (error) {
         console.error("Failed to upload files", error);
         toast.error("Failed to upload files");
@@ -77,7 +86,7 @@ const Photo = () => {
       const mediaUrl =
         type === "image" ? existingImages[index] : existingVideos[index];
 
-      const response = await baseURL.delete(`/image/deleteImage`, {
+      await baseUrl.delete(`/image/deleteImage`, {
         data: {
           boatId: id || boatId,
           type: deleteType,
@@ -223,7 +232,7 @@ const Photo = () => {
               className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px]"
             >
               <FaPlus />
-              <p>Upload Files</p>
+              <p>{id ? "Update Files" : "Upload Files"}</p>
             </button>
           </div>
           {loading && <LoadingSpinner />}
