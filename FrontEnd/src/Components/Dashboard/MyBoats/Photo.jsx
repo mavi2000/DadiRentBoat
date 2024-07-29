@@ -73,18 +73,19 @@ const Photo = () => {
   const handleDelete = async (type, index) => {
     try {
       setLoading(true);
-      const deleteType = type === 'image' ? 'images' : 'videos';
-      const mediaUrl = type === 'image' ? existingImages[index] : existingVideos[index];
+      const deleteType = type === "image" ? "images" : "videos";
+      const mediaUrl =
+        type === "image" ? existingImages[index] : existingVideos[index];
 
       const response = await baseURL.delete(`/image/deleteImage`, {
         data: {
           boatId: id || boatId,
           type: deleteType,
           url: mediaUrl,
-        }
+        },
       });
 
-      if (type === 'image') {
+      if (type === "image") {
         setExistingImages(existingImages.filter((_, i) => i !== index));
       } else {
         setExistingVideos(existingVideos.filter((_, i) => i !== index));
@@ -108,14 +109,19 @@ const Photo = () => {
             Cover photos and videos
           </h1>
           <p className="text-[#4B465C] font-normal text-sm">
-            The cover photos and videos must be of the boat, bright and of good quality.
+            The cover photos and videos must be of the boat, bright and of good
+            quality.
           </p>
-          <div className="flex justify-between mx-[3%] my-[2%]">
+          <div className="flex flex-wrap gap-3 justify-between mx-[3%] my-[2%]">
             {/* Image Upload Section */}
             <div className="boatPhoto py-12 rounded-md flex-1 mx-2 bg-white shadow-lg">
               <div className="flex flex-col py-8 gap-4 items-center justify-center">
                 <p>Select images</p>
-                <img src={Download} alt="Download icon" className="w-16 md:w-24" />
+                <img
+                  src={Download}
+                  alt="Download icon"
+                  className="w-16 md:w-24"
+                />
                 <input
                   type="file"
                   onChange={handleImageChange}
@@ -150,7 +156,7 @@ const Photo = () => {
                         className="w-24 h-24 object-cover rounded-md"
                       />
                       <MdDelete
-                        onClick={() => handleDelete('image', index)}
+                        onClick={() => handleDelete("image", index)}
                         className="absolute top-0 right-0 text-red-500 cursor-pointer"
                       />
                     </div>
@@ -163,7 +169,11 @@ const Photo = () => {
             <div className="boatVideo py-12 rounded-md flex-1 mx-2 bg-white shadow-lg">
               <div className="flex flex-col py-8 gap-4 items-center justify-center">
                 <p>Select videos</p>
-                <img src={Download} alt="Download icon" className="w-16 md:w-24" />
+                <img
+                  src={Download}
+                  alt="Download icon"
+                  className="w-16 md:w-24"
+                />
                 <input
                   type="file"
                   onChange={handleVideoChange}
@@ -198,7 +208,7 @@ const Photo = () => {
                         controls
                       />
                       <MdDelete
-                        onClick={() => handleDelete('video', index)}
+                        onClick={() => handleDelete("video", index)}
                         className="absolute top-0 right-0 text-red-500 cursor-pointer"
                       />
                     </div>

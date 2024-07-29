@@ -106,7 +106,7 @@ const RatePopup = ({
           </div>
 
           {/* Minimum and Maximum rental duration */}
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid sm:grid-cols-2 gap-5">
             <div>
               <label className="block text-gray-700">
                 Minimum rental duration

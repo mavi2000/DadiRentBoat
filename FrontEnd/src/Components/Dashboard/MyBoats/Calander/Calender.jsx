@@ -1,23 +1,19 @@
-import axios from 'axios';
-import { useState, useEffect,useContext } from 'react';
-import CalendarDays from './CalendarDays';
-import { monthsData, weekdaysData } from './data';
-import UnavailabilityHours from './UnavailabilityHours';
-import BoatsNavbar from '../BoatsNavbar';
-import WinterizingPeriod from './WinterizingPeriod';
+import axios from "axios";
+import { useState, useEffect, useContext } from "react";
+import CalendarDays from "./CalendarDays";
+import { monthsData, weekdaysData } from "./data";
+import UnavailabilityHours from "./UnavailabilityHours";
+import BoatsNavbar from "../BoatsNavbar";
+import WinterizingPeriod from "./WinterizingPeriod";
 import "./Calender.css";
-import baseURL from '../../../../../APi/BaseUrl';
-import { AdminContext } from '../../../../../Context/AdminContext';
-
-
-
+import baseURL from "../../../../../APi/BaseUrl";
+import { AdminContext } from "../../../../../Context/AdminContext";
 
 const Calendar = () => {
-  const id = localStorage.getItem('id');
+  const id = localStorage.getItem("id");
 
-
-  console.log("id",id)
-  const {  boatId } = useContext(AdminContext);
+  console.log("id", id);
+  const { boatId } = useContext(AdminContext);
   // const boatId = "669b9620135e1210b2c8e50c";
 
   const weekdays = weekdaysData;
@@ -33,17 +29,19 @@ const Calendar = () => {
   const [winterizingPeriod, setWinterizingPeriod] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
   const [unavailabilityHours, setUnavailabilityHours] = useState({});
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
 
   useEffect(() => {
     if (boatId) {
       const fetchBookings = async () => {
         try {
-          const response = await baseURL.get(`/booking/getBookingsByBoatId/${id}`);
+          const response = await baseURL.get(
+            `/booking/getBookingsByBoatId/${id}`
+          );
           const bookings = response.data.bookings;
 
-          const newUnavailableRanges = bookings.map(booking => ({
+          const newUnavailableRanges = bookings.map((booking) => ({
             start: new Date(booking.startDate),
             end: new Date(booking.endDate),
             timeSlots: booking.timeSlots,
@@ -58,7 +56,10 @@ const Calendar = () => {
           setUnavailableRanges(newUnavailableRanges);
           setUnavailabilityHours(newUnavailabilityHours);
         } catch (error) {
-          console.error('Error fetching bookings:', error.response?.data || error.message);
+          console.error(
+            "Error fetching bookings:",
+            error.response?.data || error.message
+          );
         }
       };
 
@@ -67,11 +68,15 @@ const Calendar = () => {
   }, [boatId]);
 
   const nextMonth = () => {
-    setCurrentDay(new Date(currentDay.setMonth(currentDay.getMonth() + numMonths)));
+    setCurrentDay(
+      new Date(currentDay.setMonth(currentDay.getMonth() + numMonths))
+    );
   };
 
   const previousMonth = () => {
-    setCurrentDay(new Date(currentDay.setMonth(currentDay.getMonth() - numMonths)));
+    setCurrentDay(
+      new Date(currentDay.setMonth(currentDay.getMonth() - numMonths))
+    );
   };
 
   const handleWinterizingPeriod = () => {
@@ -83,61 +88,76 @@ const Calendar = () => {
   };
 
   const handleDayClick = (day) => {
-    console.log('Day clicked:', day);
+    console.log("Day clicked:", day);
     if (!rangeStart) {
       setRangeStart(day.date);
-      console.log('Range start set:', day.date);
+      console.log("Range start set:", day.date);
     } else {
       setShowPopup(true);
       setSelectedDay(day);
-      console.log('Popup shown, selected day set:', day);
+      console.log("Popup shown, selected day set:", day);
     }
   };
 
   const handleDayHover = (day) => {
     if (rangeStart) {
       setHoverDate(day.date);
-      console.log('Hover date set:', day.date);
+      console.log("Hover date set:", day.date);
     }
   };
 
   const handleDaySelection = (selectedTimeSlots) => {
     const key = selectedDay.date.toDateString();
-    console.log('Selected time slots:', selectedTimeSlots);
+    console.log("Selected time slots:", selectedTimeSlots);
 
     const data = {
       boatId,
       startDate: rangeStart,
       endDate: selectedDay.date,
-      timeSlots: selectedTimeSlots.length > 0 ? selectedTimeSlots : ['Full-day'],
-      type: 'booking'
+      timeSlots:
+        selectedTimeSlots.length > 0 ? selectedTimeSlots : ["Full-day"],
+      type: "booking",
     };
 
-    console.log('Data to be sent:', data);
+    console.log("Data to be sent:", data);
 
-    baseURL.post('/Booking/Book-boat', data)
-      .then(response => {
-        console.log('Unavailable period added successfully:', response.data);
-        setUnavailableRanges(prev => [...prev, { start: rangeStart, end: selectedDay.date, timeSlots: selectedTimeSlots }]);
+    baseURL
+      .post("/Booking/Book-boat", data)
+      .then((response) => {
+        console.log("Unavailable period added successfully:", response.data);
+        setUnavailableRanges((prev) => [
+          ...prev,
+          {
+            start: rangeStart,
+            end: selectedDay.date,
+            timeSlots: selectedTimeSlots,
+          },
+        ]);
         setRangeStart(null);
         setHoverDate(null);
         setShowPopup(false);
       })
-      .catch(error => {
-        console.error('Error adding unavailable period:', error.response?.data || error.message);
+      .catch((error) => {
+        console.error(
+          "Error adding unavailable period:",
+          error.response?.data || error.message
+        );
       });
   };
 
   const handleSlotSelection = (hours) => {
     const key = selectedDay.date.toDateString();
-    console.log('Selected hours:', hours);
-    setUnavailabilityHours(prev => ({
+    console.log("Selected hours:", hours);
+    setUnavailabilityHours((prev) => ({
       ...prev,
-      [key]: hours.length > 0 ? hours : ['Full-day'],
+      [key]: hours.length > 0 ? hours : ["Full-day"],
     }));
-    console.log('Unavailability hours to be updated:', { ...unavailabilityHours, [key]: hours.length > 0 ? hours : ['Full-day'] });
+    console.log("Unavailability hours to be updated:", {
+      ...unavailabilityHours,
+      [key]: hours.length > 0 ? hours : ["Full-day"],
+    });
     setShowHours(false);
-    handleDaySelection(hours.length > 0 ? hours : ['Full-day']);
+    handleDaySelection(hours.length > 0 ? hours : ["Full-day"]);
   };
 
   const updateBooking = (selectedTimeSlots) => {
@@ -146,16 +166,18 @@ const Calendar = () => {
       boatId,
       startDate: rangeStart,
       endDate: selectedDay.date,
-      timeSlots: selectedTimeSlots.length > 0 ? selectedTimeSlots : ['Full-day'],
-      type: 'booking'
+      timeSlots:
+        selectedTimeSlots.length > 0 ? selectedTimeSlots : ["Full-day"],
+      type: "booking",
     };
 
-    console.log('Data to be sent for update:', data);
+    console.log("Data to be sent for update:", data);
 
-    baseURL.put(`/booking/updateboatCalender/${id}`, data)
-      .then(response => {
-        console.log('Booking updated successfully:', response.data);
-        const updatedUnavailableRanges = unavailableRanges.map(range => {
+    baseURL
+      .put(`/booking/updateboatCalender/${id}`, data)
+      .then((response) => {
+        console.log("Booking updated successfully:", response.data);
+        const updatedUnavailableRanges = unavailableRanges.map((range) => {
           if (range.start.toDateString() === key) {
             return { ...range, timeSlots: selectedTimeSlots };
           }
@@ -166,15 +188,18 @@ const Calendar = () => {
         setHoverDate(null);
         setShowPopup(false);
       })
-      .catch(error => {
-        console.error('Error updating booking:', error.response?.data || error.message);
+      .catch((error) => {
+        console.error(
+          "Error updating booking:",
+          error.response?.data || error.message
+        );
       });
   };
 
   const resetUnavailability = () => {
     setUnavailableRanges([]);
     setUnavailabilityHours({});
-    console.log('Unavailability reset');
+    console.log("Unavailability reset");
   };
 
   const generateMonthGrids = () => {
@@ -230,10 +255,10 @@ const Calendar = () => {
           </select>
         </div>
         <div className="flex justify-between my-4 text-4xl">
-          <button onClick={previousMonth}>{'<'}</button>
-          <button onClick={nextMonth}>{'>'}</button>
+          <button onClick={previousMonth}>{"<"}</button>
+          <button onClick={nextMonth}>{">"}</button>
         </div>
-        <div className="grid grid-cols-2 gap-12 border pt-4 mb-8">
+        <div className="grid sm:grid-cols-2 gap-12 border pt-4 mb-8">
           {generateMonthGrids()}
         </div>
         {showPopup && !showHours && (
@@ -241,7 +266,7 @@ const Calendar = () => {
             <div className="bg-white p-4 rounded-lg shadow-lg text-black">
               <div className="flex flex-col gap-2">
                 <button
-                  onClick={() => handleDaySelection(['Full-day'])}
+                  onClick={() => handleDaySelection(["Full-day"])}
                   className="px-3 py-2 border"
                 >
                   Day
@@ -264,7 +289,8 @@ const Calendar = () => {
             }}
             onConfirm={(hours) => {
               const existingRange = unavailableRanges.find(
-                range => range.start.toDateString() === selectedDay.date.toDateString()
+                (range) =>
+                  range.start.toDateString() === selectedDay.date.toDateString()
               );
               if (existingRange) {
                 updateBooking(hours);
@@ -288,7 +314,7 @@ const Calendar = () => {
         </div>
         <button
           onClick={handleWinterizingPeriod}
-          className="px-4 py-2 font-medium text-base border rounded-md hover:text-white hover:bg-[#CBA557]"
+          className="px-4 py-2 mt-3 font-medium text-base border rounded-md hover:text-white hover:bg-[#CBA557]"
         >
           + Add a winterizing period
         </button>

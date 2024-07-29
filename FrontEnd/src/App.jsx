@@ -239,131 +239,131 @@ function App() {
               />
               <Route
                 path="/Dashboard"
-                element={<DashboardLayout Childeren={<Dashboard />} />}
+                element={<DashboardLayout children={<Dashboard />} />}
               />
               <Route
                 path="/Dashboard/my-boats"
-                element={<DashboardLayout Childeren={<MyBoats />} />}
+                element={<DashboardLayout children={<MyBoats />} />}
               />
               <Route
                 path="/Dashboard/my-boats/overview"
-                element={<DashboardLayout Childeren={<Overview />} />}
+                element={<DashboardLayout children={<Overview />} />}
               />
               <Route
                 path="/Dashboard/my-boats/photo"
-                element={<DashboardLayout Childeren={<Photo />} />}
+                element={<DashboardLayout children={<Photo />} />}
               />
               <Route
                 path="/Dashboard/my-boats/info-access"
-                element={<DashboardLayout Childeren={<InfoAccess />} />}
+                element={<DashboardLayout children={<InfoAccess />} />}
               />
               <Route
                 path="/Dashboard/my-boats/information"
-                element={<DashboardLayout Childeren={<Information />} />}
+                element={<DashboardLayout children={<Information />} />}
               />{" "}
               <Route
                 path="/Dashboard/my-boats/info-access"
-                element={<DashboardLayout Childeren={<InfoAccess />} />}
+                element={<DashboardLayout children={<InfoAccess />} />}
               />
               <Route
                 path="/Dashboard/my-boats/termscondition"
-                element={<DashboardLayout Childeren={<TermsCondition />} />}
+                element={<DashboardLayout children={<TermsCondition />} />}
               />
               <Route
                 path="/Dashboard/my-boats/deposit"
-                element={<DashboardLayout Childeren={<Deposit />} />}
+                element={<DashboardLayout children={<Deposit />} />}
               />
               <Route
                 path="/Dashboard/my-boats/promotion"
-                element={<DashboardLayout Childeren={<Voucher />} />}
+                element={<DashboardLayout children={<Voucher />} />}
               />
               <Route
                 path="/Dashboard/my-boats/insurance"
-                element={<DashboardLayout Childeren={<Insurance />} />}
+                element={<DashboardLayout children={<Insurance />} />}
               />
               <Route
                 path="/Dashboard/my-boats/address"
-                element={<DashboardLayout Childeren={<Address />} />}
+                element={<DashboardLayout children={<Address />} />}
               />
               <Route
                 path="/Dashboard/my-boats/equipments"
-                element={<DashboardLayout Childeren={<Equipments />} />}
+                element={<DashboardLayout children={<Equipments />} />}
               />
               <Route
                 path="/Dashboard/my-boats/extra-services"
-                element={<DashboardLayout Childeren={<ExtraServices />} />}
+                element={<DashboardLayout children={<ExtraServices />} />}
               />
               <Route
                 path="/Dashboard/my-boats/calender"
-                element={<DashboardLayout Childeren={<Calendar />} />}
+                element={<DashboardLayout children={<Calendar />} />}
               />
               <Route
                 path="/Dashboard/my-boats/rates"
-                element={<DashboardLayout Childeren={<BoatRates />} />}
+                element={<DashboardLayout children={<BoatRates />} />}
               />
               <Route
                 path="/Dashboard/calendar"
-                element={<DashboardLayout Childeren={<Calender />} />}
+                element={<DashboardLayout children={<Calender />} />}
               />
               <Route
                 path="/Dashboard/pending-bookings"
-                element={<DashboardLayout Childeren={<PendingBookings />} />}
+                element={<DashboardLayout children={<PendingBookings />} />}
               />
               <Route
                 path="/Dashboard/today-bookings"
-                element={<DashboardLayout Childeren={<TodayBooking />} />}
+                element={<DashboardLayout children={<TodayBooking />} />}
               />
               <Route
                 path="/Dashboard/upcoming-bookings"
-                element={<DashboardLayout Childeren={<UpcomingBooking />} />}
+                element={<DashboardLayout children={<UpcomingBooking />} />}
               />
               <Route
                 path="/Dashboard/previous-bookings"
-                element={<DashboardLayout Childeren={<PreviousBooking />} />}
+                element={<DashboardLayout children={<PreviousBooking />} />}
               />
               <Route
                 path="/Dashboard/booking-details/:id"
-                element={<DashboardLayout Childeren={<BookingDetails />} />}
+                element={<DashboardLayout children={<BookingDetails />} />}
               />
               <Route
                 path="/Dashboard/reminders"
-                element={<DashboardLayout Childeren={<Reminders />} />}
+                element={<DashboardLayout children={<Reminders />} />}
               />
               <Route
                 path="/Dashboard/booked-boats"
-                element={<DashboardLayout Childeren={<BookedBoats />} />}
+                element={<DashboardLayout children={<BookedBoats />} />}
               />
               <Route
                 path="/Dashboard/unbooked-boats"
-                element={<DashboardLayout Childeren={<UnbookedBoats />} />}
+                element={<DashboardLayout children={<UnbookedBoats />} />}
               />
               <Route
                 path="/Billing"
-                element={<DashboardLayout Childeren={<BillingList />} />}
+                element={<DashboardLayout children={<BillingList />} />}
               />
               <Route
                 path="/Dashboard/calender/createlist"
-                element={<DashboardLayout Childeren={<CreateList />} />}
+                element={<DashboardLayout children={<CreateList />} />}
               />
               <Route
                 path="/Dashboard/billing"
-                element={<DashboardLayout Childeren={<BillingList />} />}
+                element={<DashboardLayout children={<BillingList />} />}
               />
               <Route
                 path="/Dashboard/Cash-flow"
-                element={<DashboardLayout Childeren={<CashFlow />} />}
+                element={<DashboardLayout children={<CashFlow />} />}
               />
               <Route
                 path="/Dashboard/Cash-flow/Boat-detials"
-                element={<DashboardLayout Childeren={<BoatDetails />} />}
+                element={<DashboardLayout children={<BoatDetails />} />}
               />
               <Route
                 path="/Dashboard/customer-support"
-                element={<DashboardLayout Childeren={<Customer />} />}
+                element={<DashboardLayout children={<Customer />} />}
               />
               <Route
                 path="/Dashboard/profile"
-                element={<DashboardLayout Childeren={<Profile />} />}
+                element={<DashboardLayout children={<Profile />} />}
               />
             </Routes>
           </UserProvider>

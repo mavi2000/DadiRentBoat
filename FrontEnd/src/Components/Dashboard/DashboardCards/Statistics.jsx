@@ -32,7 +32,7 @@ const Statistics = () => {
   }
 
   return (
-    <div className="bg-white rounded-md shadow-lg px-8 py-4 my-4">
+    <div className="bg-white rounded-md shadow-lg px-4 sm:px-8 py-4 my-4">
       <div className="flex gap-2 justify-between flex-wrap items-center">
         <h1 className="text-[#4b465cd4] font-medium text-lg">Statistics</h1>
         <p className="text-[#4b465c94] text-xs">Updated just now</p>

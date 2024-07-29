@@ -7,9 +7,13 @@ const Dashboard = () => {
   return (
     <div>
       <Statistics />
-      <div className="flex gap-5 flex-col md:flex-row my-4">
-        <RevenueChart />
-        <Reservations />
+      <div className=" grid grid-cols-7 gap-5 my-4">
+        <div className=" col-span-7 md:col-span-4">
+          <RevenueChart />
+        </div>
+        <div className=" col-span-7 md:col-span-3">
+          <Reservations />
+        </div>
       </div>
       <div className="flex gap-5 flex-col md:flex-row my-4">
         <Pickups title="Recent Booking" opt3="Last 3 Days" />
