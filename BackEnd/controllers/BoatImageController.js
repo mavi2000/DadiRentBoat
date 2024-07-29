@@ -75,23 +75,48 @@ export const getBoatImages = async (req, res, next) => {
 
 export const upDateBoatImages = async (req, res, next) => {
   const { id } = req.params;
+console.log("id",id)
   try {
-    if (!req.file) {
-      throw createError(400, "No file was uploaded");
+    console.log("Received files:", req.files);
+
+    if (!req.files || (!req.files.images && !req.files.videos)) {
+      throw createError(400, "No files were uploaded");
     }
-    const imageUrl = await uploadImages(req.file);
-    const avatarUrl = imageUrl.secure_url;
+
+    const images = req.files.images ? req.files.images : [];
+    const videos = req.files.videos ? req.files.videos : [];
+
+    console.log("Images to upload:", images);
+    console.log("Videos to upload:", videos);
+
+    const imageUrls = await Promise.all(images.map(file => uploadImages(file)));
+    const videoUrls = await Promise.all(videos.map(file => uploadImages(file)));
+
+    const update = {
+      $push: {
+        images: { $each: imageUrls.map(url => url.secure_url) },
+        videos: { $each: videoUrls.map(url => url.secure_url) }
+      }
+    };
+
+    const options = {
+      new: true,
+      upsert: true
+    };
+
     const updatedImage = await BoatImage.findOneAndUpdate(
       { boatId: id },
-      { avatar: avatarUrl },
-      { new: true }
+      update,
+      options
     );
+
     res.status(200).json({
       success: true,
-      message: "Image updated successfully",
-      image: updatedImage,
+      message: "Files updated successfully",
+      data: updatedImage,
     });
   } catch (error) {
+    console.error("Error updating files:", error);
     next(error);
   }
 };

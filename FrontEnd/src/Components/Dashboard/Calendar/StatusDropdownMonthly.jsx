@@ -3,8 +3,8 @@ import user from "../../../assets/Images/user.png";
 import { useNavigate } from "react-router-dom";
 
 const StatusDropdownMonthly = ({ statuses }) => {
-
-  console.log("statuses",statuses)
+  console.log("statuses", statuses);
+  
   if (!statuses || statuses.length === 0) {
     return null; // Handle case where statuses are not provided
   }
@@ -31,17 +31,15 @@ const StatusDropdownMonthly = ({ statuses }) => {
           <div key={index} className="mb-2">
             <div className="flex items-center gap-2 mb-2">
               <img src={user} alt="avatar" className="w-8 h-8 rounded-full" />
-              <h1 className="text-black text-base font-semibold">{status.userId?.username}</h1>
+              <h1 className="text-black text-base font-semibold">{status?.username}</h1>
             </div>
-            <p
-              className={`text-sm mb-2 ${status.status === 'confirmed' ? 'text-green-600' : 'text-yellow-600'}`}
-            >
+            <p className={`text-sm mb-2 ${status.status === 'confirmed' ? 'text-green-600' : 'text-yellow-600'}`}>
               {status.status === 'confirmed' ? 'Confirmed' : 'Pending'}
             </p>
             <p className="text-sm mb-2">Boat: <span className="font-medium">{status.boatName}</span></p>
             <p className="text-sm mb-2">Rate Type: <span className="font-medium">{status.rateType}</span></p>
             <button
-              onClick={() => navigate(`/dashboard/booking-details/${status?.userId?._id}`)}
+              onClick={() => navigate(`/dashboard/booking-details/${status.bookingId}`)}
               className="text-sm text-blue-500 underline"
             >
               View Details

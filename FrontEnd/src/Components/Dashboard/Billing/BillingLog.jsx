@@ -62,7 +62,7 @@ const BillingLog = () => {
   if (error) {
     return <div>Error: {error}</div>; // Display an error message if fetching data fails
   }
-
+console.log("billings",bookings)
   return (
     <div className="my-8 flex flex-col justify-center items-center gap-3 bg-white w-full rounded-md shadow py-5 text-[#4b465cb4]">
       <div className="flex flex-row justify-between w-[97%]">

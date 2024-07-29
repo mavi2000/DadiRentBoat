@@ -4,8 +4,6 @@ import WeeklyCalendar from "./WeeklyCalendar";
 import baseURL from "../../../../APi/BaseUrl";
 import MonthlyCalendar from "./MontlyCalendar";
 
-
-
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [changeCalendar, setChangeCalendar] = useState(true); // true for Weekly, false for Monthly
@@ -39,23 +37,28 @@ const Calendar = () => {
 
   const formatDate = (date) => {
     const options = { day: "numeric", month: "long", year: "numeric" };
-    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
-    return formattedDate;
+    return new Intl.DateTimeFormat("en-US", options).format(date);
   };
 
   const expandAvailableDates = (bookings) => {
     return bookings.flatMap((booking) => {
+      if (!booking.availableDates || !Array.isArray(booking.availableDates) || booking.availableDates.length < 2) {
+        console.warn('Skipping booking with invalid availableDates:', booking);
+        return [];
+      }
+      
       const startDate = new Date(booking.availableDates[0]);
       const endDate = new Date(booking.availableDates[1]);
       const dates = [];
+      
       for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
         dates.push({
           availableDate: new Date(d),
-          boat: booking.boat,
-          userId: booking.userId,
-          status: booking.status,
           boatName: booking.boatName,
+          userId: booking.userId,
+          bookingStatus: booking.bookingStatus,
           rateType: booking.rateType,
+          username: booking.username,
           bookingId: booking._id,
         });
       }
@@ -67,12 +70,30 @@ const Calendar = () => {
     const fetchBookings = async () => {
       try {
         const response = await baseURL.get("/checkout/getPayment");
+        console.log("response", response.data);
+
         const todayDate = new Date().setHours(0, 0, 0, 0);
         const filteredBookings = response.data.filter(
-          (booking) =>
+          (booking) => 
+            booking.availableDates && 
+            Array.isArray(booking.availableDates) &&
+            booking.availableDates[0] &&
             new Date(booking.availableDates[0]).setHours(0, 0, 0, 0) >= todayDate
         );
-        setBookings(expandAvailableDates(filteredBookings));
+
+        // Extract and map relevant data
+        const bookingsWithIds = filteredBookings.map(booking => ({
+          _id: booking._id,
+          availableDates: booking.availableDates,
+          boatName: booking.boatName,
+          bookingStatus: booking.bookingStatus,
+          rateType: booking.rateType,
+          username: booking.userId.username,
+          // Add other necessary fields
+        }));
+
+        // Update state with expanded bookings
+        setBookings(expandAvailableDates(bookingsWithIds));
       } catch (error) {
         console.error("Error fetching bookings:", error);
         setError(error.message);
@@ -83,8 +104,6 @@ const Calendar = () => {
 
     fetchBookings();
   }, []);
-
-
 
   return (
     <div className="bg-white rounded-md shadow-lg px-8 py-4 grow my-4 mb-[210px]">
@@ -118,11 +137,13 @@ const Calendar = () => {
           </button>
         </div>
       </div>
-      {changeCalendar ? (
+      {loading && <p>Loading...</p>}
+      {error && <p className="text-red-500">Error: {error}</p>}
+      {!loading && !error && (changeCalendar ? (
         <WeeklyCalendar currentDate={currentDate} newbookings={bookings} />
       ) : (
         <MonthlyCalendar currentDate={currentDate} newbookings={bookings} />
-      )}
+      ))}
     </div>
   );
 };

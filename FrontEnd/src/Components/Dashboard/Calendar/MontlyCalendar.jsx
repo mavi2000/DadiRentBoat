@@ -38,10 +38,11 @@ const MonthlyCalendar = ({ currentDate, newbookings }) => {
 
       const statuses = dayBookings.map((booking) => ({
         status: booking.status || "pending", // Default to "pending" if status is undefined
-        userId: booking.userId || { username: "Unknown" }, // Default to "Unknown" if userId is undefined
+        userId: booking.userId|| { username: "Unknown" },
+        username:booking.username ,// Default to "Unknown" if userId is undefined
         boatName: booking.boatName || "Unknown Boat", // Default to "Unknown Boat" if boatName is undefined
         rateType: booking.rateType || "Unknown Rate", // Default to "Unknown Rate" if rateType is undefined
-        bookingId: booking._id || "Unknown", // Default to "Unknown" if bookingId is undefined
+        bookingId: booking.bookingId || "Unknown", // Default to "Unknown" if bookingId is undefined
       }));
 
       displayedDays.push({
@@ -67,6 +68,8 @@ const MonthlyCalendar = ({ currentDate, newbookings }) => {
   }, [currentDate, newbookings]);
 
   const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  console.log("bookings",newbookings)
 
   return (
     <div className="w-full mt-8 min-h-[60vh] overflow-auto">
@@ -103,7 +106,7 @@ const MonthlyCalendar = ({ currentDate, newbookings }) => {
                       key={colIndex}
                     >
                       {dayObj.day ? (
-                        <div className=" grid sm:grid-cols-3 items-center gap-2">
+                        <div className="grid sm:grid-cols-3 items-center gap-2">
                           {dayObj.day}
                           {confirmedStatuses.length > 0 && (
                             <div
