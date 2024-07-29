@@ -16,8 +16,7 @@ import House from "../../../assets/Images/House Baot.png";
 
 const Information = () => {
   const id = localStorage.getItem("id");
-  console.log("id",id)
-
+  console.log("id", id);
 
   const { boatDescription, navigate, boatId } = useContext(AdminContext);
 
@@ -75,7 +74,9 @@ const Information = () => {
     endTime: "",
   };
 
-  const [descriptionData, setDescriptionData] = useState(initialDescriptionData);
+  const [descriptionData, setDescriptionData] = useState(
+    initialDescriptionData
+  );
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [languageSections, setLanguageSections] = useState([]);
 
@@ -84,15 +85,20 @@ const Information = () => {
       const getBoatDescription = async () => {
         try {
           const res = await baseURL(`/decription/get-boat-description/${id}`);
-          const { data: { description } } = res;
+          const {
+            data: { description },
+          } = res;
           setDescriptionData({
             ...description,
             details: {
               ...description.details,
-              descriptionOtherLanguages: description.details.descriptionOtherLanguages || [],
+              descriptionOtherLanguages:
+                description.details.descriptionOtherLanguages || [],
             },
           });
-          setLanguageSections(description.details.descriptionOtherLanguages || []);
+          setLanguageSections(
+            description.details.descriptionOtherLanguages || []
+          );
         } catch (error) {
           console.log(error);
         }
@@ -226,10 +232,7 @@ const Information = () => {
       }
     } else {
       try {
-        await baseURL.patch(
-          `/decription/updatedescription/${id}`,
-          payload
-        );
+        await baseURL.patch(`/decription/updatedescription/${id}`, payload);
         toast.success("Description updated successfully");
         localStorage.removeItem("id");
         setTimeout(() => {
@@ -269,12 +272,12 @@ const Information = () => {
       <BoatsNavbar />
       <form
         onSubmit={handleSubmit}
-        className="bg-white mx-2 py-8 px-12 flex flex-col gap-10 text-[#4B465C]"
+        className="bg-white mx-2 py-8 px-4 sm:px-12 flex flex-col gap-10 text-[#4B465C]"
       >
         <div className="font-medium">Information</div>
         <div className="flex flex-col gap-2">
           <div>Type of Boat</div>
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+          <div className="flex gap-3 flex-wrap">
             {boatTypes.map((boat, index) => (
               <label
                 key={index}
@@ -380,7 +383,7 @@ const Information = () => {
         </div>
         <div className="flex flex-col gap-3 w-[80%]">
           <label>Rental Schedule</label>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-4">
             <select
               name="startTime"
               value={descriptionData.startTime}
@@ -409,7 +412,7 @@ const Information = () => {
             </select>
           </div>
         </div>
-        <div className="bg-[#CBA55714] p-4 flex items-center gap-3 w-[60%] rounded-md">
+        <div className="bg-[#CBA55714] p-4 flex items-center gap-3 rounded-md">
           <FiInfo className="text-[#CBA557]" />
           <div className="font-medium text-[#4B465C]">
             New:
@@ -450,11 +453,11 @@ const Information = () => {
             <div className="text-[#4B465C] font-light">
               Optional: To add a translation of the description
             </div>
-            <div className="flex gap-5">
+            <div className="flex flex-wrap gap-5">
               <select
                 value={selectedLanguage}
                 onChange={(e) => setSelectedLanguage(e.target.value)}
-                className="border p-3 w-[45%] font-light text-[#4B465C] text-sm rounded-md outline-none"
+                className="border p-3 font-light text-[#4B465C] text-sm rounded-md outline-none"
               >
                 <option value="">Select Language</option>
                 <option value="en">English</option>
@@ -465,7 +468,7 @@ const Information = () => {
               <button
                 type="button"
                 onClick={addLanguageSection}
-                className="flex items-center gap-4 border border-[#CBA557] w-[30%] rounded-lg text-[#CBA557] justify-center font-semibold"
+                className="flex items-center gap-4 p-3 border border-[#CBA557] rounded-lg text-[#CBA557] justify-center font-semibold"
               >
                 <IoAddOutline className="text-lg" />
                 ADD
@@ -489,186 +492,180 @@ const Information = () => {
               </div>
             ))}
           </div>
+        </div>
+        <div className=" grid sm:grid-cols-2 gap-3">
           <div className="flex flex-col gap-6">
-            <div className="flex items-center justify-between ">
-              <div>Capacity</div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <label>Boarding capacity</label>
-              <input
-                name="boardingCapacity"
-                value={descriptionData.capacity.boardingCapacity}
-                onChange={(e) => handleNestedChange(e, "capacity")}
-                type="number"
-                placeholder="Enter"
-                className="border w-[47%] p-3 rounded-md font-light outline-none"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-9">
-              <div className="flex flex-col gap-2">
-                <label>Brand of the boat</label>
-                <input
-                  type="text"
-                  name="brand"
-                  value={descriptionData.capacity.brand}
-                  onChange={(e) => handleNestedChange(e, "capacity")}
-                  placeholder="Enter the brand of the boat"
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Model</label>
-                <input
-                  type="text"
-                  name="model"
-                  value={descriptionData.capacity.model}
-                  onChange={(e) => handleNestedChange(e, "capacity")}
-                  placeholder="Enter the model"
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Geographic area</label>
-                <input
-                  type="text"
-                  name="geographicArea"
-                  value={descriptionData.capacity.geographicArea}
-                  onChange={(e) => handleNestedChange(e, "capacity")}
-                  placeholder="Enter the geographic area"
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Year</label>
-                <input
-                  type="text"
-                  name="year"
-                  value={descriptionData.capacity.year}
-                  onChange={(e) => handleNestedChange(e, "capacity")}
-                  placeholder="Enter the year"
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Shower room(s)</label>
-                <input
-                  type="number"
-                  name="showerRoom"
-                  value={descriptionData.capacity.showerRoom}
-                  onChange={(e) => handleNestedChange(e, "capacity")}
-                  placeholder=""
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Total number of berths</label>
-                <input
-                  type="text"
-                  name="berth"
-                  value={descriptionData.capacity.berth}
-                  onChange={(e) => handleNestedChange(e, "capacity")}
-                  placeholder="berth"
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>WC</label>
-                <input
-                  type="text"
-                  name="wc"
-                  value={descriptionData.capacity.wc}
-                  onChange={(e) => handleNestedChange(e, "capacity")}
-                  placeholder=""
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Number of cabins</label>
-                <input
-                  type="number"
-                  name="cabin"
-                  value={descriptionData.capacity.cabin}
-                  onChange={(e) => handleNestedChange(e, "capacity")}
-                  placeholder=""
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-            </div>
+            <div>Capacity</div>
           </div>
-          <div className="flex flex-col gap-6">
-            <div>Motorization</div>
-            <div className="grid grid-cols-2 gap-9">
-              <div className="flex flex-col gap-2">
-                <label>Number of Engines</label>
-                <input
-                  type="number"
-                  name="numberOfEngines"
-                  value={descriptionData.motorization.numberOfEngines}
-                  onChange={(e) => handleNestedChange(e, "motorization")}
-                  placeholder="Enter the number of engines"
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Engine Power (HP)</label>
-                <input
-                  type="number"
-                  name="enginePowerHP"
-                  value={descriptionData.motorization.enginePowerHP}
-                  onChange={(e) => handleNestedChange(e, "motorization")}
-                  placeholder="Enter the engine power in HP"
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Engine Make</label>
-                <input
-                  type="text"
-                  name="engineMake"
-                  value={descriptionData.motorization.engineMake}
-                  onChange={(e) => handleNestedChange(e, "motorization")}
-                  placeholder="Enter the engine make"
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Engine Brand</label>
-                <input
-                  type="text"
-                  name="engineBrand"
-                  value={descriptionData.motorization.engineBrand}
-                  onChange={(e) => handleNestedChange(e, "motorization")}
-                  placeholder="Enter the engine brand"
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Model</label>
-                <input
-                  type="text"
-                  name="model"
-                  value={descriptionData.motorization.model}
-                  onChange={(e) => handleNestedChange(e, "motorization")}
-                  placeholder="Enter the model"
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label>Parking Port</label>
-                <input
-                  type="text"
-                  name="parkingPort"
-                  value={descriptionData.motorization.parkingPort}
-                  onChange={(e) => handleNestedChange(e, "motorization")}
-                  placeholder="Enter the parking port of the boat"
-                  className="border p-3 rounded-md font-light outline-none"
-                />
-              </div>
-            </div>
+          <div className="flex flex-col gap-2">
+            <label>Boarding capacity</label>
+            <input
+              name="boardingCapacity"
+              value={descriptionData.capacity.boardingCapacity}
+              onChange={(e) => handleNestedChange(e, "capacity")}
+              type="number"
+              placeholder="Enter"
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Brand of the boat</label>
+            <input
+              type="text"
+              name="brand"
+              value={descriptionData.capacity.brand}
+              onChange={(e) => handleNestedChange(e, "capacity")}
+              placeholder="Enter the brand of the boat"
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Model</label>
+            <input
+              type="text"
+              name="model"
+              value={descriptionData.capacity.model}
+              onChange={(e) => handleNestedChange(e, "capacity")}
+              placeholder="Enter the model"
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Geographic area</label>
+            <input
+              type="text"
+              name="geographicArea"
+              value={descriptionData.capacity.geographicArea}
+              onChange={(e) => handleNestedChange(e, "capacity")}
+              placeholder="Enter the geographic area"
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Year</label>
+            <input
+              type="text"
+              name="year"
+              value={descriptionData.capacity.year}
+              onChange={(e) => handleNestedChange(e, "capacity")}
+              placeholder="Enter the year"
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Shower room(s)</label>
+            <input
+              type="number"
+              name="showerRoom"
+              value={descriptionData.capacity.showerRoom}
+              onChange={(e) => handleNestedChange(e, "capacity")}
+              placeholder=""
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Total number of berths</label>
+            <input
+              type="text"
+              name="berth"
+              value={descriptionData.capacity.berth}
+              onChange={(e) => handleNestedChange(e, "capacity")}
+              placeholder="berth"
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>WC</label>
+            <input
+              type="text"
+              name="wc"
+              value={descriptionData.capacity.wc}
+              onChange={(e) => handleNestedChange(e, "capacity")}
+              placeholder=""
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Number of cabins</label>
+            <input
+              type="number"
+              name="cabin"
+              value={descriptionData.capacity.cabin}
+              onChange={(e) => handleNestedChange(e, "capacity")}
+              placeholder=""
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div>Motorization</div>
+          <div className="flex flex-col gap-2">
+            <label>Number of Engines</label>
+            <input
+              type="number"
+              name="numberOfEngines"
+              value={descriptionData.motorization.numberOfEngines}
+              onChange={(e) => handleNestedChange(e, "motorization")}
+              placeholder="Enter the number of engines"
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Engine Power (HP)</label>
+            <input
+              type="number"
+              name="enginePowerHP"
+              value={descriptionData.motorization.enginePowerHP}
+              onChange={(e) => handleNestedChange(e, "motorization")}
+              placeholder="Enter the engine power in HP"
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Engine Make</label>
+            <input
+              type="text"
+              name="engineMake"
+              value={descriptionData.motorization.engineMake}
+              onChange={(e) => handleNestedChange(e, "motorization")}
+              placeholder="Enter the engine make"
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Engine Brand</label>
+            <input
+              type="text"
+              name="engineBrand"
+              value={descriptionData.motorization.engineBrand}
+              onChange={(e) => handleNestedChange(e, "motorization")}
+              placeholder="Enter the engine brand"
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Model</label>
+            <input
+              type="text"
+              name="model"
+              value={descriptionData.motorization.model}
+              onChange={(e) => handleNestedChange(e, "motorization")}
+              placeholder="Enter the model"
+              className="border p-3 rounded-md font-light outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Parking Port</label>
+            <input
+              type="text"
+              name="parkingPort"
+              value={descriptionData.motorization.parkingPort}
+              onChange={(e) => handleNestedChange(e, "motorization")}
+              placeholder="Enter the parking port of the boat"
+              className="border p-3 rounded-md font-light outline-none"
+            />
           </div>
           <div className="flex flex-col gap-6">
             <div>Fuel</div>
-            <div className="grid grid-cols-4 w-[50%] text-sm">
+            <div className="flex gap-3 flex-wrap">
               {["unleaded", "electric", "ethanol", "diesel"].map(
                 (fuelType, index) => (
                   <div key={index} className="flex gap-3">
@@ -698,12 +695,12 @@ const Information = () => {
                     onChange={handleChange}
                     type="number"
                     placeholder="Enter"
-                    className="border w-[47%] p-3 rounded-md font-light outline-none"
+                    className="border p-3 rounded-md font-light outline-none"
                   />
                 </div>
                 <div className="flex flex-col gap-6 mt-4">
                   <div>Type of Engine</div>
-                  <div className="grid grid-cols-4 w-[50%] text-sm">
+                  <div className=" flex flex-wrap gap-3 text-sm">
                     {["twoStroke", "fourStroke"].map((engineType, index) => (
                       <div key={index} className="flex gap-3">
                         <input
@@ -711,7 +708,6 @@ const Information = () => {
                           checked={descriptionData.engineType[engineType]}
                           onChange={handleEngineTypeChange}
                           type="radio"
-                        
                         />
                         <label
                           htmlFor={engineType}
@@ -726,99 +722,89 @@ const Information = () => {
               </>
             )}
           </div>
-        </div>
-        <div className="flex flex-col gap-6 w-[80%]">
           <div>Dimensions</div>
-          <div className="grid grid-cols-2 gap-9">
-            <div className="flex flex-col gap-2">
-              <label>Draft</label>
-              <div className="flex gap-2">
-                <div className="flex flex-col">
-                  <input
-                    name="draftMeters"
-                    value={descriptionData.draftMeters}
-                    onChange={handleMetersChange}
-                    type="number"
-                    placeholder="Meters"
-                    className="border p-3 rounded-md font-light outline-none"
-                  />
-                  <label className="text-xs text-gray-500">Meters</label>
-                </div>
-                <div className="flex flex-col">
-                  <input
-                    name="draftFeet"
-                    value={descriptionData.draftFeet}
-                    onChange={handleFeetChange}
-                    type="number"
-                    placeholder="Feet"
-                    className="border p-3 rounded-md font-light outline-none"
-                  />
-                  <label className="text-xs text-gray-500">Feet</label>
-                </div>
-              </div>
+          <div className="flex flex-col gap-2">
+            <label>Draft</label>
+            <div className="flex flex-col">
+              <input
+                name="draftMeters"
+                value={descriptionData.draftMeters}
+                onChange={handleMetersChange}
+                type="number"
+                placeholder="Meters"
+                className="border p-3 rounded-md font-light outline-none"
+              />
+              <label className="text-xs text-gray-500">Meters</label>
             </div>
-            <div className="flex flex-col gap-2">
-              <label>Width</label>
-              <div className="flex gap-2">
-                <div className="flex flex-col">
-                  <input
-                    name="widthMeters"
-                    value={descriptionData.widthMeters}
-                    onChange={handleMetersChange}
-                    type="number"
-                    placeholder="Meters"
-                    className="border p-3 rounded-md font-light outline-none"
-                  />
-                  <label className="text-xs text-gray-500">Meters</label>
-                </div>
-                <div className="flex flex-col">
-                  <input
-                    name="widthFeet"
-                    value={descriptionData.widthFeet}
-                    onChange={handleFeetChange}
-                    type="number"
-                    placeholder="Feet"
-                    className="border p-3 rounded-md font-light outline-none"
-                  />
-                  <label className="text-xs text-gray-500">Feet</label>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <label>Length</label>
-              <div className="flex gap-2">
-                <div className="flex flex-col">
-                  <input
-                    name="lengthMeters"
-                    value={descriptionData.lengthMeters}
-                    onChange={handleMetersChange}
-                    type="number"
-                    placeholder="Meters"
-                    className="border p-3 rounded-md font-light outline-none"
-                  />
-                  <label className="text-xs text-gray-500">Meters</label>
-                </div>
-                <div className="flex flex-col">
-                  <input
-                    name="lengthFeet"
-                    value={descriptionData.lengthFeet}
-                    onChange={handleFeetChange}
-                    type="number"
-                    placeholder="Feet"
-                    className="border p-3 rounded-md font-light outline-none"
-                  />
-                  <label className="text-xs text-gray-500">Feet</label>
-                </div>
-              </div>
+            <div className="flex flex-col">
+              <input
+                name="draftFeet"
+                value={descriptionData.draftFeet}
+                onChange={handleFeetChange}
+                type="number"
+                placeholder="Feet"
+                className="border p-3 rounded-md font-light outline-none"
+              />
+              <label className="text-xs text-gray-500">Feet</label>
             </div>
           </div>
+          <div className="flex flex-col gap-2">
+            <label>Width</label>
+            <div className="flex flex-col">
+              <input
+                name="widthMeters"
+                value={descriptionData.widthMeters}
+                onChange={handleMetersChange}
+                type="number"
+                placeholder="Meters"
+                className="border p-3 rounded-md font-light outline-none"
+              />
+              <label className="text-xs text-gray-500">Meters</label>
+            </div>
+            <div className="flex flex-col">
+              <input
+                name="widthFeet"
+                value={descriptionData.widthFeet}
+                onChange={handleFeetChange}
+                type="number"
+                placeholder="Feet"
+                className="border p-3 rounded-md font-light outline-none"
+              />
+              <label className="text-xs text-gray-500">Feet</label>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Length</label>
+            <div className="flex flex-col">
+              <input
+                name="lengthMeters"
+                value={descriptionData.lengthMeters}
+                onChange={handleMetersChange}
+                type="number"
+                placeholder="Meters"
+                className="border p-3 rounded-md font-light outline-none"
+              />
+              <label className="text-xs text-gray-500">Meters</label>
+            </div>
+            <div className="flex flex-col">
+              <input
+                name="lengthFeet"
+                value={descriptionData.lengthFeet}
+                onChange={handleFeetChange}
+                type="number"
+                placeholder="Feet"
+                className="border p-3 rounded-md font-light outline-none"
+              />
+              <label className="text-xs text-gray-500">Feet</label>
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="bg-[#CBA557] sm:w-max p-4 rounded-lg text-white"
+          >
+            {id ? "Update" : "Save"}
+          </button>
         </div>
-        <button
-          type="submit"
-          className="bg-[#CBA557] w-[15%] py-4 rounded-lg text-white"
-        >
-          {id ? "Update" : "Save"}
-        </button>
       </form>
     </div>
   );

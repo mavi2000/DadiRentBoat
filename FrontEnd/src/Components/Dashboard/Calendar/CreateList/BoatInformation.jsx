@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AdminContext } from '../../../../../Context/AdminContext.jsx';
+import React, { useContext, useEffect, useState } from "react";
+import { AdminContext } from "../../../../../Context/AdminContext.jsx";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import baseURL from '../../../../../APi/BaseUrl.js';
+import baseURL from "../../../../../APi/BaseUrl.js";
 import yatch from "../../../../assets/Images/Yatch Boat.png";
 import sail from "../../../../assets/Images/Sail Boat.png";
 import catamaran from "../../../../assets/Images/Catamaran Boat.png";
@@ -17,17 +17,17 @@ const BoatInformation = () => {
   const { createBoat, error, navigate } = useContext(AdminContext);
 
   const [formData, setFormData] = useState({
-    type: '',
-    brand: '',
-    model: '',
+    type: "",
+    brand: "",
+    model: "",
     year: 2017,
-    region: 'Livorno ,Italy',
+    region: "Livorno ,Italy",
     city: "Livorno",
     boardingCapacity: 8,
     harbour: "",
     totalEnginePowerHP: 40,
     lengthMeters: 7,
-    telephone: '+39 3701564317',
+    telephone: "+39 3701564317",
     waterTankLiters: 25,
     fuelTankLiters: 50,
     droughtMeters: 90,
@@ -37,8 +37,10 @@ const BoatInformation = () => {
     if (id) {
       const getBoatInfo = async () => {
         try {
-          const res = await baseURL('/boat/get-boat-info/' + id);
-          const { data: { boat } } = res;
+          const res = await baseURL("/boat/get-boat-info/" + id);
+          const {
+            data: { boat },
+          } = res;
           setFormData({ ...boat });
         } catch (error) {
           console.log(error);
@@ -60,69 +62,77 @@ const BoatInformation = () => {
     e.preventDefault();
     if (id) {
       try {
-        const res = await baseURL.patch('/boat/update-boat/' + id, formData);
-        toast.success('Boat updated successfully');
-        localStorage.removeItem('id');
+        const res = await baseURL.patch("/boat/update-boat/" + id, formData);
+        toast.success("Boat updated successfully");
+        localStorage.removeItem("id");
         setFormData({ ...res.data.updatedBoat });
         setTimeout(() => {
-          navigate('/Dashboard/my-boats');
+          navigate("/Dashboard/my-boats");
         }, 3000);
       } catch (error) {
-        toast.error('Failed to update boat');
+        toast.error("Failed to update boat");
       }
     } else {
       try {
         await createBoat(formData);
-        toast.success('Boat created successfully');
+        toast.success("Boat created successfully");
       } catch (error) {
-        console.error('Error creating boat:', error);
+        console.error("Error creating boat:", error);
         const errors = error?.response?.data?.error;
         if (Array.isArray(errors)) {
-          errors.forEach(err => {
+          errors.forEach((err) => {
             toast.error(err);
           });
         } else {
-          toast.error(errors || 'Failed to create boat');
+          toast.error(errors || "Failed to create boat");
         }
       }
     }
   };
 
   const boatTypes = [
-    { name: 'Sail', image: sail },
-    { name: 'Motorboat', image: Motor },
-    { name: 'Ruber dinghy', image: Rib },
-    { name: 'Jet Skis', image: jet },
-    { name: 'yachts', image: yatch },
-    { name: 'Houseboat', image: House },
-    { name: 'Catamaran', image: catamaran },
-    { name: 'Gullet', image: Gullet },
+    { name: "Sail", image: sail },
+    { name: "Motorboat", image: Motor },
+    { name: "Ruber dinghy", image: Rib },
+    { name: "Jet Skis", image: jet },
+    { name: "yachts", image: yatch },
+    { name: "Houseboat", image: House },
+    { name: "Catamaran", image: catamaran },
+    { name: "Gullet", image: Gullet },
   ];
 
   return (
     <div className="flex flex-col w-[100%] gap-20">
       <div className="flex justify-center flex-col gap-4 w-[100%]">
         <div>Type of Boat</div>
-        <div className="grid 1200px:grid-cols-6 500px:grid-cols-3 500px:grid-rows-3 300px:grid-cols-2 300px:grid-rows-4 1200px:gap-3 300px:gap-4 w-[90%] justify-between">
-                    {boatTypes.map((item, index) => (
-              <label key={index} className="flex items-center gap-2 border border-[#CBA557] p-4 rounded">
-                <input
-                  type="radio"
-                  name="type"
-                  value={item.name}
-                  checked={formData.type === item.name}
-                  onChange={handleChange}
-                  className="w-4 h-4 hidden"
-                  
-                />
-                <img src={item.image} alt={item.name} className="w-10 h-10 object-cover" />
-                <div className="font-normal text-[#CBA557] 500px:text-sm 300px:text-xs outline-none">{item.name}</div>
-              </label>
-            ))}
+        <div className=" flex flex-wrap gap-3">
+          {boatTypes.map((item, index) => (
+            <label
+              key={index}
+              className="flex items-center gap-2 border border-[#CBA557] p-4 rounded"
+            >
+              <input
+                type="radio"
+                name="type"
+                value={item.name}
+                checked={formData.type === item.name}
+                onChange={handleChange}
+                className="w-4 h-4 hidden"
+              />
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-10 h-10 object-cover"
+              />
+              <div className="font-normal text-[#CBA557] 500px:text-sm 300px:text-xs outline-none">
+                {item.name}
+              </div>
+            </label>
+          ))}
         </div>
       </div>
       <form className="flex flex-col gap-12" onSubmit={handleSubmit}>
-        <div className="grid 600px:grid-cols-3 600px:grid-rows-4 300px:grid-cols-2 1000px:text-sm 300px:text-xs gap-8 flex-row justify-between">
+        <div className="grid gap-3 sm:grid-cols-2">
           <div className="flex flex-col gap-2 w-[100%] font-normal">
             <div className="text-[#4B465C]">Type of boat</div>
             <div className="w-[90%]">
@@ -309,7 +319,10 @@ const BoatInformation = () => {
           </div>
         </div>
         <div>
-          <button type="submit" className="py-3 px-8 bg-[#cba557] text-sm text-white rounded-lg">
+          <button
+            type="submit"
+            className="py-3 px-8 bg-[#cba557] text-sm text-white rounded-lg"
+          >
             {!id ? "Next" : "Update"}
           </button>
         </div>

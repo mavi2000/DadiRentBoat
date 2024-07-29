@@ -145,8 +145,8 @@ const Checkout = () => {
 
     if (boatDetails && boatDetails.boatBookings) {
       const available = !boatDetails.boatBookings.some((booking) => {
-        const startDate = new Date(booking.startDate);
-        const endDate = new Date(booking.endDate);
+        const startDate = new Date(booking?.startDate);
+        const endDate = new Date(booking?.endDate);
         return (
           (start >= startDate && start <= endDate) ||
           (end && end >= startDate && end <= endDate)

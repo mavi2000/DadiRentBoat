@@ -3,6 +3,9 @@ import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import WeeklyCalendar from "./WeeklyCalendar";
 import baseURL from "../../../../APi/BaseUrl";
 import MonthlyCalendar from "./MontlyCalendar";
+
+
+
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [changeCalendar, setChangeCalendar] = useState(true); // true for Weekly, false for Monthly
@@ -36,10 +39,28 @@ const Calendar = () => {
 
   const formatDate = (date) => {
     const options = { day: "numeric", month: "long", year: "numeric" };
-    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
-      date
-    );
+    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
     return formattedDate;
+  };
+
+  const expandAvailableDates = (bookings) => {
+    return bookings.flatMap((booking) => {
+      const startDate = new Date(booking.availableDates[0]);
+      const endDate = new Date(booking.availableDates[1]);
+      const dates = [];
+      for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+        dates.push({
+          availableDate: new Date(d),
+          boat: booking.boat,
+          userId: booking.userId,
+          status: booking.status,
+          boatName: booking.boatName,
+          rateType: booking.rateType,
+          bookingId: booking._id,
+        });
+      }
+      return dates;
+    });
   };
 
   useEffect(() => {
@@ -49,9 +70,9 @@ const Calendar = () => {
         const todayDate = new Date().setHours(0, 0, 0, 0);
         const filteredBookings = response.data.filter(
           (booking) =>
-            new Date(booking?.availableDate).setHours(0, 0, 0, 0) >= todayDate
+            new Date(booking.availableDates[0]).setHours(0, 0, 0, 0) >= todayDate
         );
-        setBookings(filteredBookings);
+        setBookings(expandAvailableDates(filteredBookings));
       } catch (error) {
         console.error("Error fetching bookings:", error);
         setError(error.message);
@@ -62,10 +83,12 @@ const Calendar = () => {
 
     fetchBookings();
   }, []);
-  console.log(changeCalendar);
+
+
+
   return (
     <div className="bg-white rounded-md shadow-lg px-8 py-4 grow my-4 mb-[210px]">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between flex-wrap gap-3 items-center">
         <div className="flex gap-4 items-center">
           <button onClick={changeCalendar ? getPreviousWeek : getPreviousMonth}>
             <GrFormPrevious size={25} className="text-[#4b465cc1]" />
@@ -78,9 +101,7 @@ const Calendar = () => {
 
         <div className="flex">
           <button
-            onClick={() => {
-              setChangeCalendar(!changeCalendar);
-            }}
+            onClick={() => setChangeCalendar(!changeCalendar)}
             className={`py-3 px-5 text-[#CBA557] text-sm text-center bg-[#CBA557] bg-opacity-15 rounded-l-md ${
               !changeCalendar ? "bg-opacity-30" : ""
             }`}
@@ -98,9 +119,9 @@ const Calendar = () => {
         </div>
       </div>
       {changeCalendar ? (
-        <WeeklyCalendar currentDate={currentDate} bookings={bookings} />
+        <WeeklyCalendar currentDate={currentDate} newbookings={bookings} />
       ) : (
-        <MonthlyCalendar currentDate={currentDate} bookings={bookings} />
+        <MonthlyCalendar currentDate={currentDate} newbookings={bookings} />
       )}
     </div>
   );

@@ -97,7 +97,7 @@ const ExtraServices = () => {
       <div className="bg-white rounded-md text-[#4B465C]">
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-8 w-[80%] mx-2 py-8 px-12"
+          className="flex flex-col gap-8 mx-2 py-8 px-4 sm:px-12"
         >
           <div className="font-medium">Extra Services</div>
           <div className="gap-4 flex flex-col">
@@ -199,7 +199,7 @@ const ExtraServices = () => {
           </div>
           <button
             type="submit"
-            className="bg-[#CBA557] w-[15%] py-4 rounded-lg text-white"
+            className="bg-[#CBA557] sm:w-max p-4 rounded-lg text-white"
           >
             {id ? "Update" : "Add"}
           </button>
@@ -210,15 +210,15 @@ const ExtraServices = () => {
           <div className="font-normal text-sm">Option extra</div>
           {Array.isArray(services) &&
             services.map((service, index) => (
-              <div key={index} className="text-sm flex">
-                <div className="py-5 px-4 font-medium w-[35%]">
+              <div key={index} className="text-sm flex sm:justify-between flex-wrap gap-3">
+                <div className="py-5 px-4 font-medium">
                   {service?.serviceName}
                 </div>
                 <div className="py-5 px-4 w-[30%] font-light">
                   <span className="font-medium">{service?.pricePerPerson} </span>
                   {service?.priceUnit}
                 </div>
-                <div className="flex gap-7 py-5 px-4 w-[35%] text-sm">
+                <div className="flex gap-7 py-5 px-4 text-sm">
                   <button className="border border-[#CBA557] px-4 py-1 rounded-lg text-[#CBA557]">
                     Edit
                   </button>
