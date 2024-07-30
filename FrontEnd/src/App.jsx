@@ -71,6 +71,7 @@ import Equipments from "./Components/Dashboard/MyBoats/Equipments.jsx";
 import Calendar from "./Components/Dashboard/MyBoats/Calander/Calender.jsx";
 import { UserProvider } from "../Context/UserContext.jsx";
 import BookingDetails from "./Components/Dashboard/Bookings/BookingDetails.jsx";
+import BoatDocuments from "./Components/Dashboard/MyBoats/BoatDocuments.jsx";
 //new commit
 function App() {
   return (
@@ -252,6 +253,10 @@ function App() {
               <Route
                 path="/Dashboard/my-boats/photo"
                 element={<DashboardLayout children={<Photo />} />}
+              />
+                 <Route
+                path="/Dashboard/my-boats/boatDocuments"
+                element={<DashboardLayout children={<BoatDocuments/>} />}
               />
               <Route
                 path="/Dashboard/my-boats/info-access"

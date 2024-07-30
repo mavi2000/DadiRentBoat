@@ -40,7 +40,7 @@ export const checkout = async (req, res) => {
       line_items: [
         {
           price_data: {
-            currency: "usd",
+            currency: "eur",
             product_data: {
               name: boatName,
               description: "Boat rental service",
@@ -51,7 +51,7 @@ export const checkout = async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: "http://localhost:5173",
+      success_url: "https://www.dadirent.it",
       cancel_url: "https://www.dadirent.it",
       metadata: {
         userId,

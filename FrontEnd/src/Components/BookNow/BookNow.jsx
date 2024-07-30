@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useContext, useRef, forwardRef } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import {
   IoShareSocialOutline,
@@ -41,48 +41,37 @@ import PoolLifeguard from "../../assets/Images/pool-lifeguard.png";
 import Draught from "../../assets/Images/Draught.png";
 import FuelType from "../../assets/Images/FuelType.png";
 import FuelTank from "../../assets/Images/FuelTank.png";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import Prices from "./Prices";
 import { useParams, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../../Context/UserContext";
 import { toast } from "react-toastify";
 import baseURL from "../../../APi/BaseUrl";
 import { loadStripe } from "@stripe/stripe-js";
 import DatePicker, { CalendarContainer } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 const stripePromise = loadStripe(
   "pk_test_51OwXJ9RtqZkTuUjdPn7IZ2nUJQ77VYiDdsW3s8ddWFQRUh4yUWKiXhYLAy54Y2249fgzSTPtcvfgUr2MoiWhBE5p00zp6MUFHe"
 );
-
 
 const BookNow = () => {
   const { id } = useParams();
   const { fetchBoatDetailsById } = useContext(UserContext);
   const navigate = useNavigate();
   const [boatDetails, setBoatDetails] = useState(null);
-  const [error, setError] = useState(null);
-  const [data, setData] = useState({
-    date: null,
-    duration: "oneDay",
-    amount: null,
-    boatName: "",
-    rateType: "new rates",
-    availableDate: "",
-    boatImage: "",
-    rentalType: [],
-    extraOptions: [],
-  });
-  const [ratesArr, setRatesArr] = useState(null);
+  const [user, setUser] = useState("");
+  const [selectedRate, setSelectedRate] = useState(null);
   const [selectedDates, setSelectedDates] = useState([]);
-  const [endDate, setEndDate] = useState(null);
+  const [customRate, setCustomRate] = useState("");
+  const [paymentOption, setPaymentOption] = useState("full");
   const [isAvailable, setIsAvailable] = useState(true);
-  const [isWeekend, setIsWeekend] = useState(false);
   const [quickChoice, setQuickChoice] = useState(null);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const [disabledDates, setDisabledDates] = useState([]);
+  const [data, setData] = useState({ rentalType: [] }); // Initialize data state
   const datePickerRef = useRef(null);
-
   const dummyTimeSlots = [
     {
       id: 1,
@@ -121,6 +110,28 @@ const BookNow = () => {
     },
   ];
 
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const getBoatDetails = async () => {
+      try {
+        const details = await fetchBoatDetailsById(id);
+        setBoatDetails(details);
+        setSelectedRate(details?.rate?.[0]);
+      } catch (error) {
+        console.error("Error fetching boat details:", error);
+      }
+    };
+
+    if (token) {
+      const decoded = jwtDecode(token);
+      setUser(decoded._id);
+    }
+
+    if (id) {
+      getBoatDetails();
+    }
+  }, [id, fetchBoatDetailsById]);
+
   const handleSave = () => {
     setIsDatePickerOpen(false);
     console.log("Saved dates:", selectedDates);
@@ -131,27 +142,52 @@ const BookNow = () => {
       (slot) => slot.id === parseInt(e.target.value)
     );
     setSelectedTimeSlot(selectedSlot);
+    console.log("Selected time slot:", selectedSlot);
+  };
+
+  const parseDuration = (duration) => {
+    const [amount, unit] = duration.split(" ");
+    if (unit.startsWith("week")) {
+      return parseInt(amount) * 7;
+    }
+    if (unit.startsWith("day")) {
+      return parseInt(amount);
+    }
+    return 1; // default to 1 day if no unit is provided
   };
 
   const handleDateChange = (dates) => {
-    const [start] = dates;
-    const minimumRentalDuration = boatDetails?.rate[0]?.minimumRentalDuration;
-    const durationInDays = minimumRentalDuration
-      ? parseInt(minimumRentalDuration.split(" ")[0])
-      : 1; // Default to 1 day if not specified
+    const [start, end] = dates;
+    setSelectedDates([start, end]);
 
-    const newEndDate = new Date(start);
-    newEndDate.setDate(start.getDate() + durationInDays - 1);
-    setSelectedDates([start, newEndDate]);
-    setEndDate(newEndDate);
+    const minimumRentalDuration =
+      boatDetails?.rate[0]?.minimumRentalDuration || "1 day";
+    const maximumRentalDuration =
+      boatDetails?.rate[0]?.maximumRentalDuration || "Infinity days";
+
+    const durationInDays =
+      (end ? end - start : start - start) / (1000 * 60 * 60 * 24) + 1;
+
+    const minDays = parseDuration(minimumRentalDuration);
+    const maxDays = parseDuration(maximumRentalDuration);
+
+    if (durationInDays < minDays) {
+      toast.error(`Minimum rental duration is ${minimumRentalDuration}`);
+      return;
+    }
+
+    if (durationInDays > maxDays) {
+      toast.error(`Maximum rental duration is ${maximumRentalDuration}`);
+      return;
+    }
 
     if (boatDetails && boatDetails.boatBookings) {
       const available = !boatDetails.boatBookings.some((booking) => {
-        const startDate = new Date(booking.startDate);
-        const endDate = new Date(booking.endDate);
+        const startDate = new Date(booking?.startDate);
+        const endDate = new Date(booking?.endDate);
         return (
           (start >= startDate && start <= endDate) ||
-          (newEndDate >= startDate && newEndDate <= endDate)
+          (end && end >= startDate && end <= endDate)
         );
       });
 
@@ -159,35 +195,154 @@ const BookNow = () => {
     } else {
       setIsAvailable(true);
     }
-
-    const dayOfWeek = start.getDay();
-    setIsWeekend(dayOfWeek === 0 || dayOfWeek === 6);
   };
 
-  const getDisabledDates = () => {
-    if (!boatDetails || !boatDetails.boatBookings) {
-      return [];
+  const handleQuickChoice = (choice) => {
+    const start = selectedDates[0] || new Date();
+    const end = new Date(start);
+    if (choice === "day") {
+      end.setDate(
+        start.getDate() +
+          parseDuration(boatDetails?.rate[0]?.minimumRentalDuration) -
+          1
+      );
+    } else if (choice === "week") {
+      end.setDate(
+        start.getDate() +
+          parseDuration(boatDetails?.rate[0]?.maximumRentalDuration) -
+          1
+      );
+    }
+    setSelectedDates([start, end]);
+    handleSave();
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!user) {
+      toast.error("User must be logged in to book a boat");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2500);
+      return;
     }
 
-    return boatDetails.boatBookings
-      .map((booking) => {
-        const start = new Date(booking.startDate);
-        const end = new Date(booking.endDate);
-        const dates = [];
-        while (start <= end) {
-          dates.push(new Date(start));
-          start.setDate(start.getDate() + 1);
-        }
-        return dates;
-      })
-      .flat();
+    if (!selectedRate && !selectedTimeSlot) {
+      toast.error("Please select a rate or time slot.");
+      return;
+    }
+
+    let amountToCharge = calculateTotal();
+
+    if (data.rentalType.includes("with skipper")) {
+      amountToCharge += 10; // Add skipper cost
+    }
+
+    if (paymentOption === "partial") {
+      amountToCharge = amountToCharge * 0.3;
+    }
+
+    const amountToChargeInCents = Math.round(amountToCharge * 100);
+
+    try {
+      const boatName = boatDetails?.rental
+        ?.map((item) => item.BoatName)
+        .join(", ");
+
+      const response = await baseURL.post("/checkout/payment", {
+        userId: user,
+        boatName,
+        amount: amountToChargeInCents,
+        rateType: selectedRate ? selectedRate.nameOfTheRate : "Time Slot",
+        totalAmount: amountToChargeInCents,
+        boatImage: boatDetails.boatImages.map((item) => item.images[0]),
+        availableDates: selectedDates,
+        boatId: boatDetails?.boat._id,
+        selectedTimeSlot: selectedTimeSlot ? selectedTimeSlot.slot : null,
+      });
+
+      const { sessionId } = await response.data;
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({ sessionId });
+
+      if (error) {
+        console.error("Stripe Checkout error:", error);
+        toast.error(response.data.error);
+      }
+    } catch (error) {
+      console.error("Payment failed:", error);
+      toast.error(
+        error.response?.data?.message || "Payment failed. Please try again."
+      );
+    }
   };
 
-  const disabledDates = getDisabledDates();
+  const getDisabledDates = async () => {
+    try {
+      const response = await baseURL.post("/checkout/unAvailableDates", {
+        boatName: boatDetails?.rental?.[0]?.BoatName,
+      });
+      return response.data.availableDates.map((date) => new Date(date));
+    } catch (error) {
+      console.error("Error fetching unavailable dates:", error);
+      return [];
+    }
+  };
 
-  const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
+  useEffect(() => {
+    if (boatDetails) {
+      getDisabledDates().then((dates) => setDisabledDates(dates));
+    }
+  }, [boatDetails]);
+
+  const getMinimumRate = () => {
+    if (!boatDetails || !boatDetails.rate || boatDetails.rate.length === 0) {
+      return "N/A";
+    }
+    return boatDetails.rate.reduce((min, rate) => {
+      const rateValue = typeof rate.oneDayRate === 'string' ? parseFloat(rate.oneDayRate.replace("€", "")) : rate.oneDayRate;
+      return rateValue < min ? rateValue : min;
+    }, Infinity);
+  };
+
+  const calculateTotal = () => {
+    let total = 0;
+    if (selectedTimeSlot) {
+      total = parseFloat(selectedTimeSlot.price.replace("€", ""));
+    } else if (selectedDates.length === 2) {
+      const durationInDays =
+        (selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24) + 1;
+      const rate = customRate || (selectedRate && selectedRate.oneDayRate) || 0;
+      total = rate * durationInDays;
+    }
+
+    if (data.rentalType.includes("with skipper")) {
+      total += 10; // Add skipper cost
+    }
+
+    return total;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevState) => {
+      if (prevState[name].includes(value)) {
+        return {
+          ...prevState,
+          [name]: prevState[name].filter((item) => item !== value),
+        };
+      } else {
+        return {
+          ...prevState,
+          [name]: [...prevState[name], value],
+        };
+      }
+    });
+  };
+
+  const CustomInput = forwardRef(({ value, onClick }, ref) => (
     <input
-      className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+      className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline €{
         !isAvailable ? "border-red-500" : ""
       }`}
       onClick={(e) => {
@@ -201,166 +356,58 @@ const BookNow = () => {
   ));
 
   const CustomCalendarContainer = ({ className, children }) => (
-    <div className={className}>
+    <div className={`${className} mx-8`}>
       <CalendarContainer className="relative">{children}</CalendarContainer>
       {selectedDates && selectedDates.length > 0 && (
         <div className="w-full flex flex-col gap-3 py-2">
           <div className="h-[1px] bg-black w-full"></div>
-          <div className=" flex gap-3">
-            <button className=" text-black font-semibold px-4 py-2">
-              Quick Choice :
-            </button>
-            {boatDetails?.rate[0]?.minimumRentalDuration === "1 day" && (
+          <div className=" flex flex-wrap px-3 gap-3">
+            <div className="flex flex-wrap gap-3 px-3">
+              <button className="text-black font-semibold py-2">
+                Quick Choice :
+              </button>
+              {boatDetails?.rate[0]?.minimumRentalDuration === "1 day" && (
+                <button
+                  className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
+                  onClick={() => {
+                    setQuickChoice("slot");
+                    handleSave();
+                  }}
+                >
+                  Time slot
+                </button>
+              )}
               <button
-                className=" text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
+                className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
                 onClick={() => {
-                  setQuickChoice("slot");
-                  handleSave();
+                  setQuickChoice("day");
+                  handleQuickChoice("day");
                 }}
               >
-                Time slot
+                {boatDetails?.rate[0]?.minimumRentalDuration}
               </button>
-            )}
-            <button
-              className=" text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
-              onClick={() => {
-                setQuickChoice("day");
-                handleSave();
-              }}
-            >
-              {boatDetails?.rate[0]?.minimumRentalDuration}
-            </button>
-            {["1 week", "2 weeks"].includes(
-              boatDetails?.rate[0]?.maximumRentalDuration
-            ) && (
-              <button
-                className=" text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
-                onClick={() => {
-                  setQuickChoice("week");
-                  handleSave();
-                }}
-              >
-                {boatDetails?.rate[0]?.maximumRentalDuration}
-              </button>
-            )}
+              {["1 week", "2 weeks"].includes(
+                boatDetails?.rate[0]?.maximumRentalDuration
+              ) && (
+                <button
+                  className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
+                  onClick={() => {
+                    setQuickChoice("week");
+                    handleQuickChoice("week");
+                  }}
+                >
+                  {boatDetails?.rate[0]?.maximumRentalDuration}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}
     </div>
   );
 
-  useEffect(() => {
-    const getBoatDetails = async () => {
-      try {
-        const details = await fetchBoatDetailsById(id);
-        setBoatDetails(details);
-        setData((prevData) => ({ ...prevData, boatName: details.boat.type }));
-      } catch (error) {
-        setError(error.message || "Error loading boat details");
-      }
-    };
-    getBoatDetails();
-  }, [id, fetchBoatDetailsById]);
-
-  useEffect(() => {
-    if (boatDetails) {
-      const rate = boatDetails.rate?.[0];
-      if (rate) {
-        setRatesArr(rate);
-      }
-    }
-  }, [boatDetails]);
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    if (type === "checkbox") {
-      setData((prev) => {
-        const updated = prev[name].includes(value)
-          ? prev[name].filter((item) => item !== value)
-          : [...prev[name], value];
-        return { ...prev, [name]: updated };
-      });
-    } else {
-      setData((prev) => ({ ...prev, [name]: value }));
-    }
-  };
-
-  const calculateTotalAmount = () => {
-    let totalAmount;
-
-    if (selectedTimeSlot) {
-      totalAmount = parseFloat(selectedTimeSlot.price.replace("$", ""));
-    } else {
-      const selectedRate = ratesArr.oneDayRate;
-      totalAmount = selectedRate ? Number(selectedRate) : 0;
-
-      if (data.rentalType.includes("with skipper")) {
-        totalAmount += 10; // Adding $10 for skipper
-      }
-
-      if (data.extraOptions.includes("Bagni Pancaldi Tickets")) {
-        totalAmount += 10; // Adding $10 for extra option
-      }
-    }
-
-    return totalAmount;
-  };
-
-  const handleSubmit = async () => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      toast.error("User must be logged in to book a boat");
-      setTimeout(() => navigate("/login"), 2500);
-      return;
-    }
-    const decoded = jwtDecode(token);
-    const userId = decoded._id;
-    if (!userId) {
-      return toast.error("Something went wrong");
-    }
-    if (!selectedDates.length) {
-      toast.error("Please select a date");
-      return;
-    }
-    const totalAmount = calculateTotalAmount();
-    if (!totalAmount) {
-      toast.error("Please select a valid duration");
-      return;
-    }
-    try {
-      const response = await baseURL.post("/checkout/payment", {
-        userId,
-        amount: totalAmount,
-        boatName: data.boatName,
-        rateType: selectedTimeSlot ? "Time Slot" : "new rates",
-        totalAmount: totalAmount,
-        availableDates: selectedDates,
-        boatImage: boatDetails.boatImages.map((item) => item.images[0]),
-        boatId: boatDetails?.boat?._id,
-      });
-      const { sessionId } = response.data;
-      const stripe = await stripePromise;
-      const { error } = await stripe.redirectToCheckout({ sessionId });
-      if (error) {
-        console.error("Stripe Checkout error:", error);
-      }
-    } catch (error) {
-      console.error("Payment failed", error);
-    }
-  };
-
-  const getMinimumRate = () => {
-    if (!boatDetails?.rate?.[0]) return 0;
-    return boatDetails.rate[0].oneDayRate;
-  };
-
-  if (!boatDetails && !error) {
+  if (!boatDetails) {
     return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
   }
 
   return (
@@ -725,7 +772,7 @@ const BookNow = () => {
           <div className="flex items-center gap-1">
             <p className="text-sm text-[#000000] font-normal">Total</p>
             <p className="text-lg font-bold text-[#CBA557]">
-              Starting from ${getMinimumRate()}
+              Starting from €{getMinimumRate()}
             </p>
           </div>
           <div className="flex flex-col">
@@ -760,6 +807,31 @@ const BookNow = () => {
               {boatDetails?.boat?.boardingCapacity}
             </h1>
           </div>
+          <div>
+            {quickChoice === "slot" && (
+              <div className="mt-4">
+                <label
+                  htmlFor="timeSlot"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Select Time Slot
+                </label>
+                <select
+                  id="timeSlot"
+                  name="timeSlot"
+                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                  onChange={handleTimeSlotChange}
+                >
+                  <option value="">Select a slot</option>
+                  {dummyTimeSlots.map((slot) => (
+                    <option key={slot.id} value={slot.id}>
+                      {slot.slot} - {slot.price}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
           <div className="space-y-4">
             <h1 className="font-normal text-lg text-[#000000]">
               Type of Rental
@@ -782,39 +854,18 @@ const BookNow = () => {
                   With Skipper
                 </label>
               </div>
-              <p className="font-normal text-[#676767] text-sm">$10</p>
+              <p className="font-normal text-[#676767] text-sm">€10</p>
             </div>
-          </div>
-          <div className="space-y-4">
-            <h1 className="font-normal text-lg text-[#000000]">
-              Extra options
-            </h1>
-            <div className="flex justify-between">
-              <div className="flex gap-2 items-center">
-                <input
-                  name="extraOptions"
-                  id="extraOptions"
-                  type="checkbox"
-                  onChange={handleChange}
-                  className="w-5 h-5"
-                  value={"Bagni Pancaldi Tickets"}
-                />
-                <label
-                  htmlFor="extraOptions"
-                  className="font-normal text-[#676767] text-sm"
-                >
-                  Bagni Pancaldi Tickets
-                </label>
-              </div>
-              <p className="font-normal text-[#676767] text-sm">$10</p>
-            </div>
-            <p className="font-normal text-[#FF6347] text-sm">
-              Fuel is excluded
-            </p>
           </div>
           <p className="font-normal text-[#676767] text-sm">
             You will only be charged if your request is confirmed
           </p>
+          <div className="flex justify-between items-center">
+            <p className="text-sm text-[#000000] font-normal">Total Amount</p>
+            <p className="text-lg font-bold text-[#CBA557]">
+              ${calculateTotal().toFixed(2)}
+            </p>
+          </div>
           <button
             onClick={handleSubmit}
             className="btn-5 flex items-center justify-center space-x-2"
@@ -941,35 +992,6 @@ const BookNow = () => {
           </div>
         </div>
       </div>
-      {/* <div className="my-[5%] mx-[6%]">
-        <h1 className="heading-book">Similar Sailboats Nearby</h1>
-        <div className="flex flex-wrap gap-4 justify-center items-center">
-          <FleetCard
-            boatImg={fleetBoat1}
-            title="Lady Gio - Inflatable Boat Tornado 525 Fasty"
-            numberOfPersons={8}
-            length="5.4 Meters"
-            power="40 HP"
-            licenseRequired="No"
-          />
-          <FleetCard
-            boatImg={fleetBoat2}
-            title="Annina Open Sea Boat Ghost 550"
-            numberOfPersons={6}
-            length="5.4 Meters"
-            power="40 HP"
-            licenseRequired="No"
-          />
-          <FleetCard
-            boatImg={fleetBoat3}
-            title="Super Mario Sessa Key Wide 16"
-            numberOfPersons={5}
-            length="5.4 Meters"
-            power="40 HP"
-            licenseRequired="No"
-          />
-        </div>
-      </div> */}
     </div>
   );
 };
