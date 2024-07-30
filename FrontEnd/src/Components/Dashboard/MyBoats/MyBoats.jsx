@@ -29,6 +29,7 @@ const ArrowRight = ({ className, style, onClick }) => (
     <FaArrowRight color="white" />
   </div>
 );
+
 const MyBoats = () => {
   const { getBoats, deleteBoat } = useContext(AdminContext);
   const [boatData, setBoatData] = useState([]);
@@ -52,6 +53,7 @@ const MyBoats = () => {
     };
     fetchBoats();
   }, [getBoats]);
+
   useEffect(() => {
     const applyFilters = () => {
       let filtered = boatData;
@@ -117,6 +119,12 @@ const MyBoats = () => {
     navigate(`/Dashboard/my-boats/calender`, { state: { boatId } });
   };
 
+  const handleWhatsAppClick = () => {
+    const phoneNumber = "+393701564317";
+    const url = `https://wa.me/${phoneNumber}`;
+    window.open(url, "_blank");
+  };
+
   const sliderSettings = {
     infinite: true,
     speed: 500,
@@ -143,6 +151,7 @@ const MyBoats = () => {
     { path: "/Dashboard/my-boats/photo", page: "Image" },
     { path: "/Dashboard/my-boats/info-access", page: "Access Information" },
   ];
+
   const getRandomAutoplaySpeed = () => Math.floor(Math.random() * 1000) + 3000;
 
   return (
@@ -337,6 +346,20 @@ const MyBoats = () => {
           </div>
         </div>
       )}
+
+      <div className="mt-8 p-4 bg-gray-100 rounded-md shadow-md text-center">
+        <h2 className="text-lg font-semibold text-gray-700">Need help?</h2>
+        <p className="text-sm text-gray-600 mt-2">
+          Monday to Friday from 8.30am to 7.00pm, Saturday from 9.00am to 6.30pm, and Sunday from 9.30am to 6.00pm.
+        </p>
+        <p className="text-sm text-gray-600 mt-2">+39 3701564317</p>
+        <button
+          onClick={handleWhatsAppClick}
+          className="mt-4 px-4 py-2 bg-[#CBA557] text-white rounded-md"
+        >
+          Contact us on WhatsApp
+        </button>
+      </div>
     </div>
   );
 };

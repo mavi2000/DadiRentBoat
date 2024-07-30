@@ -37,7 +37,7 @@ const Checkout = () => {
     {
       id: 1,
       slot: "4h00",
-      price: "$238.92",
+      price: "€238.92",
       duration: "4h00",
       departure: "Schedule to be agreed with the owner",
     },

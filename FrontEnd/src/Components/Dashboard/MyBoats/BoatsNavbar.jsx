@@ -25,6 +25,9 @@ const BoatsNavbar = () => {
           </Link>
         </div>
         <div className="py-3 px-3 md:px-0 w-fit font-normal text-[#4B465C] hover:border-b-2 border-[#CBA557] hover:text-[#CBA557]">
+          <Link to={"/Dashboard/my-boats/boatDocuments"}>Boat Documents</Link>
+        </div>
+        <div className="py-3 px-3 md:px-0 w-fit font-normal text-[#4B465C] hover:border-b-2 border-[#CBA557] hover:text-[#CBA557]">
           <Link to={"/Dashboard/my-boats/calender"}>Calendar</Link>
         </div>
         <div className="py-3 px-3 md:px-0 w-fit font-normal text-[#4B465C] hover:border-b-2 border-[#CBA557] hover:text-[#CBA557]">
