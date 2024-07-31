@@ -277,30 +277,30 @@ const Deposit = () => {
                 <input
                   type="radio"
                   name="manageDeposit"
-                  value="samboat"
+                  value="DadiRent"
                   onChange={handleChange}
-                  checked={depositData.manageDeposit === "samboat"}
+                  checked={depositData.manageDeposit === "DadiRent"}
                   className="mt-1"
                 />
                 <div>
                   <div className="font-light">
-                    Security deposit managed by Samboat
+                    Security deposit managed by DadiRent
                   </div>
                   <div className="font-light">Via a bank pre-authorization</div>
                 </div>
               </div>
 
-              {depositData.manageDeposit === "samboat" && (
+              {depositData.manageDeposit === "DadiRent" && (
                 <div className="p-2 rounded">
                   <p className="bg-blue-100 p-2 rounded font-light text-center m-auto ">
-                    SamBoat offers a service to guarantee the amount of your
+                    DadiRent offers a service to guarantee the amount of your
                     security deposit in the event of a claim, even if the renter
                     is not solvent. Depending on the amount guaranteed, an
                     additional commission is charged on all your bookings.
                   </p>
                   <div className="flex flex-col gap-3 mt-3 ">
                     <div className="font-light mt-10">
-                      I would like Samboat to guarantee the security deposit in
+                      I would like DadiRent to guarantee the security deposit in
                       the amount of:
                     </div>
                     <div className="flex items-center gap-3">
@@ -312,7 +312,7 @@ const Deposit = () => {
                         checked={depositData.guaranteeAmount === "0"}
                       />
                       <label className="font-light">
-                        0 € (+ 0% commission) (Commission taken by Samboat: 18%)
+                        0 € (+ 0% commission) (Commission taken by DadiRent: 18%)
                       </label>
                     </div>
                     <div className="flex items-center gap-3">
@@ -324,7 +324,7 @@ const Deposit = () => {
                         checked={depositData.guaranteeAmount === "1000"}
                       />
                       <label className="font-light">
-                        1 000 € (+ 2% commission) (Commission taken by Samboat:
+                        1 000 € (+ 2% commission) (Commission taken by DadiRent:
                         20%)
                       </label>
                     </div>
@@ -337,7 +337,7 @@ const Deposit = () => {
                         checked={depositData.guaranteeAmount === "2000"}
                       />
                       <label className="font-light">
-                        2 000 € (+ 3% commission) (Commission taken by Samboat:
+                        2 000 € (+ 3% commission) (Commission taken by DadiRent:
                         21%)
                       </label>
                     </div>
@@ -350,7 +350,7 @@ const Deposit = () => {
                         checked={depositData.guaranteeAmount === "5000"}
                       />
                       <label className="font-light">
-                        5 000 € (+ 5% commission) (Commission taken by Samboat:
+                        5 000 € (+ 5% commission) (Commission taken by DadiRent:
                         23%)
                       </label>
                     </div>
