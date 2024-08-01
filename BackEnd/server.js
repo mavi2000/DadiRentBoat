@@ -25,6 +25,7 @@ import rentalAgreementRoutes from "./routes/rentalAgreementRoutes.js";
 import rentalOTPRoutes from "./routes/rentalOTPRoutes.js";
 import ExpenseRoute from "./routes/expenseRoute.js"
 import reminderRoutes from "./routes/reminderRoutes.js"
+import boatdocumentRoute from "./routes/boatdocumentRoute.js"
 
 const app = express();
 const PORT = process.env.PORT || 3800;
@@ -62,6 +63,7 @@ app.use("/rental", rentalAgreementRoutes);
 app.use("/otp", rentalOTPRoutes);
 app.use("/Expense",ExpenseRoute)
 app.use("/Reminder",reminderRoutes)
+app.use("/document",boatdocumentRoute)
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

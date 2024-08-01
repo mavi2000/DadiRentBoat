@@ -7,11 +7,14 @@ const PaymentSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      // required: true,
+    },
+    username: {
+      type: String,
     },
     boatName: {
       type: String,
-      required: true,
+      // required: true,
     },
     boatId: {
       type: String,
@@ -19,19 +22,19 @@ const PaymentSchema = new Schema(
     },
     boatImage: {
       type: [String], // Array of strings
-      required: true,
+      // required: true,
     },
     amount: {
       type: Number,
-      required: true,
+      // required: true,
     },
     stripeDetails: {
       type: Object,
-      required: true,
+      // required: true,
     },
     rateType: {
       type: String,
-      required: true,
+      // required: true,
     },
     timeSlot: {
       type: String, // Add timeSlot field to handle selected time slot
@@ -39,22 +42,22 @@ const PaymentSchema = new Schema(
     },
     totalAmount: {
       type: Number,
-      required: true,
+      // required: true,
     },
     paymentStatus: {
       type: String,
       enum: ["paid", "partial", "unpaid"],
-      required: true,
+      // required: true,
       default: "unpaid",
     },
     availableDates: {
       type: [Date], // Array of dates
-      required: true,
+      // required: true,
     },
     bookingStatus: {
       type: String,
       enum: ["pending", "confirmed", "cancelled"],
-      required: true,
+      // required: true,
       default: "pending",
     }
   },
