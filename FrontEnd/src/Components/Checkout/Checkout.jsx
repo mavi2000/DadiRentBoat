@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import baseURL from "../../../APi/BaseUrl";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import { format } from "date-fns";
 import DatePicker, { CalendarContainer } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -133,13 +133,11 @@ const Checkout = () => {
 
     if (durationInDays < minDays) {
       toast.error(`Minimum rental duration is ${minimumRentalDuration}`);
-      // setIsAvailable(false);
       return;
     }
 
     if (durationInDays > maxDays) {
       toast.error(`Maximum rental duration is ${maximumRentalDuration}`);
-      // setIsAvailable(false);
       return;
     }
 
@@ -205,11 +203,14 @@ const Checkout = () => {
       amountToCharge = rate * durationInDays;
     }
 
+    const totalAmount = amountToCharge;
+
     if (paymentOption === "partial") {
-      amountToCharge = amountToCharge * 0.3;
+      amountToCharge = totalAmount * 0.3;
     }
 
-    const amountToChargeInCents = Math.round(amountToCharge * 100);
+    const amountToChargeInCents = Math.round(amountToCharge);
+    const totalAmountInCents = Math.round(totalAmount);
 
     try {
       const boatName = boatDetails?.rental
@@ -221,7 +222,7 @@ const Checkout = () => {
         boatName,
         amount: amountToChargeInCents,
         rateType: selectedRate ? selectedRate.nameOfTheRate : "Time Slot",
-        totalAmount: amountToChargeInCents,
+        totalAmount: totalAmountInCents,
         boatImage: boatDetails.boatImages.map((item) => item.images[0]),
         availableDates: selectedDates,
         boatId: boatDetails?.boat._id,
