@@ -1,16 +1,22 @@
 import { createError } from "../utils/createError.js";
 import Insurence from "../models/Insurence.js";
 import Joi from "joi";
+import { uploadPDF } from "../utils/cloudinaryConfig.js";
+
+
 
 export const addInsurance = async (req, res, next) => {
   try {
     const schema = Joi.object({
-      boatId: Joi.string().required(), // Add boatId validation
+      // boatId: Joi.string().required(),
       currentInsurer: Joi.string().required(),
       amountDeductible: Joi.number().positive().required(),
       insuredValueOfBoat: Joi.number().positive().required(),
       boatRegistration: Joi.string().required(),
     });
+
+    console.log("req.body", req.body); // Log request body
+    console.log("req.files", req.files); // Log files received
 
     const { error, value } = schema.validate(req.body);
     if (error) {
@@ -18,19 +24,36 @@ export const addInsurance = async (req, res, next) => {
     }
 
     const {
-      boatId,
+      // boatId,
       currentInsurer,
       amountDeductible,
       insuredValueOfBoat,
       boatRegistration,
     } = value;
 
+    const insuranceDocuments = [];
+
+    try {
+      if (req.files && req.files.insuranceDocuments) {
+        for (const file of req.files.insuranceDocuments) {
+          console.log(`Uploading file: ${file.originalname}`);
+          const result = await uploadPDF(file);
+          console.log(`Uploaded file URL: ${result.secure_url}`);
+          insuranceDocuments.push(result.secure_url);
+        }
+      }
+    } catch (uploadError) {
+      console.error('Cloudinary upload error:', uploadError);
+      return next(createError(500, uploadError.message));
+    }
+
     const newInsurance = new Insurence({
-      boatId,
+      // boatId,
       currentInsurer,
       amountDeductible,
       insuredValueOfBoat,
       boatRegistration,
+      insuranceDocuments,
     });
 
     const savedInsurance = await newInsurance.save();
@@ -41,9 +64,19 @@ export const addInsurance = async (req, res, next) => {
       insurance: savedInsurance,
     });
   } catch (error) {
+    console.error("Error during document upload:", error);
     next(error);
   }
-};
+}
+
+
+
+
+
+
+
+
+
 
 export const updateInsurance = async (req, res, next) => {
   try {

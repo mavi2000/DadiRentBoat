@@ -93,20 +93,26 @@ const AdminProvider = ({ children }) => {
   };
 
   const Insurances = async (InsuranceData) => {
+    console.log("InsuranceData", InsuranceData);
     try {
       const response = await baseURL.post(
         "/insurence/add-Insurence",
-        InsuranceData
+        InsuranceData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
-      // toast.success("deposit amount successfully");
       return response.data;
     } catch (error) {
-      error.response.data.message || "Failed to add Insurance";
+      const errorMessage =
+        error.response?.data?.message || "Failed to add Insurance";
       setError(errorMessage);
-      toast.error( error.response.data.message);
+      toast.error(errorMessage);
       throw error;
     }
-  };
+  }
 
   const ExtraServices = async (servicesData) => {
     console.log("servicesData", servicesData)
@@ -494,6 +500,24 @@ const AdminProvider = ({ children }) => {
     }
   };
 
+  const uploadBoatDocuments = async (formData) => {
+    console.log("formData",formData)
+    try {
+      const response = await baseURL.post("/document/boats-documents", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      toast.success("Documents uploaded successfully");
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to upload documents";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
 
 
 
@@ -534,7 +558,8 @@ const AdminProvider = ({ children }) => {
         sendReminder,
         getAllReminders,
         deleteReminder,
-        updateBoats
+        updateBoats,
+        uploadBoatDocuments
       }}
     >
       {children}

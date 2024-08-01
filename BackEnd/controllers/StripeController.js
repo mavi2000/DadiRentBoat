@@ -338,3 +338,58 @@ export const unAvailableDates =async(req,res)=>{
     res.status(500).json({ error: error.message });
   }
 }
+
+
+
+
+
+
+export const createPayment = async (req, res) => {
+  console.log("Request body:", req.body);
+
+  const {
+    userId,
+    username,
+    boatName,
+    boatId,
+    boatImage,
+    amount,
+    stripeDetails,
+    rateType,
+    availableDates,
+    amountPaid,
+    totalAmount,
+    timeSlot,
+    rentalType
+  } = req.body;
+
+  // Validate required fields manually
+  if (!username || !boatName || !totalAmount  || !rentalType) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  const newPaymentData = {
+    userId: userId || null,
+    username,
+    boatName,
+    boatId: boatId || null,
+    boatImage: boatImage || [],
+    amount: parseFloat(amount) || 0,
+    stripeDetails: stripeDetails || {},
+    rateType: rateType || '',
+    availableDates: availableDates || [],
+    amountPaid: parseFloat(amountPaid),
+    totalAmount: parseFloat(totalAmount),
+    timeSlot: timeSlot || null,
+    rentalType,
+  };
+
+  try {
+    const newPayment = new Payment(newPaymentData);
+    const savedPayment = await newPayment.save();
+    console.log("Saved Payment:", savedPayment);
+    res.status(201).json(savedPayment);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
