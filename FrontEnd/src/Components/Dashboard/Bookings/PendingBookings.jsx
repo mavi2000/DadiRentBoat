@@ -220,7 +220,7 @@ const PendingBookings = () => {
                     {booking.userId?.username || booking.username || "N/A"}
                   </td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
-                    {new Date(booking.availableDates[0]).toLocaleDateString()}
+                    {new Date(booking.availableDates[0]).toLocaleDateString() || booking.availableDate.toLocaleDateString()}
                   </td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
                     <div className="flex items-center justify-center">

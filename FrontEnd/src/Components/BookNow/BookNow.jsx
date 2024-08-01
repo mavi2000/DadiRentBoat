@@ -242,7 +242,7 @@ const BookNow = () => {
       amountToCharge = amountToCharge * 0.3;
     }
 
-    const amountToChargeInCents = Math.round(amountToCharge * 100);
+    const amountToChargeInCents = Math.round(amountToCharge);
 
     try {
       const boatName = boatDetails?.rental
