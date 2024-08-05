@@ -1,14 +1,15 @@
 import { FaAngleDown, FaRegBell } from "react-icons/fa";
 import logo from "../../assets/Images/logo.svg";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import userImage from "../../assets/Images/user.png";
 import SecondNavbar from "./SecondNavbar";
 import NavbarLinks from "./NavbarLinks";
 import TopNavbar from "./TopNavbar";
 import NavbarDropDown from "./NavbarDropDown";
 import { AuthContext } from "../../../Context/AuthContext";
-import { useContext } from "react";
+import LanguageSwitcher from "../../LanguageSwitcher";
+
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -96,11 +97,13 @@ const Navbar = () => {
           {secondNavbar ? <SecondNavbar /> : <NavbarLinks user={user} />}
 
           <div className="flex items-center gap-2 justify-end ml-auto mr-0">
+          <LanguageSwitcher />
             {user ? (
               <>
                 <Link to="#">
                   <FaRegBell size={30} className="text-[--primary-color]" />
                 </Link>
+              
                 <img
                   src={(user && user.image) || userImage}
                   alt="user avatar"

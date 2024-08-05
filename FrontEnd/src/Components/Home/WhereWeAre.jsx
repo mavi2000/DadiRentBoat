@@ -4,6 +4,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import locationfilled from '../../assets/Images/location-filled.png';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 // Define the custom icon
 const customIcon = new L.Icon({
@@ -14,6 +15,8 @@ const customIcon = new L.Icon({
 });
 
 const WhereWeAre = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="contact-information w-full flex flex-col-reverse md:flex-row">
       <MapContainer
@@ -27,8 +30,8 @@ const WhereWeAre = () => {
         <Marker position={[43.52992, 10.3054838]} icon={customIcon}>
           <Tooltip direction="top" offset={[0, -38]} opacity={1}>
             <span>
-              Viale Italia, 62<br />
-              c/o BAGNI PANCALDI IN ACQUAVIVA
+              {t('locationAddress')}<br />
+              {t('locationDetail')}
             </span>
           </Tooltip>
         </Marker>
@@ -41,35 +44,25 @@ const WhereWeAre = () => {
         />
         <div className="p-8">
           <h1 className="text-[var(--primary-color)] text-base font-semibold ">
-            SIGN UP AND BOOK US
+            {t('signUpAndBookUs')}
           </h1>
-          <h1 className="text-[#343434] font-medium text-3xl">Where we are</h1>
-          <p className="text-[#00000080] text-base">Viale Italia, 62</p>
+          <h1 className="text-[#343434] font-medium text-3xl">{t('whereWeAre')}</h1>
+          <p className="text-[#00000080] text-base">{t('locationAddress')}</p>
           <p className="text-[#00000080] text-base">
-            c/o BAGNI PANCALDI IN ACQUAVIVA
+            {t('locationDetail')}
           </p>
           <p className="text-[#00000080] text-base">
-            We await you at Bagni Pancaldi Acquaviva, situated at Viale Italia
-            62, in the heart of Livorno's waterfront. Our position adjoins the
-            Terrazza Mascagni, offering you a breathtaking view of the Tuscan
-            islands and Corsica. Directly opposite us lies Meloria Park, one of
-            the closest points, further enhancing the beauty of the surrounding
-            landscape."
+            {t('locationDescription')}
           </p>
           <br />
           <p className="text-[#00000080] text-base">
-            It's important to note that access to Bagni Pancaldi Acquaviva is
-            granted only for the duration of the rental. To remain at the beach
-            and access its services, you will need to purchase the relevant
-            entrance ticket. Nevertheless, you can enjoy an elegant and
-            rejuvenating environment with impeccable services and a delightful
-            sea view during your time with us.
+            {t('locationNote')}
           </p>
           <br />
           <br />
           <Link to="/Signup">
             <button className="text-white text-lg bg-[var(--primary-color)] mb-4 rounded-lg border-[1px] border-[var(--primary-color)] font-bold px-8 py-3">
-              Sign up
+              {t('signUp')}
             </button>
           </Link>
         </div>
@@ -77,4 +70,5 @@ const WhereWeAre = () => {
     </section>
   );
 };
-export default WhereWeAre;
+
+export default WhereWeAre;

@@ -1,3 +1,5 @@
+import React from 'react';
+
 const WhyChooseUsCard = ({ icon, title, description }) => {
   return (
     <div className="flex grow flex-col gap-3 items-center w-full md:w-[350px] p-8 bg-white shadow-md rounded-md">
@@ -9,4 +11,5 @@ const WhyChooseUsCard = ({ icon, title, description }) => {
     </div>
   );
 };
+
 export default WhyChooseUsCard;

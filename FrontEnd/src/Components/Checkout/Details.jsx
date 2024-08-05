@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../../Context/UserContext";
 import { useParams } from "react-router-dom";
+import Payment from "./Payment";
 
 const Details = ({ id }) => {
   console.log("id dwewq", id);
   const [boatDetails, setBoatDetails] = useState(null);
   const { fetchBoatDetailsById } = useContext(UserContext);
+  // const [paymentOption, setPaymentOption] = useState('payAll');
+
+  // const handleChange = (event) => {
+  //   setPaymentOption(event.target.value);
+  // };
 
   useEffect(() => {
     const getBoatDetails = async () => {
@@ -83,6 +89,7 @@ const Details = ({ id }) => {
               <strong>Telephone: </strong>
               {boatDetails.boat.telephone}
             </div>
+                <Payment/>
           </div>
         </div>
       ) : (

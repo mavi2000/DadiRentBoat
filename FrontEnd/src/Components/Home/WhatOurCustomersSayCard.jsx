@@ -1,3 +1,4 @@
+import React from 'react';
 import { FaStar } from 'react-icons/fa';
 import qoute from '../../assets/Images/qoute.png';
 
@@ -21,4 +22,5 @@ const WhatOurCustomersSayCard = ({ title, description, personName }) => {
     </div>
   );
 };
+
 export default WhatOurCustomersSayCard;

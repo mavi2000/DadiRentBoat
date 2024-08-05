@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import logo from "../../assets/Images/logo.png";
 import CrewGuestList from "./CrewGuestList";
 import CurrentChareges from "./CurrentChareges";
@@ -12,8 +13,10 @@ import TakePhoto from "./TakePhoto";
 import Verification from "./Verification";
 import baseURL from "../../../APi/BaseUrl";
 import { toast } from "react-toastify";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
+
 const RecreationalVehicleRentalAgreement = () => {
+  const { t } = useTranslation();
   const [data, setData] = useState({
     userId: "123",
     firstName: '',
@@ -34,25 +37,29 @@ const RecreationalVehicleRentalAgreement = () => {
     leaseEnd: '',
     leasePrice: 0,
     faithPlace: '',
-    faithDate: '', docFront: "", docBack: "", valid: false
-  })
-  // useEffect to get the user data
+    faithDate: '', 
+    docFront: "", 
+    docBack: "", 
+    valid: false
+  });
+
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     const getUser = async (id) => {
       try {
         const res = await baseURL('/get-user/' + id);
         const { username, email, phoneNumber = "", address = "", zip = "", state = "", country = "", dob = "" } = res.data.user;
-        setData({ ...data, userId: id, firstName: username.split(" ")[0], lastName: username.split(" ")[1], address, state, zip, country, email, dob: "20" + dob.split('/')[2] + "-" + dob.split('/')[0] + "-" + dob.split('/')[1] })
+        setData({ ...data, userId: id, firstName: username.split(" ")[0], lastName: username.split(" ")[1], address, state, zip, country, email, dob: "20" + dob.split('/')[2] + "-" + dob.split('/')[0] + "-" + dob.split('/')[1] });
       } catch (error) {
         console.log(error);
       }
-    }
+    };
     if (token) {
-      const decoded = jwtDecode(token)
-      getUser(decoded._id)
+      const decoded = jwtDecode(token);
+      getUser(decoded._id);
     }
-  }, [])
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -64,38 +71,35 @@ const RecreationalVehicleRentalAgreement = () => {
         headers: {
           "Content-Type": "multipart/form-data",
         }
-      })
-      toast.success(res.data.message)
+      });
+      toast.success(res.data.message);
     } catch (error) {
       console.log(error);
-      toast.error('Failed to create agreement')
+      toast.error('Failed to create agreement');
     }
-  }
+  };
+
   return (
     <div className="bg-white px-[3%] md:px-[6%] py-8 text-[#4B465C]">
       <img src={logo} alt="logo" className="size-[150px] mx-auto" />
-      <h1 className="text-center font-semibold text-2xl mt-12 uppercase ">
-        PLEASURE VESSEL RENTAL AGREEMENT
+      <h1 className="text-center font-semibold text-2xl mt-12 uppercase">
+        {t('pleasureVesselRentalAgreementTitleUnique')}
       </h1>
       <hr className="border-none h-[1px] bg-[#DBDADE] my-8" />
       <p className="text-lg mb-12">
-        With this rental contract, the Lessee requests the company DaDi Rent
-        Srls (lessor) to rent the Recreational Vessel to him , under the
-        following conditions:
+        {t('rentalAgreementIntroUnique')}
       </p>
       <p>
-        TYPE OF BOAT <span className="text-red-500">*</span>
+        {t('typeOfBoatLabelUnique')} <span className="text-red-500">*</span>
       </p>
       <p className="bg-[#F5F5F5] text-[#4B465C] border-[1px] border-[#DBDADE] w-full md:w-3/5 my-3 px-4 py-3 rounded-md">
-        Annina - open seaghost 550
+        {t('anninaBoatDescriptionUnique')}
       </p>
-      <p className="text-xs">Indicare il mezzo scelto per il noleggio</p>
+      <p className="text-xs">{t('boatSelectionNoteUnique')}</p>
       <form onSubmit={handleSubmit}>
         <LeseGereralInformation data={data} setData={setData} />
         <p className="text-lg mb-12">
-          Copy or scan of the Lessee's identity document, with his consent, is
-          acquired by the Lessor for the purposes indicated in the attached
-          Personal Data Processing Information pursuant to current regulations.
+          {t('lesseeDocumentCopyNoteUnique')}
         </p>
         <TakePhoto data={data} setData={setData} />
         <CrewGuestList data={data} setData={setData} />
@@ -110,4 +114,5 @@ const RecreationalVehicleRentalAgreement = () => {
     </div>
   );
 };
+
 export default RecreationalVehicleRentalAgreement;

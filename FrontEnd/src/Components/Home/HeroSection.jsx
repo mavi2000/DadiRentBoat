@@ -1,27 +1,44 @@
+import { useContext } from 'react';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { IoMail } from 'react-icons/io5';
 import { RiWhatsappFill } from 'react-icons/ri';
 import manWithStick from '../../assets/Images/man-with-stick.webp';
 import phoneSaveIcon from '../../assets/Images/phone-save.png';
 import HeroVideo from './HeroVideo';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+// import { AuthContext } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
+import '../../i18n';
+import { AuthContext } from '../../../Context/AuthContext';
 
 const HeroSection = () => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const handleGetStartedClick = () => {
+    navigate('/login');
+  };
+
   return (
     <div className="relative">
       <HeroVideo />
-      <section className=" flex items-center">
+      <section className="flex items-center">
         <div className="mx-[3%] md:mx-[6%] z-10 h-[100svh] md:h-[calc(100svh+6rem)] flex flex-col justify-center">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
-            Boats and Dinghies Rental
+            {t('title')}
           </h1>
           <p className="my-8 font-medium text-2xl text-white md:w-[60%]">
-            Get on board, an unforgettable day at sea awaits you thanks to DaDi
-            rent boat and dinghy rental
+            {t('description')}
           </p>
-          <button className="text-white bg-[var(--primary-color)] grow-0 w-fit rounded-lg border-[1px] border-[var(--primary-color)] font-bold px-8 py-3">
-            Get Started
-          </button>
+          {!user && (
+            <button
+              onClick={handleGetStartedClick}
+              className="text-white bg-[var(--primary-color)] grow-0 w-fit rounded-lg border-[1px] border-[var(--primary-color)] font-bold px-8 py-3"
+            >
+              {t('getStarted')}
+            </button>
+          )}
         </div>
       </section>
       <section className="flex flex-col-reverse md:flex-row">
@@ -37,13 +54,13 @@ const HeroSection = () => {
             className="w-16 ml-0 mt-0 mb-auto mr-auto"
           />
           <h1 className="text-[var(--primary-color)] text-base font-semibold ">
-            Contact us and Book Now
+            {t('contactTitle')}
           </h1>
           <a
             href="tel:+39 3701564317"
             className="text-[#343434] font-bold text-2xl"
           >
-            +39 3701564317
+            {t('phone')}
           </a>
           <div className="text-[--primary-color] flex gap-5 items-center">
             <IoMail size={30} />
@@ -51,19 +68,18 @@ const HeroSection = () => {
             <FaPhoneAlt size={25} />
           </div>
           <p className="text-[#00000080] text-center px-4 w-[90%]">
-            If you love the sea and want to spend moments different from the
-            usual, DaDi Rent is the ideal solution for renting boats and dinghys
-            in Livorno, whether you are in the company of family or friends.
+            {t('contactDescription')}
           </p>
           <Link
             to={'/Our-Fleet'}
             className="text-white bg-[var(--primary-color)] mb-4 rounded-lg border-[1px] border-[var(--primary-color)] font-bold px-8 py-3"
           >
-            Book Now
+            {t('bookNow')}
           </Link>
         </div>
       </section>
     </div>
   );
 };
+
 export default HeroSection;

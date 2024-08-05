@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Boat1 from '../../assets/Images/Services-boat-1.webp';
 import Boat2 from '../../assets/Images/Services-boat-2.webp';
 import Boat3 from '../../assets/Images/Services-boat-3.webp';
@@ -10,15 +11,17 @@ import aperitif from '../../assets/Images/aperitif.png';
 import { Link } from 'react-router-dom';
 
 const Services = () => {
+  const { t } = useTranslation();
+
   return (
     <div>
       <div className="Services-page-bg !h-[50svh] md:!h-[100svh]">
         <div className="h-[50svh] md:h-[100svh] flex flex-col justify-center mx-[6%]">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
-            Dadi Rent Services
+            {t('dadiRentServices')}
           </h1>
           <p className="my-8 font-medium text-2xl text-white md:w-[60%]">
-            Discover, Explore, Taste!
+            {t('discoverExploreTaste')}
           </p>
         </div>
       </div>
@@ -38,17 +41,14 @@ const Services = () => {
             />
 
             <h1 className=" text-3xl font-medium text-[#383838]">
-              Rental with or without driver
+              {t('rentalWithOrWithoutDriver')}
             </h1>
 
             <p className=" text-base text-[#00000080] text-center px-4 w-[90%] py-3">
-              If you love the sea and want to spend moments different from the
-              usual, DaDi Rent is the ideal solution for renting boats and
-              dinghys in Livorno, whether you are in the company of family or
-              friends.
+              {t('rentalDescription')}
             </p>
             <button className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]">
-              Find out More
+              {t('findOutMore')}
             </button>
           </div>
         </section>
@@ -61,19 +61,18 @@ const Services = () => {
               className="w-20 mr-0 mt-0 ml-auto mb-[5%]"
             />
 
-            <h1 className=" text-3xl font-medium text-[#383838]">Excursions</h1>
+            <h1 className=" text-3xl font-medium text-[#383838]">
+              {t('excursions')}
+            </h1>
 
             <p className=" text-base text-[#00000080] text-center px-4 w-[90%] py-3">
-              We organize guided excursions to help you discover the most
-              beautiful and evocative places in the area. From breathtaking
-              views to cultural attractions, we offer you an unforgettable and
-              informative experience.
+              {t('excursionsDescription')}
             </p>
             <Link
               to="/services/Excursions"
               className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
             >
-              <button>Find out More</button>
+              <button>{t('findOutMore')}</button>
             </Link>
           </div>
           <img
@@ -97,20 +96,17 @@ const Services = () => {
             />
 
             <h1 className=" text-3xl font-medium text-[#383838]">
-              Fishing Trips
+              {t('fishingTrips')}
             </h1>
 
             <p className=" text-base text-[#00000080] text-center px-4 w-[90%] py-3">
-              If you are a fishing enthusiast, we offer you the opportunity to
-              participate in exciting fishing trips. Take advantage of our local
-              knowledge and quality equipment to catch unforgettable fish in the
-              waters of Livorno.
+              {t('fishingTripsDescription')}
             </p>
             <Link
               to="Fishing-Trips"
               className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
             >
-              <button>Find out More</button>
+              <button>{t('findOutMore')}</button>
             </Link>
           </div>
         </section>
@@ -123,18 +119,18 @@ const Services = () => {
               className="w-20 mr-0 mt-0 ml-auto mb-[5%]"
             />
 
-            <h1 className=" text-3xl font-medium text-[#383838]">Aperitif</h1>
+            <h1 className=" text-3xl font-medium text-[#383838]">
+              {t('aperitif')}
+            </h1>
 
             <p className=" text-base text-[#00000080] text-center px-4 w-[90%] py-3">
-              Enjoy a moment of relaxation and conviviality with our aperitifs
-              on board our boats. Delicious appetizers and drinks await you
-              while you admire the sunset over the sea.
+              {t('aperitifDescription')}
             </p>
             <Link
               to="/Aperitif"
               className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
             >
-              <button>Find out More</button>
+              <button>{t('findOutMore')}</button>
             </Link>
           </div>
           <img
