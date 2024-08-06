@@ -7,7 +7,7 @@ const Rates = () => {
 
   return (
     <section className="bg-[#F2EFE8] py-12 flex flex-col items-center justify-center my-12 mx-[3%] md:mx-[6%]">
-      <h1 className="text-[var(--primary-color)] text-base font-semibold ">
+      {/* <h1 className="text-[var(--primary-color)] text-base font-semibold ">
         {t('viewOur')}
       </h1>
       <h1 className="text-3xl font-medium text-black my-4">{t('rates')}</h1>
@@ -42,7 +42,7 @@ const Rates = () => {
           trait3={t('trait3')}
           trait4={t('trait4')}
         />
-      </div>
+      </div> */}
     </section>
   );
 };
