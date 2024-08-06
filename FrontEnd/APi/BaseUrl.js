@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const baseURL = axios.create({
-  baseURL: "http://localhost:3800",
+  baseURL: "https://backend.dadirent.it",
   headers: {
     "Content-Type": "application/json",
   },
