@@ -1,18 +1,23 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+
 const DoYouHaveDoubtsCard = ({ title }) => {
+  const { t } = useTranslation();
+
   return (
     <section className="px-[3%] md:px-[6%] py-12 bg-white">
       <h1 className="text-3xl font-medium ">
-        {title || 'Do you have doubts?'}
+        {title || t('doYouHaveDoubts')}
       </h1>
       <br />
       <p className="text-lg text-[#383838]">
-        Our team is always at your service 24H
+        {t('ourTeamService')}
       </p>
 
       <div className="flex gap-12 flex-col md:flex-row my-8 items-center">
         <div className="flex w-full flex-col gap-2 grow">
           <label htmlFor="name" className="text-base text-[#383838]">
-            Your name
+            {t('yourName')}
           </label>
           <input
             type="text"
@@ -22,7 +27,7 @@ const DoYouHaveDoubtsCard = ({ title }) => {
         </div>
         <div className="flex w-full flex-col gap-2 grow">
           <label htmlFor="email" className="text-base text-[#383838]">
-            Your email
+            {t('yourEmail')}
           </label>
           <input
             type="email"
@@ -34,7 +39,7 @@ const DoYouHaveDoubtsCard = ({ title }) => {
       <div className="flex gap-12 flex-col md:flex-row my-8 items-center">
         <div className="flex w-full flex-col gap-2 grow">
           <label htmlFor="phone" className="text-base text-[#383838]">
-            Your phone number
+            {t('yourPhoneNumber')}
           </label>
           <input
             type="tel"
@@ -44,7 +49,7 @@ const DoYouHaveDoubtsCard = ({ title }) => {
         </div>
         <div className="flex w-full flex-col gap-2 grow">
           <label htmlFor="subject" className="text-base text-[#383838]">
-            Subject
+            {t('subject')}
           </label>
           <select
             name="subject"
@@ -53,24 +58,25 @@ const DoYouHaveDoubtsCard = ({ title }) => {
           >
             <option value=""></option>
             <option value="Unsuccessful Reservations">
-              Unsuccessful Reservations
+              {t('unsuccessfulReservations')}
             </option>
-            <option value="Card Payment Error">Card Payment Error</option>
-            <option value="Unsuccessful Login">Unsuccessful Login</option>
-            <option value="cancelled Reservation">cancelled Reservation</option>
-            <option value="Other">Other</option>
+            <option value="Card Payment Error">
+              {t('cardPaymentError')}
+            </option>
+            <option value="Unsuccessful Login">
+              {t('unsuccessfulLogin')}
+            </option>
+            <option value="Cancelled Reservation">
+              {t('cancelledReservation')}
+            </option>
+            <option value="Other">{t('other')}</option>
           </select>
-          {/* <input
-            type="text"
-            id="subject"
-            className="rounded bg-[#CBA55714] outline-none w-full border-[1px] border-[#E8E8E8] p-2"
-          /> */}
         </div>
       </div>
 
       <div className="flex flex-col gap-2 grow">
         <label htmlFor="message" className="text-base text-[#383838]">
-          Your message (optional)
+          {t('yourMessage')}
         </label>
         <textarea
           name="message"
@@ -82,9 +88,10 @@ const DoYouHaveDoubtsCard = ({ title }) => {
       <br />
       <br />
       <button className="bg-[var(--primary-color)] text-white text-lg font-bold rounded-lg px-12 py-2 ">
-        Send
+        {t('send')}
       </button>
     </section>
   );
 };
+
 export default DoYouHaveDoubtsCard;

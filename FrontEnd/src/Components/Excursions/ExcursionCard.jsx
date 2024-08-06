@@ -12,7 +12,7 @@ const ExcursionCard = ({ title, img, p1, p2, p3, description }) => {
         <p className="text-[#676767] text-lg">{p2}</p>
         <p className="text-[#676767] text-lg">{p3}</p>
         <br />
-        <Link to="/check-out">
+        <Link to="/Our-Fleet">
           <button className="bg-[var(--primary-color)] text-white text-lg font-bold rounded-lg px-12 py-2">
             Book Now
           </button>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import baseURL from "../../../APi/BaseUrl";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { format } from "date-fns";
 import DatePicker, { CalendarContainer } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,12 +12,14 @@ import Payment from "./Payment";
 import { UserContext } from "../../../Context/UserContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useTranslation } from "react-i18next";
 
 const stripePromise = loadStripe(
   "pk_test_51OwXJ9RtqZkTuUjdPn7IZ2nUJQ77VYiDdsW3s8ddWFQRUh4yUWKiXhYLAy54Y2249fgzSTPtcvfgUr2MoiWhBE5p00zp6MUFHe"
 );
 
 const Checkout = () => {
+  const { t } = useTranslation();
   const { fetchBoatDetailsById } = useContext(UserContext);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -31,45 +33,26 @@ const Checkout = () => {
   const [isAvailable, setIsAvailable] = useState(true);
   const [quickChoice, setQuickChoice] = useState(null);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const [isChecked, setIsChecked] = useState(true);
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [totalAmount, setTotalAmount] = useState(0); // New state for total amount
+
+  const skipperCost = 10; // Define the skipper cost here
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+    calculateTotalAmount(
+      selectedRate,
+      customRate,
+      selectedDates,
+      startTime,
+      endTime,
+      event.target.checked
+    );
+  };
+
   const datePickerRef = useRef(null);
-  const dummyTimeSlots = [
-    {
-      id: 1,
-      slot: "4h00",
-      price: "€238.92",
-      duration: "4h00",
-      departure: "Schedule to be agreed with the owner",
-    },
-    {
-      id: 2,
-      slot: "Morning",
-      price: "$179.19",
-      duration: "4h00",
-      departure: "8:00 AM",
-    },
-    {
-      id: 3,
-      slot: "Noon",
-      price: "$238.92",
-      duration: "4h00",
-      departure: "12:00 PM",
-    },
-    {
-      id: 4,
-      slot: "Afternoon",
-      price: "$238.92",
-      duration: "4h00",
-      departure: "2:00 PM",
-    },
-    {
-      id: 5,
-      slot: "Evening",
-      price: "$238.92",
-      duration: "5h00",
-      departure: "6:00 PM",
-    },
-  ];
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -78,6 +61,15 @@ const Checkout = () => {
         const details = await fetchBoatDetailsById(id);
         setBoatDetails(details);
         setSelectedRate(details?.rate?.[0]);
+        // Calculate initial total amount
+        calculateTotalAmount(
+          details?.rate?.[0],
+          customRate,
+          selectedDates,
+          startTime,
+          endTime,
+          isChecked
+        );
       } catch (error) {
         console.error("Error fetching boat details:", error);
       }
@@ -96,13 +88,7 @@ const Checkout = () => {
   const handleSave = () => {
     setIsDatePickerOpen(false);
     console.log("Saved dates:", selectedDates);
-  };
-
-  const handleTimeSlotChange = (e) => {
-    const selectedSlot = dummyTimeSlots.find(
-      (slot) => slot.id === parseInt(e.target.value)
-    );
-    setSelectedTimeSlot(selectedSlot);
+    calculateTotalAmount(selectedRate, customRate, selectedDates, startTime, endTime, isChecked);
   };
 
   const parseDuration = (duration) => {
@@ -155,6 +141,8 @@ const Checkout = () => {
     } else {
       setIsAvailable(true);
     }
+
+    calculateTotalAmount(selectedRate, customRate, [start, end], startTime, endTime, isChecked);
   };
 
   const handleQuickChoice = (choice) => {
@@ -166,51 +154,71 @@ const Checkout = () => {
           parseDuration(boatDetails?.rate[0]?.minimumRentalDuration) -
           1
       );
+      setStartTime("");
+      setEndTime("");
     } else if (choice === "week") {
       end.setDate(
         start.getDate() +
           parseDuration(boatDetails?.rate[0]?.maximumRentalDuration) -
           1
       );
+      setStartTime("");
+      setEndTime("");
     }
     setSelectedDates([start, end]);
-    handleSave();
+    if (choice === "slot") {
+      setIsDatePickerOpen(false);
+    } else {
+      handleSave();
+    }
+    setQuickChoice(choice);
+  };
+
+  const calculateTotalAmount = (rate, customRate, dates, startTime, endTime, isChecked) => {
+    let amount = 0;
+
+    if (dates && dates.length === 2) {
+      const durationInDays = (dates[1] - dates[0]) / (1000 * 60 * 60 * 24) + 1;
+      const dailyRate = parseFloat(customRate || rate?.oneDayRate || 0);
+      amount = dailyRate * durationInDays;
+    } else if (startTime && endTime) {
+      const startHour = parseInt(startTime.split(":")[0]);
+      const endHour = parseInt(endTime.split(":")[0]);
+      const durationInHours = endHour - startHour;
+      const hourlyRate = parseFloat(customRate || rate?.oneHourRate || 0);
+      amount = hourlyRate * durationInHours;
+    }
+
+    if (isChecked) {
+      amount += skipperCost; // Add skipper cost if checked
+    }
+
+    setTotalAmount(amount); // Update total amount state
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!user) {
-      toast.error("User must be logged in to book a boat");
+      toast.error(t("userMustBeLoggedIn"));
       setTimeout(() => {
         navigate("/login");
       }, 2500);
       return;
     }
 
-    if (!selectedRate && !selectedTimeSlot) {
-      toast.error("Please select a rate or time slot.");
+    if (!selectedRate && (!startTime || !endTime)) {
+      toast.error(t("selectRateOrTimeSlot"));
       return;
     }
 
-    let amountToCharge;
-
-    if (selectedTimeSlot) {
-      amountToCharge = parseFloat(selectedTimeSlot.price.replace("$", ""));
-    } else {
-      const durationInDays =
-        (selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24) + 1;
-      const rate = customRate || selectedRate.oneDayRate;
-      amountToCharge = rate * durationInDays;
-    }
-
-    const totalAmount = amountToCharge;
+    let amountToCharge = totalAmount;
 
     if (paymentOption === "partial") {
       amountToCharge = totalAmount * 0.3;
     }
 
-    const amountToChargeInCents = Math.round(amountToCharge);
-    const totalAmountInCents = Math.round(totalAmount);
+    const amountToChargeInCents = Math.round(amountToCharge * 100);
+    const totalAmountInCents = Math.round(totalAmount * 100);
 
     try {
       const boatName = boatDetails?.rental
@@ -226,7 +234,9 @@ const Checkout = () => {
         boatImage: boatDetails.boatImages.map((item) => item.images[0]),
         availableDates: selectedDates,
         boatId: boatDetails?.boat._id,
-        selectedTimeSlot: selectedTimeSlot ? selectedTimeSlot.slot : null,
+        startTime,
+        endTime,
+        isChecked, // Add the checkbox state to the payload
       });
 
       const { sessionId } = await response.data;
@@ -239,9 +249,7 @@ const Checkout = () => {
       }
     } catch (error) {
       console.error("Payment failed:", error);
-      toast.error(
-        error.response?.data?.message || "Payment failed. Please try again."
-      );
+      toast.error(error.response?.data?.message || t("paymentFailed"));
     }
   };
 
@@ -300,23 +308,21 @@ const Checkout = () => {
           <div className=" flex flex-wrap px-3 gap-3">
             <div className="flex flex-wrap gap-3 px-3">
               <button className="text-black font-semibold py-2">
-                Quick Choice :
+                {t("quickChoice")} :
               </button>
               {boatDetails?.rate[0]?.minimumRentalDuration === "1 day" && (
                 <button
                   className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
                   onClick={() => {
-                    setQuickChoice("slot");
-                    handleSave();
+                    handleQuickChoice("slot");
                   }}
                 >
-                  Time slot
+                  {t("timeSlot")}
                 </button>
               )}
               <button
                 className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
                 onClick={() => {
-                  setQuickChoice("day");
                   handleQuickChoice("day");
                 }}
               >
@@ -328,7 +334,6 @@ const Checkout = () => {
                 <button
                   className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
                   onClick={() => {
-                    setQuickChoice("week");
                     handleQuickChoice("week");
                   }}
                 >
@@ -347,48 +352,38 @@ const Checkout = () => {
       <div className="checkout-bg !h-[50svh] md:!h-[100svh]">
         <div className="h-[50svh] md:h-[100svh] flex flex-col justify-center mx-[6%]">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
-            Check Out
+            {t("checkOut")}
           </h1>
         </div>
       </div>
       <div className="mx-[6%] mt-[3%]">
-        <h1 className="font-medium text-3xl text-[#000000]">Check Out</h1>
-        <p className="para-book mt-2">
-          Book your rental in two simple steps. <br />
-          Renting boats from us means relying on a competent team that takes
-          care of all the pre and post boat rental phases. But not only that,
-          all our boats are periodically checked and tested according to current
-          regulations. This is why boat rental with DaDi Rent is safe. Not only
-          in the price but also in the quality of our boats and in the service
-          that we are able to provide always and in any case.
-        </p>
+        <h1 className="font-medium text-3xl text-[#000000]">
+          {t("checkOut")}
+        </h1>
+        <p className="para-book mt-2">{t("bookRentalDescription")}</p>
 
         <div className="flex flex-col md:flex-row md:space-x-[2%] mt-[2%] space-y-[5%] md:space-y-[0%]">
           <div className="md:w-[35%] bg-white rounded-xl shadow-checkout mb-[1%]">
             <div className="py-9 px-12 flex flex-col justify-center items-center">
               <h2 className="text-xl font-medium leading-7">
-                Booking #240401-104107563
+                {t("bookingNumber")}
               </h2>
             </div>
             <hr className="border border-[#DCDCDC]" />
 
             <div className="py-9 px-12 flex justify-center flex-col text-[#383838]">
               {boatDetails?.boatImages?.map((item) => (
-                <img
-                  key={item.id}
-                  src={item.images[0]}
-                  alt=""
-                  className="md:w-64 mb-4"
-                />
+                <img key={item.id} src={item.images[0]} alt="" className="md:w-64 mb-4" />
               ))}
               {boatDetails ? (
                 <>
                   <h2 className="heading-book mt-[4%] text-[#383838]">
                     {boatDetails?.rental?.map((item) => item.BoatName)}
                   </h2>
-                  <div className="flex flex-col gap-1 mt-[3%]">
-                    <p>
-                      From:{" "}
+                  <div className="flex flex-col  gap-4 mt-[3%]">
+                    <p className="font-bold">
+                      {t("from")}{" "}
+                      :
                       <span className="text-[#676767] font-normal">
                         {format(
                           new Date(
@@ -400,8 +395,9 @@ const Checkout = () => {
                         )}
                       </span>
                     </p>
-                    <p>
-                      To:{" "}
+                    <p className="font-bold">
+                      {t("to")}{" "}
+                      :
                       <span className="text-[#676767] font-normal">
                         {format(
                           new Date(
@@ -414,20 +410,25 @@ const Checkout = () => {
                       </span>
                     </p>
                     <p className="text-[#676767] font-normal">
-                      {boatDetails?.description?.map((item) => (
-                        <p className="text-[#676767] font-normal">
-                          {item.rentalType === "bareBoat"
-                            ? " withSkipper"
-                            : "without Skipper"}
-                        </p>
-                      ))}
+                     <span className="font-bold text-normal">Number of persons </span> {boatDetails.boat.boardingCapacity}
                     </p>
+                    <label className="flex gap-2">
+                      <input
+                        type="checkbox"
+                        name="withSkipper"
+                        value="10"
+                        checked={isChecked}
+                        onChange={handleCheckboxChange}
+                      />
+                      With skipper 10 €
+                    </label>
+
                     <div className="mb-4">
                       <label
                         htmlFor="bookingDate"
                         className="block text-gray-700 text-sm font-bold mb-2"
                       >
-                        Select Booking Dates:
+                        {t("selectBookingDates")}
                       </label>
                       <DatePicker
                         ref={datePickerRef}
@@ -447,67 +448,73 @@ const Checkout = () => {
                       />
                       {!isAvailable && (
                         <p className="text-red-500 text-xs italic">
-                          This boat is not available on the selected dates.
+                          {t("boatNotAvailable")}
                         </p>
                       )}
                     </div>
                     {quickChoice === "slot" && (
-                      <div className="mb-4">
-                        <label
-                          htmlFor="timeslots"
-                          className="block text-gray-700 text-sm font-bold mb-2"
-                        >
-                          Time Slots:
-                        </label>
-                        <div className="relative">
-                          <select
-                            id="timeslots"
-                            className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
-                            onChange={handleTimeSlotChange}
+                      <>
+                        <div className="mb-4">
+                          <label
+                            htmlFor="startTime"
+                            className="block text-gray-700 text-sm font-bold mb-2"
                           >
-                            <option value="">Choose a slot</option>
-                            {dummyTimeSlots.map((timeSlot) => (
-                              <option key={timeSlot.id} value={timeSlot.id}>
-                                {timeSlot.slot} - {timeSlot.price}
-                              </option>
-                            ))}
+                            {t("startTime")}
+                          </label>
+                          <select
+                            id="startTime"
+                            className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
+                            value={startTime}
+                            onChange={(e) => setStartTime(e.target.value)}
+                          >
+                            <option value="">{t("chooseStartTime")}</option>
+                            {Array.from({ length: 18 }, (_, i) => i + 7).map(
+                              (hour) => (
+                                <option key={hour} value={`${hour}:00`}>
+                                  {`${hour}:00`}
+                                </option>
+                              )
+                            )}
                           </select>
-                          {selectedTimeSlot && (
-                            <div className="mt-2 p-2 bg-white shadow-md rounded-md">
-                              <div className="flex justify-between items-center">
-                                <div>
-                                  <h3 className="text-black font-semibold">
-                                    {selectedTimeSlot.slot}
-                                  </h3>
-                                  <p className="text-gray-600">
-                                    Duration: {selectedTimeSlot.duration}
-                                  </p>
-                                  <p className="text-gray-600">
-                                    Departure: {selectedTimeSlot.departure}
-                                  </p>
-                                </div>
-                                <div className="text-black font-semibold">
-                                  {selectedTimeSlot.price}
-                                </div>
-                              </div>
-                            </div>
-                          )}
                         </div>
-                      </div>
+                        <div className="mb-4">
+                          <label
+                            htmlFor="endTime"
+                            className="block text-gray-700 text-sm font-bold mb-2"
+                          >
+                            {t("endTime")}
+                          </label>
+                          <select
+                            id="endTime"
+                            className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
+                            value={endTime}
+                            onChange={(e) => setEndTime(e.target.value)}
+                          >
+                            <option value="">{t("chooseEndTime")}</option>
+                            {Array.from({ length: 18 }, (_, i) => i + 7).map(
+                              (hour) => (
+                                <option key={hour} value={`${hour}:00`}>
+                                  {`${hour}:00`}
+                                </option>
+                              )
+                            )}
+                          </select>
+                        </div>
+                      </>
                     )}
                   </div>
                 </>
               ) : (
-                <p>Loading boat details...</p>
+                <p>{t("loadingBoatDetails")}</p>
               )}
               <div className="mb-4">
-                {selectedRate && isAvailable && !selectedTimeSlot && (
+                {selectedRate && isAvailable && !startTime && !endTime && (
                   <div>
                     <label
                       htmlFor="customRate"
                       className="block text-gray-700 text-sm font-bold mb-2"
                     >
-                      Per Day Rate:
+                      {t("perDayRate")}
                     </label>
                     <input
                       type="number"
@@ -517,7 +524,7 @@ const Checkout = () => {
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     <p className="text-gray-700 text-xl font-bold mt-2">
-                      Total: $
+                      {t("total")}  €
                       {(
                         (customRate || selectedRate.oneDayRate) *
                         ((selectedDates[1] - selectedDates[0]) /
@@ -527,14 +534,25 @@ const Checkout = () => {
                     </p>
                   </div>
                 )}
-                {selectedTimeSlot && (
+                {startTime && endTime && (
                   <div className="text-gray-700 text-xl font-bold mt-2">
-                    Total: {selectedTimeSlot.price}
+                    {t("total")}:  €
+                    {(
+                      parseFloat(customRate || selectedRate.oneHourRate) *
+                      (parseInt(endTime.split(":")[0]) -
+                        parseInt(startTime.split(":")[0]))
+                    ).toFixed(2)}
                   </div>
                 )}
+                <div className="text-gray-700 text-xl font-bold mt-2">
+                with skipper{t("total")}€
+                    {totalAmount.toFixed(2)}
+                  </div>
               </div>
               <div className="my-4">
-                <h2 className="font-medium text-lg mb-2">Payment Option:</h2>
+                <h2 className="font-medium text-lg mb-2">
+                  {t("paymentOption")}
+                </h2>
                 <label className="block mt-2">
                   <input
                     type="radio"
@@ -544,9 +562,9 @@ const Checkout = () => {
                     onChange={() => setPaymentOption("full")}
                     className="mr-2"
                   />
-                  Pay Full Amount
+                  {t("payFullAmount")}
                 </label>
-                <label className="block mt-2">
+                <label className="mt-2 flex gap-2">
                   <input
                     type="radio"
                     name="paymentOption"
@@ -555,14 +573,14 @@ const Checkout = () => {
                     onChange={() => setPaymentOption("partial")}
                     className="mr-2"
                   />
-                  Pay 30% (Remaining 70% will be paid at the harbour)
+                  {t("payPartialAmount")}
                 </label>
               </div>
               <button
                 onClick={handleSubmit}
                 className={`w-[90%] py-2 bg-[#f24f04] rounded-lg text-white font-semibold mt-[3%]`}
               >
-                Book Now
+                {t("bookNow")}
               </button>
             </div>
           </div>
@@ -577,3 +595,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
+

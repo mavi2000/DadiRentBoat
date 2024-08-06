@@ -7,59 +7,66 @@ const PaymentSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      // required: true,
     },
     username: {
       type: String,
     },
     boatName: {
       type: String,
-      // required: true,
     },
     boatId: {
       type: String,
       required: false,
     },
-    boatImage: {
-      type: [String], // Array of strings
-      // required: true,
-    },
     amount: {
       type: Number,
-      // required: true,
     },
     stripeDetails: {
       type: Object,
-      // required: true,
     },
     rateType: {
       type: String,
-      // required: true,
     },
-    timeSlot: {
-      type: String, // Add timeSlot field to handle selected time slot
+    startTime: {
+      type: String,
+      required: false,
+    },
+    endTime: {
+      type: String,
+      required: false,
+    },
+    isChecked: {
+      type: Boolean,
       required: false,
     },
     totalAmount: {
       type: Number,
-      // required: true,
     },
     paymentStatus: {
       type: String,
       enum: ["paid", "partial", "unpaid"],
-      // required: true,
       default: "unpaid",
     },
     availableDates: {
-      type: [Date], // Array of dates
-      // required: true,
+      type: [Date],
     },
     bookingStatus: {
       type: String,
       enum: ["pending", "confirmed", "cancelled"],
-      // required: true,
       default: "pending",
-    }
+    },
+    platformInvoice: [{
+      type: String, // URL or identifier for the uploaded file
+      required: false,
+    }],
+    platformAmount: {
+      type: Number,
+      required: false,
+    },
+    rentalType: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

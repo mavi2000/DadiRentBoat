@@ -3,6 +3,7 @@ import { MdElectricBolt } from "react-icons/md";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa6";
 import { AdminContext } from '../../../../Context/AdminContext';
 import BoatsNavbar from "./BoatsNavbar";
+import { useTranslation } from 'react-i18next';
 
 const listPoints = [
   "Instant bookings are automatically approved: no more actions needed on your part to validate a rental.",
@@ -27,7 +28,8 @@ const cancellationPolicy = [
 ];
 
 const TermsCondition = () => {
-  const { addTermAndCondition } = useContext(AdminContext)
+  const { t } = useTranslation();
+  const { addTermAndCondition } = useContext(AdminContext);
   const [isActive, setIsActive] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [notice, setNotice] = useState(noticeOptions[0]);
@@ -55,63 +57,59 @@ const TermsCondition = () => {
   };
 
   return (
-
     <section className=''>
-      <BoatsNavbar/>
-      {/* instant booking block start */}
+      <BoatsNavbar />
       <div className='shadow-lg rounded-md mb-6 p-4 bg-[#dbb666] mt-10'>
         <article className='rounded-md flex items-center justify-between gap-3'>
           <MdElectricBolt size={30} className='font-semibold' />
           <div className='flex-1'>
-            <h1 className='text-xl font-semibold'>Instant booking</h1>
-            <p className='font-[200] -mt-1 text-sm'>Increase your income and save time</p>
+            <h1 className='text-xl font-semibold'>{t('TermsConditionInstantBooking')}</h1>
+            <p className='font-[200] -mt-1 text-sm'>{t('TermsConditionIncreaseIncome')}</p>
           </div>
         </article>
         <ul className='list-disc mt-4 mb-10 flex flex-col gap-3 list-inside'>
-          {listPoints.map((point, i) => <li className='font-[200] -mt-1 text-sm' key={i}>{point}</li>)}
+          {listPoints.map((point, i) => <li className='font-[200] -mt-1 text-sm' key={i}>{t(`TermsConditionListPoints${i + 1}`)}</li>)}
         </ul>
         <p className='flex items-center gap-4'>
           <ToggleButton isToggled={isActive} setIsToggled={setIsActive} />
-          {isActive ? "Deactivate" : "Activate"}
+          {isActive ? t('TermsConditionDeactivate') : t('TermsConditionActivate')}
         </p>
         {showMore ? (
           <p onClick={() => setShowMore(!showMore)} className='flex items-center gap-4 mt-10 cursor-pointer'>
-            <FaChevronUp /> <span>Show less</span>
+            <FaChevronUp /> <span>{t('TermsConditionShowLess')}</span>
           </p>
         ) : (
           <p onClick={() => setShowMore(!showMore)} className='flex items-center gap-4 mt-10 cursor-pointer'>
-            <FaChevronDown /> <span>Learn more</span>
+            <FaChevronDown /> <span>{t('TermsConditionLearnMore')}</span>
           </p>
         )}
         {showMore && (
           <>
-            <h1 className='text-2xl font-bold mt-2 mb-4'>How it works?</h1>
+            <h1 className='text-2xl font-bold mt-2 mb-4'>{t('TermsConditionHowItWorks')}</h1>
             {howWorks.map((item, i) => (
               <article key={i}>
-                <h1 className='text-sm font-semibold'>{i + 1}.{item.heading}</h1>
-                {item.text && <p className='font-[200] text-sm my-1'>{item.text}</p>}
+                <h1 className='text-sm font-semibold'>{i + 1}.{t(`TermsConditionHowWorksHeading${i + 1}`)}</h1>
+                {item.text && <p className='font-[200] text-sm my-1'>{t(`TermsConditionHowWorksText${i + 1}`)}</p>}
               </article>
             ))}
           </>
         )}
       </div>
-      {/* instant booking block end */}
       <div className='shadow-lg bg-white rounded-md p-4'>
-        {/* conditions block start */}
         <article>
-          <h1 className='text-xl font-semibold'>Conditions</h1>
-          <h1 className='text-xl font-semibold mt-8'>Advance notice</h1>
-          <p className='my-4 text-sm font-lighter'>You can choose from when renters can send a request, so you have time to prepare</p>
+          <h1 className='text-xl font-semibold'>{t('TermsConditionConditions')}</h1>
+          <h1 className='text-xl font-semibold mt-8'>{t('TermsConditionAdvanceNotice')}</h1>
+          <p className='my-4 text-sm font-lighter'>{t('TermsConditionNoticeMessage')}</p>
           <select
             className='w-full p-2 bg-white outline-none border rounded-md'
             value={notice}
             onChange={(e) => setNotice(e.target.value)}
           >
-            {noticeOptions.map((item, i) => <option key={i} value={item}>{item}</option>)}
+            {noticeOptions.map((item, i) => <option key={i} value={item}>{t(`TermsConditionNoticeOption${i + 1}`)}</option>)}
           </select>
-          <h1 className='text-xl font-semibold mt-8'>Minimum rental duration</h1>
-          <p className='my-4 text-sm font-lighter'>Go to the rate section for the minimum rental duration : Rates</p>
-          <h1 className='text-xl font-semibold mt-8'>Rental conditions for more than 2 days</h1>
+          <h1 className='text-xl font-semibold mt-8'>{t('TermsConditionMinimumRentalDuration')}</h1>
+          <p className='my-4 text-sm font-lighter'>{t('TermsConditionMinimumRentalDurationMessage')}</p>
+          <h1 className='text-xl font-semibold mt-8'>{t('TermsConditionRentalConditionsMoreThan2Days')}</h1>
           <div className='my-4'>
             <label className='my-20'>
               <input
@@ -120,7 +118,7 @@ const TermsCondition = () => {
                 onChange={(e) => setRentalDisembarkMorning(e.target.checked)}
               />
               <span className='ms-2 font-lighter'>
-                I accept that the renter may disembark the boat in the morning. Best option for weekly rentals and saturday to saturday rentals for example (week price = 7 nights price)
+                {t('TermsConditionAcceptDisembarkMorning')}
               </span>
             </label> <br />
           </div>
@@ -132,25 +130,25 @@ const TermsCondition = () => {
                 onChange={(e) => setRentalEmbarkEvening(e.target.checked)}
               />
               <span className='ms-2 font-lighter'>
-                I accept that the renter can embark the boat in the evening. Best option for week-end rentals and can offer check-in on Friday evening for example (2 nights price = 2 days price).
+                {t('TermsConditionAcceptEmbarkEvening')}
               </span>
             </label>
           </div>
-          <h1 className='text-xl font-semibold mt-8'>Preference</h1>
+          <h1 className='text-xl font-semibold mt-8'>{t('TermsConditionPreference')}</h1>
           <div className='flex items-center gap-20'>
-            <p className='my-4 text-sm font-lighter'>Pets allowed on board</p>
+            <p className='my-4 text-sm font-lighter'>{t('TermsConditionPetsAllowed')}</p>
             <ToggleButton isToggled={allowPets} setIsToggled={setAllowPets} />
           </div>
-          <h1 className='text-xl font-semibold mt-8'>Message containing pre-booking information</h1>
-          <p className='my-2 text-sm font-lighter'>Inform your future renters of your rental conditions when they make a request.</p>
+          <h1 className='text-xl font-semibold mt-8'>{t('TermsConditionPreBookingMessage')}</h1>
+          <p className='my-2 text-sm font-lighter'>{t('TermsConditionPreBookingMessageInfo')}</p>
           <textarea
             value={preBookingMessage}
             rows={10}
             onChange={(e) => setPreBookingMessage(e.target.value)}
             className='w-full outline-none border rounded-md p-2'
           ></textarea>
-          <h1 className='text-xl font-semibold mt-8'>Cancellation Policy</h1>
-          <p className='my-3 text-sm font-lighter'>Select the cancellation conditions for your listing to which the renter will be subject:</p>
+          <h1 className='text-xl font-semibold mt-8'>{t('TermsConditionCancellationPolicy')}</h1>
+          <p className='my-3 text-sm font-lighter'>{t('TermsConditionCancellationPolicyInfo')}</p>
           {cancellationPolicy.map((item, i) => (
             <label key={i}>
               <div className='flex items-start gap-3'>
@@ -163,15 +161,15 @@ const TermsCondition = () => {
                   className='mt-1'
                 />
                 <div className='m-0 p-0'>
-                  <h1 className='text-sm font-semibold'>{item.heading}</h1>
-                  {item.text && <p className='font-lighter text-sm my-1'>{item.text}</p>}
+                  <h1 className='text-sm font-semibold'>{t(`TermsConditionCancellationHeading${i + 1}`)}</h1>
+                  {item.text && <p className='font-lighter text-sm my-1'>{t(`TermsConditionCancellationText${i + 1}`)}</p>}
                 </div>
               </div>
             </label>
           ))}
           {selectedCancellationPolicy === 'Personalized' && (
             <div className='mt-4'>
-              <label className='block text-sm font-semibold mb-2'>Propose your own cancellation conditions.</label>
+              <label className='block text-sm font-semibold mb-2'>{t('TermsConditionPersonalizedCancellation')}</label>
               <textarea
                 value={personalizedPolicy}
                 onChange={(e) => setPersonalizedPolicy(e.target.value)}
@@ -181,7 +179,6 @@ const TermsCondition = () => {
             </div>
           )}
         </article>
-        {/* conditions block end */}
         <div className='my-5 p-4 border border-gray-300 rounded-md'>
           <label className='cursor-pointer'>
             <input
@@ -190,17 +187,16 @@ const TermsCondition = () => {
               onChange={(e) => setApplyToFleet(e.target.checked)}
               className='cursor-pointer'
             />
-            <span className='ms-2'>Apply these conditions to all my fleet</span>
+            <span className='ms-2'>{t('TermsConditionApplyToFleet')}</span>
           </label>
         </div>
         <button
           className='text-sm py-2 px-4 text-white bg-[#a98b4a] rounded-md'
           onClick={handleSave}
         >
-          Save
+          {t('TermsConditionSaveButton')}
         </button>
       </div>
-
     </section>
   );
 };

@@ -1,15 +1,16 @@
 import React from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { useTranslation } from 'react-i18next';
 
 const RecommendCard = () => {
+  const { t } = useTranslation(); // Use the useTranslation hook here
+
   return (
     <section className="bg-[#CBA5574D] py-12 px-[3%] md:px-[6%]">
-      <h1 className="text-3xl font-medium mb-4">What we recommend you see</h1>
+      <h1 className="text-3xl font-medium mb-4">{t('recommendTitle7')}</h1>
       <p className="text-lg">
-        Around us there are many unique points to see and absolutely not to be
-        missed with a day on the boat, here's what we recommend for a complete
-        experience
+        {t('recommendDescription7')}
       </p>
       <div className="mt-8 z-0 excursion-map">
         <MapContainer
@@ -26,4 +27,5 @@ const RecommendCard = () => {
     </section>
   );
 };
+
 export default RecommendCard;

@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const NavbarLinks = ({ user }) => {
+  const { t } = useTranslation();
+  
   const homePage =
     window.location.pathname.includes("/services") ||
     window.location.pathname.includes("/Contact-Information") ||
@@ -20,7 +23,7 @@ const NavbarLinks = ({ user }) => {
               : ""
           }`}
         >
-          Services
+          {t('navbarServices')}
         </p>
       </Link>
       <Link to="/Our-Fleet">
@@ -31,7 +34,7 @@ const NavbarLinks = ({ user }) => {
               : ""
           }`}
         >
-          Fleet
+          {t('navbarFleet')}
         </p>
       </Link>
       <Link to="/Rates">
@@ -42,7 +45,7 @@ const NavbarLinks = ({ user }) => {
               : ""
           }`}
         >
-          Rates
+          {t('navbarRates')}
         </p>
       </Link>
       {!homePage ? (
@@ -55,7 +58,7 @@ const NavbarLinks = ({ user }) => {
                   : ""
               }`}
             >
-              Where we are
+              {t('navbarWhereWeAre')}
             </p>
           </Link>
           <Link to="/">
@@ -84,7 +87,7 @@ const NavbarLinks = ({ user }) => {
               : ""
           }`}
         >
-          Contact Us
+          {t('navbarContactUs')}
         </p>
       </Link>
       {user && (
@@ -97,7 +100,7 @@ const NavbarLinks = ({ user }) => {
                   : "text-black"
               }`}
             >
-              My Booking
+              {t('navbarMyBooking')}
             </p>
           </Link>
           <Link to="/user/favourites">
@@ -108,7 +111,7 @@ const NavbarLinks = ({ user }) => {
                   : "text-black"
               }`}
             >
-              My Favorite
+              {t('navbarMyFavorite')}
             </p>
           </Link>
           <Link to="/user/account-info">
@@ -119,7 +122,7 @@ const NavbarLinks = ({ user }) => {
                   : "text-black"
               }`}
             >
-              My Account
+              {t('navbarMyAccount')}
             </p>
           </Link>
         </div>

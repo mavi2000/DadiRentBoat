@@ -3,10 +3,12 @@ import BoatsNavbar from "./BoatsNavbar";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 import baseURL from "../../../../APi/BaseUrl";
+import { useTranslation } from "react-i18next";
 
 const Deposit = () => {
   const id = localStorage.getItem("id");
   const { damageDeposit, boatId, navigate } = useContext(AdminContext);
+  const { t } = useTranslation();
   const [checkbox, setCheckbox] = useState(false);
   const [toggleSkipperDeposit, setToggleSkipperDeposit] = useState(false);
   const [depositData, setDepositData] = useState({
@@ -83,7 +85,7 @@ const Deposit = () => {
     if (!id) {
       try {
         await damageDeposit(dataToSubmit);
-        toast.success("Deposit amount successfully saved");
+        toast.success(t("DepositSuccessMessage"));
         setDepositData({
           type: [],
           amount: "",
@@ -99,7 +101,7 @@ const Deposit = () => {
           toast.error(`Error: ${error.response.data.message || error.message}`);
         } else {
           console.error("Error:", error);
-          toast.error("An unexpected error occurred");
+          toast.error(t("UnexpectedError"));
         }
       }
     } else {
@@ -108,13 +110,13 @@ const Deposit = () => {
           "/demage/update-damage-deposit/" + id,
           dataToSubmit
         );
-        toast.success("Deposit updated successfully");
+        toast.success(t("DepositUpdateSuccessMessage"));
         localStorage.removeItem("id");
         setTimeout(() => {
           navigate("/Dashboard/my-boats");
         }, 3000);
       } catch (error) {
-        toast.error("Failed to update deposit");
+        toast.error(t("DepositUpdateErrorMessage"));
       }
     }
   };
@@ -123,7 +125,7 @@ const Deposit = () => {
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
       <div className="bg-white mx-2 py-8 mb-10 px-4 sm:px-12 flex flex-col gap-10 text-[#4B465C]">
-        <div className="font-medium">Damage Deposit</div>
+        <div className="font-medium">{t("DepositDamageDeposit")}</div>
         <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
           <div className="flex items-center gap-3">
             <input
@@ -131,19 +133,19 @@ const Deposit = () => {
               checked={checkbox}
               onChange={handleCheckbox}
             />
-            <div className="font-light">No security deposit required</div>
+            <div className="font-light">{t("DepositNoSecurityDeposit")}</div>
           </div>
 
           {!checkbox && (
             <>
               <div className="flex flex-col gap-2">
-                <div className="font-light">Security deposit</div>
+                <div className="font-light">{t("DepositSecurityDeposit")}</div>
                 <div className="border w-[30%] rounded-md flex items-center">
                   <input
                     className="px-3 w-[80%] py-3 bg-transparent"
                     name="amount"
                     type="number"
-                    placeholder="Enter"
+                    placeholder={t("DepositEnter")}
                     value={depositData.amount}
                     onChange={handleChange}
                   />
@@ -158,7 +160,7 @@ const Deposit = () => {
                   onChange={handleSkipperToggle}
                 />
                 <div className="text-sm font-light">
-                  Different security deposit for rentals with a skipper
+                  {t("DepositDifferentDepositWithSkipper")}
                 </div>
               </div>
 
@@ -166,14 +168,14 @@ const Deposit = () => {
                 <div className="flex gap-5">
                   <div className="flex flex-col gap-2">
                     <div className="font-light">
-                      Security deposit with a skipper
+                      {t("DepositWithSkipper")}
                     </div>
                     <div className="border rounded-md flex items-center w-[350px]">
                       <input
                         className="px-3 w-[80%] py-3 bg-transparent"
                         name="withSkipper"
                         type="number"
-                        placeholder="Enter"
+                        placeholder={t("DepositEnter")}
                         value={depositData.withSkipper}
                         onChange={handleChange}
                       />
@@ -185,14 +187,14 @@ const Deposit = () => {
 
               <div className="flex flex-col gap-2">
                 <div className="font-light">
-                  Security deposit without a skipper
+                  {t("DepositWithoutSkipper")}
                 </div>
                 <div className="border relative rounded-md flex items-center px-3">
                   <input
                     className="px-3 py-3 outline-none bg-transparent"
                     name="withoutSkipper"
                     type="number"
-                    placeholder="Enter"
+                    placeholder={t("DepositEnter")}
                     value={depositData.withoutSkipper}
                     onChange={handleChange}
                   />
@@ -200,9 +202,8 @@ const Deposit = () => {
                 </div>
               </div>
 
-              <p className="bg-orange-100 font- p-auto rounded font-light text-center px-4 py-4">
-                Please note that you have indicated 1 € for your security
-                deposit without skipper. This amount seems low.
+              <p className="bg-orange-100 font-light p-auto rounded text-center px-4 py-4">
+                {t("DepositLowAmountWarning")}
               </p>
 
               <div className="flex items-start gap-4 font-light">
@@ -216,11 +217,10 @@ const Deposit = () => {
                 />
                 <div>
                   <div className="font-light">
-                    Security deposit managed directly
+                    {t("DepositManagedDirectly")}
                   </div>
                   <div className="font-light">
-                    By indicating the types of bond you accept, you reduce the
-                    risk of last-minute cancellations
+                    {t("DepositReduceRiskMessage")}
                   </div>
                 </div>
               </div>
@@ -228,7 +228,7 @@ const Deposit = () => {
               {depositData.manageDeposit === "directly" && (
                 <div className="flex flex-col gap-3 pl-8 ">
                   <div className="font-light">
-                    What type of bonds do you accept?
+                    {t("DepositBondTypes")}
                   </div>
                   <div className="flex items-center gap-3">
                     <input
@@ -238,7 +238,7 @@ const Deposit = () => {
                       onChange={handleChange}
                       checked={depositData.type.includes("Check")}
                     />
-                    <label className="font-light">Check</label>
+                    <label className="font-light">{t("DepositCheck")}</label>
                   </div>
                   <div className="flex items-center gap-3">
                     <input
@@ -248,7 +248,7 @@ const Deposit = () => {
                       onChange={handleChange}
                       checked={depositData.type.includes("Cash")}
                     />
-                    <label className="font-light">Cash</label>
+                    <label className="font-light">{t("DepositCash")}</label>
                   </div>
                   <div className="flex items-center gap-3">
                     <input
@@ -258,7 +258,7 @@ const Deposit = () => {
                       onChange={handleChange}
                       checked={depositData.type.includes("Pre-Authorization")}
                     />
-                    <label className="font-light">Pre-Authorization</label>
+                    <label className="font-light">{t("DepositPreAuthorization")}</label>
                   </div>
                   <div className="flex items-center gap-3">
                     <input
@@ -268,7 +268,7 @@ const Deposit = () => {
                       onChange={handleChange}
                       checked={depositData.type.includes("Other")}
                     />
-                    <label className="font-light">Other</label>
+                    <label className="font-light">{t("DepositOther")}</label>
                   </div>
                 </div>
               )}
@@ -284,24 +284,20 @@ const Deposit = () => {
                 />
                 <div>
                   <div className="font-light">
-                    Security deposit managed by DadiRent
+                    {t("DepositManagedByDadiRent")}
                   </div>
-                  <div className="font-light">Via a bank pre-authorization</div>
+                  <div className="font-light">{t("DepositViaBankPreAuthorization")}</div>
                 </div>
               </div>
 
               {depositData.manageDeposit === "DadiRent" && (
                 <div className="p-2 rounded">
                   <p className="bg-blue-100 p-2 rounded font-light text-center m-auto ">
-                    DadiRent offers a service to guarantee the amount of your
-                    security deposit in the event of a claim, even if the renter
-                    is not solvent. Depending on the amount guaranteed, an
-                    additional commission is charged on all your bookings.
+                    {t("DepositDadiRentServiceMessage")}
                   </p>
                   <div className="flex flex-col gap-3 mt-3 ">
                     <div className="font-light mt-10">
-                      I would like DadiRent to guarantee the security deposit in
-                      the amount of:
+                      {t("DepositDadiRentGuaranteeAmount")}
                     </div>
                     <div className="flex items-center gap-3">
                       <input
@@ -312,7 +308,7 @@ const Deposit = () => {
                         checked={depositData.guaranteeAmount === "0"}
                       />
                       <label className="font-light">
-                        0 € (+ 0% commission) (Commission taken by DadiRent: 18%)
+                        {t("DepositGuaranteeAmount0")}
                       </label>
                     </div>
                     <div className="flex items-center gap-3">
@@ -324,8 +320,7 @@ const Deposit = () => {
                         checked={depositData.guaranteeAmount === "1000"}
                       />
                       <label className="font-light">
-                        1 000 € (+ 2% commission) (Commission taken by DadiRent:
-                        20%)
+                        {t("DepositGuaranteeAmount1000")}
                       </label>
                     </div>
                     <div className="flex items-center gap-3">
@@ -337,8 +332,7 @@ const Deposit = () => {
                         checked={depositData.guaranteeAmount === "2000"}
                       />
                       <label className="font-light">
-                        2 000 € (+ 3% commission) (Commission taken by DadiRent:
-                        21%)
+                        {t("DepositGuaranteeAmount2000")}
                       </label>
                     </div>
                     <div className="flex items-center gap-3">
@@ -350,8 +344,7 @@ const Deposit = () => {
                         checked={depositData.guaranteeAmount === "5000"}
                       />
                       <label className="font-light">
-                        5 000 € (+ 5% commission) (Commission taken by DadiRent:
-                        23%)
+                        {t("DepositGuaranteeAmount5000")}
                       </label>
                     </div>
                   </div>
@@ -364,7 +357,7 @@ const Deposit = () => {
             type="submit"
             className="bg-[#CBA557] py-4 sm:w-max px-6 rounded-lg text-white"
           >
-            {id ? "Update" : "Save"}
+            {id ? t("DepositUpdateButton") : t("DepositSaveButton")}
           </button>
         </form>
       </div>

@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 import User from "../models/User.model.js"
 import { cancelEmail } from "../services/mail/nodeMailer.js";
+import { uploadImages } from "../utils/cloudinaryConfig.js";
 
 export const checkout = async (req, res) => {
   try {
@@ -17,7 +18,9 @@ export const checkout = async (req, res) => {
       availableDates,
       boatImage,
       boatId,
-      timeSlot, // Add timeSlot to destructured variables
+      startTime, // Add startTime to destructured variables
+      endTime, // Add endTime to destructured variables
+      isChecked, // Add isChecked to destructured variables
     } = req.body;
 
     console.log("availableDates", req.body);
@@ -64,13 +67,15 @@ export const checkout = async (req, res) => {
       amount: unitAmount,
       stripeDetails: session,
       rateType,
-      timeSlot, // Include timeSlot in the payment details
+      startTime, // Include startTime in the payment details
+      endTime, // Include endTime in the payment details
       totalAmount,
       boatImage, // This is now an array
       paymentStatus: "paid",
       bookingStatus: "pending", // Set default booking status to "pending"
       availableDates: parsedAvailableDates, // Array of dates
       boatId,
+      isChecked, // Include isChecked in the payment details
     });
 
     console.log("availableDates", availableDates);
@@ -359,13 +364,28 @@ export const createPayment = async (req, res) => {
     availableDates,
     amountPaid,
     totalAmount,
-    timeSlot,
-    rentalType
+    startTime,
+    endTime,
+    rentalType,
+    bookingPlatform,
+    platformAmount,
   } = req.body;
 
   // Validate required fields manually
-  if (!username || !boatName || !totalAmount  || !rentalType) {
+  if (!username || !boatName || !totalAmount || !rentalType) {
     return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  let platformInvoiceUrl = null;
+
+  // Check if there is a file for platformInvoice
+  if (req.file) {
+    try {
+      const uploadResult = await uploadImages(req.file);
+      platformInvoiceUrl = uploadResult.url;
+    } catch (error) {
+      return res.status(500).json({ message: 'File upload failed', error: error.message });
+    }
   }
 
   const newPaymentData = {
@@ -376,12 +396,16 @@ export const createPayment = async (req, res) => {
     boatImage: boatImage || [],
     amount: parseFloat(amount) || 0,
     stripeDetails: stripeDetails || {},
-    rateType: rateType || '',
+    rateType: rateType || "",
     availableDates: availableDates || [],
     amountPaid: parseFloat(amountPaid),
     totalAmount: parseFloat(totalAmount),
-    timeSlot: timeSlot || null,
+    startTime,
+    endTime,
     rentalType,
+    bookingPlatform,
+    platformInvoice: platformInvoiceUrl, // Save the uploaded file URL
+    platformAmount: parseFloat(platformAmount) || 0,
   };
 
   try {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; // Import calendar CSS for styling
+import { useTranslation } from "react-i18next";
 
 const daysOfWeek = [
   "Monday",
@@ -21,6 +22,7 @@ const RatePopup = ({
   handleSubmit,
   onClose,
 }) => {
+  const { t } = useTranslation();
   const [restrictDays, setRestrictDays] = useState(false);
   const [advanceRate, setAdvanceRate] = useState(false);
 
@@ -53,8 +55,8 @@ const RatePopup = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="relative w-full max-w-4xl max-h-full overflow-y-auto bg-white rounded-lg shadow-lg p-10">
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          <div className="text-lg font-medium">Add Period</div>
-          <div className="text-sm font-light">Choose Date</div>
+          <div className="text-lg font-medium">{t("boatAddPeriod")}</div>
+          <div className="text-sm font-light">{t("boatChooseDate")}</div>
           <div className="flex items-center justify-between bg-white shadow-md rounded-md">
             <Calendar
               className="border-none bg-transparent"
@@ -64,92 +66,82 @@ const RatePopup = ({
             />
           </div>
 
-          {/* Start Date and End Date */}
           <div className="grid grid-cols-2 gap-5">
             <div>
-              <label className="block text-gray-700">Start Date</label>
+              <label className="block text-gray-700">{t("boatStartDate")}</label>
               <input
                 type="text"
                 name="startDate"
                 value={formData.startDate}
                 onChange={handleInputChange}
                 className="border py-3 rounded-md px-3 font-light w-full"
-                placeholder="Start Date"
+                placeholder={t("boatStartDate")}
               />
             </div>
             <div>
-              <label className="block text-gray-700">End Date</label>
+              <label className="block text-gray-700">{t("boatEndDate")}</label>
               <input
                 type="text"
                 name="endDate"
                 value={formData.endDate}
                 onChange={handleInputChange}
                 className="border py-3 rounded-md px-3 font-light w-full"
-                placeholder="End Date"
+                placeholder={t("boatEndDate")}
               />
             </div>
           </div>
 
-          {/* Apply the rates of another period */}
           <div>
-            <label className="block text-gray-700">
-              Apply the rates of another period
-            </label>
+            <label className="block text-gray-700">{t("boatApplyRatesOfAnotherPeriod")}</label>
             <input
               type="text"
               name="applyRatesOfAnotherPeriod"
               value={formData.applyRatesOfAnotherPeriod}
               onChange={handleInputChange}
               className="border py-3 rounded-md px-3 font-light w-full"
-              placeholder="Apply rates of another period"
+              placeholder={t("boatApplyRatesOfAnotherPeriod")}
             />
           </div>
 
-          {/* Minimum and Maximum rental duration */}
           <div className="grid sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-gray-700">
-                Minimum rental duration
-              </label>
+              <label className="block text-gray-700">{t("boatMinimumRentalDuration")}</label>
               <select
                 name="minimumRentalDuration"
                 value={formData.minimumRentalDuration}
                 onChange={handleInputChange}
                 className="border py-3 rounded-md px-3 font-light w-full"
               >
-                <option value="">Select minimum duration</option>
+                <option value="">{t("boatSelectMinimumDuration")}</option>
                 {[...Array(6).keys()].map((day) => (
                   <option key={day} value={`${day + 1} day`}>{`${
                     day + 1
-                  } day`}</option>
+                  } ${t("boatDay")}`}</option>
                 ))}
-                <option value="1 week">1 week</option>
-                <option value="2 weeks">2 weeks</option>
+                <option value="1 week">{t("boatWeek")}</option>
+                <option value="2 weeks">{t("boatTwoWeeks")}</option>
               </select>
             </div>
             <div>
-              <label className="block text-gray-700">
-                Maximum rental duration
-              </label>
+              <label className="block text-gray-700">{t("boatMaximumRentalDuration")}</label>
               <select
                 name="maximumRentalDuration"
                 value={formData.maximumRentalDuration}
                 onChange={handleInputChange}
                 className="border py-3 rounded-md px-3 font-light w-full"
               >
-                <option value="">Select maximum duration</option>
+                <option value="">{t("boatSelectMaximumDuration")}</option>
                 {[...Array(6).keys()].map((day) => (
                   <option key={day} value={`${day + 1} day`}>{`${
                     day + 1
-                  } day`}</option>
+                  } ${t("boatDay")}`}</option>
                 ))}
-                <option value="1 week">1 week</option>
-                <option value="2 weeks">2 weeks</option>
+                <option value="1 week">{t("boatWeek")}</option>
+                <option value="2 weeks">{t("boatTwoWeeks")}</option>
               </select>
             </div>
           </div>
 
-          {/* Restrict departure and return days */}
           <div className="mt-5">
             <label className="flex items-center">
               <input
@@ -158,17 +150,13 @@ const RatePopup = ({
                 onChange={toggleRestrictDays}
                 className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
               />
-              <span className="ml-2 text-gray-700">
-                Restrict departure and return days
-              </span>
+              <span className="ml-2 text-gray-700">{t("boatRestrictDepartureReturnDays")}</span>
             </label>
           </div>
           {restrictDays && (
             <div className="grid grid-cols-2 gap-5 mt-3">
               <div>
-                <label className="block text-gray-700">
-                  Allowed days to depart
-                </label>
+                <label className="block text-gray-700">{t("boatAllowedDaysToDepart")}</label>
                 <div className="flex flex-wrap">
                   {daysOfWeek.map((day) => (
                     <label key={day} className="flex items-center mr-4">
@@ -182,15 +170,13 @@ const RatePopup = ({
                         onChange={handleCheckboxChange}
                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                       />
-                      <span className="ml-2 text-gray-700">{day}</span>
+                      <span className="ml-2 text-gray-700">{t(`boat${day}`)}</span>
                     </label>
                   ))}
                 </div>
               </div>
               <div>
-                <label className="block text-gray-700">
-                  Allowed days to return
-                </label>
+                <label className="block text-gray-700">{t("boatAllowedDaysToReturn")}</label>
                 <div className="flex flex-wrap">
                   {daysOfWeek.map((day) => (
                     <label key={day} className="flex items-center mr-4">
@@ -204,7 +190,7 @@ const RatePopup = ({
                         onChange={handleCheckboxChange}
                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                       />
-                      <span className="ml-2 text-gray-700">{day}</span>
+                      <span className="ml-2 text-gray-700">{t(`boat${day}`)}</span>
                     </label>
                   ))}
                 </div>
@@ -212,17 +198,16 @@ const RatePopup = ({
             </div>
           )}
 
-          {/* Rates */}
           <div className="mt-5">
-            <h1 className="text-xl font-semibold text-gray-800">Rates</h1>
+            <h1 className="text-xl font-semibold text-gray-800">{t("boatRates")}</h1>
             <p className="text-sm text-gray-600 mt-1">
-              This period is personalized, we can't advise you on the price.
+              {t("boatPersonalizedPeriodWarning")}
             </p>
           </div>
           {(["1 day"].includes(formData.minimumRentalDuration) ||
             ["1 day"].includes(formData.maximumRentalDuration)) && (
             <div className="mt-3">
-              <label className="block text-gray-700">Rate of per hour</label>
+              <label className="block text-gray-700">{t("boatRatePerHour")}</label>
               <div className="relative">
                 <input
                   type="number"
@@ -244,7 +229,7 @@ const RatePopup = ({
                     handleInputChange(e);
                   }}
                   className="border py-3  rounded-md px-3 font-light w-full"
-                  placeholder="Enter rate"
+                  placeholder={t("boatEnterRate")}
                 />
                 <span className="absolute right-3 top-2.5 text-gray-700">
                   €
@@ -253,7 +238,6 @@ const RatePopup = ({
             </div>
           )}
 
-          {/* 1 Day and 1 Week Rates */}
           <div className="mt-3 grid grid-cols-2 gap-5">
             {([
               "1 day",
@@ -274,7 +258,7 @@ const RatePopup = ({
                 "7 day",
               ].includes(formData.maximumRentalDuration)) && (
               <div>
-                <label className="block text-gray-700">Rate of per day</label>
+                <label className="block text-gray-700">{t("boatRatePerDay")}</label>
                 <div className="relative">
                   <input
                     type="number"
@@ -288,7 +272,7 @@ const RatePopup = ({
                       }));
                     }}
                     className="border py-3 rounded-md px-3 font-light w-full"
-                    placeholder="Enter rate"
+                    placeholder={t("boatEnterRate")}
                   />
                   <span className="absolute right-3 top-2.5 text-gray-700">
                     €
@@ -301,7 +285,7 @@ const RatePopup = ({
                 formData.maximumRentalDuration
               )) && (
               <div>
-                <label className="block text-gray-700">Rate of per week</label>
+                <label className="block text-gray-700">{t("boatRatePerWeek")}</label>
                 <div className="relative">
                   <input
                     type="number"
@@ -309,7 +293,7 @@ const RatePopup = ({
                     value={formData.oneWeekRate}
                     onChange={handleInputChange}
                     className="border py-3 rounded-md px-3 font-light w-full"
-                    placeholder="Enter rate"
+                    placeholder={t("boatEnterRate")}
                   />
                   <span className="absolute right-3 top-2.5 text-gray-700">
                     €
@@ -319,7 +303,6 @@ const RatePopup = ({
             )}
           </div>
 
-          {/* Advanced rate */}
           <div className="mt-5">
             <label className="flex items-center">
               <input
@@ -328,74 +311,64 @@ const RatePopup = ({
                 onChange={toggleAdvanceRate}
                 className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
               />
-              <span className="ml-2 text-gray-700">Advanced rate</span>
+              <span className="ml-2 text-gray-700">{t("boatAdvanceRate")}</span>
             </label>
           </div>
           {advanceRate && (
             <div className="mt-3 grid grid-cols-2 gap-5">
               <div>
-                <label className="block text-gray-700">
-                  2 Days Advance Rate
-                </label>
+                <label className="block text-gray-700">{t("boatTwoDaysAdvanceRate")}</label>
                 <input
                   type="number"
                   name="advanceRates.twoDays"
                   value={formData.advanceRates?.twoDays || ""}
                   onChange={handleInputChange}
                   className="border py-3 rounded-md px-3 font-light w-full"
-                  placeholder="Enter rate"
+                  placeholder={t("boatEnterRate")}
                 />
               </div>
               <div>
-                <label className="block text-gray-700">
-                  3 Days Advance Rate
-                </label>
+                <label className="block text-gray-700">{t("boatThreeDaysAdvanceRate")}</label>
                 <input
                   type="number"
                   name="advanceRates.threeDays"
                   value={formData.advanceRates?.threeDays || ""}
                   onChange={handleInputChange}
                   className="border py-3 rounded-md px-3 font-light w-full"
-                  placeholder="Enter rate"
+                  placeholder={t("boatEnterRate")}
                 />
               </div>
               <div>
-                <label className="block text-gray-700">
-                  5 Days Advance Rate
-                </label>
+                <label className="block text-gray-700">{t("boatFiveDaysAdvanceRate")}</label>
                 <input
                   type="number"
                   name="advanceRates.fiveDays"
                   value={formData.advanceRates?.fiveDays || ""}
                   onChange={handleInputChange}
                   className="border py-3 rounded-md px-3 font-light w-full"
-                  placeholder="Enter rate"
+                  placeholder={t("boatEnterRate")}
                 />
               </div>
               <div>
-                <label className="block text-gray-700">
-                  6 Days Advance Rate
-                </label>
+                <label className="block text-gray-700">{t("boatSixDaysAdvanceRate")}</label>
                 <input
                   type="number"
                   name="advanceRates.sixDays"
                   value={formData.advanceRates?.sixDays || ""}
                   onChange={handleInputChange}
                   className="border py-3 rounded-md px-3 font-light w-full"
-                  placeholder="Enter rate"
+                  placeholder={t("boatEnterRate")}
                 />
               </div>
               <div>
-                <label className="block text-gray-700">
-                  2 Weeks Advance Rate
-                </label>
+                <label className="block text-gray-700">{t("boatTwoWeeksAdvanceRate")}</label>
                 <input
                   type="number"
                   name="advanceRates.twoWeeks"
                   value={formData.advanceRates?.twoWeeks || ""}
                   onChange={handleInputChange}
                   className="border py-3 rounded-md px-3 font-light w-full"
-                  placeholder="Enter rate"
+                  placeholder={t("boatEnterRate")}
                 />
               </div>
             </div>
@@ -406,14 +379,14 @@ const RatePopup = ({
               type="submit"
               className="bg-blue-500 text-white py-2 px-4 rounded-md"
             >
-              Submit
+              {t("boatSubmit")}
             </button>
             <button
               type="button"
               onClick={onClose}
               className="ml-2 bg-gray-500 text-white py-2 px-4 rounded-md"
             >
-              Cancel
+              {t("boatCancel")}
             </button>
           </div>
         </form>

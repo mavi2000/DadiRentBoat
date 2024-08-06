@@ -1,16 +1,19 @@
 import { FaAngleDown, FaRegBell } from "react-icons/fa";
 import logo from "../../assets/Images/logo.svg";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import userImage from "../../assets/Images/user.png";
 import SecondNavbar from "./SecondNavbar";
 import NavbarLinks from "./NavbarLinks";
 import TopNavbar from "./TopNavbar";
 import NavbarDropDown from "./NavbarDropDown";
 import { AuthContext } from "../../../Context/AuthContext";
-import { useContext } from "react";
+import LanguageSwitcher from "../../LanguageSwitcher";
+import { useTranslation } from "react-i18next";
+
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -90,12 +93,13 @@ const Navbar = () => {
                 homePage ? "" : "text-[--primary-color]"
               }`}
             >
-              Home
+              {t('home')}
             </p>
           </Link>
           {secondNavbar ? <SecondNavbar /> : <NavbarLinks user={user} />}
 
           <div className="flex items-center gap-2 justify-end ml-auto mr-0">
+            <LanguageSwitcher className="w-10 h-10" />
             {user ? (
               <>
                 <Link to="#">
@@ -122,19 +126,19 @@ const Navbar = () => {
                   onClick={logout}
                   className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)] px-4 py-2"
                 >
-                  Logout
+                  {t('logout')}
                 </button>
               </>
             ) : (
               <>
                 <Link to="/Login">
                   <button className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)] px-4 py-2">
-                    Login
+                    {t('login')}
                   </button>
                 </Link>
                 <Link to="/Our-Fleet">
                   <button className="text-white bg-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
-                    Book Now
+                    {t('bookNow')}
                   </button>
                 </Link>
               </>

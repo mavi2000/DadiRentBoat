@@ -1,43 +1,46 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import RatesCard from './RatesCard';
 
 const Rates = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="bg-[#F2EFE8] py-12 flex flex-col items-center justify-center my-12 mx-[3%] md:mx-[6%]">
       <h1 className="text-[var(--primary-color)] text-base font-semibold ">
-        View our
+        {t('viewOur')}
       </h1>
-      <h1 className="text-3xl font-medium text-black my-4">Rates</h1>
+      <h1 className="text-3xl font-medium text-black my-4">{t('rates')}</h1>
       <p className="text-base text-[#383838] w-full md:w-[60%] text-center mb-8">
-        Some of our main rates to offer for the rental and extra services on
-        board one of our boats or dinghy.
+        {t('ratesDescription')}
       </p>
       <div className="flex flex-wrap gap-4 justify-center items-center">
         <RatesCard
           title="AperiTuffo"
           rate={30.0}
-          label="/person"
-          trait1="Panoramic View"
-          trait2="Minibar"
-          trait3="Book and pay online"
-          trait4="Fuel excluded"
+          label={t('labelPerson')}
+          trait1={t('trait1')}
+          trait2={t('trait2')}
+          trait3={t('trait3')}
+          trait4={t('trait4')}
         />
         <RatesCard
           title="Full Day"
           rate={200.0}
-          label="high season"
-          trait1="Freedom of navigation"
-          trait2="Possibility of skipper"
-          trait3="Book and pay online"
-          trait4="Fuel excluded"
+          label={t('labelHighSeason')}
+          trait1={t('trait5')}
+          trait2={t('trait6')}
+          trait3={t('trait3')}
+          trait4={t('trait4')}
         />
         <RatesCard
           title="AperiTuffo"
           rate={350.0}
-          label="6 person"
-          trait1="Music and Awning"
-          trait2="Minibar"
-          trait3="Book and pay online"
-          trait4="Fuel excluded"
+          label={t('label6Person')}
+          trait1={t('trait7')}
+          trait2={t('trait2')}
+          trait3={t('trait3')}
+          trait4={t('trait4')}
         />
       </div>
     </section>

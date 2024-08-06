@@ -7,9 +7,11 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import Pagination from '../Pagination/Pagination';
 import { AdminContext } from '../../../../Context/AdminContext';
+import { useTranslation } from 'react-i18next';
 
 const Reminders = () => {
   const { getAllReminders, deleteReminder } = useContext(AdminContext);
+  const { t } = useTranslation();
   const [reminders, setReminders] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -38,7 +40,7 @@ const Reminders = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t('reminderLoading')}</div>;
   }
 
   console.log("reminder", reminders);
@@ -48,7 +50,7 @@ const Reminders = () => {
       <RemainderNavbar />
       <div className='mx-[3%] md:mx-[1%] mt-[3%]'>
         <div className='flex md:justify-between flex-col md:flex-row space-y-3 md:space-y-0 items-center md:items-baseline'>
-          <h1 className='text-lg font-medium text-[#4B465C]'>Reminders</h1>
+          <h1 className='text-lg font-medium text-[#4B465C]'>{t('reminderReminders')}</h1>
         </div>
 
         <div className='flex sm:justify-between mt-[2%] md:gap-6 justify-start space-x-3 sm:space-x-0'>
@@ -56,7 +58,7 @@ const Reminders = () => {
             <IoSearchOutline className='text-gray-500' />
             <input
               type="text"
-              placeholder='Search'
+              placeholder={t('reminderSearch')}
               className='bg-transparent outline-none focus:ring-0 w-full'
             />
           </div>
@@ -67,17 +69,17 @@ const Reminders = () => {
           <table className="w-full my-[3%] border border-[#DBDADE]">
             <thead className='bg-[#CBA557] bg-opacity-30'>
               <tr className="text-gray-600 text-left uppercase font-medium">
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">Reminder Type</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">Reminder Text</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">Schedule Date</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">Status</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">Action</th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t('reminderReminderType')}</th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t('reminderReminderText')}</th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t('reminderScheduleDate')}</th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t('reminderStatus')}</th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t('reminderAction')}</th>
               </tr>
             </thead>
             <tbody>
               {reminders.map(reminder => (
                 <tr key={reminder._id} className="border-b border-[#DBDADE] hover:bg-gray-100">
-                  <td className="px-4 py-3 md:px-5 md:py-5 whitespace-nowrap text-sm text-[#4B465C]">Email</td>
+                  <td className="px-4 py-3 md:px-5 md:py-5 whitespace-nowrap text-sm text-[#4B465C]">{t('reminderEmail')}</td>
                   <td className="px-4 py-3 md:px-5 md:py-5 whitespace-nowrap text-sm text-[#4B465C]">{reminder.message}</td>
                   <td className="px-4 py-3 md:px-5 md:py-5 whitespace-nowrap text-sm text-[#4B465C]">
                     {reminder.sendImmediately 

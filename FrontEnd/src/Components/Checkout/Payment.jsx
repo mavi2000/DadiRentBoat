@@ -1,17 +1,25 @@
-import React from "react";
-import Mastercard from "../../assets/Images/mastercard.png";
-import Visa from "../../assets/Images/visa.png";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+// import Mastercard from "../../assets/Images/mastercard.png";
+// import Visa from "../../assets/Images/visa.png";
 
 const Payment = () => {
+  const [paymentOption, setPaymentOption] = useState('payFull');
+
+  const handleChange = (event) => {
+    setPaymentOption(event.target.value);
+  };
+
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center gap-3 font-medium text-lg">
+      {/* <div className="flex items-center gap-3 font-medium text-lg">
         <div>Card Details</div>
         <img className="h-10 w-10" src={Mastercard} alt="Master Card" />
         <img className="h-10 w-10" src={Visa} alt="Visa" />
-      </div>
-      <form className=" mt-[5%]] flex flex-col gap-5">
-        <div className=" flex flex-wrap gap-3 ">
+      </div> */}
+
+      <form className="mt-[5%] flex flex-col gap-5">
+        {/* <div className="flex flex-wrap gap-3">
           <input
             type="text"
             placeholder="First Name*"
@@ -27,36 +35,57 @@ const Payment = () => {
             placeholder="Email*"
             className="input-checkout w-[25%]"
           />
-        </div>
-        <div className=" flex flex-wrap gap-3">
+        </div> */}
+
+        {/* <div className="flex flex-wrap gap-3">
           <input
             type="text"
-            placeholder="First Name*"
+            placeholder="Card Number*"
             className="input-checkout w-[100%]"
           />
-        </div>
+        </div> */}
 
-        <div className="">
-          <div className="flex flex-col gap-12 my-[3%]">
+        {/* <div className="flex flex-col gap-5">
+          <h2>Select Payment Option</h2>
+          <div className="flex items-center gap-4">
             <label className="flex items-center gap-2">
-              <input type="radio" name="payment" className="w-5 h-5" />
-              <span className=" font-normal text-[#676767] text-sm">
-                Google Pay
-              </span>
+              <input
+                type="radio"
+                id="payFull"
+                name="paymentOption"
+                value="payFull"
+                checked={paymentOption === 'payFull'}
+                onChange={handleChange}
+                className="w-5 h-5"
+              />
+              <span>Pay Full Rent</span>
             </label>
 
             <label className="flex items-center gap-2">
-              <input type="radio" name="payment" className="w-5 h-5" />
-              <span className=" font-normal text-[#676767] text-sm">
-                Apple Pay
-              </span>
+              <input
+                type="radio"
+                id="payDeposits"
+                name="paymentOption"
+                value="payDeposits"
+                checked={paymentOption === 'payDeposits'}
+                onChange={handleChange}
+                className="w-5 h-5"
+              />
+              <span>Pay in Deposits</span>
             </label>
           </div>
+        </div> */}
 
-          <div className="mt-[4%] flex flex-col gap-5">
-            <a href="/" className=" underline">
-              Do you have a Voucher?
-            </a>
+
+        <div className="flex flex-col gap-5 mt-5">
+          <h1 className="font-bold text-xl">Rental Agreement</h1>
+          <p>Please check and fill out the rental agreement form.</p>
+          <Link to="/RecreationalVehicleRentalAgreement"   className=" text-[#CBA557] underline">
+            Rental Agreement
+          </Link>
+        </div>
+        <div className="mt-[4%] flex flex-col gap-5">
+          
             <label className="flex items-center gap-2">
               <input type="checkbox" className="w-5 h-5" />
               <div className=" font-normal text-[#676767] text-sm">
@@ -71,12 +100,7 @@ const Payment = () => {
             </label>
           </div>
 
-          <div className="">
-            <button className="md:btn-5 py-2 px-10 my-[5%] bg-[#CBA557] rounded-[20px] text-base text-white font-bold">
-              Pay
-            </button>
-          </div>
-        </div>
+
       </form>
     </div>
   );

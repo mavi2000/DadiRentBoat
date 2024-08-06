@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { RiListCheck2 } from "react-icons/ri";
-import axios from "axios";
 import baseURL from "../../../../APi/BaseUrl";
+import { useTranslation } from 'react-i18next';
 
 const Pickups = ({ title, opt3 }) => {
+  const { t } = useTranslation();
   const [selectDay, setSelectDay] = useState("Today");
   const [bookings, setBookings] = useState({
     today: [],
@@ -50,14 +51,14 @@ const Pickups = ({ title, opt3 }) => {
             setSelectDay(e.target.value);
           }}
         >
-          <option value="Today">Today</option>
-          <option value="Tomorrow">Tomorrow</option>
+          <option value="Today">{t('today')}</option>
+          <option value="Tomorrow">{t('tomorrow')}</option>
           <option value={opt3}>{opt3}</option>
         </select>
       </div>
 
       {loading ? (
-        <p>Loading...</p>
+        <p>{t('loading')}</p>
       ) : selectedBookings.length > 0 ? (
         selectedBookings.map((booking, index) => (
           <div
@@ -68,10 +69,10 @@ const Pickups = ({ title, opt3 }) => {
             <div className="flex gap-2 justify-between flex-wrap items-start mt-4 p-6">
               <div>
                 <h1 className="text-[#4b465cd4] font-medium text-base">
-                  {booking.userId.username}
+                  {booking.userId?.username}
                 </h1>
                 <p className="text-base text-[--primary-color]">
-                  ${booking.amount}
+                  ${booking?.amount}
                 </p>
               </div>
               <p className="text-[#4b465c94] text-sm ">{selectDay}</p>
@@ -79,7 +80,7 @@ const Pickups = ({ title, opt3 }) => {
           </div>
         ))
       ) : (
-        <p>No booking available</p>
+        <p>{t('noBookingAvailable')}</p>
       )}
     </div>
   );

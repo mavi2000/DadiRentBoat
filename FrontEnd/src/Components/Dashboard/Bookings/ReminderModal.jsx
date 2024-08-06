@@ -4,9 +4,11 @@ import "react-quill/dist/quill.snow.css";
 import { AdminContext } from "../../../../Context/AdminContext";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 
 const ReminderForm = ({ isRPopUp, setIsRPopUp, booking }) => {
-  const { sendReminder } = useContext(AdminContext); // Use the sendReminder function from context
+  const { sendReminder } = useContext(AdminContext);
+  const { t } = useTranslation();
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [sendImmediately, setSendImmediately] = useState(true);
@@ -31,20 +33,20 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp, booking }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const reminderData = {
-      userId: booking.userId._id, // Get userId from booking.userId._id
+      userId: booking.userId._id,
       userName: booking.userId.username,
       subject,
       message,
       sendImmediately,
       specificTime: sendImmediately ? null : specificTime,
       specificDate: sendImmediately ? null : specificDate,
-      email: booking.userId.email, // Get email from booking.userId.email
+      email: booking.userId.email,
       footerMessage,
     };
     console.log("Reminder Data:", reminderData);
 
     try {
-      const response = await sendReminder(reminderData); // Call the sendReminder function
+      const response = await sendReminder(reminderData);
       console.log("Reminder sent successfully", response);
       setIsRPopUp(false);
     } catch (error) {
@@ -55,17 +57,17 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp, booking }) => {
   return (
     <div className="flex justify-center">
       <div className="w-full">
-        <h2 className="text-xl font-bold mb-4">Reminder</h2>
+        <h2 className="text-xl font-bold mb-4">{t('ReminderTitle')}</h2>
         <form onSubmit={handleSubmit}>
           <div className="bg-[#fafafa] mb-4 rounded-lg p-4">
             <div className="mb-4">
               <label htmlFor="subject" className="block text-gray-700 font-bold mb-2">
-                Subject
+                {t('ReminderSubject')}
               </label>
               <input
                 type="text"
                 id="subject"
-                placeholder="Enter your Subject"
+                placeholder={t('ReminderSubjectPlaceholder')}
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
                 className="block w-full border border-gray-300 rounded p-2"
@@ -73,38 +75,37 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp, booking }) => {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">
-                Attachments
+                {t('ReminderAttachments')}
               </label>
               <div className="border-dashed bg-[#f5f1ea] border-2 border-gray-300 p-4 rounded flex flex-col items-center justify-center">
                 <img src="/icons/icon-yellow-upload.svg" alt="Upload Icon" />
                 <p className="text-gray-500">
-                  Drag & drop files or{" "}
-                  <span className="text-blue-500 cursor-pointer">Browse</span>
+                  {t('ReminderDragDrop')} <span className="text-blue-500 cursor-pointer">{t('ReminderBrowse')}</span>
                 </p>
                 <p className="text-gray-500">
-                  Supported formats: JPG, JPEG, PNG, PDF, Excel
+                  {t('ReminderSupportedFormats')}
                 </p>
               </div>
             </div>
             <div className="mb-4">
               <label htmlFor="message" className="block text-gray-700 font-bold mb-2">
-                Message
+                {t('ReminderMessage')}
               </label>
               <ReactQuill
                 value={message}
                 onChange={handleMessageChange}
                 className="h-40 pb-12"
-                placeholder="Enter your mail body"
+                placeholder={t('ReminderMessagePlaceholder')}
               />
             </div>
             <div className="mb-4">
               <label htmlFor="footerMessage" className="block text-gray-700 font-bold mb-2">
-                Footer Message
+                {t('ReminderFooterMessage')}
               </label>
               <input
                 type="text"
                 id="footerMessage"
-                placeholder="Enter footer message"
+                placeholder={t('ReminderFooterMessagePlaceholder')}
                 value={footerMessage}
                 onChange={(e) => setFooterMessage(e.target.value)}
                 className="block w-full border border-gray-300 rounded p-2"
@@ -112,7 +113,7 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp, booking }) => {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">
-                When do you want to send this reminder?
+                {t('ReminderSendTimeQuestion')}
               </label>
               <div className="flex items-center mb-2">
                 <input
@@ -123,7 +124,7 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp, booking }) => {
                   className="mr-2"
                 />
                 <label htmlFor="sendImmediately" className="text-gray-700">
-                  Send immediately
+                  {t('ReminderSendImmediately')}
                 </label>
               </div>
               <div className="flex items-center">
@@ -135,7 +136,7 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp, booking }) => {
                   className="mr-2"
                 />
                 <label htmlFor="sendAtSpecificTime" className="text-gray-700">
-                  Send at a specific time
+                  {t('ReminderSendSpecificTime')}
                 </label>
               </div>
             </div>
@@ -143,7 +144,7 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp, booking }) => {
               <div className="flex space-x-4 mb-4">
                 <div>
                   <label htmlFor="specificDate" className="block text-gray-700 font-bold mb-2">
-                    Date
+                    {t('ReminderSpecificDate')}
                   </label>
                   <input
                     type="date"
@@ -155,7 +156,7 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp, booking }) => {
                 </div>
                 <div>
                   <label htmlFor="specificTime" className="block text-gray-700 font-bold mb-2">
-                    Time
+                    {t('ReminderSpecificTime')}
                   </label>
                   <input
                     type="time"
@@ -174,13 +175,13 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp, booking }) => {
               onClick={() => setIsRPopUp(!isRPopUp)}
               className="bg-[#f2f2f2] text-[#b7b7b7] py-2 px-4 rounded"
             >
-              Cancel
+              {t('ReminderCancel')}
             </button>
             <button
               type="submit"
-              className=" text-[#e6c481] border-2 border-[#e6c481] py-2 px-4 rounded-lg"
+              className="text-[#e6c481] border-2 border-[#e6c481] py-2 px-4 rounded-lg"
             >
-              Send
+              {t('ReminderSend')}
             </button>
           </div>
         </form>
@@ -188,9 +189,6 @@ const ReminderForm = ({ isRPopUp, setIsRPopUp, booking }) => {
     </div>
   );
 };
-
-
-
 
 export default function ReminderModal({ isRPopUp, setIsRPopUp, booking }) {
   return (

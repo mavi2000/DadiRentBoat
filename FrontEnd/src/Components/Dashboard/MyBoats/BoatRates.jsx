@@ -7,8 +7,10 @@ import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import baseURL from "../../../../APi/BaseUrl";
+import { useTranslation } from "react-i18next";
 
 const BoatRates = () => {
+  const { t } = useTranslation();
   const id = localStorage.getItem("id");
   const [popup, setPopup] = useState(id ? true : false);
   const { addRate, navigate, boatId } = useContext(AdminContext);
@@ -38,7 +40,6 @@ const BoatRates = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [selectedDates, setSelectedDates] = useState([]);
 
-  // Load rates while editing
   useEffect(() => {
     if (id) {
       const getBoatRates = async () => {
@@ -125,13 +126,13 @@ const BoatRates = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.minimumRentalDuration) {
-      toast.error("Minimum rental duration is required.");
+      toast.error(t("boatMinimumRentalDurationRequired"));
       return;
     }
     if (!id) {
       try {
         await addRate({ ...formData, boatId });
-        toast.success("Rates added successfully");
+        toast.success(t("boatRatesAddedSuccessfully"));
         setSelectedDates([formData.startDate, formData.endDate]);
         setPopup(false);
       } catch (error) {
@@ -143,19 +144,19 @@ const BoatRates = () => {
           const errorMessage = error.response.data.error;
           toast.error(errorMessage);
         } else {
-          toast.error("Failed to add rates");
+          toast.error(t("boatFailedToAddRates"));
         }
       }
     } else {
       try {
         await baseURL.patch(`/Rate/update-rate/${id}`, { ...formData });
-        toast.success("Rates updated successfully");
+        toast.success(t("boatRatesUpdatedSuccessfully"));
         localStorage.removeItem("id");
         setTimeout(() => {
           navigate("/Dashboard/my-boats");
         }, 3000);
       } catch (error) {
-        toast.error("Failed to update rates");
+        toast.error(t("boatFailedToUpdateRates"));
       }
     }
   };
@@ -168,7 +169,7 @@ const BoatRates = () => {
     <div className="flex flex-col gap-3">
       <BoatsNavbar />
       <form className="bg-white mx-2 py-8 px-8 flex flex-col gap-10 text-[#4B465C]">
-        <div>Rates</div>
+        <div>{t("boatRates")}</div>
         <div className="mx-4 w-[85%]">
           {/* Existing rates display */}
           {[...Array(5)].map((_, index) => (
@@ -178,25 +179,25 @@ const BoatRates = () => {
             >
               <div className="flex flex-col gap-1">
                 <div className="font-medium">May 1st - June 30th</div>
-                <div className="font-normal">Tariff 1</div>
-                <div className="font-light">Clear Period</div>
+                <div className="font-normal">{t("boatTariff")} 1</div>
+                <div className="font-light">{t("boatClearPeriod")}</div>
               </div>
               <div className="flex flex-col gap-1">
-                <div>Conditions</div>
-                <div>Minimum: 1 day</div>
+                <div>{t("boatConditions")}</div>
+                <div>{t("boatMinimum")}: 1 {t("boatDay")}</div>
               </div>
               <div className="flex flex-col gap-1">
-                <div>Day</div>
+                <div>{t("boatDay")}</div>
                 <div className="font-bold">€54</div>
               </div>
               <div className="flex flex-col gap-1">
-                <div>Week</div>
+                <div>{t("boatWeek")}</div>
                 <div>-</div>
               </div>
               <div className="w-[15%]">
                 <button className="text-[#CBA557] font-semibold flex items-center gap-2 text-[15px] border border-[#CBA557] rounded-md py-2 px-4">
                   <FiEdit3 />
-                  Edit
+                  {t("boatEdit")}
                 </button>
               </div>
             </div>
@@ -207,7 +208,7 @@ const BoatRates = () => {
             className="text-[#CBA557] font-semibold flex items-center gap-2 text-[15px] border border-[#CBA557] rounded-md py-2 px-4"
           >
             <IoMdAdd />
-            Add Period
+            {t("boatAddPeriod")}
           </button>
         </div>
       </form>

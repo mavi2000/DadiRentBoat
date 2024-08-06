@@ -6,10 +6,11 @@ import Calendar from "react-calendar";
 import { RiArrowGoBackLine } from "react-icons/ri";
 import { AdminContext } from "../../../../Context/AdminContext.jsx";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const BoatCalendar = () => {
+  const { t } = useTranslation();
   const [popup, setPopup] = useState(false);
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
@@ -43,21 +44,21 @@ const BoatCalendar = () => {
       console.log("Unavailable boat dates:", response);
       setHighlightedDates(response.unavailableDates || []);
     } catch (error) {
-      console.error("Failed to fetch unavailable boat dates", error);
+      console.error(t("fetchUnavailableDatesError"), error);
     }
   };
 
   const handleSubmit = async () => {
     if (!selectedStartDate || !selectedEndDate) {
-      console.error("Please select a start date and an end date.");
+      console.error(t("selectStartEndDateError"));
       return;
     }
 
     try {
       await fetchUnavailableDates();
-      toast.success("Dates added successfully");
+      toast.success(t("datesAddedSuccess"));
     } catch (error) {
-      console.error("Failed to add unavailable period", error);
+      console.error(t("addUnavailablePeriodError"), error);
     }
   };
 
@@ -109,7 +110,7 @@ const BoatCalendar = () => {
       const winterDates = markWinterSeason();
       setHighlightedDates(winterDates.map(date => date.toISOString().split("T")[0]));
     } catch (error) {
-      console.error("Failed to fetch winter season dates", error);
+      console.error(t("fetchWinterSeasonError"), error);
     }
   };
 
@@ -122,11 +123,9 @@ const BoatCalendar = () => {
       <BoatsNavbar />
       <form className="bg-white">
         <div className="mx-8 py-8 flex flex-col gap-6 text-[#4B465C] w-[80%]">
-          <div className="font-medium">Calendar</div>
+          <div className="font-medium">{t("calendar")}</div>
           <div className="text-sm">
-            By default, your boat is always available. Add the dates on your
-            calendar when your boat is not available. By clicking on 2 dates,
-            you will add a period of unavailability of several days.
+            {t("calendarDescription")}
           </div>
           <div className="flex flex-col justify-between gap-10 items-center px-10 rounded-lg py-10 shadow-md">
             <Calendar
@@ -138,24 +137,23 @@ const BoatCalendar = () => {
             <div className="flex items-center justify-end w-[95%] gap-1">
               <button onClick={resetSelection} className="flex items-center gap-1">
                 <RiArrowGoBackLine />
-                <div>Reset</div>
+                <div>{t("reset")}</div>
               </button>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div>Select Time Slot</div>
+            <div>{t("selectTimeSlot")}</div>
             <select
               className="border py-2 px-3 w-[15%] rounded-md text-sm text-[#8d87a4]"
               value={timeSlot}
               onChange={(e) => setTimeSlot(e.target.value)}
             >
-              <option value="Full Day">Full Day</option>
-              <option value="Half Day">Half Day</option>
+              <option value="Full Day">{t("fullDay")}</option>
+              <option value="Half Day">{t("halfDay")}</option>
             </select>
           </div>
           <div className="text-sm text-[#8d87a4]">
-            Unavailable is an extended period of unavailability that will be
-            added to your unavailability list and repeated each year.
+            {t("unavailableDescription")}
           </div>
           <div className="w-[80%] flex flex-col">
             <button
@@ -164,7 +162,7 @@ const BoatCalendar = () => {
               className="border w-[50%] py-3 border-[#CBA557] text-sm font-semibold rounded-lg text-[#CBA557] justify-center flex items-center gap-2"
             >
               <IoMdAdd className="text-lg" />
-              Add Unavailable Period
+              {t("addUnavailablePeriod")}
             </button>
             {popup && (
               <CalenderPopup
@@ -174,27 +172,20 @@ const BoatCalendar = () => {
               />
             )}
           </div>
-          <div>Unavailable Period</div>
+          <div>{t("unavailablePeriod")}</div>
           <div className="flex justify-between">
             <div className="text-sm">
-              Unavailable from 10 Dec 2024 to 10 March 2025
+              {t("unavailableFrom")} 10 Dec 2024 {t("to")} 10 March 2025
             </div>
             <div className="flex gap-8">
               <button className="py-1 px-4 border border-[#CBA557] text-[#CBA557] rounded-md text-sm font-medium">
-                Edit
+                {t("edit")}
               </button>
               <button className="py-1 px-4 border border-[#FF6347] text-[#FF6347] rounded-md text-sm font-medium">
-                Delete
+                {t("delete")}
               </button>
             </div>
           </div>
-          {/* <button
-            type="button"
-            onClick={handleSubmit}
-            className="border w-[15%] py-3 border-[#CBA557] text-sm font-semibold rounded-lg bg-[#CBA557] text-white justify-center flex items-center gap-3"
-          >
-            Save
-          </button> */}
         </div>
       </form>
     </div>
