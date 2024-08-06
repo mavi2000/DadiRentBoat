@@ -58,7 +58,7 @@ const Calendar = () => {
           userId: booking.userId,
           bookingStatus: booking.bookingStatus,
           rateType: booking.rateType,
-          username: booking.username,
+          username: booking?.username,
           bookingId: booking._id,
         });
       }
@@ -88,7 +88,7 @@ const Calendar = () => {
           boatName: booking.boatName,
           bookingStatus: booking.bookingStatus,
           rateType: booking.rateType,
-          username: booking.userId.username,
+          username: booking.userId?.username,
           // Add other necessary fields
         }));
 

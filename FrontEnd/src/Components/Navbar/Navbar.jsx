@@ -97,7 +97,7 @@ const Navbar = () => {
           {secondNavbar ? <SecondNavbar /> : <NavbarLinks user={user} />}
 
           <div className="flex items-center gap-2 justify-end ml-auto mr-0">
-          <LanguageSwitcher />
+            <LanguageSwitcher className="w-10 h-10" />
             {user ? (
               <>
                 <Link to="#">

@@ -10,48 +10,63 @@ export const cloudinaryConfig = cloudinary.config({
 
 export const uploadImages = async (file) => {
   try {
-    let uploadOptions = { folder: "boatDocuments" };
+    let uploadOptions = { folder: "games" };
     const buffer = file.buffer;
 
     if (file.mimetype.startsWith('image')) {
-      return await cloudinary.v2.uploader.upload_stream(uploadOptions, (error, result) => {
-        if (error) {
-          throw error;
-        }
-        return result;
-      }).end(buffer);
+      return await new Promise((resolve, reject) => {
+        cloudinary.v2.uploader.upload_stream(uploadOptions, (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        }).end(buffer);
+      });
     } else if (file.mimetype.startsWith('video')) {
       uploadOptions.resource_type = 'video';
-      return await cloudinary.v2.uploader.upload_stream(uploadOptions, (error, result) => {
-        if (error) {
-          throw error;
-        }
-        return result;
-      }).end(buffer);
+      return await new Promise((resolve, reject) => {
+        cloudinary.v2.uploader.upload_stream(uploadOptions, (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        }).end(buffer);
+      });
     } else if (file.mimetype.startsWith('audio')) {
       uploadOptions.resource_type = 'auto';
-      return await cloudinary.v2.uploader.upload_stream(uploadOptions, (error, result) => {
-        if (error) {
-          throw error;
-        }
-        return result;
-      }).end(buffer);
+      return await new Promise((resolve, reject) => {
+        cloudinary.v2.uploader.upload_stream(uploadOptions, (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        }).end(buffer);
+      });
     } else if (file.mimetype.startsWith('application/pdf')) {
       uploadOptions.folder = "pdfs";
-      return await cloudinary.v2.uploader.upload_stream(uploadOptions, (error, result) => {
-        if (error) {
-          throw error;
-        }
-        return result;
-      }).end(buffer);
+      return await new Promise((resolve, reject) => {
+        cloudinary.v2.uploader.upload_stream(uploadOptions, (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        }).end(buffer);
+      });
     } else {
       uploadOptions.resource_type = 'raw';
-      return await cloudinary.v2.uploader.upload_stream(uploadOptions, (error, result) => {
-        if (error) {
-          throw error;
-        }
-        return result;
-      }).end(buffer);
+      return await new Promise((resolve, reject) => {
+        cloudinary.v2.uploader.upload_stream(uploadOptions, (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        }).end(buffer);
+      });
     }
   } catch (error) {
     console.error("Error during Cloudinary upload:", error);

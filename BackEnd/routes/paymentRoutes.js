@@ -1,5 +1,7 @@
 import express from "express";
 const router = express.Router();
+import multer from "multer";
+
 import {
   checkout,
   getPayment,
@@ -15,6 +17,8 @@ import {
 } from "../controllers/StripeController.js";
 import { auth } from "../middlewares/auth.js";
 
+const upload = multer({ storage: multer.memoryStorage() });
+
 router.post("/payment", checkout);
 router.get("/getPayment", getPayment);
 router.get("/calculateBoatRevenue", calculateBoatRevenue);
@@ -26,5 +30,5 @@ router.get("/getStatistics",getStatistics);
 router.get("/getUpcomingBookings",getUpcomingBookings);
 router.post("/cancelBooking",cancelBooking);
 router.post("/unAvailableDates",unAvailableDates);
-router.post("/create-payment", createPayment);
+router.post('/create-payment', upload.single('platformInvoice'), createPayment);
 export default router;

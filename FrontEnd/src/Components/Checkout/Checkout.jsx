@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import baseURL from "../../../APi/BaseUrl";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { format } from "date-fns";
 import DatePicker, { CalendarContainer } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -33,12 +33,23 @@ const Checkout = () => {
   const [isAvailable, setIsAvailable] = useState(true);
   const [quickChoice, setQuickChoice] = useState(null);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [totalAmount, setTotalAmount] = useState(0); // New state for total amount
+
+  const skipperCost = 10; // Define the skipper cost here
 
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
+    calculateTotalAmount(
+      selectedRate,
+      customRate,
+      selectedDates,
+      startTime,
+      endTime,
+      event.target.checked
+    );
   };
 
   const datePickerRef = useRef(null);
@@ -50,6 +61,15 @@ const Checkout = () => {
         const details = await fetchBoatDetailsById(id);
         setBoatDetails(details);
         setSelectedRate(details?.rate?.[0]);
+        // Calculate initial total amount
+        calculateTotalAmount(
+          details?.rate?.[0],
+          customRate,
+          selectedDates,
+          startTime,
+          endTime,
+          isChecked
+        );
       } catch (error) {
         console.error("Error fetching boat details:", error);
       }
@@ -68,6 +88,7 @@ const Checkout = () => {
   const handleSave = () => {
     setIsDatePickerOpen(false);
     console.log("Saved dates:", selectedDates);
+    calculateTotalAmount(selectedRate, customRate, selectedDates, startTime, endTime, isChecked);
   };
 
   const parseDuration = (duration) => {
@@ -120,6 +141,8 @@ const Checkout = () => {
     } else {
       setIsAvailable(true);
     }
+
+    calculateTotalAmount(selectedRate, customRate, [start, end], startTime, endTime, isChecked);
   };
 
   const handleQuickChoice = (choice) => {
@@ -131,15 +154,46 @@ const Checkout = () => {
           parseDuration(boatDetails?.rate[0]?.minimumRentalDuration) -
           1
       );
+      setStartTime("");
+      setEndTime("");
     } else if (choice === "week") {
       end.setDate(
         start.getDate() +
           parseDuration(boatDetails?.rate[0]?.maximumRentalDuration) -
           1
       );
+      setStartTime("");
+      setEndTime("");
     }
     setSelectedDates([start, end]);
-    handleSave();
+    if (choice === "slot") {
+      setIsDatePickerOpen(false);
+    } else {
+      handleSave();
+    }
+    setQuickChoice(choice);
+  };
+
+  const calculateTotalAmount = (rate, customRate, dates, startTime, endTime, isChecked) => {
+    let amount = 0;
+
+    if (dates && dates.length === 2) {
+      const durationInDays = (dates[1] - dates[0]) / (1000 * 60 * 60 * 24) + 1;
+      const dailyRate = parseFloat(customRate || rate?.oneDayRate || 0);
+      amount = dailyRate * durationInDays;
+    } else if (startTime && endTime) {
+      const startHour = parseInt(startTime.split(":")[0]);
+      const endHour = parseInt(endTime.split(":")[0]);
+      const durationInHours = endHour - startHour;
+      const hourlyRate = parseFloat(customRate || rate?.oneHourRate || 0);
+      amount = hourlyRate * durationInHours;
+    }
+
+    if (isChecked) {
+      amount += skipperCost; // Add skipper cost if checked
+    }
+
+    setTotalAmount(amount); // Update total amount state
   };
 
   const handleSubmit = async (event) => {
@@ -157,23 +211,7 @@ const Checkout = () => {
       return;
     }
 
-    let amountToCharge;
-
-    if (startTime && endTime) {
-      // Calculate the amount based on the selected time slot
-      const startHour = parseInt(startTime.split(":")[0]);
-      const endHour = parseInt(endTime.split(":")[0]);
-      const durationInHours = endHour - startHour;
-      const hourlyRate = parseFloat(customRate || selectedRate.oneHourRate);
-      amountToCharge = hourlyRate * durationInHours;
-    } else {
-      const durationInDays =
-        (selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24) + 1;
-      const rate = customRate || selectedRate.oneDayRate;
-      amountToCharge = rate * durationInDays;
-    }
-
-    const totalAmount = amountToCharge;
+    let amountToCharge = totalAmount;
 
     if (paymentOption === "partial") {
       amountToCharge = totalAmount * 0.3;
@@ -198,6 +236,7 @@ const Checkout = () => {
         boatId: boatDetails?.boat._id,
         startTime,
         endTime,
+        isChecked, // Add the checkbox state to the payload
       });
 
       const { sessionId } = await response.data;
@@ -275,8 +314,7 @@ const Checkout = () => {
                 <button
                   className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
                   onClick={() => {
-                    setQuickChoice("slot");
-                    handleSave();
+                    handleQuickChoice("slot");
                   }}
                 >
                   {t("timeSlot")}
@@ -285,7 +323,6 @@ const Checkout = () => {
               <button
                 className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
                 onClick={() => {
-                  setQuickChoice("day");
                   handleQuickChoice("day");
                 }}
               >
@@ -297,7 +334,6 @@ const Checkout = () => {
                 <button
                   className="text-white bg-[#cba557] hover:bg-[#d9d5d1] rounded-lg font-semibold px-4 py-2"
                   onClick={() => {
-                    setQuickChoice("week");
                     handleQuickChoice("week");
                   }}
                 >
@@ -324,9 +360,7 @@ const Checkout = () => {
         <h1 className="font-medium text-3xl text-[#000000]">
           {t("checkOut")}
         </h1>
-        <p className="para-book mt-2">
-          {t("bookRentalDescription")}
-        </p>
+        <p className="para-book mt-2">{t("bookRentalDescription")}</p>
 
         <div className="flex flex-col md:flex-row md:space-x-[2%] mt-[2%] space-y-[5%] md:space-y-[0%]">
           <div className="md:w-[35%] bg-white rounded-xl shadow-checkout mb-[1%]">
@@ -339,12 +373,7 @@ const Checkout = () => {
 
             <div className="py-9 px-12 flex justify-center flex-col text-[#383838]">
               {boatDetails?.boatImages?.map((item) => (
-                <img
-                  key={item.id}
-                  src={item.images[0]}
-                  alt=""
-                  className="md:w-64 mb-4"
-                />
+                <img key={item.id} src={item.images[0]} alt="" className="md:w-64 mb-4" />
               ))}
               {boatDetails ? (
                 <>
@@ -391,7 +420,7 @@ const Checkout = () => {
                         checked={isChecked}
                         onChange={handleCheckboxChange}
                       />
-                      With skipper 10€
+                      With skipper 10 €
                     </label>
 
                     <div className="mb-4">
@@ -423,52 +452,56 @@ const Checkout = () => {
                         </p>
                       )}
                     </div>
-                    <div className="mb-4">
-                      <label
-                        htmlFor="startTime"
-                        className="block text-gray-700 text-sm font-bold mb-2"
-                      >
-                        {t("startTime")}
-                      </label>
-                      <select
-                        id="startTime"
-                        className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
-                        value={startTime}
-                        onChange={(e) => setStartTime(e.target.value)}
-                      >
-                        <option value="">{t("chooseStartTime")}</option>
-                        {Array.from({ length: 18 }, (_, i) => i + 7).map(
-                          (hour) => (
-                            <option key={hour} value={`${hour}:00`}>
-                              {`${hour}:00`}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </div>
-                    <div className="mb-4">
-                      <label
-                        htmlFor="endTime"
-                        className="block text-gray-700 text-sm font-bold mb-2"
-                      >
-                        {t("endTime")}
-                      </label>
-                      <select
-                        id="endTime"
-                        className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
-                        value={endTime}
-                        onChange={(e) => setEndTime(e.target.value)}
-                      >
-                        <option value="">{t("chooseEndTime")}</option>
-                        {Array.from({ length: 18 }, (_, i) => i + 7).map(
-                          (hour) => (
-                            <option key={hour} value={`${hour}:00`}>
-                              {`${hour}:00`}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </div>
+                    {quickChoice === "slot" && (
+                      <>
+                        <div className="mb-4">
+                          <label
+                            htmlFor="startTime"
+                            className="block text-gray-700 text-sm font-bold mb-2"
+                          >
+                            {t("startTime")}
+                          </label>
+                          <select
+                            id="startTime"
+                            className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
+                            value={startTime}
+                            onChange={(e) => setStartTime(e.target.value)}
+                          >
+                            <option value="">{t("chooseStartTime")}</option>
+                            {Array.from({ length: 18 }, (_, i) => i + 7).map(
+                              (hour) => (
+                                <option key={hour} value={`${hour}:00`}>
+                                  {`${hour}:00`}
+                                </option>
+                              )
+                            )}
+                          </select>
+                        </div>
+                        <div className="mb-4">
+                          <label
+                            htmlFor="endTime"
+                            className="block text-gray-700 text-sm font-bold mb-2"
+                          >
+                            {t("endTime")}
+                          </label>
+                          <select
+                            id="endTime"
+                            className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
+                            value={endTime}
+                            onChange={(e) => setEndTime(e.target.value)}
+                          >
+                            <option value="">{t("chooseEndTime")}</option>
+                            {Array.from({ length: 18 }, (_, i) => i + 7).map(
+                              (hour) => (
+                                <option key={hour} value={`${hour}:00`}>
+                                  {`${hour}:00`}
+                                </option>
+                              )
+                            )}
+                          </select>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </>
               ) : (
@@ -491,7 +524,7 @@ const Checkout = () => {
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     <p className="text-gray-700 text-xl font-bold mt-2">
-                      {t("total")} $
+                      {t("total")}  €
                       {(
                         (customRate || selectedRate.oneDayRate) *
                         ((selectedDates[1] - selectedDates[0]) /
@@ -503,7 +536,7 @@ const Checkout = () => {
                 )}
                 {startTime && endTime && (
                   <div className="text-gray-700 text-xl font-bold mt-2">
-                    {t("total")}: $
+                    {t("total")}:  €
                     {(
                       parseFloat(customRate || selectedRate.oneHourRate) *
                       (parseInt(endTime.split(":")[0]) -
@@ -511,6 +544,10 @@ const Checkout = () => {
                     ).toFixed(2)}
                   </div>
                 )}
+                <div className="text-gray-700 text-xl font-bold mt-2">
+                with skipper{t("total")}€
+                    {totalAmount.toFixed(2)}
+                  </div>
               </div>
               <div className="my-4">
                 <h2 className="font-medium text-lg mb-2">
@@ -558,3 +595,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
+

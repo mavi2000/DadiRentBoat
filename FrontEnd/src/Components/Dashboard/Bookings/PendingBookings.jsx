@@ -2,48 +2,13 @@ import React, { useState, useEffect } from "react";
 import BookingNavbar from "./BookingNavbar";
 import { IoSearchOutline } from "react-icons/io5";
 import BoatType from "../../../assets/Images/BoatType.png";
-import baseURL from "../../../../APi/BaseUrl";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import baseURL from "../../../../APi/BaseUrl";
 
-const dummyTimeSlots = [
-  {
-    id: 1,
-    slot: "4h00",
-    price: "$238.92",
-    duration: "4h00",
-    departure: "Schedule to be agreed with the owner",
-  },
-  {
-    id: 2,
-    slot: "Morning",
-    price: "$179.19",
-    duration: "4h00",
-    departure: "8:00 AM",
-  },
-  {
-    id: 3,
-    slot: "Noon",
-    price: "$238.92",
-    duration: "4h00",
-    departure: "12:00 PM",
-  },
-  {
-    id: 4,
-    slot: "Afternoon",
-    price: "$238.92",
-    duration: "4h00",
-    departure: "2:00 PM",
-  },
-  {
-    id: 5,
-    slot: "Evening",
-    price: "$238.92",
-    duration: "5h00",
-    departure: "6:00 PM",
-  },
-];
+const boatOptions = ["Boat A", "Boat B", "Boat C"];
+const platformOptions = ["Click&Boat", "Samboat", "Zizzo", "Filovent"];
 
 const PendingBookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -57,17 +22,19 @@ const PendingBookings = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [showTimeSlots, setShowTimeSlots] = useState(false);
   const [newBooking, setNewBooking] = useState({
-    userId: "",
+    username: "",
+    email: "",
+    mobile: "",
     boatName: "",
-    boatId: "",
-    boatImage: [],
-    amount: "",
-    stripeDetails: {},
-    rateType: "",
-    availableDates: [null, null],
+    rentalType: "",
+    rentalDates: [null, null],
+    bookingPlatform: "",
+    platformInvoice: null,
+    platformAmount: "",
     amountPaid: "",
     totalAmount: "",
-    timeSlot: null,
+    startTime: null,
+    endTime: null,
   });
 
   useEffect(() => {
@@ -103,14 +70,18 @@ const PendingBookings = () => {
   }, [searchText, bookings]);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewBooking((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, files } = e.target;
+    if (type === "file") {
+      setNewBooking((prev) => ({ ...prev, [name]: files[0] }));
+    } else {
+      setNewBooking((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleDateChange = (dates) => {
     const [start, end] = dates;
-    setNewBooking((prev) => ({ ...prev, availableDates: [start, end] }));
-    if (start && !end) {
+    setNewBooking((prev) => ({ ...prev, rentalDates: [start, end] }));
+    if (start && end && start.getTime() === end.getTime()) {
       setShowTimeSlots(true);
     } else {
       setShowTimeSlots(false);
@@ -120,27 +91,46 @@ const PendingBookings = () => {
   const handleNewBookingSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await baseURL.post("/checkout/create-payment", {
-        ...newBooking,
-        amount: parseFloat(newBooking.amount),
-        amountPaid: parseFloat(newBooking.amountPaid),
-        totalAmount: parseFloat(newBooking.totalAmount),
-        availableDates: newBooking.availableDates.map(date => date ? date.toISOString() : null)
+      const formData = new FormData();
+      formData.append('username', newBooking.username);
+      formData.append('email', newBooking.email);
+      formData.append('mobile', newBooking.mobile);
+      formData.append('boatName', newBooking.boatName);
+      formData.append('rentalType', newBooking.rentalType);
+      formData.append('rentalDates', JSON.stringify(newBooking.rentalDates));
+      formData.append('bookingPlatform', newBooking.bookingPlatform);
+      formData.append('platformAmount', newBooking.platformAmount);
+      formData.append('amountPaid', newBooking.amountPaid);
+      formData.append('totalAmount', newBooking.totalAmount);
+      formData.append('startTime', newBooking.startTime);
+      formData.append('endTime', newBooking.endTime);
+
+      if (newBooking.platformInvoice) {
+        formData.append('platformInvoice', newBooking.platformInvoice);
+      }
+
+      const response = await baseURL.post("/checkout/create-payment", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
+
       setBookings([...bookings, response.data]);
       setShowPopup(false);
       setNewBooking({
-        userId: "",
+        username: "",
+        email: "",
+        mobile: "",
         boatName: "",
-        boatId: "",
-        boatImage: [],
-        amount: "",
-        stripeDetails: {},
-        rateType: "",
-        availableDates: [null, null],
+        rentalType: "",
+        rentalDates: [null, null],
+        bookingPlatform: "",
+        platformInvoice: null,
+        platformAmount: "",
         amountPaid: "",
         totalAmount: "",
-        timeSlot: null,
+        startTime: null,
+        endTime: null,
       });
     } catch (error) {
       setError(error.message);
@@ -295,57 +285,142 @@ const PendingBookings = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700">Boat Name</label>
+                  <label className="block text-gray-700">Email</label>
                   <input
-                    type="text"
+                    type="email"
+                    name="email"
+                    value={newBooking.email}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700">Mobile Number</label>
+                  <input
+                    type="tel"
+                    name="mobile"
+                    value={newBooking.mobile}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700">Boat Name</label>
+                  <select
                     name="boatName"
                     value={newBooking.boatName}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border rounded"
                     required
-                  />
+                  >
+                    <option value="">Select a boat</option>
+                    {boatOptions.map((boat, index) => (
+                      <option key={index} value={boat}>
+                        {boat}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="block text-gray-700">Rental Type</label>
-                  <input
-                    type="text"
+                  <select
                     name="rentalType"
                     value={newBooking.rentalType}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border rounded"
                     required
-                  />
+                  >
+                    <option value="">Select rental type</option>
+                    <option value="with skipper">With Skipper</option>
+                    <option value="without skipper">Without Skipper</option>
+                  </select>
                 </div>
                 <div>
                   <label className="block text-gray-700">Rental Dates</label>
                   <DatePicker
-                    selected={newBooking.availableDates[0]}
+                    selected={newBooking.rentalDates[0]}
                     onChange={handleDateChange}
-                    startDate={newBooking.availableDates[0]}
-                    endDate={newBooking.availableDates[1]}
+                    startDate={newBooking.rentalDates[0]}
+                    endDate={newBooking.rentalDates[1]}
                     selectsRange
-                    inline
                     className="w-full px-3 py-2 border rounded"
+                    dateFormat="yyyy/MM/dd"
                   />
                 </div>
                 {showTimeSlots && (
-                  <div>
-                    <label className="block text-gray-700">Time Slot</label>
-                    <select
-                      name="timeSlot"
-                      value={newBooking.timeSlot}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border rounded"
-                      required
-                    >
-                      <option value="">Select a time slot</option>
-                      {dummyTimeSlots.map((slot) => (
-                        <option key={slot.id} value={slot.slot}>
-                          {slot.slot} - {slot.departure} ({slot.price})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <>
+                    <div>
+                      <label className="block text-gray-700">Start Time</label>
+                      <DatePicker
+                        selected={newBooking.startTime}
+                        onChange={(time) => setNewBooking((prev) => ({ ...prev, startTime: time }))}
+                        showTimeSelect
+                        showTimeSelectOnly
+                        timeIntervals={30}
+                        timeCaption="Time"
+                        dateFormat="h:mm aa"
+                        className="w-full px-3 py-2 border rounded"
+                
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-700">End Time</label>
+                      <DatePicker
+                        selected={newBooking.endTime}
+                        onChange={(time) => setNewBooking((prev) => ({ ...prev, endTime: time }))}
+                        showTimeSelect
+                        showTimeSelectOnly
+                        timeIntervals={30}
+                        timeCaption="Time"
+                        dateFormat="h:mm aa"
+                        className="w-full px-3 py-2 border rounded"
+                       
+                      />
+                    </div>
+                  </>
+                )}
+                <div>
+                  <label className="block text-gray-700">Booking Platform</label>
+                  <select
+                    name="bookingPlatform"
+                    value={newBooking.bookingPlatform}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded"
+                    required
+                  >
+                    <option value="">Select a platform</option>
+                    {platformOptions.map((platform, index) => (
+                      <option key={index} value={platform}>
+                        {platform}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {newBooking.bookingPlatform && (
+                  <>
+                    <div>
+                      <label className="block text-gray-700">Platform Commission Invoice</label>
+                      <input
+                        type="file"
+                        name="platformInvoice"
+                        accept="image/*"
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border rounded"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-700">Platform Commission Amount</label>
+                      <input
+                        type="number"
+                        name="platformAmount"
+                        value={newBooking.platformAmount}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border rounded"
+                      />
+                    </div>
+                  </>
                 )}
                 <div>
                   <label className="block text-gray-700">Amount Paid</label>

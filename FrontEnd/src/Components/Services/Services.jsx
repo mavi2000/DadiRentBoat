@@ -127,7 +127,7 @@ const Services = () => {
               {t('aperitifDescription')}
             </p>
             <Link
-              to="/Aperitif"
+              to="/services/Aperitif"
               className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
             >
               <button>{t('findOutMore')}</button>

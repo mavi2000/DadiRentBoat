@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Flag from 'react-world-flags';
 
-const LanguageSwitcher = () => {
+const LanguageSwitcher = ({ className }) => {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
   const [isOpen, setIsOpen] = useState(false);
@@ -27,23 +27,17 @@ const LanguageSwitcher = () => {
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
-      <button
+    <div className={`relative ${className}`} ref={dropdownRef}>
+      <div
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 bg-gray-200 p-2 rounded-lg hover:bg-gray-300"
+        className="cursor-pointer"
       >
         {currentLanguage === 'en' ? (
-          <>
-            <Flag code="USA" height="20" className="rounded-full" />
-            <span>Italian</span>
-          </>
+          <Flag code="USA" height="40" className="rounded-full" />
         ) : (
-          <>
-            <Flag code="ITA" height="20" className="rounded-full" />
-            <span>English</span>
-          </>
+          <Flag code="ITA" height="40" className="rounded-full" />
         )}
-      </button>
+      </div>
       {isOpen && (
         <ul className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg text-black">
           {currentLanguage !== 'en' && (
@@ -51,8 +45,7 @@ const LanguageSwitcher = () => {
               className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
               onClick={() => toggleLanguage('en')}
             >
-              <Flag code="USA" height="20" className="rounded-full" />
-              {/* <span>English</span> */}
+              <Flag code="USA" height="40" className="rounded-full" />
             </li>
           )}
           {currentLanguage !== 'it' && (
@@ -60,8 +53,7 @@ const LanguageSwitcher = () => {
               className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
               onClick={() => toggleLanguage('it')}
             >
-              <Flag code="ITA" height="20" className="rounded-full" />
-              {/* <span>Italian</span> */}
+              <Flag code="ITA" height="40" className="rounded-full" />
             </li>
           )}
         </ul>

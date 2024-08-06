@@ -355,6 +355,8 @@ const BookNow = () => {
     />
   ));
 
+  console.log("boatDetails for booking",boatDetails)
+
   const CustomCalendarContainer = ({ className, children }) => (
     <div className={`${className} mx-8`}>
       <CalendarContainer className="relative">{children}</CalendarContainer>
