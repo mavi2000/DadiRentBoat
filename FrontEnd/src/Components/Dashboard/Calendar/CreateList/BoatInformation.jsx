@@ -11,8 +11,10 @@ import House from "../../../../assets/Images/House Baot.png";
 import Rib from "../../../../assets/Images/RIB Boat.png";
 import Gullet from "../../../../assets/Images/GullET Boat.png";
 import Motor from "../../../../assets/Images/Motor Boat.png";
+import { useTranslation } from "react-i18next";
 
 const BoatInformation = () => {
+  const { t } = useTranslation();
   const id = localStorage.getItem("id");
   const { createBoat, error, navigate } = useContext(AdminContext);
 
@@ -21,7 +23,7 @@ const BoatInformation = () => {
     brand: "",
     model: "",
     year: 2017,
-    region: "Livorno ,Italy",
+    region: "Livorno, Italy",
     city: "Livorno",
     boardingCapacity: 8,
     harbour: "",
@@ -63,49 +65,49 @@ const BoatInformation = () => {
     if (id) {
       try {
         const res = await baseURL.patch("/boat/update-boat/" + id, formData);
-        toast.success("Boat updated successfully");
+        toast.success(t("boatUpdatedSuccess"));
         localStorage.removeItem("id");
         setFormData({ ...res.data.updatedBoat });
         setTimeout(() => {
           navigate("/Dashboard/my-boats");
         }, 3000);
       } catch (error) {
-        toast.error("Failed to update boat");
+        toast.error(t("boatUpdateFailed"));
       }
     } else {
       try {
         await createBoat(formData);
-        toast.success("Boat created successfully");
+        toast.success(t("boatCreatedSuccess"));
       } catch (error) {
-        console.error("Error creating boat:", error);
+        console.error(t("boatCreateError"), error);
         const errors = error?.response?.data?.error;
         if (Array.isArray(errors)) {
           errors.forEach((err) => {
             toast.error(err);
           });
         } else {
-          toast.error(errors || "Failed to create boat");
+          toast.error(errors || t("boatCreateFailed"));
         }
       }
     }
   };
 
   const boatTypes = [
-    { name: "Sail", image: sail },
-    { name: "Motorboat", image: Motor },
-    { name: "Ruber dinghy", image: Rib },
-    { name: "Jet Skis", image: jet },
-    { name: "yachts", image: yatch },
-    { name: "Houseboat", image: House },
-    { name: "Catamaran", image: catamaran },
-    { name: "Gullet", image: Gullet },
+    { name: t("sail"), image: sail },
+    { name: t("motorboat"), image: Motor },
+    { name: t("rubberDinghy"), image: Rib },
+    { name: t("jetSkis"), image: jet },
+    { name: t("yachts"), image: yatch },
+    { name: t("houseboat"), image: House },
+    { name: t("catamaran"), image: catamaran },
+    { name: t("gullet"), image: Gullet },
   ];
 
   return (
     <div className="flex flex-col w-[100%] gap-20">
       <div className="flex justify-center flex-col gap-4 w-[100%]">
-        <div>Type of Boat</div>
-        <div className=" flex flex-wrap gap-3">
+        <div>{t("boatType")}</div>
+        <div className="flex flex-wrap gap-3">
           {boatTypes.map((item, index) => (
             <label
               key={index}
@@ -134,46 +136,46 @@ const BoatInformation = () => {
       <form className="flex flex-col gap-12" onSubmit={handleSubmit}>
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Type of boat</div>
+            <div className="text-[#4B465C]">{t("boatType")}</div>
             <div className="w-[90%]">
               <input
                 type="text"
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
-                placeholder="Enter boat type"
+                placeholder={t("enterBoatType")}
                 className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs outline-none"
               />
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Boat Brand</div>
+            <div className="text-[#4B465C]">{t("boatBrand")}</div>
             <div className="w-[90%]">
               <input
                 type="text"
                 name="brand"
                 value={formData.brand}
                 onChange={handleChange}
-                placeholder="Enter boat brand"
+                placeholder={t("enterBoatBrand")}
                 className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs outline-none"
               />
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Model</div>
+            <div className="text-[#4B465C]">{t("model")}</div>
             <div className="w-[90%]">
               <input
                 type="text"
                 name="model"
                 value={formData.model}
                 onChange={handleChange}
-                placeholder="Enter model"
+                placeholder={t("enterModel")}
                 className="w-[100%] bg-transparent border border-gray-400 text-gray-400 py-3 px-4 rounded 1000px:text-sm 300px:text-xs outline-none"
               />
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Year</div>
+            <div className="text-[#4B465C]">{t("year")}</div>
             <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="number"
@@ -186,7 +188,7 @@ const BoatInformation = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Region</div>
+            <div className="text-[#4B465C]">{t("region")}</div>
             <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="text"
@@ -199,7 +201,7 @@ const BoatInformation = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">City</div>
+            <div className="text-[#4B465C]">{t("city")}</div>
             <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="text"
@@ -212,7 +214,7 @@ const BoatInformation = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Harbour</div>
+            <div className="text-[#4B465C]">{t("harbour")}</div>
             <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="text"
@@ -225,7 +227,7 @@ const BoatInformation = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Boarding Capacity</div>
+            <div className="text-[#4B465C]">{t("boardingCapacity")}</div>
             <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="number"
@@ -238,7 +240,7 @@ const BoatInformation = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Total Engine power (in hp)</div>
+            <div className="text-[#4B465C]">{t("totalEnginePower")}</div>
             <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="number"
@@ -251,7 +253,7 @@ const BoatInformation = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Length (in meters)</div>
+            <div className="text-[#4B465C]">{t("length")}</div>
             <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="Number"
@@ -264,7 +266,7 @@ const BoatInformation = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Telephone</div>
+            <div className="text-[#4B465C]">{t("telephone")}</div>
             <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="text"
@@ -276,7 +278,7 @@ const BoatInformation = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Water Tank (in liter)</div>
+            <div className="text-[#4B465C]">{t("waterTank")}</div>
             <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="Number"
@@ -290,7 +292,7 @@ const BoatInformation = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Fuel Tank (in liter)</div>
+            <div className="text-[#4B465C]">{t("fuelTank")}</div>
             <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="number"
@@ -304,7 +306,7 @@ const BoatInformation = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 w-[100%] font-normal">
-            <div className="text-[#4B465C]">Drought (in meters)</div>
+            <div className="text-[#4B465C]">{t("drought")}</div>
             <div className="flex justify-between w-[90%] bg-transparent border border-gray-400 text-gray-400 rounded 1000px:text-sm 300px:text-xs outline-none">
               <input
                 type="number"
@@ -323,7 +325,7 @@ const BoatInformation = () => {
             type="submit"
             className="py-3 px-8 bg-[#cba557] text-sm text-white rounded-lg"
           >
-            {!id ? "Next" : "Update"}
+            {!id ? t("next") : t("update")}
           </button>
         </div>
         {error && <div className="text-red-500">{error}</div>}

@@ -47,9 +47,9 @@ const Services = () => {
             <p className=" text-base text-[#00000080] text-center px-4 w-[90%] py-3">
               {t('rentalDescription')}
             </p>
-            <button className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]">
+            {/* <button className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]">
               {t('findOutMore')}
-            </button>
+            </button> */}
           </div>
         </section>
 

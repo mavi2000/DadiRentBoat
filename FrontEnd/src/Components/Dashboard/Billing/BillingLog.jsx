@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import baseURL from "../../../../APi/BaseUrl";
+import { useTranslation } from "react-i18next";
 
 const BillingLog = () => {
+  const { t } = useTranslation();
   const [bookings, setBookings] = useState([]);
   const [filteredBookings, setFilteredBookings] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -13,7 +15,7 @@ const BillingLog = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await baseURL.get("/checkout/getPayment"); // Replace with your API endpoint
+        const response = await baseURL.get("/checkout/getPayment");
         setBookings(response.data);
         setFilteredBookings(response.data);
       } catch (error) {
@@ -44,7 +46,7 @@ const BillingLog = () => {
 
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
-    setCurrentPage(1); // Reset to first page on new search
+    setCurrentPage(1);
   };
 
   const handlePageChange = (page) => {
@@ -56,13 +58,13 @@ const BillingLog = () => {
   const currentBookings = filteredBookings.slice(indexOfFirstItem, indexOfLastItem);
 
   if (loading) {
-    return <div>Loading...</div>; // Display a loading indicator while fetching data
+    return <div>{t('BillingLoading')}</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Display an error message if fetching data fails
+    return <div>{t('BillingError')}: {error}</div>;
   }
-console.log("billings",bookings)
+
   return (
     <div className="my-8 flex flex-col justify-center items-center gap-3 bg-white w-full rounded-md shadow py-5 text-[#4b465cb4]">
       <div className="flex flex-row justify-between w-[97%]">
@@ -72,7 +74,7 @@ console.log("billings",bookings)
             required
             autoComplete="off"
             name="text"
-            placeholder="Search Invoice"
+            placeholder={t('BillingSearchInvoice')}
             className="border border-[#DBDADE] p-2 rounded-md text-sm"
             value={searchText}
             onChange={handleSearchChange}
@@ -80,34 +82,25 @@ console.log("billings",bookings)
         </div>
       </div>
 
-      {/* Billing Table */}
       <div className="w-full border mt-4">
         <div className="gap-3 text-[#4B465C]">
           <div className="flex w-full">
-            {/* Table Headers */}
-            <div className="w-[10%] border-b border-[#DBDADE] p-3">ID</div>
-            <div className="w-[20%] border-b border-[#DBDADE] p-3">Client</div>
-            <div className="w-[20%] border-b border-[#DBDADE] p-3">Boat</div>
-            <div className="w-[10%] border-b border-[#DBDADE] p-3">Date</div>
-            <div className="w-[15%] border-b border-[#DBDADE] p-3">
-              Amount Paid
-            </div>
-            <div className="w-[15%] border-b border-[#DBDADE] p-3">
-              Total Paid
-            </div>
-            <div className="w-[10%] border-b border-[#DBDADE] p-3">Balance</div>
+            <div className="w-[10%] border-b border-[#DBDADE] p-3">{t('BillingID')}</div>
+            <div className="w-[20%] border-b border-[#DBDADE] p-3">{t('BillingClient')}</div>
+            <div className="w-[20%] border-b border-[#DBDADE] p-3">{t('BillingBoat')}</div>
+            <div className="w-[10%] border-b border-[#DBDADE] p-3">{t('BillingDate')}</div>
+            <div className="w-[15%] border-b border-[#DBDADE] p-3">{t('BillingAmountPaid')}</div>
+            <div className="w-[15%] border-b border-[#DBDADE] p-3">{t('BillingTotalPaid')}</div>
+            <div className="w-[10%] border-b border-[#DBDADE] p-3">{t('BillingBalance')}</div>
           </div>
 
-          {/* Display Each Booking */}
           {currentBookings?.map((booking) => (
             <div key={booking._id} className="flex w-full">
               <div className="w-[10%] border-b border-[#DBDADE] p-3">
-                #{booking?._id.slice(-7)}{" "}
-                {/* Example of displaying part of ID */}
+                #{booking?._id.slice(-7)}
               </div>
               <div className="flex items-center gap-2 w-[20%] border-b border-[#DBDADE] p-3">
                 <div className="flex justify-center rounded-full bg-[#CBA55726] items-center w-8 h-8 text-[#CBA557]">
-                  {/* Example of displaying initials */}
                   <div>{booking.userId?.username.charAt(0)}</div>
                   <div>{booking.userId?.username.charAt(1)}</div>
                 </div>
@@ -122,8 +115,7 @@ console.log("billings",bookings)
                 {booking?.boatName}
               </div>
               <div className="w-[10%] border-b border-[#DBDADE] p-3">
-                {new Date(booking.createdAt).toLocaleDateString()}{" "}
-                {/* Format date */}
+                {new Date(booking.createdAt).toLocaleDateString()}
               </div>
               <div className="w-[15%] border-b border-[#DBDADE] p-3">
                 ${booking.amount.toFixed(2)}
@@ -133,7 +125,7 @@ console.log("billings",bookings)
               </div>
               <div className="w-[10%] border-b border-[#DBDADE] p-3">
                 {booking.amount === booking.totalAmount ? (
-                  <span className="text-green-500 font-bold">Paid</span>
+                  <span className="text-green-500 font-bold">{t('BillingPaid')}</span>
                 ) : (
                   <span className="text-red-500 font-bold">30%</span>
                 )}
@@ -143,10 +135,9 @@ console.log("billings",bookings)
         </div>
       </div>
 
-      {/* Pagination Controls */}
       <div className="flex flex-row justify-between w-[97%] mt-4">
         <div>
-          Showing {indexOfFirstItem + 1} to {indexOfLastItem} of {filteredBookings.length} entries
+          {t('BillingShowing')} {indexOfFirstItem + 1} {t('BillingTo')} {indexOfLastItem} {t('BillingOf')} {filteredBookings.length} {t('BillingEntries')}
         </div>
         <div className="flex flex-row items-center justify-center gap-1 text-sm">
           <button
@@ -154,7 +145,7 @@ console.log("billings",bookings)
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            Previous
+            {t('BillingPrevious')}
           </button>
           <div className="flex gap-1">
             {[...Array(Math.ceil(filteredBookings.length / itemsPerPage)).keys()].map((page) => (
@@ -172,7 +163,7 @@ console.log("billings",bookings)
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === Math.ceil(filteredBookings.length / itemsPerPage)}
           >
-            Next
+            {t('BillingNext')}
           </button>
         </div>
       </div>

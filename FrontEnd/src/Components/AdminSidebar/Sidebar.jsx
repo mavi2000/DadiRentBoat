@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Link, useNavigate, NavLink, useLocation } from "react-router-dom";
 import { RiHome5Line } from "react-icons/ri";
 import { SlCalender } from "react-icons/sl";
 import { LuDownload } from "react-icons/lu";
@@ -9,13 +9,13 @@ import { HiOutlineCurrencyDollar } from "react-icons/hi";
 import { IoCalendarOutline } from "react-icons/io5";
 import { FaSackDollar } from "react-icons/fa6";
 import { AuthContext } from "../../../Context/AuthContext";
-import { useEffect, useRef, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const activeDashboard =
     window.location.pathname.includes("/Dashboard/pending-bookings") ||
@@ -122,7 +122,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               to="/Dashboard"
             >
               <RiHome5Line size={24} />
-              Dashboard
+              {t("SidebarDashboard")}
             </Link>
 
             <Link
@@ -133,7 +133,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   : ""
               }`}
             >
-              <SlCalender size={20} /> Calendar
+              <SlCalender size={20} /> {t("SidebarCalendar")}
             </Link>
 
             <Link
@@ -145,7 +145,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               }`}
             >
               <LuDownload size={20} />
-              Boats
+              {t("SidebarBoats")}
             </Link>
 
             <Link
@@ -157,7 +157,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               }`}
             >
               <HiOutlineCurrencyDollar size={20} />
-              Bookings
+              {t("SidebarBookings")}
             </Link>
 
             <Link
@@ -168,7 +168,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   : ""
               }`}
             >
-              <LiaFileInvoiceDollarSolid size={20} /> Billing
+              <LiaFileInvoiceDollarSolid size={20} /> {t("SidebarBilling")}
             </Link>
 
             <Link
@@ -180,7 +180,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               }`}
             >
               <IoCalendarOutline size={20} />
-              Reminders
+              {t("SidebarReminders")}
             </Link>
 
             <Link
@@ -192,14 +192,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               }`}
             >
               <FaSackDollar size={20} />
-              Cash Flow
+              {t("SidebarCashFlow")}
             </Link>
             <button
               onClick={logout}
               className={`flex w-full gap-2 items-center px-5 py-3 rounded-lg hover:bg-[--primary-color] hover:text-white`}
             >
               <BiLogOutCircle size={20} />
-              Log Out
+              {t("SidebarLogout")}
             </button>
           </ul>
         </nav>

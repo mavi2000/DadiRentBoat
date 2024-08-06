@@ -9,9 +9,11 @@ import TopNavbar from "./TopNavbar";
 import NavbarDropDown from "./NavbarDropDown";
 import { AuthContext } from "../../../Context/AuthContext";
 import LanguageSwitcher from "../../LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -91,7 +93,7 @@ const Navbar = () => {
                 homePage ? "" : "text-[--primary-color]"
               }`}
             >
-              Home
+              {t('home')}
             </p>
           </Link>
           {secondNavbar ? <SecondNavbar /> : <NavbarLinks user={user} />}
@@ -103,7 +105,6 @@ const Navbar = () => {
                 <Link to="#">
                   <FaRegBell size={30} className="text-[--primary-color]" />
                 </Link>
-              
                 <img
                   src={(user && user.image) || userImage}
                   alt="user avatar"
@@ -125,19 +126,19 @@ const Navbar = () => {
                   onClick={logout}
                   className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)] px-4 py-2"
                 >
-                  Logout
+                  {t('logout')}
                 </button>
               </>
             ) : (
               <>
                 <Link to="/Login">
                   <button className="text-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)] px-4 py-2">
-                    Login
+                    {t('login')}
                   </button>
                 </Link>
                 <Link to="/Our-Fleet">
                   <button className="text-white bg-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)]  px-4 py-2">
-                    Book Now
+                    {t('bookNow')}
                   </button>
                 </Link>
               </>

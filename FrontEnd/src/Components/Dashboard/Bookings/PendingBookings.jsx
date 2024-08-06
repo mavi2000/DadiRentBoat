@@ -6,11 +6,13 @@ import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import baseURL from "../../../../APi/BaseUrl";
+import { useTranslation } from "react-i18next";
 
 const boatOptions = ["Boat A", "Boat B", "Boat C"];
 const platformOptions = ["Click&Boat", "Samboat", "Zizzo", "Filovent"];
 
 const PendingBookings = () => {
+  const { t } = useTranslation();
   const [bookings, setBookings] = useState([]);
   const [filteredBookings, setFilteredBookings] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -92,28 +94,32 @@ const PendingBookings = () => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append('username', newBooking.username);
-      formData.append('email', newBooking.email);
-      formData.append('mobile', newBooking.mobile);
-      formData.append('boatName', newBooking.boatName);
-      formData.append('rentalType', newBooking.rentalType);
-      formData.append('rentalDates', JSON.stringify(newBooking.rentalDates));
-      formData.append('bookingPlatform', newBooking.bookingPlatform);
-      formData.append('platformAmount', newBooking.platformAmount);
-      formData.append('amountPaid', newBooking.amountPaid);
-      formData.append('totalAmount', newBooking.totalAmount);
-      formData.append('startTime', newBooking.startTime);
-      formData.append('endTime', newBooking.endTime);
+      formData.append("username", newBooking.username);
+      formData.append("email", newBooking.email);
+      formData.append("mobile", newBooking.mobile);
+      formData.append("boatName", newBooking.boatName);
+      formData.append("rentalType", newBooking.rentalType);
+      formData.append("rentalDates", JSON.stringify(newBooking.rentalDates));
+      formData.append("bookingPlatform", newBooking.bookingPlatform);
+      formData.append("platformAmount", newBooking.platformAmount);
+      formData.append("amountPaid", newBooking.amountPaid);
+      formData.append("totalAmount", newBooking.totalAmount);
+      formData.append("startTime", newBooking.startTime);
+      formData.append("endTime", newBooking.endTime);
 
       if (newBooking.platformInvoice) {
-        formData.append('platformInvoice', newBooking.platformInvoice);
+        formData.append("platformInvoice", newBooking.platformInvoice);
       }
 
-      const response = await baseURL.post("/checkout/create-payment", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      const response = await baseURL.post(
+        "/checkout/create-payment",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      });
+      );
 
       setBookings([...bookings, response.data]);
       setShowPopup(false);
@@ -148,14 +154,17 @@ const PendingBookings = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentBookings = filteredBookings.slice(indexOfFirstItem, indexOfLastItem);
+  const currentBookings = filteredBookings.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   if (loading) {
-    return <div>Loading...</div>; // Display a loading indicator while fetching data
+    return <div>{t("loading")}</div>; // Display a loading indicator while fetching data
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Display an error message if fetching data fails
+    return <div>{t("error")}: {error}</div>; // Display an error message if fetching data fails
   }
 
   return (
@@ -163,12 +172,12 @@ const PendingBookings = () => {
       <BookingNavbar />
       <div className="mx-[3%] md:mx-[1%] mt-[3%]">
         <div className="flex justify-between">
-          <h1 className="text-lg font-medium text-[#4B465C]">Pending Bookings</h1>
+          <h1 className="text-lg font-medium text-[#4B465C]">{t("pendingBookings")}</h1>
           <button
             onClick={() => setShowPopup(true)}
             className="bg-[#CBA557] text-white font-bold py-2 px-4 rounded"
           >
-            Add New Booking
+            {t("addNewBooking")}
           </button>
         </div>
 
@@ -177,7 +186,7 @@ const PendingBookings = () => {
             <IoSearchOutline className="text-gray-500" />
             <input
               type="text"
-              placeholder="Search"
+              placeholder={t("search")}
               className="bg-transparent outline-none focus:ring-0 w-full"
               value={searchText}
               onChange={handleSearchChange}
@@ -189,13 +198,13 @@ const PendingBookings = () => {
           <table className="w-full my-[3%] border border-[#DBDADE]">
             <thead className="bg-[#CBA557] bg-opacity-30">
               <tr className="text-gray-600 cursor-pointer text-left uppercase font-medium">
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">Order ID</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">Requester Name</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">Request Date</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">Boat Type</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">Total Price</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">Deposit Price</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">Status</th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("orderId")}</th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("requesterName")}</th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("requestDate")}</th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("boatType")}</th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("totalPrice")}</th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("depositPrice")}</th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("status")}</th>
               </tr>
             </thead>
             <tbody>
@@ -227,7 +236,7 @@ const PendingBookings = () => {
                   </td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">€{booking.totalAmount.toFixed(2)}</td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
-                    <span className="px-4 py-3 rounded-[10px] bg-[#FF7A00] bg-opacity-10 text-[#FF7A00] font-bold text-sm">Pending</span>
+                    <span className="px-4 py-3 rounded-[10px] bg-[#FF7A00] bg-opacity-10 text-[#FF7A00] font-bold text-sm">{t("pending")}</span>
                   </td>
                 </tr>
               ))}
@@ -237,7 +246,11 @@ const PendingBookings = () => {
 
         <div className="flex flex-row justify-between w-[97%] mt-4">
           <div>
-            Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, filteredBookings.length)} of {filteredBookings.length} entries
+            {t("showingEntries", {
+              start: indexOfFirstItem + 1,
+              end: Math.min(indexOfLastItem, filteredBookings.length),
+              total: filteredBookings.length
+            })}
           </div>
           <div className="flex flex-row items-center justify-center gap-1 text-sm">
             <button
@@ -245,7 +258,7 @@ const PendingBookings = () => {
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
             >
-              Previous
+              {t("previous")}
             </button>
             <div className="flex gap-1">
               {[...Array(Math.ceil(filteredBookings.length / itemsPerPage)).keys()].map((page) => (
@@ -263,7 +276,7 @@ const PendingBookings = () => {
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === Math.ceil(filteredBookings.length / itemsPerPage)}
             >
-              Next
+              {t("next")}
             </button>
           </div>
         </div>
@@ -271,10 +284,10 @@ const PendingBookings = () => {
         {showPopup && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 md:w-1/2 md:h-1/2 overflow-auto">
-              <h2 className="text-lg font-bold mb-4">Add New Booking</h2>
+              <h2 className="text-lg font-bold mb-4">{t("addNewBooking")}</h2>
               <form onSubmit={handleNewBookingSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-gray-700">User Name</label>
+                  <label className="block text-gray-700">{t("userName")}</label>
                   <input
                     type="text"
                     name="username"
@@ -285,7 +298,7 @@ const PendingBookings = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700">Email</label>
+                  <label className="block text-gray-700">{t("email")}</label>
                   <input
                     type="email"
                     name="email"
@@ -296,7 +309,7 @@ const PendingBookings = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700">Mobile Number</label>
+                  <label className="block text-gray-700">{t("mobileNumber")}</label>
                   <input
                     type="tel"
                     name="mobile"
@@ -307,7 +320,7 @@ const PendingBookings = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700">Boat Name</label>
+                  <label className="block text-gray-700">{t("boatName")}</label>
                   <select
                     name="boatName"
                     value={newBooking.boatName}
@@ -315,7 +328,7 @@ const PendingBookings = () => {
                     className="w-full px-3 py-2 border rounded"
                     required
                   >
-                    <option value="">Select a boat</option>
+                    <option value="">{t("selectBoat")}</option>
                     {boatOptions.map((boat, index) => (
                       <option key={index} value={boat}>
                         {boat}
@@ -324,7 +337,7 @@ const PendingBookings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-gray-700">Rental Type</label>
+                  <label className="block text-gray-700">{t("rentalType")}</label>
                   <select
                     name="rentalType"
                     value={newBooking.rentalType}
@@ -332,13 +345,13 @@ const PendingBookings = () => {
                     className="w-full px-3 py-2 border rounded"
                     required
                   >
-                    <option value="">Select rental type</option>
-                    <option value="with skipper">With Skipper</option>
-                    <option value="without skipper">Without Skipper</option>
+                    <option value="">{t("selectRentalType")}</option>
+                    <option value="with skipper">{t("withSkipper")}</option>
+                    <option value="without skipper">{t("withoutSkipper")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-gray-700">Rental Dates</label>
+                  <label className="block text-gray-700">{t("rentalDates")}</label>
                   <DatePicker
                     selected={newBooking.rentalDates[0]}
                     onChange={handleDateChange}
@@ -352,7 +365,7 @@ const PendingBookings = () => {
                 {showTimeSlots && (
                   <>
                     <div>
-                      <label className="block text-gray-700">Start Time</label>
+                      <label className="block text-gray-700">{t("startTime")}</label>
                       <DatePicker
                         selected={newBooking.startTime}
                         onChange={(time) => setNewBooking((prev) => ({ ...prev, startTime: time }))}
@@ -366,7 +379,7 @@ const PendingBookings = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-gray-700">End Time</label>
+                      <label className="block text-gray-700">{t("endTime")}</label>
                       <DatePicker
                         selected={newBooking.endTime}
                         onChange={(time) => setNewBooking((prev) => ({ ...prev, endTime: time }))}
@@ -382,7 +395,7 @@ const PendingBookings = () => {
                   </>
                 )}
                 <div>
-                  <label className="block text-gray-700">Booking Platform</label>
+                  <label className="block text-gray-700">{t("bookingPlatform")}</label>
                   <select
                     name="bookingPlatform"
                     value={newBooking.bookingPlatform}
@@ -390,7 +403,7 @@ const PendingBookings = () => {
                     className="w-full px-3 py-2 border rounded"
                     required
                   >
-                    <option value="">Select a platform</option>
+                    <option value="">{t("selectPlatform")}</option>
                     {platformOptions.map((platform, index) => (
                       <option key={index} value={platform}>
                         {platform}
@@ -401,7 +414,7 @@ const PendingBookings = () => {
                 {newBooking.bookingPlatform && (
                   <>
                     <div>
-                      <label className="block text-gray-700">Platform Commission Invoice</label>
+                      <label className="block text-gray-700">{t("platformInvoice")}</label>
                       <input
                         type="file"
                         name="platformInvoice"
@@ -411,7 +424,7 @@ const PendingBookings = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-gray-700">Platform Commission Amount</label>
+                      <label className="block text-gray-700">{t("platformAmount")}</label>
                       <input
                         type="number"
                         name="platformAmount"
@@ -423,7 +436,7 @@ const PendingBookings = () => {
                   </>
                 )}
                 <div>
-                  <label className="block text-gray-700">Amount Paid</label>
+                  <label className="block text-gray-700">{t("amountPaid")}</label>
                   <input
                     type="number"
                     name="amountPaid"
@@ -434,7 +447,7 @@ const PendingBookings = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700">Total Amount</label>
+                  <label className="block text-gray-700">{t("totalAmount")}</label>
                   <input
                     type="number"
                     name="totalAmount"
@@ -450,13 +463,13 @@ const PendingBookings = () => {
                     onClick={() => setShowPopup(false)}
                     className="px-4 py-2 bg-gray-300 rounded"
                   >
-                    Cancel
+                    {t("cancel")}
                   </button>
                   <button
                     type="submit"
                     className="px-4 py-2 bg-[#CBA557] text-white rounded"
                   >
-                    Save
+                    {t("save")}
                   </button>
                 </div>
               </form>

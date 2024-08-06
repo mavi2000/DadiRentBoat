@@ -106,11 +106,11 @@ const Rates = () => {
         </p>
         <br />
         <br />
-        <Link to="#">
+        {/* <Link to="#">
           <button className="bg-[var(--primary-color)] text-white text-base font-bold rounded-lg px-12 py-3">
             {t('findOutMore')}
           </button>
-        </Link>
+        </Link> */}
       </section>
       <section className="overflow-auto mx-[3%] md:mx-[6%]">
         <RatesTable />

@@ -1,12 +1,13 @@
 import { GoBell } from "react-icons/go";
 import { Link } from "react-router-dom";
 import user from "../assets/Images/user.png";
+import LanguageSwitcher from "../LanguageSwitcher";
 
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
   console.log(sidebarOpen);
   return (
-    <header className="sticky top-0 z-10 flex w-full  bg-white backdrop-filter backdrop-blur-sm">
-      <div className="flex items-center w-full  justify-between px-4 py-4 md:px-6 2xl:px-11">
+    <header className="sticky top-0 z-10 flex w-full bg-white backdrop-filter backdrop-blur-sm">
+      <div className="flex items-center w-full justify-between px-4 py-4 md:px-6 2xl:px-11">
         <div className="flex items-center gap-2 lg:hidden">
           {/* <!-- Hamburger Toggle BTN --> */}
           <button
@@ -55,14 +56,14 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
             <img src={"/images/logo.png"} className="w-8 h-8" alt="Logo" />
           </Link>
         </div>
-        <ul className="flex items-center lg:justify-between lg:w-full  gap-2">
+        <ul className="flex items-center lg:justify-between lg:w-full gap-2">
           {/* Search field */}
           <div className="hidden sm:block">
             <form action="https://formbold.com/s/unique_form_id" method="POST">
-              <div className="relative py-3 rounded-full  bg-[#f0f0f0]">
+              <div className="relative py-3 rounded-full bg-[#f0f0f0]">
                 <button className="absolute left-5 top-1/2 -translate-y-1/2">
                   <svg
-                    className=" fill-black"
+                    className="fill-black"
                     width="20"
                     height="20"
                     viewBox="0 0 20 20"
@@ -87,12 +88,13 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
                 <input
                   type="text"
                   placeholder="Type to search..."
-                  className="w-full bg-transparent placeholder:text-black pl-12 pr-4  focus:outline-none text-black xl:w-125"
+                  className="w-full bg-transparent placeholder:text-black pl-12 pr-4 focus:outline-none text-black xl:w-125"
                 />
               </div>
             </form>
           </div>
-          <div className=" flex gap-2 items-center">
+          <div className="flex gap-2 items-center">
+            <LanguageSwitcher className="w-10 h-10" />
             <div className="relative">
               <GoBell size={30} />
               <p className="flex items-center justify-center rounded-full p-1 size-[18px] absolute -top-1 -right-1 bg-[#EA5455] font-medium text-xs text-white">

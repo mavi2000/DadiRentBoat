@@ -5,8 +5,12 @@ import Download from "../../../assets/Images/Download-Cloud.png";
 import BoatsNavbar from "./BoatsNavbar";
 import LoadingSpinner from "./LoadingSpinner";
 import { AdminContext } from "../../../../Context/AdminContext";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BoatDocuments = () => {
+  const { t } = useTranslation();
   const [documents, setDocuments] = useState({
     vesselDocument: [],
     boatManual: [],
@@ -45,7 +49,7 @@ const BoatDocuments = () => {
     setLoading(true);
     try {
       await uploadBoatDocuments(formData);
-      toast.success("Documents uploaded successfully");
+      toast.success(t("boatDocumentsUploadedSuccess"));
       setDocuments({
         vesselDocument: [],
         boatManual: [],
@@ -56,7 +60,7 @@ const BoatDocuments = () => {
       });
     } catch (error) {
       console.error("Error uploading documents:", error);
-      toast.error("Failed to upload documents");
+      toast.error(t("boatDocumentsUploadFailed"));
     } finally {
       setLoading(false);
     }
@@ -67,15 +71,15 @@ const BoatDocuments = () => {
       <BoatsNavbar />
       <div className="mx-[1%] my-[1%] bg-white h-[100vh]">
         <div className="mx-[4%]">
-          <h1 className="font-medium text-[#4B465C] text-lg py-5">Boat Documents</h1>
+          <h1 className="font-medium text-[#4B465C] text-lg py-5">{t("boatDocuments")}</h1>
           <p className="text-[#4B465C] font-normal text-sm">
-            Upload relevant documents for the boat.
+            {t("boatDocumentsDescription")}
           </p>
           <div className="flex flex-wrap gap-3 justify-between mx-[3%] my-[2%]">
             {Object.keys(documents).map((category) => (
               <div key={category} className="boatPhoto py-12 rounded-md flex-1 mx-2 bg-white shadow-lg">
                 <div className="flex flex-col py-8 gap-4 items-center justify-center">
-                  <p>{category.replace(/([A-Z])/g, " $1")}</p>
+                  <p>{t(`boat${category.charAt(0).toUpperCase() + category.slice(1)}`)}</p>
                   <img src={Download} alt="Download icon" className="w-16 md:w-24" />
                   <input
                     type="file"
@@ -90,7 +94,7 @@ const BoatDocuments = () => {
                     className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px]"
                   >
                     <FaPlus />
-                    <p>Choose files</p>
+                    <p>{t("chooseFiles")}</p>
                   </button>
                   <div className="flex flex-wrap gap-4 mt-4">
                     {documents[category].map((file, index) => (
@@ -123,7 +127,7 @@ const BoatDocuments = () => {
               className="flex gap-[10px] justify-center items-center py-4 px-16 bg-[#CBA557] text-white font-bold text-sm rounded-[10px]"
             >
               <FaPlus />
-              <p>Upload Documents</p>
+              <p>{t("uploadDocuments")}</p>
             </button>
           </div>
           {loading && <LoadingSpinner />}
