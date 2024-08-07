@@ -28,7 +28,7 @@ const LastSection = ({ data }) => {
           <VscFilePdf size={25} />
           {t('downloadPdfButtonUnique')}
         </button>
-        <button type='submit' className="rounded-lg px-6 py-3 bg-[--primary-color] text-lg font-bold text-white" disabled={!data.valid}>
+        <button type='submit' className="rounded-lg px-6 py-3 bg-[--primary-color] text-lg font-bold text-white" >
           {t('submitButtonUnique')}
         </button>
       </div>
