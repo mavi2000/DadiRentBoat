@@ -50,12 +50,16 @@ import baseURL from "../../../APi/BaseUrl";
 import { loadStripe } from "@stripe/stripe-js";
 import DatePicker, { CalendarContainer } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useTranslation } from 'react-i18next';
 
 const stripePromise = loadStripe(
   "pk_test_51OwXJ9RtqZkTuUjdPn7IZ2nUJQ77VYiDdsW3s8ddWFQRUh4yUWKiXhYLAy54Y2249fgzSTPtcvfgUr2MoiWhBE5p00zp6MUFHe"
 );
 
 const BookNow = () => {
+  const { t } = useTranslation();
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const { id } = useParams();
   const { fetchBoatDetailsById } = useContext(UserContext);
   const navigate = useNavigate();
@@ -72,44 +76,7 @@ const BookNow = () => {
   const [disabledDates, setDisabledDates] = useState([]);
   const [data, setData] = useState({ rentalType: [] }); // Initialize data state
   const datePickerRef = useRef(null);
-  const dummyTimeSlots = [
-    {
-      id: 1,
-      slot: "4h00",
-      price: "$238.92",
-      duration: "4h00",
-      departure: "Schedule to be agreed with the owner",
-    },
-    {
-      id: 2,
-      slot: "Morning",
-      price: "$179.19",
-      duration: "4h00",
-      departure: "8:00 AM",
-    },
-    {
-      id: 3,
-      slot: "Noon",
-      price: "$238.92",
-      duration: "4h00",
-      departure: "12:00 PM",
-    },
-    {
-      id: 4,
-      slot: "Afternoon",
-      price: "$238.92",
-      duration: "4h00",
-      departure: "2:00 PM",
-    },
-    {
-      id: 5,
-      slot: "Evening",
-      price: "$238.92",
-      duration: "5h00",
-      departure: "6:00 PM",
-    },
-  ];
-
+  
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const getBoatDetails = async () => {
@@ -137,14 +104,7 @@ const BookNow = () => {
     console.log("Saved dates:", selectedDates);
   };
 
-  const handleTimeSlotChange = (e) => {
-    const selectedSlot = dummyTimeSlots.find(
-      (slot) => slot.id === parseInt(e.target.value)
-    );
-    setSelectedTimeSlot(selectedSlot);
-    console.log("Selected time slot:", selectedSlot);
-  };
-
+ 
   const parseDuration = (duration) => {
     const [amount, unit] = duration.split(" ");
     if (unit.startsWith("week")) {
@@ -220,29 +180,42 @@ const BookNow = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!user) {
-      toast.error("User must be logged in to book a boat");
+      toast.error(t("userMustBeLoggedIn"));
       setTimeout(() => {
         navigate("/login");
       }, 2500);
       return;
     }
 
-    if (!selectedRate && !selectedTimeSlot) {
-      toast.error("Please select a rate or time slot.");
+    if (!selectedRate && (!startTime || !endTime)) {
+      toast.error(t("selectRateOrTimeSlot"));
       return;
     }
 
-    let amountToCharge = calculateTotal();
+    let amountToCharge;
 
-    if (data.rentalType.includes("with skipper")) {
-      amountToCharge += 10; // Add skipper cost
+    if (startTime && endTime) {
+      // Calculate the amount based on the selected time slot
+      const startHour = parseInt(startTime.split(":")[0]);
+      const endHour = parseInt(endTime.split(":")[0]);
+      const durationInHours = endHour - startHour;
+      const hourlyRate = parseFloat(customRate || selectedRate.oneHourRate);
+      amountToCharge = hourlyRate * durationInHours;
+    } else {
+      const durationInDays =
+        (selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24) + 1;
+      const rate = customRate || selectedRate.oneDayRate;
+      amountToCharge = rate * durationInDays;
     }
+
+    const totalAmount = amountToCharge;
 
     if (paymentOption === "partial") {
-      amountToCharge = amountToCharge * 0.3;
+      amountToCharge = totalAmount * 0.3;
     }
 
-    const amountToChargeInCents = Math.round(amountToCharge);
+    const amountToChargeInCents = Math.round(amountToCharge * 100);
+    const totalAmountInCents = Math.round(totalAmount * 100);
 
     try {
       const boatName = boatDetails?.rental
@@ -254,11 +227,12 @@ const BookNow = () => {
         boatName,
         amount: amountToChargeInCents,
         rateType: selectedRate ? selectedRate.nameOfTheRate : "Time Slot",
-        totalAmount: amountToChargeInCents,
+        totalAmount: totalAmountInCents,
         boatImage: boatDetails.boatImages.map((item) => item.images[0]),
         availableDates: selectedDates,
         boatId: boatDetails?.boat._id,
-        selectedTimeSlot: selectedTimeSlot ? selectedTimeSlot.slot : null,
+        startTime,
+        endTime,
       });
 
       const { sessionId } = await response.data;
@@ -271,11 +245,10 @@ const BookNow = () => {
       }
     } catch (error) {
       console.error("Payment failed:", error);
-      toast.error(
-        error.response?.data?.message || "Payment failed. Please try again."
-      );
+      toast.error(error.response?.data?.message || t("paymentFailed"));
     }
   };
+
 
   const getDisabledDates = async () => {
     try {
@@ -307,19 +280,24 @@ const BookNow = () => {
 
   const calculateTotal = () => {
     let total = 0;
-    if (selectedTimeSlot) {
-      total = parseFloat(selectedTimeSlot.price.replace("€", ""));
+  
+    if (startTime && endTime) {
+      const startHour = parseInt(startTime.split(":")[0], 10);
+      const endHour = parseInt(endTime.split(":")[0], 10);
+      const durationInHours = Math.max(endHour - startHour, 0); 
+      const hourlyRate = parseFloat(customRate || selectedRate.oneHourRate);
+      total = hourlyRate * durationInHours;
     } else if (selectedDates.length === 2) {
       const durationInDays =
         (selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24) + 1;
       const rate = customRate || (selectedRate && selectedRate.oneDayRate) || 0;
       total = rate * durationInDays;
     }
-
+  
     if (data.rentalType.includes("with skipper")) {
-      total += 10; // Add skipper cost
+      total += 10;
     }
-
+  
     return total;
   };
 
@@ -803,33 +781,70 @@ const BookNow = () => {
             <h2 className="text-sm font-normal text-[#000000] mb-[2%]">
               No of Persons
             </h2>
-            <h1 className="border p-4 rounded-md">
+            <select
+                id="no of persons"
+                className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
+                >
+                  {Array.from({ length: 18 }, (_, i) => i + 8).map((persons) => (
+                  <option key={persons} value={`${persons}`}>
+                    {`${persons}`}
+                  </option>
+                ))}
               {boatDetails?.boat?.boardingCapacity}
-            </h1>
+            </select>
           </div>
           <div>
             {quickChoice === "slot" && (
-              <div className="mt-4">
-                <label
-                  htmlFor="timeSlot"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Select Time Slot
-                </label>
-                <select
-                  id="timeSlot"
-                  name="timeSlot"
-                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                  onChange={handleTimeSlotChange}
-                >
-                  <option value="">Select a slot</option>
-                  {dummyTimeSlots.map((slot) => (
-                    <option key={slot.id} value={slot.id}>
-                      {slot.slot} - {slot.price}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <div className="mb-4">
+              <label
+                htmlFor="startTime"
+                className="block text-gray-700 px-3 text-sm font-normal mb-2"
+              >
+                {t("startTime")}
+              </label>
+              <select
+                id="startTime"
+                className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+              >
+                <option value="">{t("StartTime")}</option>
+                {Array.from({ length: 18 }, (_, i) => i + 7).map((hour) => (
+                  <option key={hour} value={`${hour}:00`}>
+                    {`${hour}:00`}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+           
+            
+            )}
+            {quickChoice === "slot" && (
+              <div className="mb-4">
+              <label
+                htmlFor="endTime"
+                className="block text-gray-700 text-sm font-normal mb-2"
+              >
+                {t("endTime")}
+              </label>
+              <select
+                id="endTime"
+                className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+              >
+                <option value="">{t("endTime")}</option>
+                {Array.from({ length: 18 }, (_, i) => i + 7).map((hour) => (
+                  <option key={hour} value={`${hour}:00`}>
+                    {`${hour}:00`}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+           
+            
             )}
           </div>
           <div className="space-y-4">
