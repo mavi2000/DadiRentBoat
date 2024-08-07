@@ -61,7 +61,7 @@ const OurFleetCard = ({id,  location, boatName, img, totalPersons, length, power
           </Link>
           <Link to={`/Book-now/${id}`}>
             <button className="text-white w-full bg-[var(--primary-color)] rounded-lg border-[1px] border-[var(--primary-color)] font-bold text-sm px-4 py-3">
-              Boot page
+              Boat page
             </button>
           </Link>
         </div>

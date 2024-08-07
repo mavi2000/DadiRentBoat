@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import logo from "../../assets/Images/logo.png";
 import CrewGuestList from "./CrewGuestList";
@@ -13,7 +13,7 @@ import TakePhoto from "./TakePhoto";
 import Verification from "./Verification";
 import baseURL from "../../../APi/BaseUrl";
 import { toast } from "react-toastify";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const RecreationalVehicleRentalAgreement = () => {
   const { t } = useTranslation();
@@ -42,6 +42,8 @@ const RecreationalVehicleRentalAgreement = () => {
     docBack: "", 
     valid: false
   });
+
+  const formRef = useRef(); 
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -96,7 +98,7 @@ const RecreationalVehicleRentalAgreement = () => {
         {t('anninaBoatDescriptionUnique')}
       </p>
       <p className="text-xs">{t('boatSelectionNoteUnique')}</p>
-      <form onSubmit={handleSubmit}>
+      <form ref={formRef} onSubmit={handleSubmit}>
         <LeseGereralInformation data={data} setData={setData} />
         <p className="text-lg mb-12">
           {t('lesseeDocumentCopyNoteUnique')}
@@ -109,7 +111,9 @@ const RecreationalVehicleRentalAgreement = () => {
         <Table />
         <SectionBelowTable data={data} setData={setData} />
         <Verification data={data} setData={setData} />
-        <LastSection data={data} />
+        <LastSection pageRef={formRef} data={data} />
+        
+        
       </form>
     </div>
   );

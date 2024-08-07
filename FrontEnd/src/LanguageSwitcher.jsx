@@ -32,10 +32,10 @@ const LanguageSwitcher = ({ className }) => {
         onClick={() => setIsOpen(!isOpen)}
         className="cursor-pointer"
       >
-        {currentLanguage === 'en' ? (
-          <Flag code="USA" height="40" className="rounded-full" />
+        {currentLanguage === 'it' ? (
+          <Flag code="ITA" height="20" className="rounded-full" />
         ) : (
-          <Flag code="ITA" height="40" className="rounded-full" />
+          <Flag code="USA" height="20" className="rounded-full" />
         )}
       </div>
       {isOpen && (
@@ -45,7 +45,8 @@ const LanguageSwitcher = ({ className }) => {
               className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
               onClick={() => toggleLanguage('en')}
             >
-              <Flag code="USA" height="40" className="rounded-full" />
+              <Flag code="USA" height="20" className="rounded-full" />
+              English
             </li>
           )}
           {currentLanguage !== 'it' && (
@@ -53,7 +54,8 @@ const LanguageSwitcher = ({ className }) => {
               className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
               onClick={() => toggleLanguage('it')}
             >
-              <Flag code="ITA" height="40" className="rounded-full" />
+              <Flag code="ITA" height="20" className="rounded-full" />
+              Italiano
             </li>
           )}
         </ul>

@@ -8,7 +8,8 @@ const accessDetailSchema = Joi.object({
   documentName: Joi.string().allow(""),
   uploadDocument: Joi.string().allow(""),
   documentLink: Joi.string().allow(""),
-  documentDescription: Joi.string().allow("") // New field for document description
+  documentDescription: Joi.string().allow("") ,
+  meloriaHeading:Joi.string().optional()
 });
 
 const boatAccessSchema = Joi.object({
@@ -25,7 +26,8 @@ export const addBoatAccessInformation = async (req, res, next) => {
       documentName: req.body.documentName,
       documentLink: req.body.documentLink,
       uploadDocument: req.files && req.files.pdf ? req.files.pdf[0].path : '',
-      documentDescription: req.body.documentDescription // New field for document description
+      documentDescription: req.body.documentDescription ,// New field for document description
+      meloriaHeading:req.body.meloriaHeading
     };
 
     const validationData = {

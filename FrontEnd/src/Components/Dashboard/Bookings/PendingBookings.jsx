@@ -8,7 +8,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import baseURL from "../../../../APi/BaseUrl";
 import { useTranslation } from "react-i18next";
 
-const boatOptions = ["Boat A", "Boat B", "Boat C"];
+const boatOptions = [
+  "Nemo - Blumax 19 open boat - Red",
+  "Annina - Open Sea Ghost 550 boat",
+  "Dory - Blumax 19 open boat - Blue",
+  "Diva - Blumax 19 open boat - Beaje",
+];
 const platformOptions = ["Click&Boat", "Samboat", "Zizzo", "Filovent"];
 
 const PendingBookings = () => {
@@ -29,14 +34,25 @@ const PendingBookings = () => {
     mobile: "",
     boatName: "",
     rentalType: "",
-    rentalDates: [null, null],
+    availableDates: [null, null],
+    startTime: null,
+    endTime: null,
     bookingPlatform: "",
     platformInvoice: null,
     platformAmount: "",
     amountPaid: "",
     totalAmount: "",
-    startTime: null,
-    endTime: null,
+    address: "",
+    taxCode: "",
+    peopleOnBoard: "",
+    skipperName: "",
+    skipperPhone: "",
+    departurePoint: "",
+    arrivalPoint: "",
+    accessories: [], // Change to array
+    customerNotes: "",
+    petrolPrepaid: false,
+    contract: false,
   });
 
   useEffect(() => {
@@ -72,9 +88,11 @@ const PendingBookings = () => {
   }, [searchText, bookings]);
 
   const handleInputChange = (e) => {
-    const { name, value, type, files } = e.target;
+    const { name, value, type, checked, files } = e.target;
     if (type === "file") {
       setNewBooking((prev) => ({ ...prev, [name]: files[0] }));
+    } else if (type === "checkbox") {
+      setNewBooking((prev) => ({ ...prev, [name]: checked }));
     } else {
       setNewBooking((prev) => ({ ...prev, [name]: value }));
     }
@@ -82,7 +100,7 @@ const PendingBookings = () => {
 
   const handleDateChange = (dates) => {
     const [start, end] = dates;
-    setNewBooking((prev) => ({ ...prev, rentalDates: [start, end] }));
+    setNewBooking((prev) => ({ ...prev, availableDates: [start, end] }));
     if (start && end && start.getTime() === end.getTime()) {
       setShowTimeSlots(true);
     } else {
@@ -94,21 +112,12 @@ const PendingBookings = () => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append("username", newBooking.username);
-      formData.append("email", newBooking.email);
-      formData.append("mobile", newBooking.mobile);
-      formData.append("boatName", newBooking.boatName);
-      formData.append("rentalType", newBooking.rentalType);
-      formData.append("rentalDates", JSON.stringify(newBooking.rentalDates));
-      formData.append("bookingPlatform", newBooking.bookingPlatform);
-      formData.append("platformAmount", newBooking.platformAmount);
-      formData.append("amountPaid", newBooking.amountPaid);
-      formData.append("totalAmount", newBooking.totalAmount);
-      formData.append("startTime", newBooking.startTime);
-      formData.append("endTime", newBooking.endTime);
-
-      if (newBooking.platformInvoice) {
-        formData.append("platformInvoice", newBooking.platformInvoice);
+      for (const key in newBooking) {
+        if (key === "availableDates" || key === "accessories") {
+          formData.append(key, JSON.stringify(newBooking[key]));
+        } else {
+          formData.append(key, newBooking[key]);
+        }
       }
 
       const response = await baseURL.post(
@@ -129,14 +138,25 @@ const PendingBookings = () => {
         mobile: "",
         boatName: "",
         rentalType: "",
-        rentalDates: [null, null],
+        availableDates: [null, null],
+        startTime: null,
+        endTime: null,
         bookingPlatform: "",
         platformInvoice: null,
         platformAmount: "",
         amountPaid: "",
         totalAmount: "",
-        startTime: null,
-        endTime: null,
+        address: "",
+        taxCode: "",
+        peopleOnBoard: "",
+        skipperName: "",
+        skipperPhone: "",
+        departurePoint: "",
+        arrivalPoint: "",
+        accessories: [], // Reset to array
+        customerNotes: "",
+        petrolPrepaid: false,
+        contract: false,
       });
     } catch (error) {
       setError(error.message);
@@ -152,6 +172,29 @@ const PendingBookings = () => {
     setCurrentPage(page);
   };
 
+  const handleAddAccessory = () => {
+    setNewBooking((prev) => ({
+      ...prev,
+      accessories: [...prev.accessories, ""],
+    }));
+  };
+
+  const handleRemoveAccessory = (index) => {
+    setNewBooking((prev) => ({
+      ...prev,
+      accessories: prev.accessories.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleAccessoryChange = (index, value) => {
+    const updatedAccessories = [...newBooking.accessories];
+    updatedAccessories[index] = value;
+    setNewBooking((prev) => ({
+      ...prev,
+      accessories: updatedAccessories,
+    }));
+  };
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentBookings = filteredBookings.slice(
@@ -164,7 +207,11 @@ const PendingBookings = () => {
   }
 
   if (error) {
-    return <div>{t("error")}: {error}</div>; // Display an error message if fetching data fails
+    return (
+      <div>
+        {t("error")}: {error}
+      </div>
+    ); // Display an error message if fetching data fails
   }
 
   return (
@@ -172,7 +219,9 @@ const PendingBookings = () => {
       <BookingNavbar />
       <div className="mx-[3%] md:mx-[1%] mt-[3%]">
         <div className="flex justify-between">
-          <h1 className="text-lg font-medium text-[#4B465C]">{t("pendingBookings")}</h1>
+          <h1 className="text-lg font-medium text-[#4B465C]">
+            {t("pendingBookings")}
+          </h1>
           <button
             onClick={() => setShowPopup(true)}
             className="bg-[#CBA557] text-white font-bold py-2 px-4 rounded"
@@ -198,28 +247,47 @@ const PendingBookings = () => {
           <table className="w-full my-[3%] border border-[#DBDADE]">
             <thead className="bg-[#CBA557] bg-opacity-30">
               <tr className="text-gray-600 cursor-pointer text-left uppercase font-medium">
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("orderId")}</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("requesterName")}</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("requestDate")}</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("boatType")}</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("totalPrice")}</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("depositPrice")}</th>
-                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">{t("status")}</th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">
+                  {t("orderId")}
+                </th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">
+                  {t("requesterName")}
+                </th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">
+                  {t("requestDate")}
+                </th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">
+                  {t("boatType")}
+                </th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">
+                  {t("totalPrice")}
+                </th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">
+                  {t("depositPrice")}
+                </th>
+                <th className="px-4 py-3 md:px-5 md:py-5 text-sm text-[#808080] font-medium">
+                  {t("status")}
+                </th>
               </tr>
             </thead>
             <tbody>
               {currentBookings?.map((booking) => (
                 <tr
                   key={booking._id}
-                  onClick={() => navigate(`/dashboard/booking-details/${booking._id}`)}
+                  onClick={() =>
+                    navigate(`/dashboard/booking-details/${booking._id}`)
+                  }
                   className="border-b cursor-pointer border-[#DBDADE] hover:bg-gray-100"
                 >
-                  <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">#{booking._id}</td>
+                  <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
+                    #{booking._id}
+                  </td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
                     {booking.userId?.username || booking.username || "N/A"}
                   </td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
-                    {new Date(booking.availableDates[0]).toLocaleDateString() || booking.availableDate.toLocaleDateString()}
+                    {new Date(booking.availableDates[0]).toLocaleDateString() ||
+                      booking.availableDate.toLocaleDateString()}
                   </td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
                     <div className="flex items-center justify-center">
@@ -232,11 +300,20 @@ const PendingBookings = () => {
                     </div>
                   </td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
-                    €{(booking.amount && booking.amount !== 0 ? booking.amount : booking.amountPaid || 0).toFixed(2)}
+                    €
+                    {(
+                      booking.amount && booking.amount !== 0
+                        ? booking.amount
+                        : booking.amountPaid || 0
+                    ).toFixed(2)}
                   </td>
-                  <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">€{booking.totalAmount.toFixed(2)}</td>
                   <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
-                    <span className="px-4 py-3 rounded-[10px] bg-[#FF7A00] bg-opacity-10 text-[#FF7A00] font-bold text-sm">{t("pending")}</span>
+                    €{booking.totalAmount.toFixed(2)}
+                  </td>
+                  <td className="px-4 py-3 md:px-5 md:py-4 whitespace-nowrap text-sm text-[#4B465C]">
+                    <span className="px-4 py-3 rounded-[10px] bg-[#FF7A00] bg-opacity-10 text-[#FF7A00] font-bold text-sm">
+                      {t("pending")}
+                    </span>
                   </td>
                 </tr>
               ))}
@@ -249,7 +326,7 @@ const PendingBookings = () => {
             {t("showingEntries", {
               start: indexOfFirstItem + 1,
               end: Math.min(indexOfLastItem, filteredBookings.length),
-              total: filteredBookings.length
+              total: filteredBookings.length,
             })}
           </div>
           <div className="flex flex-row items-center justify-center gap-1 text-sm">
@@ -261,20 +338,28 @@ const PendingBookings = () => {
               {t("previous")}
             </button>
             <div className="flex gap-1">
-              {[...Array(Math.ceil(filteredBookings.length / itemsPerPage)).keys()].map((page) => (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page + 1)}
-                  className={`w-6 h-7 ${currentPage === page + 1 ? 'bg-[#CBA557]' : 'bg-[#4B465C14]'} flex justify-center items-center rounded-md`}
-                >
-                  {page + 1}
-                </button>
-              ))}
+              {[...Array(Math.ceil(filteredBookings.length / itemsPerPage)).keys()].map(
+                (page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page + 1)}
+                    className={`w-6 h-7 ${
+                      currentPage === page + 1
+                        ? "bg-[#CBA557]"
+                        : "bg-[#4B465C14]"
+                    } flex justify-center items-center rounded-md`}
+                  >
+                    {page + 1}
+                  </button>
+                )
+              )}
             </div>
             <button
               className="bg-[#4B465C14] h-7 w-14 rounded-md"
               onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === Math.ceil(filteredBookings.length / itemsPerPage)}
+              disabled={
+                currentPage === Math.ceil(filteredBookings.length / itemsPerPage)
+              }
             >
               {t("next")}
             </button>
@@ -294,7 +379,6 @@ const PendingBookings = () => {
                     value={newBooking.username}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border rounded"
-                    required
                   />
                 </div>
                 <div>
@@ -305,18 +389,38 @@ const PendingBookings = () => {
                     value={newBooking.email}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border rounded"
-                    required
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700">{t("mobileNumber")}</label>
+                  <label className="block text-gray-700">
+                    {t("mobileNumber")}
+                  </label>
                   <input
                     type="tel"
                     name="mobile"
                     value={newBooking.mobile}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border rounded"
-                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700">{t("address")}</label>
+                  <input
+                    type="text"
+                    name="address"
+                    value={newBooking.address}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700">{t("taxCode")}</label>
+                  <input
+                    type="text"
+                    name="taxCode"
+                    value={newBooking.taxCode}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded"
                   />
                 </div>
                 <div>
@@ -326,7 +430,6 @@ const PendingBookings = () => {
                     value={newBooking.boatName}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border rounded"
-                    required
                   >
                     <option value="">{t("selectBoat")}</option>
                     {boatOptions.map((boat, index) => (
@@ -337,26 +440,69 @@ const PendingBookings = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-gray-700">{t("rentalType")}</label>
+                  <label className="block text-gray-700">
+                    {t("peopleOnBoard")}
+                  </label>
+                  <input
+                    type="number"
+                    name="peopleOnBoard"
+                    value={newBooking.peopleOnBoard}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700">
+                    {t("rentalType")}
+                  </label>
                   <select
                     name="rentalType"
                     value={newBooking.rentalType}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border rounded"
-                    required
                   >
                     <option value="">{t("selectRentalType")}</option>
                     <option value="with skipper">{t("withSkipper")}</option>
                     <option value="without skipper">{t("withoutSkipper")}</option>
                   </select>
                 </div>
+                {newBooking.rentalType === "with skipper" && (
+                  <>
+                    <div>
+                      <label className="block text-gray-700">
+                        {t("skipperName")}
+                      </label>
+                      <input
+                        type="text"
+                        name="skipperName"
+                        value={newBooking.skipperName}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border rounded"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-700">
+                        {t("skipperPhone")}
+                      </label>
+                      <input
+                        type="tel"
+                        name="skipperPhone"
+                        value={newBooking.skipperPhone}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border rounded"
+                      />
+                    </div>
+                  </>
+                )}
                 <div>
-                  <label className="block text-gray-700">{t("rentalDates")}</label>
+                  <label className="block text-gray-700">
+                    {t("availableDates")}
+                  </label>
                   <DatePicker
-                    selected={newBooking.rentalDates[0]}
+                    selected={newBooking.availableDates[0]}
                     onChange={handleDateChange}
-                    startDate={newBooking.rentalDates[0]}
-                    endDate={newBooking.rentalDates[1]}
+                    startDate={newBooking.availableDates[0]}
+                    endDate={newBooking.availableDates[1]}
                     selectsRange
                     className="w-full px-3 py-2 border rounded"
                     dateFormat="yyyy/MM/dd"
@@ -365,43 +511,138 @@ const PendingBookings = () => {
                 {showTimeSlots && (
                   <>
                     <div>
-                      <label className="block text-gray-700">{t("startTime")}</label>
+                      <label className="block text-gray-700">
+                        {t("startTime")}
+                      </label>
                       <DatePicker
                         selected={newBooking.startTime}
-                        onChange={(time) => setNewBooking((prev) => ({ ...prev, startTime: time }))}
+                        onChange={(time) =>
+                          setNewBooking((prev) => ({
+                            ...prev,
+                            startTime: time,
+                          }))
+                        }
                         showTimeSelect
                         showTimeSelectOnly
                         timeIntervals={30}
                         timeCaption="Time"
                         dateFormat="h:mm aa"
                         className="w-full px-3 py-2 border rounded"
-                
                       />
                     </div>
                     <div>
                       <label className="block text-gray-700">{t("endTime")}</label>
                       <DatePicker
                         selected={newBooking.endTime}
-                        onChange={(time) => setNewBooking((prev) => ({ ...prev, endTime: time }))}
+                        onChange={(time) =>
+                          setNewBooking((prev) => ({
+                            ...prev,
+                            endTime: time,
+                          }))
+                        }
                         showTimeSelect
                         showTimeSelectOnly
                         timeIntervals={30}
                         timeCaption="Time"
                         dateFormat="h:mm aa"
                         className="w-full px-3 py-2 border rounded"
-                       
                       />
                     </div>
                   </>
                 )}
                 <div>
-                  <label className="block text-gray-700">{t("bookingPlatform")}</label>
+                  <label className="block text-gray-700">
+                    {t("departurePoint")}
+                  </label>
+                  <input
+                    type="text"
+                    name="departurePoint"
+                    value={newBooking.departurePoint}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700">{t("arrivalPoint")}</label>
+                  <input
+                    type="text"
+                    name="arrivalPoint"
+                    value={newBooking.arrivalPoint}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700">{t("accessories")}</label>
+                  {newBooking.accessories.map((accessory, index) => (
+                    <div key={index} className="flex items-center mb-2">
+                      <input
+                        type="text"
+                        value={accessory}
+                        onChange={(e) =>
+                          handleAccessoryChange(index, e.target.value)
+                        }
+                        className="w-full px-3 py-2 border rounded"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveAccessory(index)}
+                        className="ml-2 px-3 py-2 bg-red-500 text-white rounded"
+                      >
+                        {t("remove")}
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={handleAddAccessory}
+                    className="px-4 py-2 bg-[#CBA557] text-white rounded"
+                  >
+                    {t("addAccessory")}
+                  </button>
+                </div>
+                <div>
+                  <label className="block text-gray-700">
+                    {t("customerNotes")}
+                  </label>
+                  <textarea
+                    name="customerNotes"
+                    value={newBooking.customerNotes}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded"
+                  ></textarea>
+                </div>
+                <div>
+                  <label className="block text-gray-700">
+                    {t("petrolPrepaid")}
+                  </label>
+                  <input
+                    type="checkbox"
+                    name="petrolPrepaid"
+                    checked={newBooking.petrolPrepaid}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700">{t("contract")}</label>
+                  <input
+                    type="checkbox"
+                    name="contract"
+                    checked={newBooking.contract}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700">
+                    {t("bookingPlatform")}
+                  </label>
                   <select
                     name="bookingPlatform"
                     value={newBooking.bookingPlatform}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border rounded"
-                    required
                   >
                     <option value="">{t("selectPlatform")}</option>
                     {platformOptions.map((platform, index) => (
@@ -414,7 +655,9 @@ const PendingBookings = () => {
                 {newBooking.bookingPlatform && (
                   <>
                     <div>
-                      <label className="block text-gray-700">{t("platformInvoice")}</label>
+                      <label className="block text-gray-700">
+                        {t("platformInvoice")}
+                      </label>
                       <input
                         type="file"
                         name="platformInvoice"
@@ -424,7 +667,9 @@ const PendingBookings = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-gray-700">{t("platformAmount")}</label>
+                      <label className="block text-gray-700">
+                        {t("platformAmount")}
+                      </label>
                       <input
                         type="number"
                         name="platformAmount"
@@ -436,25 +681,27 @@ const PendingBookings = () => {
                   </>
                 )}
                 <div>
-                  <label className="block text-gray-700">{t("amountPaid")}</label>
+                  <label className="block text-gray-700">
+                    {t("amountPaid")}
+                  </label>
                   <input
                     type="number"
                     name="amountPaid"
                     value={newBooking.amountPaid}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border rounded"
-                    required
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700">{t("totalAmount")}</label>
+                  <label className="block text-gray-700">
+                    {t("totalAmount")}
+                  </label>
                   <input
                     type="number"
                     name="totalAmount"
                     value={newBooking.totalAmount}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border rounded"
-                    required
                   />
                 </div>
                 <div className="flex justify-end space-x-4">

@@ -139,6 +139,9 @@ const TermsCondition = () => {
             <p className='my-4 text-sm font-lighter'>{t('TermsConditionPetsAllowed')}</p>
             <ToggleButton isToggled={allowPets} setIsToggled={setAllowPets} />
           </div>
+          {allowPets && (
+            <p className='text-sm font-lighter text-green-600 mt-2'>{t('Your Four Legged Friends Allowed')}</p>
+          )}
           <h1 className='text-xl font-semibold mt-8'>{t('TermsConditionPreBookingMessage')}</h1>
           <p className='my-2 text-sm font-lighter'>{t('TermsConditionPreBookingMessageInfo')}</p>
           <textarea
