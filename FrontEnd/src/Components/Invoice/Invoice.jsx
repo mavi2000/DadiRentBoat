@@ -1,8 +1,77 @@
 import React from "react";
 import { LiaDownloadSolid } from "react-icons/lia";
 import logo from "../../assets/Images/logo.png";
+import { jsPDF } from "jspdf";
 
 const Invoice = () => {
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(20);
+    doc.text("Invoice", 20, 20);
+    const img = new Image();
+    img.src = logo;
+    doc.addImage(img, 'PNG', 20, 30, 50, 20);
+    
+    // Add Invoice Details
+    doc.setFontSize(10);
+    doc.text("My Booking / Invoice", 20, 60);
+    doc.text("Dadi Rental", 20, 70);
+    doc.text("Viale Italia, 62 c/o BAGNI PANCALDI IN ACQUAVIVA", 20, 75);
+    doc.text("Livorno, Italy", 20, 80);
+    doc.text("+39 3701564317", 20, 85);
+    doc.text("info@dadirent.it", 20, 90);
+    
+    doc.text("Invoice #3492", 150, 70);
+    doc.text("Date Issued: 25/08/2020", 150, 75);
+    doc.text("Date Due: 29/08/2020", 150, 80);
+    
+    doc.text("Invoice To:", 20, 100);
+    doc.text("Thomas Shelby", 20, 105);
+    doc.text("Small Heath, B10 0HF, UK", 20, 110);
+    doc.text("718-986-6062", 20, 115);
+    doc.text("peakyFBlinders@gmail.com", 20, 120);
+    
+    doc.text("Bill To:", 150, 100);
+    doc.text("Total Due: $12,110.55", 150, 105);
+    doc.text("Bank Name: Universal Bank", 150, 110);
+    doc.text("Country: Italy", 150, 115);
+    doc.text("IBAN: ETD95476213874685", 150, 120);
+    doc.text("SWIFT Code: BR91905", 150, 125);
+    
+    // Add Table
+    doc.text("ITEM", 20, 140);
+    doc.text("COST", 100, 140);
+    doc.text("QTY", 120, 140);
+    doc.text("PRICE", 140, 140);
+
+    doc.text("Boat Name", 20, 150);
+    doc.text("$32", 100, 150);
+    doc.text("1", 120, 150);
+    doc.text("$32.00", 140, 150);
+
+    doc.text("Skipper", 20, 160);
+    doc.text("$15", 100, 160);
+    doc.text("1", 120, 160);
+    doc.text("$15.00", 140, 160);
+
+    doc.text("Ticket", 20, 170);
+    doc.text("$15", 100, 170);
+    doc.text("1", 120, 170);
+    doc.text("$15.00", 140, 170);
+
+    // Add Totals
+    doc.text("Subtotal: $154.25", 20, 190);
+    doc.text("Service Charges: $10", 20, 195);
+    doc.text("Discount: $0.00", 20, 200);
+    doc.text("VAT: $50.00", 20, 205);
+    doc.text("Total: $204.25", 20, 210);
+    doc.text("Amount Paid: $204.25", 20, 215);
+    doc.text("To Pay at Harbor: $204.25", 20, 220);
+    
+    doc.save("invoice.pdf");
+  };
+
   return (
     <div className=" flex justify-center ">
       <div className=" mt-40 mb-20 1100px:w-[70%] 300px:w-[85%] h-[100%]   ">
@@ -12,7 +81,9 @@ const Invoice = () => {
             <div>/</div>
             <div>Invoice</div>
           </div>
-          <div className="flex items-center gap-1 bg-[#CBA557] text-white py-2 rounded-2xl px-3 cursor-pointer">
+          <div 
+             onClick={downloadPDF}
+             className="flex items-center gap-1 bg-[#CBA557] text-white py-2 rounded-2xl px-3 cursor-pointer">
             <LiaDownloadSolid />
             <span className="1000px:text-lg 300px:text-sm">Download</span>
           </div>

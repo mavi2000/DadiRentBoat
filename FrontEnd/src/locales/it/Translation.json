@@ -826,5 +826,21 @@
   "errorMessage": "Errore nell'aggiungere le informazioni sull'accesso",
   "browse": "Sfoglia",
   "or": "OPPURE",
-  "sizeLimit": "Limite di dimensione: 8MB – Formati accettati: JPEG, JPG, PNG o PDF"
+  "sizeLimit": "Limite di dimensione: 8MB – Formati accettati: JPEG, JPG, PNG o PDF",
+  "Our Fleet": "La Nostra Flotta",
+  "Discover all our vehicles": "Scopri tutti i nostri veicoli",
+  "Quick Search": "Ricerca Rapida",
+  "Select Date": "Seleziona Data",
+  "Choose a slot": "Scegli una fascia oraria",
+  "No of Persons": "Numero di Persone",
+  "Search": "Cerca",
+  "Yachts": "Yacht",
+  "Loading...": "Caricamento...",
+  "Error loading boat details": "Errore nel caricamento dei dettagli della barca",
+  "4h00": "4h00",
+  "Morning": "Mattina",
+  "Noon": "Mezzogiorno",
+  "Afternoon": "Pomeriggio",
+  "Evening": "Sera",
+  "Schedule to be agreed with the owner": "Orario da concordare con il proprietario"
 }

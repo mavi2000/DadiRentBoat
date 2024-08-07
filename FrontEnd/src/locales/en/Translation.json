@@ -820,7 +820,23 @@
   "cancel": "Cancel",
   "successMessage": "Access information added successfully",
   "updateSuccessMessage": "Access information updated successfully",
-  "errorMessage": "Failed to add access information"
+  "errorMessage": "Failed to add access information",
+  "Our Fleet": "Our Fleet",
+  "Discover all our vehicles": "Discover all our vehicles",
+  "Quick Search": "Quick Search",
+  "Select Date": "Select Date",
+  "Choose a slot": "Choose a slot",
+  "No of Persons": "No of Persons",
+  "Search": "Search",
+  "Yachts": "Yachts",
+  "Loading...": "Loading...",
+  "Error loading boat details": "Error loading boat details",
+  "4h00": "4h00",
+  "Morning": "Morning",
+  "Noon": "Noon",
+  "Afternoon": "Afternoon",
+  "Evening": "Evening",
+  "Schedule to be agreed with the owner": "Schedule to be agreed with the owner"
 }
 
   

@@ -1,4 +1,3 @@
-// OurFleet.jsx
 import React, { useContext, useEffect, useState } from "react";
 import Filters from "./Filters";
 import OurFleetCard from "./OurFleetCard";
@@ -10,43 +9,45 @@ import { FaAngleDown } from "react-icons/fa6";
 import { LuCalendar } from "react-icons/lu";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+
 const dummyTimeSlots = [
   {
     id: 1,
     slot: "4h00",
     price: "$238.92",
     duration: "4h00",
-    departure: "Schedule to be agreed with the owner",
+    departure: "Orario da concordare con il proprietario",
   },
   {
     id: 2,
-    slot: "Morning",
+    slot: "Mattina",
     price: "$179.19",
     duration: "4h00",
     departure: "8:00 AM",
   },
   {
     id: 3,
-    slot: "Noon",
+    slot: "Mezzogiorno",
     price: "$238.92",
     duration: "4h00",
     departure: "12:00 PM",
   },
   {
     id: 4,
-    slot: "Afternoon",
+    slot: "Pomeriggio",
     price: "$238.92",
     duration: "4h00",
     departure: "2:00 PM",
   },
   {
     id: 5,
-    slot: "Evening",
+    slot: "Sera",
     price: "$238.92",
     duration: "5h00",
     departure: "6:00 PM",
   },
 ];
+
 const OurFleet = () => {
   const { fetchBoatDetails } = useContext(UserContext);
   const [boatDetails, setBoatDetails] = useState([]);
@@ -59,12 +60,13 @@ const OurFleet = () => {
   const [filteredBoats, setFilteredBoats] = useState([]);
   const [filters, setFilters] = useState({
     boatType: "",
-    priceRange: [0, 10000], // Adjust based on your price range
-    length: [0, 100], // Adjust based on your length range
-    enginePower: [0, 1000], // Adjust based on your engine power range
+    priceRange: [0, 10000],
+    length: [0, 100],
+    enginePower: [0, 1000],
     accessories: [],
     location: "",
   });
+
   const handleFilterChange = (name, value) => {
     setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
   };
@@ -77,23 +79,25 @@ const OurFleet = () => {
       return { ...prevFilters, accessories };
     });
   };
+
   useEffect(() => {
     const getBoatDetails = async () => {
       try {
         const details = await fetchBoatDetails();
         setBoatDetails(details);
       } catch (error) {
-        setError(error.message || "Error loading boat details");
+        setError(error.message || "Errore nel caricamento dei dettagli della barca");
       }
     };
 
     getBoatDetails();
   }, [fetchBoatDetails]);
+
   useEffect(() => {
     const applyFilters = () => {
       let filtered = boatDetails;
 
-      // Filter by date range
+      // Filtra per intervallo di date
       if (checkInDate) {
         const [startDate, endDate] = checkInDate;
         filtered = filtered.filter((boat) =>
@@ -105,7 +109,7 @@ const OurFleet = () => {
         );
       }
 
-      // Filter by time slot
+      // Filtra per fascia oraria
       if (selectedTimeSlot) {
         filtered = filtered.filter((boat) =>
           boat.boatBookings.some((booking) =>
@@ -114,14 +118,14 @@ const OurFleet = () => {
         );
       }
 
-      // Filter by number of persons
+      // Filtra per numero di persone
       if (numberOfPersons) {
         filtered = filtered.filter(
           (boat) => boat.boat.boardingCapacity >= numberOfPersons
         );
       }
 
-      // Filter by search text
+      // Filtra per testo di ricerca
       if (searchText) {
         filtered = filtered.filter((boat) =>
           boat.rental[0].BoatName.toLowerCase().includes(
@@ -130,9 +134,8 @@ const OurFleet = () => {
         );
       }
 
-      // Filter by other criteria
+      // Filtra per altri criteri
       filtered = filtered.filter((boat) => {
-        console.log(boat);
         return (
           (!filters.boatType || boat.boat.type === filters.boatType) &&
           boat.rental[0].minPrice >= filters.priceRange[0] &&
@@ -169,25 +172,23 @@ const OurFleet = () => {
   }
 
   if (!boatDetails.length) {
-    return <div>Loading...</div>;
+    return <div>Caricamento...</div>;
   }
-
-  console.log("boatDetails", boatDetails);
 
   return (
     <>
       <div className="fleet-bg">
         <div className="mx-[3%] md:mx-[6%] flex flex-col justify-center h-[100svh]">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
-            Our Fleet
+            La Nostra Flotta
           </h1>
           <p className="my-8 font-medium text-2xl text-white md:w-[60%]">
-            Discover all our vehicles
+            Scopri tutti i nostri veicoli
           </p>
         </div>
       </div>
       <section className="bg-[var(--primary-color)]  px-12 py-6 mx-[3%] md:mx-[6%] rounded-2xl -mt-16">
-        <h1 className="text-3xl font-bold text-white mb-5">Quick Search </h1>
+        <h1 className="text-3xl font-bold text-white mb-5">Ricerca Rapida</h1>
         <div className="flex flex-wrap gap-4">
           <div className="rounded grow whitespace-nowrap bg-white p-4 relative">
             <button
@@ -195,7 +196,7 @@ const OurFleet = () => {
               onClick={() => setIsCheckInOpen(!isCheckInOpen)}
             >
               <LuCalendar size={22} />
-              Select Date <FaAngleDown size={20} />
+              Seleziona Data <FaAngleDown size={20} />
             </button>
             {isCheckInOpen && (
               <div className="calendar-container rounded bg-white p-4 absolute top-full left-0 z-50">
@@ -218,7 +219,7 @@ const OurFleet = () => {
               className="rounded w-full bg-white p-4 px-12 outline-none appearance-none"
               onChange={(e) => setSelectedTimeSlot(e.target.value)}
             >
-              <option value="">Choose a slot</option>
+              <option value="">Scegli una fascia oraria</option>
               {dummyTimeSlots.map((timeSlot) => (
                 <option key={timeSlot.id} value={timeSlot.slot}>
                   {timeSlot.slot} - {timeSlot.duration}
@@ -236,7 +237,7 @@ const OurFleet = () => {
               className="rounded w-full bg-white p-4 px-12 outline-none appearance-none"
               onChange={(e) => setNumberOfPersons(e.target.value)}
             >
-              <option value="">No of Persons</option>
+              <option value="">Numero di Persone</option>
               <option value="5">5</option>
               <option value="6">6</option>
               <option value="10">10</option>
@@ -246,7 +247,7 @@ const OurFleet = () => {
           <input
             type="text"
             className="bg-white h-full p-4 w-full outline-none rounded-full text-[var(--primary-color)] placeholder:text-[var(--primary-color)] text-base font-bold"
-            placeholder="Search"
+            placeholder="Cerca"
             onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
@@ -256,7 +257,7 @@ const OurFleet = () => {
         <div>
           <div className="flex gap-2 justify-between items-center border-b-[1px] bordr-[#F5F5F5] mb-8 pb-6">
             <h2 className="text-[#676767] text-base font-semibold">
-              {filteredBoats.length} <span className="font-normal">Yachts</span>
+              {filteredBoats.length} <span className="font-normal">Yacht</span>
             </h2>
           </div>
           {filteredBoats.map((boat, index) => (

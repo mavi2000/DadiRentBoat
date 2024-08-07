@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BsClock, BsFiletypePdf } from 'react-icons/bs';
 import { TbMessageCircleQuestion } from 'react-icons/tb';
@@ -6,10 +6,30 @@ import { useTranslation } from 'react-i18next';
 import RatesTable from './RatesTable';
 import RuleOfCunduct from '../RuleOfCunduct';
 import '../../../styles/hero-bgs.css';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const Rates = () => {
   const { t } = useTranslation();
   const [showRuleOfConduct, setShowRuleOfConduct] = useState(false);
+  const tableRef = useRef();
+
+  const handleDownloadPDF = () => {
+    const input = tableRef.current;
+    if (input) {
+      html2canvas(input).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('rates-table.pdf');
+      });
+    }
+  };
+
 
   return (
     <>
@@ -113,8 +133,17 @@ const Rates = () => {
         </Link> */}
       </section>
       <section className="overflow-auto mx-[3%] md:mx-[6%]">
-        <RatesTable />
+        <RatesTable ref={tableRef} /> {/* Pass ref to RatesTable */}
+       
       </section>
+      <div className='flex items-end justify-end px-20'>
+       <button 
+          onClick={handleDownloadPDF} 
+          className="bg-[var(--primary-color)] text-white text-lg font-bold rounded-lg px-12 py-2 mt-4"
+        >
+          {t('downloadTableAsPDF')}
+        </button>
+        </div>
       <div className="mx-[3%] mt-4 md:mx-[6%] flex gap-2 justify-center items-center">
         <p className="w-4 h-4 bg-lime-500 rounded-md"></p>
         <p>{t('workDay')}</p>

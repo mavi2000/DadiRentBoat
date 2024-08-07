@@ -1,6 +1,11 @@
-const RatesTable = () => {
+import React, { forwardRef } from 'react';
+
+
+const RatesTable = forwardRef((props, ref) => {
+
   return (
-    <table className=" border-collapse mt-12 text-[#676767] text-center whitespace-nowrap">
+    
+    <table ref={ref} className=" border-collapse mt-12 text-[#676767] text-center whitespace-nowrap">
       <tr className="relative text-lg text-white bg-[var(--primary-color)] py-16 font-medium text-center ">
         <th className="font-normal sticky top-0 left-0 py-12 px-2 border-r-[2px] border-[#DBDBDB] text-center bg-[var(--primary-color)]">
           Boat
@@ -382,5 +387,5 @@ const RatesTable = () => {
       </tr>
     </table>
   );
-};
+});
 export default RatesTable;
