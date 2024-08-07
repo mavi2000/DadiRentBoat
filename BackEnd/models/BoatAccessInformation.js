@@ -23,6 +23,9 @@ const boatAccessSchema = new Schema({
     },
     documentDescription: { // New field for document description
       type: String
+    },
+    meloriaHeading: { // New field for Meloria Heading
+      type: String
     }
   }]
 });

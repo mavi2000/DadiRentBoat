@@ -6,6 +6,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { LuClock4 } from 'react-icons/lu';
 import LocationFilled from "../../assets/Images/location-filled.png";
+import whatsappImage from "../../assets/Images/WhatsApp Image 2024-08-07 at 8.07.39 PM.jpeg";
 
 const WhereWeAre = () => {
   const { t } = useTranslation();
@@ -123,6 +124,9 @@ const WhereWeAre = () => {
               </Marker>
             </MapContainer>
           </div>
+
+          <img src={whatsappImage} alt="WhatsApp Image" className="mt-6" />
+
           <h1 className="text-3xl font-medium">{t('carParkingTitle')}</h1>
 
           <div className=" flex flex-wrap gap-[2%] my-[2%]">

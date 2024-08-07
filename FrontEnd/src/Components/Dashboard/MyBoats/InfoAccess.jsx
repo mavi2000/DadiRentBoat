@@ -5,8 +5,10 @@ import { AdminContext } from "../../../../Context/AdminContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import baseURL from "../../../../APi/BaseUrl";
+import { useTranslation } from "react-i18next";
 
 const InfoAccess = () => {
+  const { t } = useTranslation();
   const id = localStorage.getItem("id");
   const { addBoatAccessInformation, boatId, navigate } =
     useContext(AdminContext);
@@ -15,9 +17,10 @@ const InfoAccess = () => {
     documentName: "",
     uploadDocument: null,
     documentLink: "",
-    documentDescription: "", // New state for document description
+    documentDescription: "",
     applyToEntireFleet: false,
     boatId: boatId,
+    meloriaHeading: ""
   });
 
   useEffect(() => {
@@ -41,6 +44,7 @@ const InfoAccess = () => {
             documentName,
             uploadDocument,
             documentDescription,
+            meloriaHeading
           } = accessDetails[0];
           setAccessInfo({
             description,
@@ -48,6 +52,7 @@ const InfoAccess = () => {
             documentName,
             uploadDocument,
             documentDescription,
+            meloriaHeading
           });
         } catch (error) {
           console.log(error);
@@ -73,7 +78,8 @@ const InfoAccess = () => {
     formData.append("description", accessInfo.description);
     formData.append("documentName", accessInfo.documentName);
     formData.append("boatId", accessInfo.boatId);
-    formData.append("documentDescription", accessInfo.documentDescription); // Append document description
+    formData.append("documentDescription", accessInfo.documentDescription);
+    formData.append("meloriaHeading", accessInfo.meloriaHeading);
     if (accessInfo.uploadDocument) {
       formData.append("pdf", accessInfo.uploadDocument);
     }
@@ -82,7 +88,7 @@ const InfoAccess = () => {
     try {
       if (!id) {
         await addBoatAccessInformation(formData);
-        toast.success("Access information added successfully");
+        toast.success(t("successMessage"));
         setAccessInfo({
           description: "",
           documentName: "",
@@ -90,12 +96,13 @@ const InfoAccess = () => {
           documentLink: "",
           documentDescription: "",
           boatId: boatId,
+          meloriaHeading: ""
         });
       } else {
         await baseURL.patch("/boatAccess/update-access-info/" + id, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        toast.success("Access information updated successfully");
+        toast.success(t("updateSuccessMessage"));
         localStorage.removeItem("id");
         setTimeout(() => {
           navigate("/Dashboard/my-boats");
@@ -103,7 +110,7 @@ const InfoAccess = () => {
       }
     } catch (error) {
       console.error("Error adding access information:", error);
-      toast.error("Failed to add access information");
+      toast.error(t("errorMessage"));
     }
   };
 
@@ -113,28 +120,39 @@ const InfoAccess = () => {
       <div className="mx-[1%] my-[1%] bg-white py-3">
         <div className="mx-[4%]">
           <p className="text-[#4B465C] font-normal text-md mt-5 text-center">
-            This information will be available to your renters once they have
-            paid for the rental.
+            {t("infoAccessDescription")}
           </p>
           <p className="text-[#4B465C] font-normal text-md mt-2 text-center">
-            Tell them exactly how to find your boat (location in the harbour).
-            Add all the information you consider useful for the smooth running
-            of the rental.
+            {t("infoAccessMessage1")}
+          </p>
+          <p className="text-[#4B465C] font-normal text-md mt-2 text-center">
+            {t("infoAccessMessage2")}
           </p>
           <div className="relative">
             <h1 className="font-medium text-[#4B465C] text-lg py-5">
-              Information & access
+              {t("informationAccess")}
             </h1>
             <textarea
               value={accessInfo.description}
               onChange={(e) => handleInputChange("description", e.target.value)}
               cols="20"
               rows="5"
-              placeholder="You will find my boat at the port of"
+              placeholder={t("descriptionPlaceholder")}
               className="border-[1.14px] border-[#D2D2D2] w-[90%] py-4 px-3 placeholder:text-[#C2C2C2] resize-none rounded-md"
             ></textarea>
             <h1 className="font-medium text-[#4B465C] text-lg py-5">
-              Documents sent automatically
+              {t("meloriaHeading")}
+            </h1>
+            <input
+              type="text"
+              value={accessInfo.meloriaHeading}
+              onChange={(e) => handleInputChange("meloriaHeading", e.target.value)}
+              id={`meloriaHeading`}
+              className="border-[1.35px] px-3 py-2 border-[#DBDADE] w-full text-[#C2C2C2] outline-none rounded-lg bg-[#ffff] mt-[1%]"
+              placeholder={t("meloriaHeadingPlaceholder")}
+            />
+            <h1 className="font-medium text-[#4B465C] text-lg py-5">
+              {t("documentsSentAutomatically")}
             </h1>
             <input
               type="text"
@@ -144,7 +162,7 @@ const InfoAccess = () => {
               }
               id={`docName`}
               className="border-[1.35px] px-3 py-2 border-[#DBDADE] w-full text-[#C2C2C2] outline-none rounded-lg bg-[#ffff] mt-[1%]"
-              placeholder="Document Name"
+              placeholder={t("documentNamePlaceholder")}
             />
             <div className="flex justify-between my-[2%] flex-wrap space-y-2 md:space-y-0">
               <div className="flex flex-col gap-8 ">
@@ -152,7 +170,7 @@ const InfoAccess = () => {
                   htmlFor={`uploadDoc`}
                   className="text-[#4B465C] font-normal"
                 >
-                  Upload a document
+                  {t("uploadDocument")}
                 </label>
                 <div className="flex items-center gap-3">
                   <input
@@ -170,13 +188,13 @@ const InfoAccess = () => {
                     <span>
                       <FaPlus />
                     </span>
-                    <p>Browse</p>
+                    <p>{t("browse")}</p>
                   </label>
                 </div>
               </div>
-              <div className="flex flex-col gap-8  self-end items-center">
+              <div className="flex flex-col gap-8 self-end items-center">
                 <p className="font-semibold">
-                  - <span> OR </span> -{" "}
+                  - <span>{t("or")}</span> -
                 </p>
               </div>
               <div className="flex flex-col gap-8 ">
@@ -184,7 +202,7 @@ const InfoAccess = () => {
                   htmlFor={`docLink`}
                   className="text-[#4B465C] font-normal"
                 >
-                  Link to a document
+                  {t("documentLinkPlaceholder")}
                 </label>
                 <input
                   type="text"
@@ -193,20 +211,20 @@ const InfoAccess = () => {
                   onChange={(e) =>
                     handleInputChange("documentLink", e.target.value)
                   }
-                  placeholder="www.abc.com"
+                  placeholder={t("documentLinkInputPlaceholder")}
                   className="border-[1.35px] border-[#DBDADE] rounded-md px-4 py-4"
                 />
               </div>
             </div>
             <p className="text-[#4B465C] font-normal text-xs mb-[2%]">
-              Size limit: 8MB – Accepted formats: JPEG, JPG, PNG or PDF
+              {t("sizeLimit")}
             </p>
             <div className="w-[90%] flex flex-col gap-8">
               <label
                 htmlFor={`docDescription`}
                 className="text-[#4B465C] font-normal"
               >
-                Document Description
+                {t("documentDescription")}
               </label>
               <textarea
                 id={`docDescription`}
@@ -216,7 +234,7 @@ const InfoAccess = () => {
                 }
                 cols="20"
                 rows="5"
-                placeholder="Enter a description for the document"
+                placeholder={t("documentDescriptionPlaceholder")}
                 className="border-[1.14px] border-[#D2D2D2] py-4 px-3 placeholder:text-[#C2C2C2] resize-none rounded-md"
               ></textarea>
             </div>
@@ -234,8 +252,7 @@ const InfoAccess = () => {
               htmlFor="applyToEntireFleet"
               className="ml-2 block text-sm text-gray-900"
             >
-              Apply this information as default setting to my entire fleet at
-              listing creation
+              {t("applyToEntireFleet")}
             </label>
           </div>
           <div className="mt-[3%]">
@@ -243,7 +260,7 @@ const InfoAccess = () => {
               className="py-[10px] px-12 flex justify-center items-center bg-[#CBA557] text-white rounded-[10px]"
               onClick={handleSave}
             >
-              Save
+              {t("save")}
             </button>
           </div>
         </div>

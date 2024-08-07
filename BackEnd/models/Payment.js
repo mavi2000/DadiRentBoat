@@ -11,12 +11,20 @@ const PaymentSchema = new Schema(
     username: {
       type: String,
     },
+    email: {
+      type: String,
+    },
+    mobile: {
+      type: String,
+    },
     boatName: {
       type: String,
     },
     boatId: {
       type: String,
-      required: false,
+    },
+    boatImage: {
+      type: [String],
     },
     amount: {
       type: Number,
@@ -29,15 +37,12 @@ const PaymentSchema = new Schema(
     },
     startTime: {
       type: String,
-      required: false,
     },
     endTime: {
       type: String,
-      required: false,
     },
     isChecked: {
       type: Boolean,
-      required: false,
     },
     totalAmount: {
       type: Number,
@@ -57,15 +62,48 @@ const PaymentSchema = new Schema(
     },
     platformInvoice: [{
       type: String, // URL or identifier for the uploaded file
-      required: false,
     }],
     platformAmount: {
       type: Number,
-      required: false,
     },
     rentalType: {
       type: String,
-      required: true,
+    },
+    identityDocument: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    taxCode: {
+      type: String,
+    },
+    peopleOnBoard: {
+      type: String,
+    },
+    skipperName: {
+      type: String,
+    },
+    skipperPhone: {
+      type: String,
+    },
+    departurePoint: {
+      type: String,
+    },
+    arrivalPoint: {
+      type: String,
+    },
+    accessories: {
+      type: [String],
+    },
+    customerNotes: {
+      type: String,
+    },
+    petrolPrepaid: {
+      type: Boolean,
+    },
+    contract: {
+      type: Boolean,
     },
   },
   { timestamps: true }

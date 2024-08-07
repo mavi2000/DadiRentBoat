@@ -355,6 +355,8 @@ export const createPayment = async (req, res) => {
   const {
     userId,
     username,
+    email,
+    mobile,
     boatName,
     boatId,
     boatImage,
@@ -369,12 +371,18 @@ export const createPayment = async (req, res) => {
     rentalType,
     bookingPlatform,
     platformAmount,
+    address,
+    taxCode,
+    peopleOnBoard,
+    skipperName,
+    skipperPhone,
+    departurePoint,
+    arrivalPoint,
+    accessories,
+    customerNotes,
+    petrolPrepaid,
+    contract,
   } = req.body;
-
-  // Validate required fields manually
-  if (!username || !boatName || !totalAmount || !rentalType) {
-    return res.status(400).json({ message: "Missing required fields" });
-  }
 
   let platformInvoiceUrl = null;
 
@@ -388,24 +396,40 @@ export const createPayment = async (req, res) => {
     }
   }
 
+  // Ensure `availableDates` is correctly parsed
+  const parsedAvailableDates = availableDates ? JSON.parse(availableDates) : [];
+
   const newPaymentData = {
     userId: userId || null,
     username,
+    email: email || "",
+    mobile: mobile || "",
     boatName,
     boatId: boatId || null,
     boatImage: boatImage || [],
-    amount: parseFloat(amount) || 0,
+    amount: parseFloat(amountPaid) || 0,
     stripeDetails: stripeDetails || {},
     rateType: rateType || "",
-    availableDates: availableDates || [],
-    amountPaid: parseFloat(amountPaid),
-    totalAmount: parseFloat(totalAmount),
+    availableDates: parsedAvailableDates,
+    amountPaid: parseFloat(amountPaid) || 0,
+    totalAmount: parseFloat(totalAmount) || 0,
     startTime,
     endTime,
     rentalType,
     bookingPlatform,
     platformInvoice: platformInvoiceUrl, // Save the uploaded file URL
     platformAmount: parseFloat(platformAmount) || 0,
+    address: address || "",
+    taxCode: taxCode || "",
+    peopleOnBoard: peopleOnBoard || "",
+    skipperName: skipperName || "",
+    skipperPhone: skipperPhone || "",
+    departurePoint: departurePoint || "",
+    arrivalPoint: arrivalPoint || "",
+    accessories: accessories ? JSON.parse(accessories) : [],
+    customerNotes: customerNotes || "",
+    petrolPrepaid: petrolPrepaid || false,
+    contract: contract || false,
   };
 
   try {

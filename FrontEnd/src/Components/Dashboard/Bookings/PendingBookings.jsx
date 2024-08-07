@@ -34,7 +34,7 @@ const PendingBookings = () => {
     mobile: "",
     boatName: "",
     rentalType: "",
-    rentalDates: [null, null],
+    availableDates: [null, null],
     startTime: null,
     endTime: null,
     bookingPlatform: "",
@@ -42,7 +42,6 @@ const PendingBookings = () => {
     platformAmount: "",
     amountPaid: "",
     totalAmount: "",
-    identityDocument: "",
     address: "",
     taxCode: "",
     peopleOnBoard: "",
@@ -101,7 +100,7 @@ const PendingBookings = () => {
 
   const handleDateChange = (dates) => {
     const [start, end] = dates;
-    setNewBooking((prev) => ({ ...prev, rentalDates: [start, end] }));
+    setNewBooking((prev) => ({ ...prev, availableDates: [start, end] }));
     if (start && end && start.getTime() === end.getTime()) {
       setShowTimeSlots(true);
     } else {
@@ -114,9 +113,7 @@ const PendingBookings = () => {
     try {
       const formData = new FormData();
       for (const key in newBooking) {
-        if (key === "rentalDates" || key === "rentalType") {
-          formData.append(key, JSON.stringify(newBooking[key]));
-        } else if (key === "accessories") {
+        if (key === "availableDates" || key === "accessories") {
           formData.append(key, JSON.stringify(newBooking[key]));
         } else {
           formData.append(key, newBooking[key]);
@@ -141,7 +138,7 @@ const PendingBookings = () => {
         mobile: "",
         boatName: "",
         rentalType: "",
-        rentalDates: [null, null],
+        availableDates: [null, null],
         startTime: null,
         endTime: null,
         bookingPlatform: "",
@@ -149,7 +146,6 @@ const PendingBookings = () => {
         platformAmount: "",
         amountPaid: "",
         totalAmount: "",
-        identityDocument: "",
         address: "",
         taxCode: "",
         peopleOnBoard: "",
@@ -408,18 +404,6 @@ const PendingBookings = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700">
-                    {t("identityDocument")}
-                  </label>
-                  <input
-                    type="text"
-                    name="identityDocument"
-                    value={newBooking.identityDocument}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border rounded"
-                  />
-                </div>
-                <div>
                   <label className="block text-gray-700">{t("address")}</label>
                   <input
                     type="text"
@@ -512,13 +496,13 @@ const PendingBookings = () => {
                 )}
                 <div>
                   <label className="block text-gray-700">
-                    {t("rentalDates")}
+                    {t("availableDates")}
                   </label>
                   <DatePicker
-                    selected={newBooking.rentalDates[0]}
+                    selected={newBooking.availableDates[0]}
                     onChange={handleDateChange}
-                    startDate={newBooking.rentalDates[0]}
-                    endDate={newBooking.rentalDates[1]}
+                    startDate={newBooking.availableDates[0]}
+                    endDate={newBooking.availableDates[1]}
                     selectsRange
                     className="w-full px-3 py-2 border rounded"
                     dateFormat="yyyy/MM/dd"
