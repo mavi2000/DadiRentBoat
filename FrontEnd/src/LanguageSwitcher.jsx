@@ -33,29 +33,30 @@ const LanguageSwitcher = ({ className }) => {
         className="cursor-pointer"
       >
         {currentLanguage === 'it' ? (
-          <Flag code="ITA" height="20" className="rounded-full" />
-        ) : (
           <Flag code="USA" height="20" className="rounded-full" />
+        ) : (
+          <Flag code="ITA" height="20" className="rounded-full" />
         )}
       </div>
       {isOpen && (
-        <ul className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg text-black">
+        <ul className="absolute right-0 mt-2 w-14   rounded-lg  text-black">
           {currentLanguage !== 'en' && (
             <li
-              className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
+              className="flex items-center  cursor-pointer "
               onClick={() => toggleLanguage('en')}
             >
-              <Flag code="USA" height="20" className="rounded-full" />
-              English
+              <Flag code="ITA" height="20" className="rounded-full" />
+             
             </li>
           )}
           {currentLanguage !== 'it' && (
             <li
-              className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
+              className="flex items-center cursor-pointer "
               onClick={() => toggleLanguage('it')}
             >
-              <Flag code="ITA" height="20" className="rounded-full" />
-              Italiano
+              <Flag code="USA"  className="rounded-full " />
+              
+              
             </li>
           )}
         </ul>
