@@ -7,15 +7,16 @@ import 'leaflet/dist/leaflet.css';
 import { LuClock4 } from 'react-icons/lu';
 import LocationFilled from "../../assets/Images/location-filled.png";
 import whatsappImage from "../../assets/Images/WhatsApp Image 2024-08-07 at 8.07.39 PM.jpeg";
+import vector from "../../assets/Images/Vector4.png"
 
 const WhereWeAre = () => {
   const { t } = useTranslation();
-  const destination = [43.52992, 10.3054838];
+  const destination = [ 43.5471169, 10.3028054];
   const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination[0]},${destination[1]}`;
 
   // Custom icon for the marker
   const locationIcon = L.icon({
-    iconUrl: LocationFilled,
+    iconUrl: vector,
     iconSize: [25, 41], // size of the icon
     iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
     popupAnchor: [1, -34], // point from which the popup should open relative to the iconAnchor

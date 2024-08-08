@@ -9,48 +9,22 @@ import { FaAngleDown } from "react-icons/fa6";
 import { LuCalendar } from "react-icons/lu";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import baseURL from "../../../APi/BaseUrl";
+import { useTranslation } from 'react-i18next';
 
 const dummyTimeSlots = [
-  {
-    id: 1,
-    slot: "4h00",
-    price: "$238.92",
-    duration: "4h00",
-    departure: "Orario da concordare con il proprietario",
-  },
-  {
-    id: 2,
-    slot: "Mattina",
-    price: "$179.19",
-    duration: "4h00",
-    departure: "8:00 AM",
-  },
-  {
-    id: 3,
-    slot: "Mezzogiorno",
-    price: "$238.92",
-    duration: "4h00",
-    departure: "12:00 PM",
-  },
-  {
-    id: 4,
-    slot: "Pomeriggio",
-    price: "$238.92",
-    duration: "4h00",
-    departure: "2:00 PM",
-  },
-  {
-    id: 5,
-    slot: "Sera",
-    price: "$238.92",
-    duration: "5h00",
-    departure: "6:00 PM",
-  },
+  { id: 1, slot: "4h00", price: "$238.92", duration: "4h00", departure: "Time to be agreed with the owner" },
+  { id: 2, slot: "Morning", price: "$179.19", duration: "4h00", departure: "8:00 AM" },
+  { id: 3, slot: "Noon", price: "$238.92", duration: "4h00", departure: "12:00 PM" },
+  { id: 4, slot: "Afternoon", price: "$238.92", duration: "4h00", departure: "2:00 PM" },
+  { id: 5, slot: "Evening", price: "$238.92", duration: "5h00", departure: "6:00 PM" },
 ];
 
 const OurFleet = () => {
+  const { t } = useTranslation(); // Use translation hook
   const { fetchBoatDetails } = useContext(UserContext);
   const [boatDetails, setBoatDetails] = useState([]);
+  const [availableDates, setAvailableDates] = useState([]);
   const [error, setError] = useState(null);
   const [isCheckInOpen, setIsCheckInOpen] = useState(false);
   const [checkInDate, setCheckInDate] = useState(null);
@@ -86,7 +60,7 @@ const OurFleet = () => {
         const details = await fetchBoatDetails();
         setBoatDetails(details);
       } catch (error) {
-        setError(error.message || "Errore nel caricamento dei dettagli della barca");
+        setError(error.message || "Error loading boat details");
       }
     };
 
@@ -94,10 +68,27 @@ const OurFleet = () => {
   }, [fetchBoatDetails]);
 
   useEffect(() => {
+    const fetchAvailableDates = async () => {
+      try {
+        const response = await baseURL.get('/checkout/availableDates');
+        const data = await response.data;
+        const dates = data.flatMap(item => 
+          item.availableDates.map(date => new Date(date).toISOString().split('T')[0])
+        );
+        setAvailableDates(dates);
+      } catch (error) {
+        console.error('Error fetching available dates:', error);
+        setError(error.message || "Error loading available dates");
+      }
+    };
+  
+    fetchAvailableDates();
+  }, [])
+
+  useEffect(() => {
     const applyFilters = () => {
       let filtered = boatDetails;
 
-      // Filtra per intervallo di date
       if (checkInDate) {
         const [startDate, endDate] = checkInDate;
         filtered = filtered.filter((boat) =>
@@ -109,7 +100,6 @@ const OurFleet = () => {
         );
       }
 
-      // Filtra per fascia oraria
       if (selectedTimeSlot) {
         filtered = filtered.filter((boat) =>
           boat.boatBookings.some((booking) =>
@@ -118,14 +108,12 @@ const OurFleet = () => {
         );
       }
 
-      // Filtra per numero di persone
       if (numberOfPersons) {
         filtered = filtered.filter(
           (boat) => boat.boat.boardingCapacity >= numberOfPersons
         );
       }
 
-      // Filtra per testo di ricerca
       if (searchText) {
         filtered = filtered.filter((boat) =>
           boat.rental[0].BoatName.toLowerCase().includes(
@@ -134,7 +122,6 @@ const OurFleet = () => {
         );
       }
 
-      // Filtra per altri criteri
       filtered = filtered.filter((boat) => {
         return (
           (!filters.boatType || boat.boat.type === filters.boatType) &&
@@ -167,12 +154,27 @@ const OurFleet = () => {
     filters,
   ]);
 
+  const handleDateChange = (date) => {
+    if (date && date.length > 0) {
+      const [startDate, endDate] = date;
+      const selectedDate = startDate.toISOString().split('T')[0];
+
+      if (availableDates.includes(selectedDate)) {
+        toast.error(t('bookedDateError'));
+        setCheckInDate(null);
+      } else {
+        setCheckInDate(date);
+        setIsCheckInOpen(false); 
+      }
+    }
+  };
+
   if (error) {
     return <div>{error}</div>;
   }
 
   if (!boatDetails.length) {
-    return <div>Caricamento...</div>;
+    return <div>Loading...</div>;
   }
 
   return (
@@ -180,15 +182,15 @@ const OurFleet = () => {
       <div className="fleet-bg">
         <div className="mx-[3%] md:mx-[6%] flex flex-col justify-center h-[100svh]">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
-            La Nostra Flotta
+            {t('ourFleetTitle')}
           </h1>
           <p className="my-8 font-medium text-2xl text-white md:w-[60%]">
-            Scopri tutti i nostri veicoli
+            {t('discoverVehicles')}
           </p>
         </div>
       </div>
-      <section className="bg-[var(--primary-color)]  px-12 py-6 mx-[3%] md:mx-[6%] rounded-2xl -mt-16">
-        <h1 className="text-3xl font-bold text-white mb-5">Ricerca Rapida</h1>
+      <section className="bg-[var(--primary-color)] px-12 py-6 mx-[3%] md:mx-[6%] rounded-2xl -mt-16">
+        <h1 className="text-3xl font-bold text-white mb-5">{t('quickSearchTitle')}</h1>
         <div className="flex flex-wrap gap-4">
           <div className="rounded grow whitespace-nowrap bg-white p-4 relative">
             <button
@@ -196,15 +198,22 @@ const OurFleet = () => {
               onClick={() => setIsCheckInOpen(!isCheckInOpen)}
             >
               <LuCalendar size={22} />
-              Seleziona Data <FaAngleDown size={20} />
+              {t('selectDate')} <FaAngleDown size={20} />
             </button>
             {isCheckInOpen && (
               <div className="calendar-container rounded bg-white p-4 absolute top-full left-0 z-50">
                 <Calendar
-                  onChange={setCheckInDate}
+                  onChange={handleDateChange}
                   value={checkInDate}
                   minDate={new Date()}
                   selectRange={true}
+                  tileClassName={({ date, view }) => {
+                    if (view === 'month') {
+                      const dateString = date.toISOString().split('T')[0];
+                      return availableDates.includes(dateString) ? 'booked-date' : null;
+                    }
+                    return null;
+                  }}
                 />
               </div>
             )}
@@ -219,10 +228,10 @@ const OurFleet = () => {
               className="rounded w-full bg-white p-4 px-12 outline-none appearance-none"
               onChange={(e) => setSelectedTimeSlot(e.target.value)}
             >
-              <option value="">Scegli una fascia oraria</option>
+              <option value="">{t('timeSlot')}</option>
               {dummyTimeSlots.map((timeSlot) => (
                 <option key={timeSlot.id} value={timeSlot.slot}>
-                  {timeSlot.slot} - {timeSlot.duration}
+                  {t(timeSlot.slot.toLowerCase())} - {timeSlot.duration}
                 </option>
               ))}
             </select>
@@ -237,17 +246,22 @@ const OurFleet = () => {
               className="rounded w-full bg-white p-4 px-12 outline-none appearance-none"
               onChange={(e) => setNumberOfPersons(e.target.value)}
             >
-              <option value="">Numero di Persone</option>
-              <option value="5">5</option>
+              <option value="">{t('numberOfPersons')}</option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
               <option value="6">6</option>
-              <option value="10">10</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
             </select>
           </div>
 
           <input
             type="text"
             className="bg-white h-full p-4 w-full outline-none rounded-full text-[var(--primary-color)] placeholder:text-[var(--primary-color)] text-base font-bold"
-            placeholder="Cerca"
+            placeholder={t('searchPlaceholder')}
             onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
@@ -255,16 +269,16 @@ const OurFleet = () => {
 
       <main className="mx-[3%] md:mx-[6%] mt-12 flex flex-col-reverse md:flex-row gap-12">
         <div>
-          <div className="flex gap-2 justify-between items-center border-b-[1px] bordr-[#F5F5F5] mb-8 pb-6">
+          <div className="flex gap-2 justify-between items-center border-b-[1px] border-[#F5F5F5] mb-8 pb-6">
             <h2 className="text-[#676767] text-base font-semibold">
-              {filteredBoats.length} <span className="font-normal">Yacht</span>
+              {t('yachtsCount', { count: filteredBoats.length })}
             </h2>
           </div>
           {filteredBoats.map((boat, index) => (
             <OurFleetCard
               key={index}
-              id={boat.boatImages.map((item) => item.boatId)}
-              img={boat.boatImages.map((item) => item.images[0])}
+              id={boat.boatImages[0]?.boatId}
+              img={boat.boatImages[0]?.images[0]}
               boatName={boat.boat.title}
               totalPersons={boat.boat.boardingCapacity}
               length={boat.boat.lengthMeters}

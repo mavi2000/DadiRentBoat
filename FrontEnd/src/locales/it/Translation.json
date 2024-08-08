@@ -859,5 +859,19 @@
   "exploreMeloriaShoalsTitle": "Esplora le Secche della Meloria",
   "exploreMeloriaShoalsDescription": "Confermiamo che i nostri veicoli sono autorizzati all'attività nelle Secche della Meloria, una vasta formazione rocciosa situata a 3 miglia dalla costa di Livorno. Quest'area, che copre circa 40 chilometri quadrati, offre una varietà di paesaggi sottomarini unici. Esplorare le Secche della Meloria è un'esperienza emozionante e responsabile, rispettando l'ambiente marino.",
   "clickHereToReadTheFAQ": "Clicca qui per leggere le FAQ",
-  "excursionCardDescription": "Per coloro che stanno avendo la loro prima esperienza alla guida di una barca, ma desiderano provare a navigare in mare con una delle nostre imbarcazioni, offriremo un supporto qualificato per una breve lezione della durata di circa 20/25 minuti al molo. In questo modo avremo l'opportunità di spiegare le principali manovre di navigazione e ormeggio per garantire un'uscita sicura, in completa tranquillità."
+  "excursionCardDescription": "Per coloro che stanno avendo la loro prima esperienza alla guida di una barca, ma desiderano provare a navigare in mare con una delle nostre imbarcazioni, offriremo un supporto qualificato per una breve lezione della durata di circa 20/25 minuti al molo. In questo modo avremo l'opportunità di spiegare le principali manovre di navigazione e ormeggio per garantire un'uscita sicura, in completa tranquillità.",
+  "ourFleetTitle": "La Nostra Flotta",
+  "discoverVehicles": "Scopri tutti i nostri veicoli",
+  "quickSearchTitle": "Ricerca Veloce",
+  "selectDate": "Seleziona Data",
+  "numberOfPersons": "Numero di Persone",
+  "searchPlaceholder": "Cerca",
+  "yachtsCount": "{count} Yacht",
+  "timeSlot": "Seleziona un orario",
+  "morning": "Mattina",
+  "noon": "Pomeriggio",
+  "afternoon": "Pomeriggio",
+  "evening": "Sera",
+  "bookedDateError": "Barca già prenotata in queste date."
+
 }

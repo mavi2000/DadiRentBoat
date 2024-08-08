@@ -93,6 +93,9 @@ export const checkout = async (req, res) => {
 };
 
 
+
+
+
 export const getPayment = async (req, res) => {
   try {
     const payments = await Payment.find().populate(
@@ -439,5 +442,50 @@ export const createPayment = async (req, res) => {
     res.status(201).json(savedPayment);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+
+
+export const availableDates = async (req, res) => {
+  try {
+    // Find all boats and their available dates
+    const payments = await Payment.find({}, 'boatName availableDates');
+
+    if (payments.length === 0) {
+      return res.status(404).json({ error: "No boats or available dates found" });
+    }
+
+    // Create a map to group available dates by boat name
+    const boatDatesMap = {};
+
+    payments.forEach(payment => {
+      const boatName = payment.boatName;
+      const dates = payment.availableDates || [];
+
+      // Filter valid dates
+      const validDates = dates.filter(date => date instanceof Date && !isNaN(date.getTime()));
+
+      // If the boat name is already in the map, add dates to it
+      if (boatDatesMap[boatName]) {
+        boatDatesMap[boatName] = boatDatesMap[boatName].concat(validDates);
+      } else {
+        boatDatesMap[boatName] = validDates;
+      }
+    });
+
+    // Remove duplicates for each boat's dates
+    const result = Object.entries(boatDatesMap).map(([boatName, dates]) => {
+      const uniqueDates = [...new Set(dates.map(date => date.toISOString()))]
+        .map(dateString => new Date(dateString));
+      return { boatName, availableDates: uniqueDates };
+    });
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Error fetching available dates:', error);
+    res.status(500).json({
+      error: error.message,
+    });
   }
 };

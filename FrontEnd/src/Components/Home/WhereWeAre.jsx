@@ -1,11 +1,10 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import locationfilled from '../../assets/Images/location-filled.png';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import vector4 from "../../assets/Images/Vector4.png"
+import vector4 from "../../assets/Images/Vector4.png";
 
 // Define the custom icon
 const customIcon = new L.Icon({
@@ -15,26 +14,46 @@ const customIcon = new L.Icon({
   popupAnchor: [0, -38], // point from which the popup should open relative to the iconAnchor
 });
 
+// Function to create the Google Maps directions URL
+const getDirectionsUrl = (lat, lng) => {
+  const query = `${lat},${lng}`;
+  return `https://www.google.com/maps/dir/?api=1&destination=${query}`;
+};
+
 const WhereWeAre = () => {
   const { t } = useTranslation();
+  const latitude = 43.5471169;
+  const longitude = 10.3028054;
 
   return (
     <section className="contact-information w-full flex flex-col-reverse md:flex-row">
       <MapContainer
-        center={[43.5471169,  10.3028054]}
+        center={[latitude, longitude]}
         zoom={20}
         maxZoom={18}
         scrollWheelZoom={false}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-        <Marker position={[43.5471169, 10.3028054]} icon={customIcon}>
-          <Tooltip direction="top" offset={[0, -38]} opacity={1}>
-            <span>
-              {t('locationAddress')}<br />
-              {t('locationDetail')}
-            </span>
-          </Tooltip>
+        
+        <Marker position={[latitude, longitude]} icon={customIcon}>
+          <Popup>
+            <div>
+              <span>
+                {/* Updated content - remove any specific text here */}
+                {t('locationAddress')}<br />
+                {t('locationDetail')}
+              </span>
+              <br />
+              <a
+                href={getDirectionsUrl(latitude, longitude)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 underline"
+              >
+                {t('getDirections')}
+              </a>
+            </div>
+          </Popup>
         </Marker>
       </MapContainer>
       <div className="bg-white md:mt-12 md:-ml-[120px] z-10 grow md:w-2/5 flex gap-4 flex-col pb-8">
@@ -60,12 +79,12 @@ const WhereWeAre = () => {
             {t('locationNote')}
           </p>
           <br />
-          <br />
+          {/* <br />
           <Link to="/Signup">
             <button className="text-white text-lg bg-[var(--primary-color)] mb-4 rounded-lg border-[1px] border-[var(--primary-color)] font-bold px-8 py-3">
               {t('signUp')}
             </button>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </section>

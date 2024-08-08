@@ -33,7 +33,7 @@ const LanguageSwitcher = ({ className }) => {
         className="cursor-pointer"
       >
         {currentLanguage === 'it' ? (
-          <Flag code="USA" height="20" className="rounded-full" />
+          <Flag code="GBR" height="20" className="rounded-full" />
         ) : (
           <Flag code="ITA" height="20" className="rounded-full" />
         )}
@@ -54,7 +54,7 @@ const LanguageSwitcher = ({ className }) => {
               className="flex items-center cursor-pointer "
               onClick={() => toggleLanguage('it')}
             >
-              <Flag code="USA"  className="rounded-full " />
+              <Flag code="GBR"  className="rounded-full " />
               
               
             </li>

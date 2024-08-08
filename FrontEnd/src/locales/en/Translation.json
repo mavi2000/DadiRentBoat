@@ -853,7 +853,22 @@
   "exploreMeloriaShoalsTitle": "Explore the Meloria Shoals",
   "exploreMeloriaShoalsDescription": "We confirm that our vehicles are authorized for activity in the Secche della Meloria, a vast outcropping cliff located 3 miles from the coast of Livorno. This area, covering approximately 40 square kilometers, offers a variety of unique underwater landscapes. Exploring the Secche della Meloria is an exciting and responsible experience, respecting the marine environment.",
   "clickHereToReadTheFAQ": "Click Here To Read The FAQ",
-  "excursionCardDescription": "For those who are having their first experience driving a boat, but would like to try sailing the sea with one of our boats, we will support qualified personnel for a quick lesson lasting approximately 20/25 minutes at the mooring dock. In this way we have the opportunity to explain the main navigation and mooring maneuvers to guarantee a safe exit, in complete relaxation."
+  "excursionCardDescription": "For those who are having their first experience driving a boat, but would like to try sailing the sea with one of our boats, we will support qualified personnel for a quick lesson lasting approximately 20/25 minutes at the mooring dock. In this way we have the opportunity to explain the main navigation and mooring maneuvers to guarantee a safe exit, in complete relaxation.",
+  "ourFleetTitle": "Our Fleet",
+  "discoverVehicles": "Discover all our vehicles",
+  "quickSearchTitle": "Quick Search",
+  "selectDate": "Select Date",
+  "numberOfPersons": "Number of Persons",
+  "searchPlaceholder": "Search",
+  "yachtsCount": "{count} Yacht",
+  "timeSlot": "Select a time slot",
+  "morning": "Morning",
+  "noon": "Noon",
+  "afternoon": "Afternoon",
+  "evening": "Evening",
+  "bookedDateError": "Boat already booked on these dates."
+
+
 
 }
 

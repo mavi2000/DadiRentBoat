@@ -13,7 +13,8 @@ import {
   getUpcomingBookings,
   cancelBooking,
   unAvailableDates,
-  createPayment
+  createPayment,
+  availableDates
 } from "../controllers/StripeController.js";
 import { auth } from "../middlewares/auth.js";
 
@@ -30,5 +31,6 @@ router.get("/getStatistics",getStatistics);
 router.get("/getUpcomingBookings",getUpcomingBookings);
 router.post("/cancelBooking",cancelBooking);
 router.post("/unAvailableDates",unAvailableDates);
+router.get("/availableDates",availableDates);
 router.post('/create-payment', upload.single('platformInvoice'), createPayment);
 export default router;

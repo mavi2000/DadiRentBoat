@@ -55,7 +55,7 @@ const Verification = ({ data, setData }) => {
   const handleSaveSignature = async () => {
     const signatureData = sigCanvas.current.getTrimmedCanvas().toDataURL('image/png');
     try {
-      await baseURL.post('/api/save-signature', { userId: data.userId, signature: signatureData });
+      await baseURL.post('/rental/signature', { id: data.userId, signature: signatureData });
       toast.success(t('signatureSavedSuccessfullyUnique'));
       setData({ ...data, valid: true });
     } catch (error) {
@@ -79,7 +79,7 @@ const Verification = ({ data, setData }) => {
           <input
             type="radio"
             id="ElectronicSignature"
-            name="ElectronicSignature"
+            name="verificationMethod"
             className="size-5"
           />
           <label htmlFor="ElectronicSignature">{t('electronicSignatureUnique')}</label>
@@ -88,7 +88,7 @@ const Verification = ({ data, setData }) => {
           <input
             type="radio"
             id="OTP"
-            name="ElectronicSignature"
+            name="verificationMethod"
             className="size-5"
           />
           <label htmlFor="OTP">{t('otpUnique')}</label>
@@ -106,20 +106,19 @@ const Verification = ({ data, setData }) => {
             />
           </div>
           <div className='flex flex-row mt-2'>
-          <button
-            onClick={handleSaveSignature}
-            className="bg-[--primary-color] text-white p-2 rounded-xl "
-          >
-            saveSignatureUnique
-          </button>
-          <button
-            onClick={handleRefreshSignature}
-            className="flex gap-2 items-center ml-auto mr-0  text-[--primary-color] border-[1.4px] border-[--primary-color] text-sm font-bold p-2 rounded-lg"
-          >
-            <MdOutlineRefresh size={20} />
-            {t('refreshUnique')}
-          </button>
-         
+            <button
+              onClick={handleSaveSignature}
+              className="bg-[--primary-color] text-white p-2 rounded-xl"
+            >
+              {t('saveSignatureUnique')}
+            </button>
+            <button
+              onClick={handleRefreshSignature}
+              className="flex gap-2 items-center ml-auto mr-0 text-[--primary-color] border-[1.4px] border-[--primary-color] text-sm font-bold p-2 rounded-lg"
+            >
+              <MdOutlineRefresh size={20} />
+              {t('refreshUnique')}
+            </button>
           </div>
         </div>
 
