@@ -5,10 +5,11 @@ import 'leaflet/dist/leaflet.css';
 import locationfilled from '../../assets/Images/location-filled.png';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import vector4 from "../../assets/Images/Vector4.png"
 
 // Define the custom icon
 const customIcon = new L.Icon({
-  iconUrl: locationfilled,
+  iconUrl: vector4,
   iconSize: [38, 38], // size of the icon
   iconAnchor: [19, 38], // point of the icon which will correspond to marker's location
   popupAnchor: [0, -38], // point from which the popup should open relative to the iconAnchor
@@ -20,14 +21,14 @@ const WhereWeAre = () => {
   return (
     <section className="contact-information w-full flex flex-col-reverse md:flex-row">
       <MapContainer
-        center={[43.52992, 10.3054838]}
+        center={[43.5471169,  10.3028054]}
         zoom={20}
         maxZoom={18}
         scrollWheelZoom={false}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-        <Marker position={[43.52992, 10.3054838]} icon={customIcon}>
+        <Marker position={[43.5471169, 10.3028054]} icon={customIcon}>
           <Tooltip direction="top" offset={[0, -38]} opacity={1}>
             <span>
               {t('locationAddress')}<br />

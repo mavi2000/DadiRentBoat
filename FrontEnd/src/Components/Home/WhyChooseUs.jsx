@@ -6,7 +6,7 @@ import { FaCheck, FaLocationDot } from 'react-icons/fa6';
 import { GiLighthouse } from 'react-icons/gi';
 import { LuWaves } from 'react-icons/lu';
 import { IoLogoWechat } from 'react-icons/io5';
-// import { TbBulbFilled } from 'react-icons/tb';
+import vector3 from "../../assets/Images/Vector (3).png";
 
 const WhyChooseUs = () => {
   const { t } = useTranslation();
@@ -26,7 +26,7 @@ const WhyChooseUs = () => {
         <WhyChooseUsCard
           icon={<FaLocationDot size={60} className="text-[--primary-color]" />}
           title={t('whereWeAreTitle')}
-          description={t('whereWeAreDescription')}
+          description={t('whereWeAreDescription2')}
         />
         <WhyChooseUsCard
           icon={<GiLighthouse size={60} className="text-[--primary-color]" />}
@@ -49,7 +49,7 @@ const WhyChooseUs = () => {
           description={t('reliabilityDescription')}
         />
         <WhyChooseUsCard
-          // icon={<TbBulbFilled size={60} className="text-[--primary-color]" />}
+          icon={<img src={vector3} alt="Super Ideas Icon" className="w-[60px] h-[60px]" />}
           title={t('superIdeasTitle')}
           description={t('superIdeasDescription')}
         />

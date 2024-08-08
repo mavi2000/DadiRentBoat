@@ -47,9 +47,12 @@ const Services = () => {
             <p className=" text-base text-[#00000080] text-center px-4 w-[90%] py-3">
               {t('rentalDescription')}
             </p>
-            {/* <button className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]">
+            <Link
+              to="/boat-dinghal"
+              className="self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
+            >
               {t('findOutMore')}
-            </button> */}
+            </Link>
           </div>
         </section>
 
@@ -70,7 +73,7 @@ const Services = () => {
             </p>
             <Link
               to="/services/Excursions"
-              className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
+              className="self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
             >
               <button>{t('findOutMore')}</button>
             </Link>
@@ -104,7 +107,7 @@ const Services = () => {
             </p>
             <Link
               to="Fishing-Trips"
-              className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
+              className="self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
             >
               <button>{t('findOutMore')}</button>
             </Link>
@@ -128,7 +131,7 @@ const Services = () => {
             </p>
             <Link
               to="/services/Aperitif"
-              className=" self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
+              className="self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
             >
               <button>{t('findOutMore')}</button>
             </Link>

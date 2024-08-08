@@ -18,7 +18,7 @@ const IntoTheWild = () => {
             {t('intoTheWildTitle')}
           </h1>
           <p className="my-8 font-medium text-2xl text-white md:w-[60%]">
-            {t('intoTheWildSubtitle')}
+            {t('intothewilddesc')}
           </p>
         </div>
       </div>
@@ -30,9 +30,9 @@ const IntoTheWild = () => {
       <br />
 
       <BoatCard
-        title={t('boatCardTitle2')}
-        duration={t('boatCardDuration2')}
-        description={t('boatCardDescription2')}
+        title={t('boatCardTitle7')}
+        duration={t('boatCardDuration7')}
+        description={t('boatCardDescription7')}
       />
       <br />
       <br />
