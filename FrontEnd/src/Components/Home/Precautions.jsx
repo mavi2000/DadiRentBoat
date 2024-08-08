@@ -46,7 +46,13 @@ const Precautions = () => {
           <img src={getinImg} alt="get in" className="w-6 h-5" />
         </button>
       </div>
-      <div className="flex flex-col py-12 px-6 md:px-8 border-t-[1px] md:border-l-[1px] border-[var(--primary-color)] relative">
+      {/* Add the link to the weather website here */}
+      <a
+        href="https://weather.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex flex-col py-12 px-6 md:px-8 border-t-[1px] md:border-l-[1px] border-[var(--primary-color)] relative"
+      >
         <img
           src={weather}
           alt="Check"
@@ -63,7 +69,7 @@ const Precautions = () => {
           {t('checkWeather')}
           <img src={getinImg} alt="get in" className="w-6 h-5" />
         </button>
-      </div>
+      </a>
     </section>
   );
 };

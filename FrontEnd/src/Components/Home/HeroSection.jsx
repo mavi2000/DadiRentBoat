@@ -6,7 +6,6 @@ import manWithStick from '../../assets/Images/man-with-stick.webp';
 import phoneSaveIcon from '../../assets/Images/phone-save.png';
 import HeroVideo from './HeroVideo';
 import { Link, useNavigate } from 'react-router-dom';
-// import { AuthContext } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import '../../i18n';
 import { AuthContext } from '../../../Context/AuthContext';
@@ -57,15 +56,31 @@ const HeroSection = () => {
             {t('contactTitle')}
           </h1>
           <a
-            href="tel:+39 3701564317"
+            href="https://wa.me/393701564317" // Link to WhatsApp
             className="text-[#343434] font-bold text-2xl"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             {t('phone')}
           </a>
           <div className="text-[--primary-color] flex gap-5 items-center">
-            <IoMail size={30} />
-            <RiWhatsappFill size={32} className="text-[#67C15E]" />
-            <FaPhoneAlt size={25} />
+            <a
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=dadi.rent@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IoMail size={30} />
+            </a>
+            <a
+              href="https://wa.me/393701564317"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <RiWhatsappFill size={32} className="text-[#67C15E]" />
+            </a>
+            <a href="tel:+39 3701564317">
+              <FaPhoneAlt size={25} />
+            </a>
           </div>
           <p className="text-[#00000080] text-center px-4 w-[90%]">
             {t('contactDescription')}
