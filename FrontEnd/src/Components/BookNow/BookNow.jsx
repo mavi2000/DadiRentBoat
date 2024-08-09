@@ -41,7 +41,7 @@ import PoolLifeguard from "../../assets/Images/pool-lifeguard.png";
 import Draught from "../../assets/Images/Draught.png";
 import FuelType from "../../assets/Images/FuelType.png";
 import FuelTank from "../../assets/Images/FuelTank.png";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import Prices from "./Prices";
 import { useParams, useNavigate } from "react-router-dom";
 import { UserContext } from "../../../Context/UserContext";
@@ -74,7 +74,8 @@ const BookNow = () => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [disabledDates, setDisabledDates] = useState([]);
-  const [data, setData] = useState({ rentalType: [] }); // Initialize data state
+  const [data, setData] = useState({ rentalType: [] });
+  const [selectedEquipment, setSelectedEquipment] = useState([]); // State for selected equipment
   const datePickerRef = useRef(null);
   
   useEffect(() => {
@@ -104,7 +105,6 @@ const BookNow = () => {
     console.log("Saved dates:", selectedDates);
   };
 
- 
   const parseDuration = (duration) => {
     const [amount, unit] = duration.split(" ");
     if (unit.startsWith("week")) {
@@ -132,12 +132,12 @@ const BookNow = () => {
     const maxDays = parseDuration(maximumRentalDuration);
 
     if (durationInDays < minDays) {
-      toast.error(`Minimum rental duration is ${minimumRentalDuration}`);
+      toast.error(t("minimumRentalDurationError", { duration: minimumRentalDuration }));
       return;
     }
 
     if (durationInDays > maxDays) {
-      toast.error(`Maximum rental duration is ${maximumRentalDuration}`);
+      toast.error(t("maximumRentalDurationError", { duration: maximumRentalDuration }));
       return;
     }
 
@@ -233,6 +233,7 @@ const BookNow = () => {
         boatId: boatDetails?.boat._id,
         startTime,
         endTime,
+        selectedEquipment, // Add selected equipment to checkout
       });
 
       const { sessionId } = await response.data;
@@ -248,7 +249,6 @@ const BookNow = () => {
       toast.error(error.response?.data?.message || t("paymentFailed"));
     }
   };
-
 
   const getDisabledDates = async () => {
     try {
@@ -298,6 +298,9 @@ const BookNow = () => {
       total += 10;
     }
   
+    // Add €30 for each selected equipment
+    total += selectedEquipment.length * 30;
+  
     return total;
   };
 
@@ -318,9 +321,18 @@ const BookNow = () => {
     });
   };
 
+  const handleEquipmentChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setSelectedEquipment((prev) => [...prev, value]);
+    } else {
+      setSelectedEquipment((prev) => prev.filter((item) => item !== value));
+    }
+  };
+
   const CustomInput = forwardRef(({ value, onClick }, ref) => (
     <input
-      className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline €{
+      className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
         !isAvailable ? "border-red-500" : ""
       }`}
       onClick={(e) => {
@@ -333,8 +345,6 @@ const BookNow = () => {
     />
   ));
 
-  console.log("boatDetails for booking",boatDetails)
-
   const CustomCalendarContainer = ({ className, children }) => (
     <div className={`${className} mx-8`}>
       <CalendarContainer className="relative">{children}</CalendarContainer>
@@ -344,7 +354,7 @@ const BookNow = () => {
           <div className=" flex flex-wrap px-3 gap-3">
             <div className="flex flex-wrap gap-3 px-3">
               <button className="text-black font-semibold py-2">
-                Quick Choice :
+                {t("quickChoice")}
               </button>
               {boatDetails?.rate[0]?.minimumRentalDuration === "1 day" && (
                 <button
@@ -447,13 +457,13 @@ const BookNow = () => {
                   <GrUserPolice />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#808080]">
-                  With or without skipper
+                  {t("withSkipper")}
                 </p>
               </div>
             </div>
           </div>
           <div className="center mt-[8%]">
-            <h1 className="heading-book">Description</h1>
+            <h1 className="heading-book">{t("description")}</h1>
             <p className="para-book">
               {boatDetails?.description?.map((item, key) => (
                 <span key={key}>{item?.details?.descriptionEnglish}</span>
@@ -464,7 +474,7 @@ const BookNow = () => {
                 <span className="text-[#CBA557] transform text-2xl">
                   <RiAnchorLine />
                 </span>
-                <h1 className="heading-book">Satellite Tracking:</h1>
+                <h1 className="heading-book">{t("satelliteTracking")}</h1>
               </div>
               <p className="para-book">
                 Our dinghy is equipped with a GPS tracking system; The system
@@ -480,8 +490,7 @@ const BookNow = () => {
                   <RiAnchorLine />
                 </span>
                 <h1 className="heading-book">
-                  This dinghy has the authorization to carry out the activity in
-                  the marine protected area of the Secche della Meloria.
+                  {t("marineProtectedArea")}
                 </h1>
               </div>
               <p className="para-book">
@@ -492,7 +501,7 @@ const BookNow = () => {
             </div>
             <div className="mt-[4%]">
               <div className="flex items-center gap-[1%] text-[#CBA557]">
-                <p className="underline">View Less</p>
+                <p className="underline">{t("viewLess")}</p>
                 <span>
                   <IoIosArrowUp />
                 </span>
@@ -504,7 +513,7 @@ const BookNow = () => {
                       <span className="text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
                       </span>
-                      <p className="text-[#676767]">Length</p>
+                      <p className="text-[#676767]">{t("length")}</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       {boatDetails?.boat?.lengthMeters}
@@ -515,7 +524,7 @@ const BookNow = () => {
                       <span className="text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
                       </span>
-                      <p className="text-[#676767]">Width</p>
+                      <p className="text-[#676767]">{t("width")}</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       8m
@@ -526,7 +535,7 @@ const BookNow = () => {
                       <span className="text-[1.15rem] text-[#CBA557]">
                         <IoHammerOutline />
                       </span>
-                      <p className="text-[#676767]">Draft</p>
+                      <p className="text-[#676767]">{t("draft")}</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       8m
@@ -535,7 +544,7 @@ const BookNow = () => {
                   <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <img src={Draught} alt="" className="w-5 h-5" />
-                      <p className="text-[#676767]">Draught</p>
+                      <p className="text-[#676767]">{t("draught")}</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       {boatDetails?.boat?.droughtMeters}m
@@ -544,7 +553,7 @@ const BookNow = () => {
                   <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <img src={FuelTank} alt="" className="w-4 h-5" />
-                      <p className="text-[#676767]">Fuel Tank</p>
+                      <p className="text-[#676767]">{t("fuelTank")}</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       {boatDetails?.boat?.fuelTankLiters}m
@@ -553,7 +562,7 @@ const BookNow = () => {
                   <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <img src={FuelType} alt="" className="w-5 h-5" />
-                      <p className="text-[#676767]">Fuel Type</p>
+                      <p className="text-[#676767]">{t("fuelType")}</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       8m
@@ -564,7 +573,7 @@ const BookNow = () => {
                       <span className="text-[1.15rem] text-[#CBA557]">
                         <RiAnchorLine />
                       </span>
-                      <p className="text-[#676767]">Power</p>
+                      <p className="text-[#676767]">{t("power")}</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       {boatDetails?.boat?.totalEnginePowerHP} hp
@@ -575,7 +584,7 @@ const BookNow = () => {
                       <span className="text-[1.15rem] text-[#CBA557]">
                         <TbTool />
                       </span>
-                      <p className="text-[#676767]">Phone</p>
+                      <p className="text-[#676767]">{t("phone")}</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       {boatDetails?.boat?.telephone}
@@ -585,14 +594,14 @@ const BookNow = () => {
               </div>
             </div>
             <div className="mt-[4%]">
-              <h1 className="heading-book">Equipment</h1>
-              <h2 className="min-heading mt-[2%]">Comfort</h2>
+              <h1 className="heading-book">{t("equipment")}</h1>
+              <h2 className="min-heading mt-[2%]">{t("comfort")}</h2>
               <div className="flex flex-wrap">
                 <div>
                   <ul>
                     {boatDetails?.equipment?.map((item) => (
                       <li key={item._id}>
-                        <ul className="flex gap-10">
+                        <ul className="flex gap-2 flex-col">
                           {item?.comfort?.map((comfortItem, index) => (
                             <li
                               key={index}
@@ -605,11 +614,11 @@ const BookNow = () => {
                       </li>
                     ))}
                   </ul>
-                  <h2 className="font-medium text-lg mt-10">Navigation:</h2>
+                  <h2 className="font-medium text-lg mt-10">{t("navigation")}</h2>
                   <ul>
                     {boatDetails?.equipment?.map((item) => (
                       <li key={item?._id}>
-                        <ul className="flex gap-10">
+                        <ul className="flex  flex-col gap-2">
                           {item?.navigation?.map((navItem, index) => (
                             <li
                               key={index}
@@ -622,11 +631,11 @@ const BookNow = () => {
                       </li>
                     ))}
                   </ul>
-                  <h2 className="font-medium text-lg mt-10">Services:</h2>
+                  <h2 className="font-medium text-lg mt-10">{t("services")}</h2>
                   <ul>
                     {boatDetails?.equipment?.map((item) => (
                       <li key={item._id}>
-                        <ul className="flex gap-10">
+                        <ul className="flex gap-2 flex-col">
                           {item?.services?.map((serviceItem, index) => (
                             <li
                               key={index}
@@ -639,11 +648,11 @@ const BookNow = () => {
                       </li>
                     ))}
                   </ul>
-                  <h2 className="font-medium text-lg mt-10">Energy:</h2>
+                  <h2 className="font-medium text-lg mt-10">{t("energy")}</h2>
                   <ul>
                     {boatDetails?.equipment?.map((item) => (
                       <li key={item?._id}>
-                        <ul className="flex gap-10">
+                        <ul className="flex gap-2 flex-col">
                           {item?.energy?.map((energyItem, index) => (
                             <li
                               key={index}
@@ -660,16 +669,15 @@ const BookNow = () => {
               </div>
             </div>
             <div className="mt-[4%]">
-              <h1 className="heading-book">Things to know</h1>
+              <h1 className="heading-book">{t("thingsToKnow")}</h1>
               <div className="mt-[3%] gap-3 flex">
                 <span className="text-[#CBA557] text-2xl">
                   <PiDiamondsFourLight />
                 </span>
                 <p className="font-medium text-[#191919]">
-                  Security Deposit <br className="mb-[1%]" />
+                  {t("securityDeposit")} <br className="mb-[1%]" />
                   <p className="text-sm font-normal text-opacity-70 text-[#4B465C]">
-                    Please note that the rental fee does not include Security
-                    Deposit costs.
+                    {t("securityDepositDetails")}
                   </p>
                 </p>
               </div>
@@ -678,11 +686,9 @@ const BookNow = () => {
                   <PiDiamondsFourLight />
                 </span>
                 <p className="font-medium text-[#191919]">
-                  Fuel excluded <br className="mb-[1%]" />
+                  {t("fuelExcluded")} <br className="mb-[1%]" />
                   <p className="text-sm font-normal text-opacity-70 text-[#4B465C]">
-                    Please note that the rental fee does not include fuel costs.
-                    Renters will be responsible for purchasing fuel separately
-                    during the rental period.
+                    {t("fuelExcludedDetails")}
                   </p>
                 </p>
               </div>
@@ -691,9 +697,9 @@ const BookNow = () => {
                   <PiDiamondsFourLight />
                 </span>
                 <p className="font-medium text-[#191919]">
-                  Pre-Payment <br className="mb-[1%]" />
+                  {t("prePayment")} <br className="mb-[1%]" />
                   <p className="text-sm font-normal text-opacity-70 text-[#4B465C]">
-                    30% pre-payment is required to confirm your booking.
+                    {t("prePaymentDetails")}
                   </p>
                 </p>
               </div>
@@ -702,57 +708,36 @@ const BookNow = () => {
                   <PiDiamondsFourLight />
                 </span>
                 <p className="font-medium text-[#191919] leading-6">
-                  Cancellation Policy for Boat and Dinghy Rentals in Livorno:
+                  {t("cancellationPolicy")}:
                   <br className="mb-[1%]" />
                   <p className="text-lg font-normal text-opacity-70 text-[#4B465C]">
-                    Customer Impossibility
+                    {t("customerImpossibility")}
                   </p>
                   <p className="text-sm font-normal text-opacity-70 text-[#4B465C]">
-                    Full refund of rental and deposit paid up to 48 hours before
-                    arrival. Refund of up to 70% up to 24 hours before the
-                    rental, with loss of the deposit amounts paid (which will be
-                    deducted if the rental is rescheduled). Notification of
-                    impossibility required within 24 hours prior to rental for
-                    full refund.
+                    {t("customerImpossibilityDetails")}
                   </p>
                   <p className="text-lg font-normal text-opacity-70 text-[#4B465C] mt-1">
-                    Bad weather:
+                    {t("badWeather")}
                   </p>
                   <p className="text-sm font-normal text-opacity-70 text-[#4B465C]">
-                    Tenant's discretion to suspend rental service. If the
-                    service cannot be carried out due to bad weather or for
-                    reasons attributable to DaDi Rent, the customer has the
-                    right to recovery of the service on the first available
-                    date.
+                    {t("badWeatherDetails")}
                   </p>
                 </p>
               </div>
             </div>
             <div className="mt-[4%]">
-              <h1 className="heading-book">Pancaldi Acquaviva</h1>
+              <h1 className="heading-book">{t("pancaldiAcquaviva")}</h1>
               <p className="mt-[3%] text-sm font-normal text-opacity-70 text-[#4B465C] leading-5">
-                You can find us at Bagni Pancaldi Acquaviva, located at Viale
-                Italia 62, nestled in the heart of Livorno's seafront. Situated
-                adjacent to the Terrazza Mascagni, our location offers stunning
-                views of the Tuscan islands and Corsica. Facing us is the
-                expansive Meloria Park, further enhancing the natural beauty of
-                the surroundings. It's an elegant and rejuvenating spot with
-                impeccable amenities and an enchanting sea view. At our
-                establishment, customers have access to a range of services upon
-                payment of an 8 Euro ticket. They can enjoy a refreshing shower
-                upon their return, take advantage of the swimming pool, rent
-                umbrellas and sun loungers, access the beach and children's play
-                area, use the beach volleyball court for a quick match, or take
-                a dip in Livorno's oldest and largest seaside establishment.
+                {t("pancaldiAcquavivaDetails")}
               </p>
             </div>
           </div>
         </div>
         <div className="right-container md:w-[35%] px-5 py-10 bg-white rounded-xl shadow-checkout flex flex-col gap-8 md:h-full">
           <div className="flex items-center gap-1">
-            <p className="text-sm text-[#000000] font-normal">Total</p>
+            <p className="text-sm text-[#000000] font-normal">{t("total")}</p>
             <p className="text-lg font-bold text-[#CBA557]">
-              Starting from €{getMinimumRate()}
+              {t("startingFrom")} €{getMinimumRate()}
             </p>
           </div>
           <div className="flex flex-col">
@@ -760,7 +745,7 @@ const BookNow = () => {
               htmlFor="date"
               className="text-sm text-[#000000] font-normal mb-[1%]"
             >
-              Date
+              {t("date")}
             </label>
             <DatePicker
               ref={datePickerRef}
@@ -781,77 +766,71 @@ const BookNow = () => {
           </div>
           <div className="">
             <h2 className="text-sm font-normal text-[#000000] mb-[2%]">
-              No of Persons
+              {t("noOfPersons")}
             </h2>
             <select
-                id="no of persons"
-                className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
-                >
-                  {Array.from({ length: 8 }, (_, i) => i + 1).map((persons) => (
-                  <option key={persons} value={`${persons}`}>
-                    {`${persons}`}
-                  </option>
-                ))}
+              id="no of persons"
+              className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
+            >
+              {Array.from({ length: 8 }, (_, i) => i + 1).map((persons) => (
+                <option key={persons} value={persons}>
+                  {persons}
+                </option>
+              ))}
               {boatDetails?.boat?.boardingCapacity}
             </select>
           </div>
           <div>
             {quickChoice === "slot" && (
               <div className="mb-4">
-              <label
-                htmlFor="startTime"
-                className="block text-gray-700 px-3 text-sm font-normal mb-2"
-              >
-                {t("startTime")}
-              </label>
-              <select
-                id="startTime"
-                className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-              >
-                <option value="">{t("StartTime")}</option>
-                {Array.from({ length: 18 }, (_, i) => i + 7).map((hour) => (
-                  <option key={hour} value={`${hour}:00`}>
-                    {`${hour}:00`}
-                  </option>
-                ))}
-              </select>
-            </div>
-            
-           
-            
+                <label
+                  htmlFor="startTime"
+                  className="block text-gray-700 px-3 text-sm font-normal mb-2"
+                >
+                  {t("startTime")}
+                </label>
+                <select
+                  id="startTime"
+                  className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                >
+                  <option value="">{t("startTime")}</option>
+                  {Array.from({ length: 18 }, (_, i) => i + 7).map((hour) => (
+                    <option key={hour} value={`${hour}:00`}>
+                      {`${hour}:00`}
+                    </option>
+                  ))}
+                </select>
+              </div>
             )}
             {quickChoice === "slot" && (
               <div className="mb-4">
-              <label
-                htmlFor="endTime"
-                className="block text-gray-700 text-sm font-normal mb-2"
-              >
-                {t("endTime")}
-              </label>
-              <select
-                id="endTime"
-                className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-              >
-                <option value="">{t("endTime")}</option>
-                {Array.from({ length: 18 }, (_, i) => i + 7).map((hour) => (
-                  <option key={hour} value={`${hour}:00`}>
-                    {`${hour}:00`}
-                  </option>
-                ))}
-              </select>
-            </div>
-            
-           
-            
+                <label
+                  htmlFor="endTime"
+                  className="block text-gray-700 text-sm font-normal mb-2"
+                >
+                  {t("endTime")}
+                </label>
+                <select
+                  id="endTime"
+                  className="block w-full bg-white border border-gray-300 rounded-md shadow-sm outline-none px-3 py-2 sm:text-sm"
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                >
+                  <option value="">{t("endTime")}</option>
+                  {Array.from({ length: 18 }, (_, i) => i + 7).map((hour) => (
+                    <option key={hour} value={`${hour}:00`}>
+                      {`${hour}:00`}
+                    </option>
+                  ))}
+                </select>
+              </div>
             )}
           </div>
           <div className="space-y-4">
             <h1 className="font-normal text-lg text-[#000000]">
-              Type of Rental
+              {t("typeOfRental")}
             </h1>
             <div className="flex justify-between">
               <div className="flex gap-2 items-center">
@@ -868,26 +847,100 @@ const BookNow = () => {
                   htmlFor="rentalType"
                   className="font-normal text-[#676767] text-sm"
                 >
-                  With Skipper
+                  {t("withSkipper")}
                 </label>
               </div>
               <p className="font-normal text-[#676767] text-sm">€10</p>
             </div>
+
+            {/* Equipment Selection */}
+            <h1 className="font-normal text-lg text-[#000000]">
+              {t("selectEquipment")}
+            </h1>
+            {boatDetails?.equipment?.map((item) => (
+              <ul key={item._id} className="space-y-2">
+                {item?.comfort?.map((comfortItem, index) => (
+                  <div key={index} className="flex justify-between">
+                    <div className="flex gap-2 items-center">
+                      <input
+                        type="checkbox"
+                        value={comfortItem}
+                        onChange={handleEquipmentChange}
+                        className="w-5 h-5"
+                      />
+                      <label className="font-normal text-[#676767] text-sm">
+                        {comfortItem}
+                      </label>
+                    </div>
+                    <p className="font-normal text-[#676767] text-sm">€30</p>
+                  </div>
+                ))}
+                {item?.navigation?.map((navItem, index) => (
+                  <div key={index} className="flex justify-between">
+                    <div className="flex gap-2 items-center">
+                      <input
+                        type="checkbox"
+                        value={navItem}
+                        onChange={handleEquipmentChange}
+                        className="w-5 h-5"
+                      />
+                      <label className="font-normal text-[#676767] text-sm">
+                        {navItem}
+                      </label>
+                    </div>
+                    <p className="font-normal text-[#676767] text-sm">€30</p>
+                  </div>
+                ))}
+                {item?.services?.map((serviceItem, index) => (
+                  <div key={index} className="flex justify-between">
+                    <div className="flex gap-2 items-center">
+                      <input
+                        type="checkbox"
+                        value={serviceItem}
+                        onChange={handleEquipmentChange}
+                        className="w-5 h-5"
+                      />
+                      <label className="font-normal text-[#676767] text-sm">
+                        {serviceItem}
+                      </label>
+                    </div>
+                    <p className="font-normal text-[#676767] text-sm">€30</p>
+                  </div>
+                ))}
+                {item?.energy?.map((energyItem, index) => (
+                  <div key={index} className="flex justify-between">
+                    <div className="flex gap-2 items-center">
+                      <input
+                        type="checkbox"
+                        value={energyItem}
+                        onChange={handleEquipmentChange}
+                        className="w-5 h-5"
+                      />
+                      <label className="font-normal text-[#676767] text-sm">
+                        {energyItem}
+                      </label>
+                    </div>
+                    <p className="font-normal text-[#676767] text-sm">€30</p>
+                  </div>
+                ))}
+              </ul>
+            ))}
           </div>
+
           <p className="font-normal text-[#676767] text-sm">
-            You will only be charged if your request is confirmed
+            {t("chargedIfConfirmed")}
           </p>
           <div className="flex justify-between items-center">
-            <p className="text-sm text-[#000000] font-normal">Total Amount</p>
+            <p className="text-sm text-[#000000] font-normal">{t("totalAmount")}</p>
             <p className="text-lg font-bold text-[#CBA557]">
-              ${calculateTotal().toFixed(2)}
+              €{calculateTotal().toFixed(2)}
             </p>
           </div>
           <button
             onClick={handleSubmit}
             className="btn-5 flex items-center justify-center space-x-2"
           >
-            <p>Instant Booking</p>
+            <p>{t("instantBooking")}</p>
             <span className="text-2xl">
               <RxChevronRight />
             </span>
@@ -896,10 +949,10 @@ const BookNow = () => {
       </div>
       <div className="my-[5%] mx-[6%]">
         <div className="mt-[4%]">
-          <h1 className="mb-[2%] heading-book">Prices</h1>
+          <h1 className="mb-[2%] heading-book">{t("prices")}</h1>
           <div className="flex flex-wrap gap-4">
             <Prices
-              month="January"
+              month={t("january")}
               normalDay="$30"
               normalHalfMorning="$30"
               normalHalfAfternoon="$30"
@@ -908,7 +961,7 @@ const BookNow = () => {
               weekendHalfAfternoon="$30"
             />
             <Prices
-              month="February"
+              month={t("february")}
               normalDay="$30"
               normalHalfMorning="$30"
               normalHalfAfternoon="$30"
@@ -917,7 +970,7 @@ const BookNow = () => {
               weekendHalfAfternoon="$30"
             />
             <Prices
-              month="March"
+              month={t("march")}
               normalDay="$30"
               normalHalfMorning="$30"
               normalHalfAfternoon="$30"
@@ -926,7 +979,7 @@ const BookNow = () => {
               weekendHalfAfternoon="$30"
             />
             <Prices
-              month="April"
+              month={t("april")}
               normalDay="$30"
               normalHalfMorning="$30"
               normalHalfAfternoon="$30"
@@ -935,7 +988,7 @@ const BookNow = () => {
               weekendHalfAfternoon="$30"
             />
             <Prices
-              month="May"
+              month={t("may")}
               normalDay="$30"
               normalHalfMorning="$30"
               normalHalfAfternoon="$30"
@@ -944,7 +997,7 @@ const BookNow = () => {
               weekendHalfAfternoon="$30"
             />
             <Prices
-              month="June"
+              month={t("june")}
               normalDay="$30"
               normalHalfMorning="$30"
               normalHalfAfternoon="$30"
@@ -953,7 +1006,7 @@ const BookNow = () => {
               weekendHalfAfternoon="$30"
             />
             <Prices
-              month="July"
+              month={t("july")}
               normalDay="$30"
               normalHalfMorning="$30"
               normalHalfAfternoon="$30"
@@ -962,7 +1015,7 @@ const BookNow = () => {
               weekendHalfAfternoon="$30"
             />
             <Prices
-              month="August"
+              month={t("august")}
               normalDay="$30"
               normalHalfMorning="$30"
               normalHalfAfternoon="$30"
@@ -971,7 +1024,7 @@ const BookNow = () => {
               weekendHalfAfternoon="$30"
             />
             <Prices
-              month="September"
+              month={t("september")}
               normalDay="$30"
               normalHalfMorning="$30"
               normalHalfAfternoon="$30"
@@ -980,7 +1033,7 @@ const BookNow = () => {
               weekendHalfAfternoon="$30"
             />
             <Prices
-              month="October"
+              month={t("october")}
               normalDay="$30"
               normalHalfMorning="$30"
               normalHalfAfternoon="$30"
@@ -989,7 +1042,7 @@ const BookNow = () => {
               weekendHalfAfternoon="$30"
             />
             <Prices
-              month="November"
+              month={t("november")}
               normalDay="$30"
               normalHalfMorning="$30"
               normalHalfAfternoon="$30"
@@ -998,7 +1051,7 @@ const BookNow = () => {
               weekendHalfAfternoon="$30"
             />
             <Prices
-              month="December"
+              month={t("december")}
               normalDay="$30"
               normalHalfMorning="$30"
               normalHalfAfternoon="$30"
