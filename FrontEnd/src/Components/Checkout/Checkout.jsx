@@ -372,44 +372,28 @@ const Checkout = () => {
             <hr className="border border-[#DCDCDC]" />
 
             <div className="py-9 px-12 flex justify-center flex-col text-[#383838]">
-              {boatDetails?.boatImages?.map((item) => (
-                <img key={item.id} src={item.images[0]} alt="" className="md:w-64 mb-4" />
-              ))}
+            {boatDetails?.boatImages?.[0] && (
+  <img key={boatDetails.boatImages[0]._id} src={boatDetails.boatImages[0].images[0]} alt="" className="md:w-64 mb-4" />
+)}
               {boatDetails ? (
                 <>
                   <h2 className="heading-book mt-[4%] text-[#383838]">
                     {boatDetails?.rental?.map((item) => item.BoatName)}
                   </h2>
                   <div className="flex flex-col  gap-4 mt-[3%]">
-                    <p className="font-bold">
-                      {t("from")}{" "}
-                      :
-                      <span className="text-[#676767] font-normal">
-                        {format(
-                          new Date(
-                            boatDetails?.boatBookings.map(
-                              (item) => item.startDate
-                            )
-                          ),
-                          "dd MMMM yyyy"
-                        )}
-                      </span>
-                    </p>
-                    <p className="font-bold">
-                      {t("to")}{" "}
-                      :
-                      <span className="text-[#676767] font-normal">
-                        {format(
-                          new Date(
-                            boatDetails?.boatBookings.map(
-                              (item) => item.endDate
-                            )
-                          ),
-                          "dd MMMM yyyy"
-                        )}
-                      </span>
-                    </p>
-                    <p className="text-[#676767] font-normal">
+                                    <p className="font-bold">
+                    {t("from")} : 
+                    <span className="text-[#676767] font-normal">
+                      {format(new Date(boatDetails?.boatBookings[0]?.startDate), "dd MMMM yyyy")}
+                    </span>
+                  </p>
+                  <p className="font-bold">
+                    {t("to")} : 
+                    <span className="text-[#676767] font-normal">
+                      {format(new Date(boatDetails?.boatBookings[0]?.endDate), "dd MMMM yyyy")}
+                    </span>
+                  </p>
+                                      <p className="text-[#676767] font-normal">
                      <span className="font-bold text-normal">Number of persons </span> {boatDetails.boat.boardingCapacity}
                     </p>
                     <label className="flex gap-2">

@@ -54,8 +54,20 @@ const Verification = ({ data, setData }) => {
 
   const handleSaveSignature = async () => {
     const signatureData = sigCanvas.current.getTrimmedCanvas().toDataURL('image/png');
+    const signatureFile = dataURLtoFile(signatureData, 'signature.png');
+
+    console.log('Signature File:', signatureFile); // For debugging
+
+    const formData = new FormData();
+    formData.append('id', data.userId);
+    formData.append('file', signatureFile);
+
     try {
-      await baseURL.post('/rental/signature', { id: data.userId, signature: signatureData });
+      const response = await baseURL.post('/rental/signature', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       toast.success(t('signatureSavedSuccessfullyUnique'));
       setData({ ...data, valid: true });
     } catch (error) {
@@ -66,6 +78,19 @@ const Verification = ({ data, setData }) => {
 
   const handleRefreshSignature = () => {
     sigCanvas.current.clear();
+  };
+
+  // Helper function to convert dataURL to a File object
+  const dataURLtoFile = (dataurl, filename) => {
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
   };
 
   return (
@@ -107,12 +132,14 @@ const Verification = ({ data, setData }) => {
           </div>
           <div className='flex flex-row mt-2'>
             <button
+              type="button" // Prevent form submission and page refresh
               onClick={handleSaveSignature}
               className="bg-[--primary-color] text-white p-2 rounded-xl"
             >
               {t('saveSignatureUnique')}
             </button>
             <button
+              type="button" // Prevent form submission and page refresh
               onClick={handleRefreshSignature}
               className="flex gap-2 items-center ml-auto mr-0 text-[--primary-color] border-[1.4px] border-[--primary-color] text-sm font-bold p-2 rounded-lg"
             >

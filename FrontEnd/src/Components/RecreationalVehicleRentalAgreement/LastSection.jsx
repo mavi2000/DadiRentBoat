@@ -71,7 +71,7 @@ const LastSection = ({ pageRef, data }) => {
         <button
           type="submit"
           className="rounded-lg px-6 py-3 bg-[--primary-color] text-lg font-bold text-white"
-          disabled={!data.valid}
+          // disabled={!data.valid}
         >
           {t('submitButtonUnique')}
         </button>

@@ -1,19 +1,27 @@
 import Agreement from "../models/RentalAgreement.js";
-import { uploadImages } from "../utils/cloudinaryConfig.js";
+import { uploadImages,uploadImagesNew } from "../utils/cloudinaryConfig.js";
 import mongoose from 'mongoose'
-// import createError from "http-errors";
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+// import createError from "http-errors";
 export const createAgreement = async (req, res) => {
+  console.log("req", req.body);
   try {
     const agreementData = req.body;
     const { docFront, docBack } = req.files;
 
-    // if (!req.files || !req.files.docFront || !req.files.docBack) {
-    //   throw createError(
-    //     400,
-    //     "Both docFront and docBack files must be uploaded"
-    //   );
-    // }
+    console.log("req.files",req.files)
+
+    // Check if files are present
+    if (!docFront || !docBack || !docFront[0] || !docBack[0]) {
+      return res.status(400).json({ message: "Both docFront and docBack files must be uploaded" });
+    }
 
     // Upload images to Cloudinary
     const [docFrontResult, docBackResult] = await Promise.all([
@@ -34,9 +42,15 @@ export const createAgreement = async (req, res) => {
       .status(200)
       .json({ message: "Rental agreement created successfully!" });
   } catch (error) {
+    console.error("Error during agreement creation:", error);
     res.status(500).json({ message: error.message || "Internal server error" });
   }
 };
+
+
+
+
+
 
 export const getAgreementByUserId = async (req, res) => {
   try {
@@ -65,11 +79,13 @@ export const getAgreementByUserId = async (req, res) => {
 
 export const signature = async (req, res) => {
   try {
-    const { id, signature } = req.body;
+    const { id } = req.body;
+    const signatureFile = req.file;
 
     console.log("Request Body:", req.body);
+    console.log("Uploaded File:", signatureFile);
 
-    if (!id || !signature) {
+    if (!id || !signatureFile) {
       return res.status(400).json({ message: 'Agreement ID and signature image are required' });
     }
 
@@ -78,32 +94,31 @@ export const signature = async (req, res) => {
       return res.status(400).json({ message: 'Invalid Agreement ID format' });
     }
 
-    // Check and process signature data
-    if (signature && signature.startsWith('data:image/png;base64,')) {
-      const base64Data = signature.replace(/^data:image\/png;base64,/, '');
-      const mimeType = 'image/png';
+    // Upload the signature image to Cloudinary
+    const uploadResult = await uploadImagesNew(signatureFile);
 
-      console.log("Base64 Data (truncated):", base64Data.substring(0, 100));
+    console.log("Upload Result:", uploadResult);
 
-      // Upload the image to Cloudinary
-      const uploadResult = await uploadImages(base64Data, mimeType);
-      console.log("Upload Result:", uploadResult);
-
-      if (!uploadResult || !uploadResult.secure_url) {
-        throw new Error('Image upload failed');
-      }
-
-      // Find and update or create the agreement
-      const agreement = await Agreement.findOneAndUpdate(
-        { _id: id },
-        { signature: uploadResult.secure_url },
-        { new: true, upsert: true, setDefaultsOnInsert: true }
-      );
-
-      res.status(200).json({ message: 'Signature uploaded and agreement updated or created successfully', agreement });
-    } else {
-      return res.status(400).json({ message: 'Invalid signature format' });
+    if (!uploadResult || !uploadResult.secure_url) {
+      throw new Error('Image upload failed');
     }
+
+    // Optionally delete the file from the server after uploading to Cloudinary
+    fs.unlink(signatureFile.path, (err) => {
+      if (err) {
+        console.error('Failed to delete local file:', err);
+      }
+    });
+
+    // Find and update or create the agreement with the signature URL
+    const agreement = await Agreement.findOneAndUpdate(
+      { _id: id },
+      { signature: uploadResult.secure_url },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    res.status(200).json({ message: 'Signature uploaded and agreement updated or created successfully', agreement });
+
   } catch (error) {
     console.error('Error uploading signature:', error);
     res.status(500).json({ message: 'Failed to upload signature', error });

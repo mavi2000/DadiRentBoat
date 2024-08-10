@@ -65,21 +65,70 @@ const RecreationalVehicleRentalAgreement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+  
+    console.log("formData", formData);
+    
     for (const key in data) {
-      formData.append(key, data[key]);
+      if (key === 'docFront' || key === 'docBack') {
+        // Append the file object directly
+        if (data[key]) {
+          formData.append(key, data[key]); // No need for [0] since it’s already a single file
+        }
+      } else {
+        formData.append(key, data[key]);
+      }
     }
+  
+    // Log the formData contents
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}:`, pair[1]);
+    }
+  
     try {
       const res = await baseURL.post('/rental/create-agreement', formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         }
       });
+  
+      console.log('Response:', res.data); // Log the response from the server
+  
+      // Display success message using the correct data
       toast.success(res.data.message);
+  
+      // Reset form fields after successful submission (optional)
+      setData({
+        userId: '',
+        firstName: '',
+        lastName: '',
+        dob: '',
+        birthCity: '',
+        birthProvince: '',
+        taxId: '',
+        address: '',
+        city: '',
+        state: '',
+        zip: '',
+        country: '',
+        phone: '',
+        email: '',
+        members: '',
+        leaseStart: '',
+        leaseEnd: '',
+        leasePrice: '',
+        faithPlace: '',
+        faithDate: '',
+        docFront: null,
+        docBack: null,
+        valid: false
+      });
+  
     } catch (error) {
-      console.log(error);
+      console.log('Error:', error); // Log the error object
       toast.error('Failed to create agreement');
     }
   };
+
 
   return (
     <div className="bg-white px-[3%] md:px-[6%] py-8 text-[#4B465C]">

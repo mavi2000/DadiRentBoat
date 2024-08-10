@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const TakePhoto = ({ data, setData }) => {
   const { t } = useTranslation();
+  const [selectedFiles, setSelectedFiles] = useState({ docFront: null, docBack: null });
 
   const handleChange = (e) => {
-    setData((prev) => {
-      return { ...prev, [e.target.name]: e.target.files[0] };
-    });
+    const file = e.target.files[0]; // Get the first file (should be only one)
+    if (file) {
+      console.log("File selected:", file);
+      const name = e.target.name;
+      setData((prev) => ({
+        ...prev,
+        [name]: file, // Store the single file object
+      }));
+      setSelectedFiles((prev) => ({
+        ...prev,
+        [name]: file.name, // Store the file name to display
+      }));
+    } else {
+      console.error("No file selected");
+    }
   };
 
   return (
@@ -25,6 +38,11 @@ const TakePhoto = ({ data, setData }) => {
           >
             {t('uploadPhotoFrontUnique')}
           </button>
+          {selectedFiles.docFront && (
+            <p className="mt-2 text-sm text-gray-700">
+              {t('selectedFile')}: {selectedFiles.docFront}
+            </p>
+          )}
         </div>
       </div>
       <div>
@@ -40,6 +58,11 @@ const TakePhoto = ({ data, setData }) => {
           >
             {t('uploadPhotoBackUnique')}
           </button>
+          {selectedFiles.docBack && (
+            <p className="mt-2 text-sm text-gray-700">
+              {t('selectedFile')}: {selectedFiles.docBack}
+            </p>
+          )}
         </div>
       </div>
     </div>
