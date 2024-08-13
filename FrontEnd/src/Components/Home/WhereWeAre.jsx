@@ -22,8 +22,8 @@ const getDirectionsUrl = (lat, lng) => {
 
 const WhereWeAre = () => {
   const { t } = useTranslation();
-  const latitude = 43.5471169;
-  const longitude = 10.3028054;
+  const latitude = 43.530447;
+  const longitude = 10.3037554;
 
   return (
     <section className="contact-information w-full flex flex-col-reverse md:flex-row">

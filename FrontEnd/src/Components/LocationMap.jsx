@@ -19,8 +19,8 @@ const getDirectionsUrl = (lat, lng) => {
 };
 
 const LocationMap = () => {
-  const latitude = 43.5471169;
-  const longitude = 10.3028054;
+  const latitude = 43.5304782;
+  const longitude = 10.3037131;
   const [view, setView] = useState('map');
   const mapboxToken = 'sk.eyJ1IjoiMDB0emkiLCJhIjoiY2x6bGIyNW04MDB2cjJrcjRlbWJsb205OSJ9.Ufu978TMmnpK0lr1K2pBng';
 
