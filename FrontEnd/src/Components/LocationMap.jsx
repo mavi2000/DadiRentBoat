@@ -3,13 +3,14 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import vector from "../assets/Images/Vector4.png";
+import logoNew from "../../src/assets/Images/logoNew.png";
 
 // Define the custom icon
 const customIcon = new L.Icon({
-  iconUrl: vector,
-  iconSize: [38, 38], // size of the icon
-  iconAnchor: [19, 38], // point of the icon which will correspond to marker's location
-  popupAnchor: [0, -38], // point from which the popup should open relative to the iconAnchor
+  iconUrl: logoNew,
+  iconSize: [38, 38], // Adjusted size of the icon for better visibility
+  iconAnchor: [19, 38], // Center the icon horizontally and bottom-align it vertically
+  popupAnchor: [0, -38], // Position the popup correctly above the icon
 });
 
 // Function to create the Google Maps directions URL
@@ -52,6 +53,8 @@ const LocationMap = () => {
               >
                 Get Directions
               </a>
+              <br />
+              <strong>Dadirent Boat:</strong> Experience the scenic beauty with our exclusive boat rides!
             </div>
           </Popup>
         </Marker>

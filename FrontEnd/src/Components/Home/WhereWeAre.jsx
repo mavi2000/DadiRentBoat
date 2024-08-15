@@ -5,13 +5,14 @@ import 'leaflet/dist/leaflet.css';
 import locationfilled from '../../assets/Images/location-filled.png';
 import { useTranslation } from 'react-i18next';
 import vector4 from "../../assets/Images/Vector4.png";
+import logoNew from "../../assets/Images/logoNew.png";
 
 // Define the custom icon
 const customIcon = new L.Icon({
-  iconUrl: vector4,
+  iconUrl: logoNew,
   iconSize: [38, 38], // size of the icon
-  iconAnchor: [19, 38], // point of the icon which will correspond to marker's location
-  popupAnchor: [0, -38], // point from which the popup should open relative to the iconAnchor
+  iconAnchor: [19, 38], // center the icon horizontally and bottom-align it vertically
+  popupAnchor: [0, -38], // position the popup correctly above the icon
 });
 
 // Function to create the Google Maps directions URL
@@ -32,6 +33,7 @@ const WhereWeAre = () => {
         zoom={20}
         maxZoom={18}
         scrollWheelZoom={false}
+        className="w-full h-[400px] md:h-[500px]"
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         
@@ -39,9 +41,7 @@ const WhereWeAre = () => {
           <Popup>
             <div>
               <span>
-                {/* Updated content - remove any specific text here */}
-                {t('locationAddress')}<br />
-                {t('locationDetail')}
+             Dadi RENT Boats
               </span>
               <br />
               <a
@@ -50,7 +50,7 @@ const WhereWeAre = () => {
                 rel="noopener noreferrer"
                 className="text-blue-500 underline"
               >
-                {t('getDirections')}
+                Get Directions
               </a>
             </div>
           </Popup>
@@ -59,32 +59,25 @@ const WhereWeAre = () => {
       <div className="bg-white md:mt-12 md:-ml-[120px] z-10 grow md:w-2/5 flex gap-4 flex-col pb-8">
         <img
           src={locationfilled}
-          alt="phone"
+          alt="Location Marker"
           className="w-[120px] ml-0 mt-0 mb-auto mr-auto"
         />
         <div className="p-8">
           <h1 className="text-[var(--primary-color)] text-base font-semibold ">
-            {t('signUpAndBookUs')}
+            Sign up and Book Us
           </h1>
-          <h1 className="text-[#343434] font-medium text-3xl">{t('whereWeAre')}</h1>
-          <p className="text-[#00000080] text-base">{t('locationAddress')}</p>
+          <h1 className="text-[#343434] font-medium text-3xl">Where We Are</h1>
+          <p className="text-[#00000080] text-base">Viale Italia 62, 57127 Livorno</p>
           <p className="text-[#00000080] text-base">
-            {t('locationDetail')}
+            at Pancaldi Acquaviva Baths
           </p>
           <p className="text-[#00000080] text-base">
-            {t('locationDescription')}
-          </p>
-          <br />
-          <p className="text-[#00000080] text-base">
-            {t('locationNote')}
+            c/o Pancaldi Baths in Acquaviva
           </p>
           <br />
-          {/* <br />
-          <Link to="/Signup">
-            <button className="text-white text-lg bg-[var(--primary-color)] mb-4 rounded-lg border-[1px] border-[var(--primary-color)] font-bold px-8 py-3">
-              {t('signUp')}
-            </button>
-          </Link> */}
+          <p className="text-[#00000080] text-base">
+            Please contact us for more details about how to reach us.
+          </p>
         </div>
       </div>
     </section>

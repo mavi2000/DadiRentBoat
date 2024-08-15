@@ -7,19 +7,20 @@ import 'leaflet/dist/leaflet.css';
 import { LuClock4 } from 'react-icons/lu';
 import LocationFilled from "../../assets/Images/location-filled.png";
 import whatsappImage from "../../assets/Images/WhatsApp Image 2024-08-07 at 8.07.39 PM.jpeg";
-import vector from "../../assets/Images/Vector4.png"
+import vector from "../../assets/Images/Vector4.png";
+import logoNew from "../../assets/Images/logoNew.png";
 
 const WhereWeAre = () => {
   const { t } = useTranslation();
-  const destination = [ 43.5471169, 10.3028054];
+  const destination = [43.5304782, 10.3037131];
   const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination[0]},${destination[1]}`;
 
   // Custom icon for the marker
   const locationIcon = L.icon({
-    iconUrl: vector,
-    iconSize: [25, 41], // size of the icon
-    iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
-    popupAnchor: [1, -34], // point from which the popup should open relative to the iconAnchor
+    iconUrl: logoNew,
+    iconSize: [35, 35], // Increased size for better visibility
+    iconAnchor: [17.5, 35], // Center the icon horizontally and bottom-align it vertically
+    popupAnchor: [0, -35], // Position the popup correctly above the icon
   });
 
   return (
@@ -39,7 +40,7 @@ const WhereWeAre = () => {
         <h1 className="text-3xl font-medium">
           {t('collectionDeliveryTitle')}
         </h1>
-        <div className=" mx-[6%] mt-[3%]">
+        <div className="mx-[6%] mt-[3%]">
           <h1 className="text-3xl font-medium">
             {t('collectionDeliveryTitle')}
           </h1>
@@ -49,13 +50,13 @@ const WhereWeAre = () => {
           </p>
 
           <div className="contact-information flex flex-col md:flex-row gap-[3%] my-[2%]">
-            <div className=" flex flex-col gap-[2%] w-full md:w-[57%] mb-[2%]">
+            <div className="flex flex-col gap-[2%] w-full md:w-[57%] mb-[2%]">
               <div className="bg-white where-shadow px-5 py-5 md:px-7 md:py-6 mb-[2%] rounded-xl min-h-52">
-                <div className=" flex gap-[9px]">
-                  <span className=" text-4xl text-[#CBA557]">
+                <div className="flex gap-[9px]">
+                  <span className="text-4xl text-[#CBA557]">
                     <LuClock4 />
                   </span>
-                  <h2 className=" text-lg md:text-2xl text-[#383838] font-medium ">
+                  <h2 className="text-lg md:text-2xl text-[#383838] font-medium">
                     {t('supportTitle')}
                   </h2>
                 </div>
@@ -80,11 +81,11 @@ const WhereWeAre = () => {
               </div>
 
               <div className="bg-white where-shadow px-5 py-5 md:px-7 md:py-6 mb-[2%] rounded-xl md:min-h-52">
-                <div className=" flex gap-[9px]">
-                  <span className=" text-4xl text-[#CBA557]">
+                <div className="flex gap-[9px]">
+                  <span className="text-4xl text-[#CBA557]">
                     <LuClock4 />
                   </span>
-                  <h2 className=" text-lg md:text-2xl text-[#383838] font-medium ">
+                  <h2 className="text-lg md:text-2xl text-[#383838] font-medium">
                     {t('returnTitle')}
                   </h2>
                 </div>
@@ -94,11 +95,11 @@ const WhereWeAre = () => {
               </div>
 
               <div className="bg-white where-shadow px-5 py-5 md:px-7 md:py-6 mb-[2%] rounded-xl md:min-h-52">
-                <div className=" flex gap-[9px]">
-                  <span className=" text-4xl text-[#CBA557]">
+                <div className="flex gap-[9px]">
+                  <span className="text-4xl text-[#CBA557]">
                     <LuClock4 />
                   </span>
-                  <h2 className=" text-lg md:text-2xl text-[#383838] font-medium ">
+                  <h2 className="text-lg md:text-2xl text-[#383838] font-medium">
                     {t('satelliteTrackingTitle')}
                   </h2>
                 </div>
@@ -118,9 +119,13 @@ const WhereWeAre = () => {
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
               <Marker position={destination} icon={locationIcon}>
                 <Popup>
-                  <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
-                    {t('getDirections')}
-                  </a>
+                  <div>
+                    <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
+                      {t('getDirections')}
+                    </a>
+                    <br />
+                    <strong>Dadirent Boat:</strong> Experience the scenic beauty with our exclusive boat rides!
+                  </div>
                 </Popup>
               </Marker>
             </MapContainer>
@@ -130,54 +135,54 @@ const WhereWeAre = () => {
 
           <h1 className="text-3xl font-medium">{t('carParkingTitle')}</h1>
 
-          <div className=" flex flex-wrap gap-[2%] my-[2%]">
+          <div className="flex flex-wrap gap-[2%] my-[2%]">
             <div className="px-8 py-8 md:pt-10 md:pr-10 md:pb-8 md:pl-12 where-shadow w-full md:w-[48%] mb-[2%] rounded-xl">
-              <div className=" flex flex-col space-y-3">
-                <h1 className=" text-xl font-normal text-[#383838]">
+              <div className="flex flex-col space-y-3">
+                <h1 className="text-xl font-normal text-[#383838]">
                   {t('vialeItaliaTitle')}
                 </h1>
-                <p className=" text-base font-normal text-[#676767]">
+                <p className="text-base font-normal text-[#676767]">
                   {t('vialeItaliaDescription')}
                 </p>
               </div>
             </div>
 
             <div className="px-8 py-8 md:pt-10 md:pr-10 md:pb-8 md:pl-12 where-shadow w-full md:w-[48%] mb-[2%] rounded-xl">
-              <div className=" flex flex-col space-y-3">
-                <h1 className=" text-xl font-normal text-[#383838]">
+              <div className="flex flex-col space-y-3">
+                <h1 className="text-xl font-normal text-[#383838]">
                   {t('viaMaltaTitle')}
                 </h1>
-                <p className=" text-base font-normal text-[#676767]">
+                <p className="text-base font-normal text-[#676767]">
                   {t('viaMaltaDescription')}
                 </p>
               </div>
             </div>
 
             <div className="px-8 py-8 md:pt-10 md:pr-10 md:pb-8 md:pl-12 where-shadow w-full md:w-[48%] mb-[2%] rounded-xl">
-              <div className=" flex flex-col space-y-3">
-                <h1 className=" text-xl font-normal text-[#383838]">
+              <div className="flex flex-col space-y-3">
+                <h1 className="text-xl font-normal text-[#383838]">
                   {t('campoScuolaTitle')}
                 </h1>
-                <p className=" text-base font-normal text-[#676767]">
+                <p className="text-base font-normal text-[#676767]">
                   {t('campoScuolaDescription')}
                 </p>
               </div>
             </div>
 
             <div className="px-8 py-8 md:pt-10 md:pr-10 md:pb-8 md:pl-12 where-shadow w-full md:w-[48%] mb-[2%] rounded-xl">
-              <div className=" flex flex-col space-y-3">
-                <h1 className=" text-xl font-normal text-[#383838]">
+              <div className="flex flex-col space-y-3">
+                <h1 className="text-xl font-normal text-[#383838]">
                   {t('portaMareTitle')}
                 </h1>
               </div>
             </div>
 
             <div className="px-8 py-8 md:pt-10 md:pr-10 md:pb-8 md:pl-12 where-shadow w-full md:w-[48%] mb-[2%] rounded-xl">
-              <div className=" flex flex-col space-y-3">
-                <h1 className=" text-xl font-normal text-[#383838]">
+              <div className="flex flex-col space-y-3">
+                <h1 className="text-xl font-normal text-[#383838]">
                   {t('acquarioLivornoTitle')}
                 </h1>
-                <p className=" text-base font-normal text-[#676767]">
+                <p className="text-base font-normal text-[#676767]">
                   {t('acquarioLivornoDescription')}
                 </p>
               </div>
@@ -185,10 +190,10 @@ const WhereWeAre = () => {
 
             <div className="px-8 py-8 md:pt-10 md:pr-10 md:pb-8 md:pl-12 where-shadow w-full md:w-[48%] mb-[2%] rounded-xl">
               <div className="flex flex-col space-y-3">
-                <h1 className=" text-xl font-normal text-[#383838]">
+                <h1 className="text-xl font-normal text-[#383838]">
                   {t('nccServiceTitle')}
                 </h1>
-                <p className=" text-base font-normal text-[#676767]">
+                <p className="text-base font-normal text-[#676767]">
                   {t('nccServiceDescription')}
                 </p>
               </div>

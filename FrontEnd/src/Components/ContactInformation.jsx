@@ -1,10 +1,23 @@
 import React from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useTranslation } from 'react-i18next';
 import locationfilled from '../assets/Images/location-filled.png';
 import DoYouHaveDoubtsCard from './Excursions/DoYouHaveDoubtsCard';
 import { Link } from 'react-router-dom';
+import logoNew from "../../src/assets/Images/logoNew.png";
+
+
+const latitude = 43.5304782;
+const longitude = 10.3037131;
+// Define the custom icon
+const customIcon = new L.Icon({
+  iconUrl: logoNew,
+  iconSize: [38, 38], // size of the icon
+  iconAnchor: [19, 38], // center the icon horizontally and bottom-align it vertically
+  popupAnchor: [0, -38], // position the popup correctly above the icon
+});
 
 const ContactInformation = () => {
   const { t } = useTranslation();
@@ -23,19 +36,20 @@ const ContactInformation = () => {
       </div>
       <section className="contact-information flex flex-col-reverse md:flex-row md:mt-8">
         <MapContainer
-          center={[43.52992, 10.3054838]}
+          center={[43.5304782, 10.3037131]} // Verified coordinates
           zoom={20}
           maxZoom={18}
           scrollWheelZoom={false}
+          className="w-full h-[400px] md:h-[500px]" // Ensure the map takes up the correct height
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-          <Marker position={[43.52992, 10.3054838]} />
+          <Marker position={[43.5304782, 10.3037131]} icon={customIcon} />
         </MapContainer>
         <div className="bg-white md:mt-12 md:-ml-[80px] z-10 grow flex gap-4 flex-col pb-8">
           <img
-            src={locationfilled}
-            alt="phone"
+            src={logoNew}
+            alt="Logo"
             className="w-[80px] ml-0 mt-0 mb-auto mr-auto"
           />
           <div className="p-8">
