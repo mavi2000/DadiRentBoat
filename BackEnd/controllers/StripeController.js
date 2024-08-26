@@ -6,6 +6,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 import User from "../models/User.model.js"
 import { cancelEmail } from "../services/mail/nodeMailer.js";
 import { uploadImages } from "../utils/cloudinaryConfig.js";
+import {sendPaymentConfirmationEmail} from "../services/mail/nodeMailer.js"
+
 
 export const checkout = async (req, res) => {
   try {
@@ -18,12 +20,10 @@ export const checkout = async (req, res) => {
       availableDates,
       boatImage,
       boatId,
-      startTime, // Add startTime to destructured variables
-      endTime, // Add endTime to destructured variables
-      isChecked, // Add isChecked to destructured variables
+      startTime,
+      endTime,
+      isChecked,
     } = req.body;
-
-    console.log("availableDates", req.body);
 
     const parsedAvailableDates = availableDates.map((date) => new Date(date));
     if (parsedAvailableDates.some((date) => isNaN(date.getTime()))) {
@@ -35,8 +35,6 @@ export const checkout = async (req, res) => {
     }
 
     const unitAmount = parseInt(amount);
-
-    console.log("parsedAvailableDates", parsedAvailableDates);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -67,19 +65,38 @@ export const checkout = async (req, res) => {
       amount: unitAmount,
       stripeDetails: session,
       rateType,
-      startTime, // Include startTime in the payment details
-      endTime, // Include endTime in the payment details
+      startTime,
+      endTime,
       totalAmount,
-      boatImage, // This is now an array
+      boatImage,
       paymentStatus: "paid",
-      bookingStatus: "pending", // Set default booking status to "pending"
-      availableDates: parsedAvailableDates, // Array of dates
+      bookingStatus: "pending",
+      availableDates: parsedAvailableDates,
       boatId,
-      isChecked, // Include isChecked in the payment details
+      isChecked,
     });
 
-    console.log("availableDates", availableDates);
     await payment.save();
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Send payment confirmation email
+    const paymentDetails = {
+      unitAmount,
+      boatName,
+      rateType,
+      totalAmount,
+      availableDates: parsedAvailableDates,
+      startTime,
+      endTime,
+      boatId,
+    };
+
+    await sendPaymentConfirmationEmail(user, paymentDetails);
 
     res.status(201).json({
       sessionId: session.id,
@@ -91,7 +108,6 @@ export const checkout = async (req, res) => {
     });
   }
 };
-
 
 
 
