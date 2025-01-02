@@ -95,9 +95,9 @@ const Verification = ({ data, setData }) => {
 
   return (
     <div className="">
-      <h1 className="text-xl font-semibold">{t('verificationUnique')}</h1>
+      <h1 className="text-xl font-semibold">Verification</h1>
       <p className="text-lg mb-2 text-[#4b465cb8]">
-        {t('selectVerificationProcessUnique')}
+      Select verification process 
       </p>
       <div className="flex gap-4 md:gap-32 md:flex-row flex-col">
         <div className="flex gap-2 items-center">
@@ -107,7 +107,7 @@ const Verification = ({ data, setData }) => {
             name="verificationMethod"
             className="size-5"
           />
-          <label htmlFor="ElectronicSignature">{t('electronicSignatureUnique')}</label>
+          <label htmlFor="ElectronicSignature">Electronic Signature</label>
         </div>
         <div className="flex gap-2 items-center">
           <input
@@ -116,13 +116,13 @@ const Verification = ({ data, setData }) => {
             name="verificationMethod"
             className="size-5"
           />
-          <label htmlFor="OTP">{t('otpUnique')}</label>
+          <label htmlFor="OTP">OTP</label>
         </div>
       </div>
 
       <div className="flex gap-16 flex-col md:flex-row mt-8">
         <div className="grow">
-          <p className="text-base mb-2">{t('theConductorUnique')}</p>
+          <p className="text-base mb-2"> The conductor </p>
           <div className="border-[1.5px] py-6 border-[#DBDADE] cursor-pointer rounded-lg flex items-center justify-center">
             <SignatureCanvas
               ref={sigCanvas}
@@ -136,7 +136,7 @@ const Verification = ({ data, setData }) => {
               onClick={handleSaveSignature}
               className="bg-[--primary-color] text-white p-2 rounded-xl"
             >
-              {t('saveSignatureUnique')}
+             Sign Here
             </button>
             <button
               type="button" // Prevent form submission and page refresh
@@ -144,19 +144,19 @@ const Verification = ({ data, setData }) => {
               className="flex gap-2 items-center ml-auto mr-0 text-[--primary-color] border-[1.4px] border-[--primary-color] text-sm font-bold p-2 rounded-lg"
             >
               <MdOutlineRefresh size={20} />
-              {t('refreshUnique')}
+              Refresh
             </button>
           </div>
         </div>
 
         <div className="grow">
-          <div className="text-center mt-4">
+          {/* <div className="text-center mt-4">
             <button onClick={handleGetOTP} type="button" className="bg-[--primary-color] text-white p-2 rounded-xl">
               {t('getOtpUnique')}
             </button>
-          </div>
-          <p className="text-base mb-2">{t('enterVerificationCodeUnique')}</p>
-          <p className="text-lg">{t('enterCodeSentUnique')}</p>
+          </div> */}
+          <p className="text-base mb-2">Enter Verification Code</p>
+          <p className="text-lg">Enter code that we have sent to your number</p>
           <div className="flex gap-2 w-full justify-center mt-6 flex-wrap">
             {codes.map((code, index) => (
               <input
@@ -178,12 +178,12 @@ const Verification = ({ data, setData }) => {
               />
             ))}
           </div>
-          <div className="text-center mt-4">
+          {/* <div className="text-center mt-4">
             <button onClick={handleVerifyOTP} type="button" className="bg-[--primary-color] text-white p-2 rounded-xl">
               {t('verifyOtpUnique')}
             </button>
-          </div>
-          <p className="text-center mt-8">{t('resendCodeUnique')}</p>
+          </div> */}
+          <p className="text-center mt-8">Didn’t receive the code? Resend</p>
         </div>
       </div>
     </div>

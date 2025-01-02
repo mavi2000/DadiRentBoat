@@ -16,20 +16,20 @@ const FAQ = () => {
       <div className="Services-page-bg !h-[50svh] md:!h-[100svh]">
         <div className="h-[50svh] md:h-[100svh] flex flex-col justify-center mx-[6%]">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
-            {t('faqTitle')}
+          FAQ
           </h1>
           <p className="my-8 font-medium text-2xl text-white md:w-[60%]">
-            {t('faqSubtitle')}
+          Our team is always at your service 24H
           </p>
         </div>
       </div>
 
       <div className="mx-[6%] mt-[4%] mb-[2%]">
         <h1 className="font-medium text-3xl text-[#000000]">
-          {t('faqSectionTitle')}
+        We are here to answer your questions
         </h1>
         <p className="text-lg font-normal text-opacity-70 text-[#676767] mt-1 mb-[3%]">
-          {t('faqSectionDescription')}
+        All the information you are looking for can be found here, if you have other questions write to info@dadirectent.it or contact us on 370 1564317
         </p>
 
         {[...Array(15).keys()].map(i => (

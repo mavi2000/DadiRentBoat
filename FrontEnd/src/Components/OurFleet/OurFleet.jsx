@@ -182,15 +182,15 @@ const OurFleet = () => {
       <div className="fleet-bg">
         <div className="mx-[3%] md:mx-[6%] flex flex-col justify-center h-[100svh]">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
-            {t('ourFleetTitle')}
+          Our Fleet
           </h1>
           <p className="my-8 font-medium text-2xl text-white md:w-[60%]">
-            {t('discoverVehicles')}
+          Discover all our vehicles
           </p>
         </div>
       </div>
       <section className="bg-[var(--primary-color)] px-12 py-6 mx-[3%] md:mx-[6%] rounded-2xl -mt-16">
-        <h1 className="text-3xl font-bold text-white mb-5">{t('quickSearchTitle')}</h1>
+        <h1 className="text-3xl font-bold text-white mb-5">Quick Search </h1>
         <div className="flex flex-wrap gap-4">
           <div className="rounded grow whitespace-nowrap bg-white p-4 relative">
             <button
@@ -198,7 +198,7 @@ const OurFleet = () => {
               onClick={() => setIsCheckInOpen(!isCheckInOpen)}
             >
               <LuCalendar size={22} />
-              {t('selectDate')} <FaAngleDown size={20} />
+              Check In <FaAngleDown size={20} />
             </button>
             {isCheckInOpen && (
               <div className="calendar-container rounded bg-white p-4 absolute top-full left-0 z-50">
@@ -228,12 +228,28 @@ const OurFleet = () => {
               className="rounded w-full bg-white p-4 px-12 outline-none appearance-none"
               onChange={(e) => setSelectedTimeSlot(e.target.value)}
             >
-              <option value="">{t('timeSlot')}</option>
+              <option value="">Check Out</option>
               {dummyTimeSlots.map((timeSlot) => (
                 <option key={timeSlot.id} value={timeSlot.slot}>
                   {t(timeSlot.slot.toLowerCase())} - {timeSlot.duration}
                 </option>
               ))}
+            </select>
+          </div>
+          <div className="relative grow rounded text-[#5B5B5B] text-sm">
+            <LuCalendar size={22} className="absolute left-4 top-4" />
+            <FaAngleDown size={20} className="absolute right-4 top-4" />
+            <select
+              name="timeSlot"
+              id="timeSlot"
+              className="rounded w-full bg-white p-4 px-12 outline-none appearance-none"
+              onChange={(e) => setSelectedTimeSlot(e.target.value)}
+              aria-label="Select Time Slot"
+            >
+            <option value="">Select Time Slot</option>
+            <option value="half_day_morning">Half Day Morning</option>
+            <option value="half_day_afternoon">Half Day Afternoon</option>
+            <option value="full_day">Full Day</option>
             </select>
           </div>
 
@@ -246,7 +262,7 @@ const OurFleet = () => {
               className="rounded w-full bg-white p-4 px-12 outline-none appearance-none"
               onChange={(e) => setNumberOfPersons(e.target.value)}
             >
-              <option value="">{t('numberOfPersons')}</option>
+              <option value="">No of Persons  </option>
               <option value="0">0</option>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -261,7 +277,7 @@ const OurFleet = () => {
           <input
             type="text"
             className="bg-white h-full p-4 w-full outline-none rounded-full text-[var(--primary-color)] placeholder:text-[var(--primary-color)] text-base font-bold"
-            placeholder={t('searchPlaceholder')}
+            placeholder= "Search"
             onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
@@ -271,7 +287,7 @@ const OurFleet = () => {
         <div>
           <div className="flex gap-2 justify-between items-center border-b-[1px] border-[#F5F5F5] mb-8 pb-6">
             <h2 className="text-[#676767] text-base font-semibold">
-              {t('yachtsCount', { count: filteredBoats.length })}
+              {t({ count: filteredBoats.length })} Yatchs
             </h2>
           </div>
           {filteredBoats.map((boat, index) => (

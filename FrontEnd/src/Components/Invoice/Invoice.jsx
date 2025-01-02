@@ -1,4 +1,4 @@
-import React from "react";
+  import React from "react";
 import { LiaDownloadSolid } from "react-icons/lia";
 import logo from "../../assets/Images/logo.png";
 import { jsPDF } from "jspdf";

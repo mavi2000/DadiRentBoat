@@ -7,17 +7,17 @@ const DoYouHaveDoubtsCard = ({ title }) => {
   return (
     <section className="px-[3%] md:px-[6%] py-12 bg-white">
       <h1 className="text-3xl font-medium ">
-        {title || t('doYouHaveDoubts')}
+      Do you have doubts?
       </h1>
       <br />
       <p className="text-lg text-[#383838]">
-        {t('ourTeamService')}
+      Our team is always at your service 24H
       </p>
 
       <div className="flex gap-12 flex-col md:flex-row my-8 items-center">
         <div className="flex w-full flex-col gap-2 grow">
           <label htmlFor="name" className="text-base text-[#383838]">
-            {t('yourName')}
+          Your name
           </label>
           <input
             type="text"
@@ -27,7 +27,7 @@ const DoYouHaveDoubtsCard = ({ title }) => {
         </div>
         <div className="flex w-full flex-col gap-2 grow">
           <label htmlFor="email" className="text-base text-[#383838]">
-            {t('yourEmail')}
+           Your Email
           </label>
           <input
             type="email"
@@ -39,7 +39,7 @@ const DoYouHaveDoubtsCard = ({ title }) => {
       <div className="flex gap-12 flex-col md:flex-row my-8 items-center">
         <div className="flex w-full flex-col gap-2 grow">
           <label htmlFor="phone" className="text-base text-[#383838]">
-            {t('yourPhoneNumber')}
+           Phone Number
           </label>
           <input
             type="tel"
@@ -49,7 +49,7 @@ const DoYouHaveDoubtsCard = ({ title }) => {
         </div>
         <div className="flex w-full flex-col gap-2 grow">
           <label htmlFor="subject" className="text-base text-[#383838]">
-            {t('subject')}
+           Object
           </label>
           <select
             name="subject"
@@ -76,7 +76,7 @@ const DoYouHaveDoubtsCard = ({ title }) => {
 
       <div className="flex flex-col gap-2 grow">
         <label htmlFor="message" className="text-base text-[#383838]">
-          {t('yourMessage')}
+         Your message
         </label>
         <textarea
           name="message"
@@ -88,7 +88,7 @@ const DoYouHaveDoubtsCard = ({ title }) => {
       <br />
       <br />
       <button className="bg-[var(--primary-color)] text-white text-lg font-bold rounded-lg px-12 py-2 ">
-        {t('send')}
+       Send
       </button>
     </section>
   );

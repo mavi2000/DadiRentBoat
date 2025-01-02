@@ -22,9 +22,9 @@ const SectionBelowTable = ({ data, setData }) => {
         />
         <label htmlFor="Pursuant" className="text-lg">
           <span className="text-[--primary-color] underline">
-            {t('pursuantLabelUnique')}
+          Pursuant to and for the purposes of articles 1341 and 1342 of the civil code the clauses referred to in numbers are explicitly approved: 1,2,3,4,5,6,7,8,9,10,11,12, 13,14,15. * 
           </span>
-          &nbsp;{t('pursuantClausesUnique')}
+          &nbsp;
           <span className="text-red-500">*</span>
         </label>
       </div>
@@ -50,7 +50,7 @@ const SectionBelowTable = ({ data, setData }) => {
       </div>
       <div className="flex gap-12 flex-col w-full md:flex-row mt-10">
         <div className="flex flex-col mb-8 w-full">
-          <label htmlFor="faithPlace">{t('faithPlaceLabelUnique')}</label>
+          <label htmlFor="faithPlace">In faith (place and date)</label>
           <div>
             <input
               type="text"
@@ -64,7 +64,7 @@ const SectionBelowTable = ({ data, setData }) => {
           </div>
         </div>
         <div className="flex flex-col mb-8 w-full">
-          <label htmlFor="faithDate">{t('faithDateLabelUnique')}</label>
+          <label htmlFor="faithDate">Date</label>
           <div>
             <input
               type="date"

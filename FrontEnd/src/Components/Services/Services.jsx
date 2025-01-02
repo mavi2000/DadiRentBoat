@@ -18,10 +18,10 @@ const Services = () => {
       <div className="Services-page-bg !h-[50svh] md:!h-[100svh]">
         <div className="h-[50svh] md:h-[100svh] flex flex-col justify-center mx-[6%]">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
-            {t('dadiRentServices')}
+          Dadi Rent Services
           </h1>
           <p className="my-8 font-medium text-2xl text-white md:w-[60%]">
-            {t('discoverExploreTaste')}
+          Discover, Explore, Taste!
           </p>
         </div>
       </div>
@@ -41,17 +41,17 @@ const Services = () => {
             />
 
             <h1 className=" text-3xl font-medium text-[#383838]">
-              {t('rentalWithOrWithoutDriver')}
+            Rental with or without driver
             </h1>
 
             <p className=" text-base text-[#00000080] text-center px-4 w-[90%] py-3">
-              {t('rentalDescription')}
+            We offer the possibility of renting boats, with or without driver. Whether you want to explore Livorno on your own or prefer to rely on a professional to guide you, we are here to meet your needs.
             </p>
             <Link
               to="/boat-dinghal"
               className="self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
             >
-              {t('findOutMore')}
+             Find out More
             </Link>
           </div>
         </section>
@@ -65,17 +65,17 @@ const Services = () => {
             />
 
             <h1 className=" text-3xl font-medium text-[#383838]">
-              {t('excursions')}
+            Excursions
             </h1>
 
             <p className=" text-base text-[#00000080] text-center px-4 w-[90%] py-3">
-              {t('excursionsDescription')}
+            We organize guided excursions to help you discover the most beautiful and evocative places in the area. From breathtaking views to cultural attractions, we offer you an unforgettable and informative experience.
             </p>
             <Link
               to="/services/Excursions"
               className="self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
             >
-              <button>{t('findOutMore')}</button>
+              <button>Find out More</button>
             </Link>
           </div>
           <img
@@ -99,17 +99,17 @@ const Services = () => {
             />
 
             <h1 className=" text-3xl font-medium text-[#383838]">
-              {t('fishingTrips')}
+            Fishing Trips
             </h1>
 
             <p className=" text-base text-[#00000080] text-center px-4 w-[90%] py-3">
-              {t('fishingTripsDescription')}
+            If you are a fishing enthusiast, we offer you the opportunity to participate in exciting fishing trips. Take advantage of our local knowledge and quality equipment to catch unforgettable fish in the waters of Livorno.
             </p>
             <Link
               to="Fishing-Trips"
               className="self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
             >
-              <button>{t('findOutMore')}</button>
+              <button>Find Out More</button>
             </Link>
           </div>
         </section>
@@ -123,17 +123,17 @@ const Services = () => {
             />
 
             <h1 className=" text-3xl font-medium text-[#383838]">
-              {t('aperitif')}
+            Aperitif
             </h1>
 
             <p className=" text-base text-[#00000080] text-center px-4 w-[90%] py-3">
-              {t('aperitifDescription')}
+            Enjoy a moment of relaxation and conviviality with our aperitifs on board our boats. Delicious appetizers and drinks await you while you admire the sunset over the sea.
             </p>
             <Link
               to="/services/Aperitif"
               className="self-start ml-[8%] border border-[#CBA557] py-3 px-10 rounded-lg text-[#CBA557]"
             >
-              <button>{t('findOutMore')}</button>
+              <button>Find out More</button>
             </Link>
           </div>
           <img

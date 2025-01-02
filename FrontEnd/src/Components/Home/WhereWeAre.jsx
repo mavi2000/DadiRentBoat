@@ -67,16 +67,16 @@ const WhereWeAre = () => {
             Sign up and Book Us
           </h1>
           <h1 className="text-[#343434] font-medium text-3xl">Where We Are</h1>
-          <p className="text-[#00000080] text-base">Viale Italia 62, 57127 Livorno</p>
+          <p className="text-[#00000080] text-base">Viale Italia, 62</p>
           <p className="text-[#00000080] text-base">
-            at Pancaldi Acquaviva Baths
+          c/o BAGNI PANCALDI IN ACQUAVIVA
           </p>
           <p className="text-[#00000080] text-base">
-            c/o Pancaldi Baths in Acquaviva
+          We await you at Bagni Pancaldi Acquaviva, situated at Viale Italia 62, in the heart of Livorno's waterfront. Our position adjoins the Terrazza Mascagni, offering you a breathtaking view of the Tuscan islands and Corsica. Directly opposite us lies Meloria Park, one of the closest points, further enhancing the beauty of the surrounding landscape."
           </p>
           <br />
           <p className="text-[#00000080] text-base">
-            Please contact us for more details about how to reach us.
+          It's important to note that access to Bagni Pancaldi Acquaviva is granted only for the duration of the rental. To remain at the beach and access its services, you will need to purchase the relevant entrance ticket. Nevertheless, you can enjoy an elegant and rejuvenating environment with impeccable services and a delightful sea view during your time with us.
           </p>
         </div>
       </div>

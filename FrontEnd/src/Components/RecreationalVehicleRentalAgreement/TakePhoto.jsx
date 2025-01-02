@@ -26,7 +26,7 @@ const TakePhoto = ({ data, setData }) => {
   return (
     <div className="flex mb-12 gap-8">
       <div>
-        <h1 className="text-2xl text-[#383838] mb-4">{t('documentFrontUnique')}</h1>
+        <h1 className="text-2xl text-[#383838] mb-4">Document Front</h1>
         <div className="bg-[--primary-color] rounded-lg py-2 px-7">
           <input type="file" id="docFront" name="docFront" className="hidden" onChange={handleChange} />
           <button
@@ -36,7 +36,7 @@ const TakePhoto = ({ data, setData }) => {
               document.getElementById('docFront').click();
             }}
           >
-            {t('uploadPhotoFrontUnique')}
+           Upload Photo
           </button>
           {selectedFiles.docFront && (
             <p className="mt-2 text-sm text-gray-700">
@@ -46,7 +46,7 @@ const TakePhoto = ({ data, setData }) => {
         </div>
       </div>
       <div>
-        <h1 className="text-2xl text-[#383838] mb-4">{t('documentBackUnique')}</h1>
+        <h1 className="text-2xl text-[#383838] mb-4">Document Back</h1>
         <div className="bg-[--primary-color] rounded-lg py-2 px-7">
           <input type="file" id="docBack" name="docBack" className="hidden" onChange={handleChange} />
           <button
@@ -56,7 +56,7 @@ const TakePhoto = ({ data, setData }) => {
               document.getElementById('docBack').click();
             }}
           >
-            {t('uploadPhotoBackUnique')}
+          Upload Photo
           </button>
           {selectedFiles.docBack && (
             <p className="mt-2 text-sm text-gray-700">

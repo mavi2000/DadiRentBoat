@@ -12,23 +12,24 @@ const FishingTrips = () => {
       <div className="Excursions-bg">
         <div className="mx-[3%] md:mx-[6%] flex flex-col justify-center h-[100svh]">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
-            {t('fishingTripsTitle')}
+          Fishing Trips
           </h1>
           <p className="my-8 font-medium text-2xl text-white md:w-[60%]">
-            {t('fishingTripsSubtitle')}
+          Discover the thrill of fishing trips with us!
           </p>
         </div>
       </div>
 
       <ExcursionCard
-        title={t('excursionCardTitle')}
+        title="Fishing Trips"
         img={manWithStick}
         description={
           <>
-            <p>{t('excursionCardDescription')}</p>
+            <p>Would you like to go on a boat and fish? Then you are in the right place for you. We at DaDi Rent organize fishing trips throughout the year.</p>
             <ul className="pl-8 list-disc">
-              <li>{t('excursionCardListItem1')}</li>
-              <li>{t('excursionCardListItem2')}</li>
+              <li>You can plan outings with your friends on our rental dinghy with or without a skypper.</li>
+              <li>
+               You can take part in our excursions that we organize periodically, with the opportunity to make new friends.</li>
             </ul>
           </>
         }
@@ -38,10 +39,10 @@ const FishingTrips = () => {
       <br />
       <br />
       <div className="mx-[3%] md:mx-[6%]">
-        <h1 className="text-3xl font-medium text-center">{t('readyToSetSailTitle')}</h1>
+        <h1 className="text-3xl font-medium text-center">Ready To set Sail?</h1>
         <br />
         <button className="bg-[var(--primary-color)] text-white text-lg font-bold rounded-lg px-12 py-2 mx-auto mt-4 block">
-          {t('bookNightButton')}
+          Also Book A Night
         </button>
         <br />
         <br />

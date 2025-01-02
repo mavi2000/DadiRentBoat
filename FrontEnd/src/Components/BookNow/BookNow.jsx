@@ -457,24 +457,22 @@ const BookNow = () => {
                   <GrUserPolice />
                 </span>
                 <p className="font-sans font-poppins font-normal text-[#808080]">
-                  {t("withSkipper")}
+                With or Without Skipper
                 </p>
               </div>
             </div>
           </div>
           <div className="center mt-[8%]">
-            <h1 className="heading-book">{t("description")}</h1>
+            <h1 className="heading-book">Description</h1>
             <p className="para-book">
-              {boatDetails?.description?.map((item, key) => (
-                <span key={key}>{item?.details?.descriptionEnglish}</span>
-              ))}
+            All our Deluxe rooms have big windows to help you take a broad view of the cityscape and nature. We offer bigger bed and every bathroom has bathtub and shower, which brings relaxation to you after a long day.Fast WIFI connection, satelite TV and international standard electric socket are standard throughout Hotel.
             </p>
             <div className="mt-[4%]">
               <div className="flex gap-[1%] items-center">
                 <span className="text-[#CBA557] transform text-2xl">
                   <RiAnchorLine />
                 </span>
-                <h1 className="heading-book">{t("satelliteTracking")}</h1>
+                <h1 className="heading-book">Satelite Tracking</h1>
               </div>
               <p className="para-book">
                 Our dinghy is equipped with a GPS tracking system; The system
@@ -490,18 +488,17 @@ const BookNow = () => {
                   <RiAnchorLine />
                 </span>
                 <h1 className="heading-book">
-                  {t("marineProtectedArea")}
+                This dinghy has the authorization to carry out activity in the marine protected area of the Secche della Meloria.
                 </h1>
               </div>
               <p className="para-book">
-                {boatDetails?.description?.map((item, key) => (
-                  <span key={key}>{item?.details?.descriptionItalian}</span>
-                ))}
+              This vehicle has the authorization to carry out the activity in the marine protected area of the Secche della Meloria.
+              We are pleased to confirm that our vehicle has the authorization to carry out the activity within the marine protected area of the Secche della Meloria. This area, with a history dating back to the twelfth century, was originally marked by the tower built by the maritime republic of Pisa to indicate the presence of shallow waters in the ancient Porto Pisano.During our excursions in this area, you have the chance to spot dolphins that travel the routes inside the cetacean sanctuary. This is an exciting and fascinating event that will allow you to get in touch with the wonderful marine wildlife present in the area.We are proud to offer the opportunity to explore this protected area and share the beauty and richness of its ecosystem with our customers. Our authorization allows us to operate in accordance with the rules and regulations established by the marine protected area, ensuring responsible navigation and respect for the marine environment.So, when you book our boat rental, you will have the opportunity to live a unique experience within the marine protected area of the Secche della Meloria, enjoying the spectacular nature and marine fauna that this area offers.We encourage you to prepare to venture into this remarkable environment and enjoy the thrill of spotting dolphins as you explore the routes within the cetacean sanctuary. Your experience on board our vehicle will be truly unforgettable.
               </p>
             </div>
             <div className="mt-[4%]">
               <div className="flex items-center gap-[1%] text-[#CBA557]">
-                <p className="underline">{t("viewLess")}</p>
+                <p className="underline">View Less</p>
                 <span>
                   <IoIosArrowUp />
                 </span>
@@ -513,7 +510,7 @@ const BookNow = () => {
                       <span className="text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
                       </span>
-                      <p className="text-[#676767]">{t("length")}</p>
+                      <p className="text-[#676767]">Length</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       {boatDetails?.boat?.lengthMeters}
@@ -524,7 +521,7 @@ const BookNow = () => {
                       <span className="text-[1.15rem] text-[#CBA557]">
                         <RiRulerLine />
                       </span>
-                      <p className="text-[#676767]">{t("width")}</p>
+                      <p className="text-[#676767]">Width</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       8m
@@ -535,7 +532,7 @@ const BookNow = () => {
                       <span className="text-[1.15rem] text-[#CBA557]">
                         <IoHammerOutline />
                       </span>
-                      <p className="text-[#676767]">{t("draft")}</p>
+                      <p className="text-[#676767]">Draft</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       8m
@@ -544,7 +541,7 @@ const BookNow = () => {
                   <div className="py-4 px-10 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <img src={Draught} alt="" className="w-5 h-5" />
-                      <p className="text-[#676767]">{t("draught")}</p>
+                      <p className="text-[#676767]">Draught</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       {boatDetails?.boat?.droughtMeters}m
@@ -553,7 +550,7 @@ const BookNow = () => {
                   <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <img src={FuelTank} alt="" className="w-4 h-5" />
-                      <p className="text-[#676767]">{t("fuelTank")}</p>
+                      <p className="text-[#676767]">Fuel Tank</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       {boatDetails?.boat?.fuelTankLiters}m
@@ -562,7 +559,7 @@ const BookNow = () => {
                   <div className="py-5 px-8 my-2 bg-[#CBA557] bg-opacity-30 w-44 h-20">
                     <div className="flex gap-1 items-center">
                       <img src={FuelType} alt="" className="w-5 h-5" />
-                      <p className="text-[#676767]">{t("fuelType")}</p>
+                      <p className="text-[#676767]">Fuel Type</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       8m
@@ -573,7 +570,7 @@ const BookNow = () => {
                       <span className="text-[1.15rem] text-[#CBA557]">
                         <RiAnchorLine />
                       </span>
-                      <p className="text-[#676767]">{t("power")}</p>
+                      <p className="text-[#676767]">Power</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       {boatDetails?.boat?.totalEnginePowerHP} hp
@@ -584,7 +581,7 @@ const BookNow = () => {
                       <span className="text-[1.15rem] text-[#CBA557]">
                         <TbTool />
                       </span>
-                      <p className="text-[#676767]">{t("phone")}</p>
+                      <p className="text-[#676767]">Phone</p>
                     </div>
                     <p className="text-sm text-[#676767] text-opacity-70 text-center">
                       {boatDetails?.boat?.telephone}
@@ -594,8 +591,8 @@ const BookNow = () => {
               </div>
             </div>
             <div className="mt-[4%]">
-              <h1 className="heading-book">{t("equipment")}</h1>
-              <h2 className="min-heading mt-[2%]">{t("comfort")}</h2>
+              <h1 className="heading-book">Equipment</h1>
+              <h2 className="min-heading mt-[2%]">Comfort</h2>
               <div className="flex flex-wrap">
                 <div>
                   <ul>
@@ -631,7 +628,7 @@ const BookNow = () => {
                       </li>
                     ))}
                   </ul>
-                  <h2 className="font-medium text-lg mt-10">{t("services")}</h2>
+                  <h2 className="font-medium text-lg mt-10">Services</h2>
                   <ul>
                     {boatDetails?.equipment?.map((item) => (
                       <li key={item._id}>
@@ -669,15 +666,15 @@ const BookNow = () => {
               </div>
             </div>
             <div className="mt-[4%]">
-              <h1 className="heading-book">{t("thingsToKnow")}</h1>
+              <h1 className="heading-book">Things to know</h1>
               <div className="mt-[3%] gap-3 flex">
                 <span className="text-[#CBA557] text-2xl">
                   <PiDiamondsFourLight />
                 </span>
                 <p className="font-medium text-[#191919]">
-                  {t("securityDeposit")} <br className="mb-[1%]" />
+                  Security Deposit<br className="mb-[1%]" />
                   <p className="text-sm font-normal text-opacity-70 text-[#4B465C]">
-                    {t("securityDepositDetails")}
+                  Please note that the rental fee does not Security Deposit costs.
                   </p>
                 </p>
               </div>
@@ -686,9 +683,9 @@ const BookNow = () => {
                   <PiDiamondsFourLight />
                 </span>
                 <p className="font-medium text-[#191919]">
-                  {t("fuelExcluded")} <br className="mb-[1%]" />
+                 Fuel Excluded<br className="mb-[1%]" />
                   <p className="text-sm font-normal text-opacity-70 text-[#4B465C]">
-                    {t("fuelExcludedDetails")}
+                  Please note that the rental fee does not include fuel costs. Renters will be responsible for purchasing fuel separately during the rental period
                   </p>
                 </p>
               </div>
@@ -697,9 +694,9 @@ const BookNow = () => {
                   <PiDiamondsFourLight />
                 </span>
                 <p className="font-medium text-[#191919]">
-                  {t("prePayment")} <br className="mb-[1%]" />
+                Pre-Payment<br className="mb-[1%]" />
                   <p className="text-sm font-normal text-opacity-70 text-[#4B465C]">
-                    {t("prePaymentDetails")}
+                  30% pre-payment is required to confirm your booking.
                   </p>
                 </p>
               </div>
@@ -708,27 +705,27 @@ const BookNow = () => {
                   <PiDiamondsFourLight />
                 </span>
                 <p className="font-medium text-[#191919] leading-6">
-                  {t("cancellationPolicy")}:
+                Cancellation Policy for Boat and Dinghy Rentals in Livorno:
                   <br className="mb-[1%]" />
                   <p className="text-lg font-normal text-opacity-70 text-[#4B465C]">
-                    {t("customerImpossibility")}
+                  Customer Impossibility
                   </p>
                   <p className="text-sm font-normal text-opacity-70 text-[#4B465C]">
-                    {t("customerImpossibilityDetails")}
+                  Full refund of rental and deposit paid up to 48 hours before arrival.Refund of up to 70% up to 24 hours before the rental, with loss of the deposit amounts paid (which will be deducted if the rental is rescheduled).Notification of impossibility required within 24 hours prior to rental for full refund.
                   </p>
                   <p className="text-lg font-normal text-opacity-70 text-[#4B465C] mt-1">
-                    {t("badWeather")}
+                    Bad Weather
                   </p>
                   <p className="text-sm font-normal text-opacity-70 text-[#4B465C]">
-                    {t("badWeatherDetails")}
+                  Tenant's discretion to suspend rental service.If the service cannot be carried out due to bad weather or for reasons attributable to DaDi Rent, the customer has the right to recovery of the service on the first available date.
                   </p>
                 </p>
               </div>
             </div>
             <div className="mt-[4%]">
-              <h1 className="heading-book">{t("pancaldiAcquaviva")}</h1>
+              <h1 className="heading-book">Pancaldi Acquaviva </h1>
               <p className="mt-[3%] text-sm font-normal text-opacity-70 text-[#4B465C] leading-5">
-                {t("pancaldiAcquavivaDetails")}
+              You can find us at Bagni Pancaldi Acquaviva, located at Viale Italia 62, nestled in the heart of Livorno's seafront. Situated adjacent to the Terrazza Mascagni, our location offers stunning views of the Tuscan islands and Corsica. Facing us is the expansive Meloria Park, further enhancing the natural beauty of the surroundings. It's an elegant and rejuvenating spot with impeccable amenities and an enchanting sea view.At our establishment, customers have access to a range of services upon payment of an 8 Euro ticket. They can enjoy a refreshing shower upon their return, take advantage of the swimming pool, rent umbrellas and sun loungers, access the beach and children's play area, use the beach volleyball court for a quick match, or take a dip in Livorno's oldest and largest seaside establishment.
               </p>
             </div>
           </div>
@@ -949,7 +946,7 @@ const BookNow = () => {
       </div>
       <div className="my-[5%] mx-[6%]">
         <div className="mt-[4%]">
-          <h1 className="mb-[2%] heading-book">{t("prices")}</h1>
+          <h1 className="mb-[2%] heading-book">Prices</h1>
           <div className="flex flex-wrap gap-4">
             <Prices
               month={t("january")}

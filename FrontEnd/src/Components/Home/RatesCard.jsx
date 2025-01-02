@@ -9,7 +9,7 @@ const RatesCard = ({ title, rate, label, trait1, trait2, trait3, trait4 }) => {
       <div className="rates-card-star-img"></div>
       <h1 className="text-[#4B465C] text-2xl font-semibold">{title}</h1>
       <h1 className="text-[var(--primary-color)] text-3xl font-medium">
-        {t('fromEuro')} <span className="font-semibold">{rate}</span>
+       From Euro <span className="font-semibold">{rate}</span>
       </h1>
       <p className="text-[#4b465c8e] text-sm font-medium">{label}</p>
       <table className="w-full text-[#4B465C] text-base mt-4">
@@ -34,7 +34,7 @@ const RatesCard = ({ title, rate, label, trait1, trait2, trait3, trait4 }) => {
       </table>
       <div className="w-full mt-8 flex gap-4">
         <button className="rates-card-btn text-[var(--primary-color)] bg-[#CBA55729] grow rounded-lg px-4 py-2">
-          {t('getStarted')}
+          {"Get Started"}
         </button>
       </div>
     </div>

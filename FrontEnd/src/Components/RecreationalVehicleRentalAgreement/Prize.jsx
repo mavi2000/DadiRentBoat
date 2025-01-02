@@ -12,12 +12,12 @@ const Prize = ({ data, setData }) => {
 
   return (
     <div>
-      <h1 className="mt-16 text-xl font-semibold">{t('prizeTitleUnique')}</h1>
+      <h1 className="mt-16 text-xl font-semibold"> PRIZE </h1>
       <hr className="border-none h-[1px] bg-[#DBDADE] my-4" />
-      <p className="text-lg mb-8">{t('prizeDescriptionUnique')}</p>
+      <p className="text-lg mb-8">The price includes VAT and stamp duty, if due.</p>
       <div className="flex flex-col my-8">
         <label htmlFor="leasePrice">
-          {t('leasePriceLabelUnique')} <span className="text-red-500">*</span>
+        the price of the Lease is € <span className="text-red-500">*</span>
         </label>
         <input
           type="text"

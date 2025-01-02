@@ -352,21 +352,21 @@ const Checkout = () => {
       <div className="checkout-bg !h-[50svh] md:!h-[100svh]">
         <div className="h-[50svh] md:h-[100svh] flex flex-col justify-center mx-[6%]">
           <h1 className="text-[var(--primary-color)] text-[3rem] font-bold leading-[3rem]">
-            {t("checkOut")}
+          Check Out
           </h1>
         </div>
       </div>
       <div className="mx-[6%] mt-[3%]">
         <h1 className="font-medium text-3xl text-[#000000]">
-          {t("checkOut")}
+        Check Out
         </h1>
-        <p className="para-book mt-2">{t("bookRentalDescription")}</p>
+        <p className="para-book mt-2">Book your rental in two simple stepsRenting boats from us means relying on a competent team that takes care of all the pre and post boat rental phases. But not only that, all our boats are periodically checked and tested according to current regulations. This is why boat rental with DaDi Rent is safe. Not only in the price but also in the quality of our boats and in the service that we are able to provide always and in any case.</p>
 
         <div className="flex flex-col md:flex-row md:space-x-[2%] mt-[2%] space-y-[5%] md:space-y-[0%]">
           <div className="md:w-[35%] bg-white rounded-xl shadow-checkout mb-[1%]">
             <div className="py-9 px-12 flex flex-col justify-center items-center">
               <h2 className="text-xl font-medium leading-7">
-                {t("bookingNumber")}
+              Booking #240401-104107563
               </h2>
             </div>
             <hr className="border border-[#DCDCDC]" />
@@ -382,13 +382,13 @@ const Checkout = () => {
                   </h2>
                   <div className="flex flex-col  gap-4 mt-[3%]">
                                     <p className="font-bold">
-                    {t("from")} : 
+                    From: 
                     <span className="text-[#676767] font-normal">
                       {format(new Date(boatDetails?.boatBookings[0]?.startDate), "dd MMMM yyyy")}
                     </span>
                   </p>
                   <p className="font-bold">
-                    {t("to")} : 
+                   To: 
                     <span className="text-[#676767] font-normal">
                       {format(new Date(boatDetails?.boatBookings[0]?.endDate), "dd MMMM yyyy")}
                     </span>
@@ -412,7 +412,7 @@ const Checkout = () => {
                         htmlFor="bookingDate"
                         className="block text-gray-700 text-sm font-bold mb-2"
                       >
-                        {t("selectBookingDates")}
+                       Select Booking Date
                       </label>
                       <DatePicker
                         ref={datePickerRef}
@@ -493,34 +493,46 @@ const Checkout = () => {
               )}
               <div className="mb-4">
                 {selectedRate && isAvailable && !startTime && !endTime && (
-                  <div>
-                    <label
-                      htmlFor="customRate"
-                      className="block text-gray-700 text-sm font-bold mb-2"
-                    >
-                      {t("perDayRate")}
-                    </label>
-                    <input
-                      type="number"
-                      id="customRate"
-                      value={customRate || selectedRate.oneDayRate}
-                      onChange={(e) => setCustomRate(e.target.value)}
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    />
-                    <p className="text-gray-700 text-xl font-bold mt-2">
-                      {t("total")}  €
-                      {(
-                        (customRate || selectedRate.oneDayRate) *
-                        ((selectedDates[1] - selectedDates[0]) /
-                          (1000 * 60 * 60 * 24) +
-                          1)
-                      ).toFixed(2)}
-                    </p>
-                  </div>
+                 <div>
+                 <label
+                   htmlFor="customRate"
+                   className="block text-gray-700 text-sm font-bold mb-2"
+                 >
+                   Per Day Rate
+                 </label>
+                 <input
+                   type="number"
+                   id="customRate"
+                   value={customRate || selectedRate?.oneDayRate || 0} // Fallback to 0 if undefined
+                   onChange={(e) => setCustomRate(Number(e.target.value) || 0)} // Convert input to a number
+                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                 />
+                 <p className="text-gray-700 text-xl font-bold mt-2">
+                   Total € 
+                   {(() => {
+                     // Validate selectedDates array
+                     if (
+                       selectedDates.length === 2 &&
+                       selectedDates[0] instanceof Date &&
+                       selectedDates[1] instanceof Date
+                     ) {
+                       // Calculate total
+                       const days = Math.max(
+                         (selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24) + 1,
+                         0
+                       ); // Ensure non-negative days
+                       const rate = customRate || selectedRate?.oneDayRate || 0;
+                       return (rate * days).toFixed(2); // Format as currency
+                     }
+                     return "0.00"; // Fallback for invalid dates
+                   })()}
+                 </p>
+               </div>
+               
                 )}
                 {startTime && endTime && (
                   <div className="text-gray-700 text-xl font-bold mt-2">
-                    {t("total")}:  €
+                   Total:  €
                     {(
                       parseFloat(customRate || selectedRate.oneHourRate) *
                       (parseInt(endTime.split(":")[0]) -
@@ -529,13 +541,13 @@ const Checkout = () => {
                   </div>
                 )}
                 <div className="text-gray-700 text-xl font-bold mt-2">
-                with skipper{t("total")}€
+                with skipper Total €
                     {totalAmount.toFixed(2)}
                   </div>
               </div>
               <div className="my-4">
                 <h2 className="font-medium text-lg mb-2">
-                  {t("paymentOption")}
+                 Payment Option
                 </h2>
                 <label className="block mt-2">
                   <input
@@ -546,7 +558,7 @@ const Checkout = () => {
                     onChange={() => setPaymentOption("full")}
                     className="mr-2"
                   />
-                  {t("payFullAmount")}
+                 Pay Full Amount
                 </label>
                 <label className="mt-2 flex gap-2">
                   <input
@@ -557,7 +569,7 @@ const Checkout = () => {
                     onChange={() => setPaymentOption("partial")}
                     className="mr-2"
                   />
-                  {t("payPartialAmount")}
+                  Pay Partial Amount
                 </label>
               </div>
               <button

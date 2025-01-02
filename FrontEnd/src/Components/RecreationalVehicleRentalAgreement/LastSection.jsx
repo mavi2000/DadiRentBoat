@@ -66,14 +66,14 @@ const LastSection = ({ pageRef, data }) => {
           onClick={handleDownloadPdf}
         >
           <VscFilePdf size={25} />
-          {t('downloadPdfButtonUnique')}
+          Download PDF
         </button>
         <button
           type="submit"
           className="rounded-lg px-6 py-3 bg-[--primary-color] text-lg font-bold text-white"
           // disabled={!data.valid}
         >
-          {t('submitButtonUnique')}
+         Send
         </button>
       </div>
     </div>

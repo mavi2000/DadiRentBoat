@@ -1,51 +1,44 @@
-import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { Link, useLocation } from "react-router-dom";
 
 const NavbarLinks = ({ user }) => {
-  const { t } = useTranslation();
+  const location = useLocation(); // Use this hook to get current location path
   
   const homePage =
-    window.location.pathname.includes("/services") ||
-    window.location.pathname.includes("/Contact-Information") ||
-    window.location.pathname.includes("/Our-Fleet") ||
-    window.location.pathname.includes("/Rates") ||
-    window.location.pathname.includes("/where-we-are") ||
-    window.location.pathname.includes("/Contact-Information") ||
-    window.location.pathname.includes("/faq");
+    location.pathname.includes("/services") ||
+    location.pathname.includes("/Contact-Information") ||
+    location.pathname.includes("/Our-Fleet") ||
+    location.pathname.includes("/Rates") ||
+    location.pathname.includes("/where-we-are") ||
+    location.pathname.includes("/Contact-Information") ||
+    location.pathname.includes("/faq");
 
   return (
     <>
       <Link to="/services">
         <p
           className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ${
-            window.location.pathname.includes("/services")
-              ? "text-[--primary-color]"
-              : ""
+            location.pathname.includes("/services") ? "text-[--primary-color]" : ""
           }`}
         >
-          {t('navbarServices')}
+          Services
         </p>
       </Link>
       <Link to="/Our-Fleet">
         <p
           className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ${
-            window.location.pathname.includes("/Our-Fleet")
-              ? "text-[--primary-color]"
-              : ""
+            location.pathname.includes("/Our-Fleet") ? "text-[--primary-color]" : ""
           }`}
         >
-          {t('navbarFleet')}
+          Our Fleet
         </p>
       </Link>
       <Link to="/Rates">
         <p
           className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ${
-            window.location.pathname.includes("/Rates")
-              ? "text-[--primary-color]"
-              : ""
+            location.pathname.includes("/Rates") ? "text-[--primary-color]" : ""
           }`}
         >
-          {t('navbarRates')}
+          Rates
         </p>
       </Link>
       {!homePage ? (
@@ -53,76 +46,65 @@ const NavbarLinks = ({ user }) => {
           <Link to="/where-we-are">
             <p
               className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ${
-                window.location.pathname.includes("/where-we-are")
-                  ? "text-[--primary-color]"
-                  : ""
+                location.pathname.includes("/where-we-are") ? "text-[--primary-color]" : ""
               }`}
             >
-              {t('navbarWhereWeAre')}
+              Where We Are
             </p>
           </Link>
-          <Link to="/">
-            {/* <p
-              className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700`}
-            >
-              Dadi Boats
-            </p> */}
-          </Link>
+          <Link to="/Our-Fleet">
+        <p
+          className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ${
+            location.pathname.includes("/Our-Fleet") ? "text-[--primary-color]" : ""
+          }`}
+        >
+         Dadi Boats
+        </p>
+      </Link>
         </>
       ) : (
         <Link to="/">
-          {/* <p
-            className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700`}
-          >
-            About Us
-          </p> */}
+          {/* <p> Uncomment if needed */}
+          {/* About Us */}
         </Link>
       )}
 
       <Link to="/Contact-Information">
         <p
           className={`hover:text-[--primary-color] hover:underline hover:scale-110 transition-all duration-700 ${
-            window.location.pathname.includes("/Contact-Information")
-              ? "text-[--primary-color]"
-              : ""
+            location.pathname.includes("/Contact-Information") ? "text-[--primary-color]" : ""
           }`}
         >
-          {t('navbarContactUs')}
+          Contact Us
         </p>
       </Link>
       {user && (
         <div className=" md:hidden flex flex-col gap-3">
           <Link to="/user/booking">
             <p
-              className={` hover:text-[var(--primary-color)] hover:underline hover:scale-110 transition-all duration-700 ${
-                window.location.pathname.includes("/user/booking")
-                  ? "text-[var(--primary-color)]"
-                  : "text-black"
+              className={`hover:text-[var(--primary-color)] hover:underline hover:scale-110 transition-all duration-700 ${
+                location.pathname.includes("/user/booking") ? "text-[var(--primary-color)]" : "text-black"
               }`}
             >
-              {t('navbarMyBooking')}
+              My Booking
             </p>
           </Link>
           <Link to="/user/favourites">
             <p
-              className={` hover:text-[var(--primary-color)] hover:underline hover:scale-110 transition-all duration-700 ${
-                window.location.pathname.includes("/user/favourites")
-                  ? "text-[var(--primary-color)]"
-                  : "text-black"
+              className={`hover:text-[var(--primary-color)] hover:underline hover:scale-110 transition-all duration-700 ${
+                location.pathname.includes("/user/favourites") ? "text-[var(--primary-color)]" : "text-black"
               }`}
             >
-              {t('navbarMyFavorite')}
+              My Favorite
             </p>
           </Link>
           <Link to="/user/account-info">
             <p
-              className={` hover:text-[var(--primary-color)] hover:underline hover:scale-110 transition-all duration-700 ${
-                window.location.pathname.includes("/user/account-info")
-                  ? "text-[var(--primary-color)]"
-                  : "text-black"
+              className={`hover:text-[var(--primary-color)] hover:underline hover:scale-110 transition-all duration-700 ${
+                location.pathname.includes("/user/account-info") ? "text-[var(--primary-color)]" : "text-black"
               }`}
             >
-              {t('navbarMyAccount')}
+              My Account
             </p>
           </Link>
         </div>
@@ -130,4 +112,5 @@ const NavbarLinks = ({ user }) => {
     </>
   );
 };
+
 export default NavbarLinks;

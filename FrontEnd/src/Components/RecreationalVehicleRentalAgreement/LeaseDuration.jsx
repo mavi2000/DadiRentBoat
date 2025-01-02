@@ -12,14 +12,14 @@ const LeaseDuration = ({ data, setData }) => {
 
   return (
     <div>
-      <h1 className="mt-16 text-xl font-semibold">{t('leaseDurationTitleUnique')}</h1>
+      <h1 className="mt-16 text-xl font-semibold">DURATION OF THE LEASES</h1>
       <hr className="border-none h-[1px] bg-[#DBDADE] my-4" />
       <p className="text-lg mb-8">
-        {t('leaseCrewMembersUnique')}
+      The Lessee declares that the following crew members are on board the chartered vessel:
       </p>
       <div className="flex flex-col my-8">
         <label htmlFor="leaseStart">
-          {t('leaseStartLabelUnique')} <span className="text-red-500">*</span>
+        Start of lease <span className="text-red-500">*</span>
         </label>
         <div>
           <input
@@ -39,7 +39,7 @@ const LeaseDuration = ({ data, setData }) => {
       </div>
       <div className="flex flex-col mb-8">
         <label htmlFor="leaseEnd">
-          {t('leaseEndLabelUnique')} <span className="text-red-500">*</span>
+        End of lease <span className="text-red-500">*</span>
         </label>
         <div>
           <input

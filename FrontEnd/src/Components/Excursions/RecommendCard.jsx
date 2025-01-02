@@ -8,9 +8,9 @@ const RecommendCard = () => {
 
   return (
     <section className="bg-[#CBA5574D] py-12 px-[3%] md:px-[6%]">
-      <h1 className="text-3xl font-medium mb-4">{t('recommendTitle7')}</h1>
+      <h1 className="text-3xl font-medium mb-4">What we recommend you see</h1>
       <p className="text-lg">
-        {t('recommendDescription7')}
+      Around us there are many unique points to see and absolutely not to be missed with a day on the boat, here's what we recommend for a complete experience
       </p>
       <div className="mt-8 z-0 excursion-map">
         <MapContainer

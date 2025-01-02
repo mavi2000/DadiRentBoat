@@ -13,14 +13,14 @@ const LeseGereralInformation = ({ data, setData }) => {
   return (
     <>
       <h1 className="my-12 text-xl font-semibold">
-        {t('lesseeGeneralInformationTitleUnique')}
+      LESSEE GENERAL INFORMATION:
       </h1>
       <hr className="border-none h-[1px] bg-[#DBDADE] my-8" />
 
       <div className="flex flex-col md:flex-row gap-16">
         <div className="w-full">
           <label htmlFor="firstName">
-            {t('firstNameLabelUnique')} <span className="text-red-500">*</span>
+          First Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -34,7 +34,7 @@ const LeseGereralInformation = ({ data, setData }) => {
         </div>
         <div className="w-full">
           <label htmlFor="lastName">
-            {t('lastNameLabelUnique')} <span className="text-red-500">*</span>
+          LastName <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -49,7 +49,7 @@ const LeseGereralInformation = ({ data, setData }) => {
       </div>
       <div className="flex flex-col my-8">
         <label htmlFor="dob">
-          {t('dobLabelUnique')} <span className="text-red-500">*</span>
+        Date Of Birth <span className="text-red-500">*</span>
         </label>
         <input
           type="date"
@@ -64,7 +64,7 @@ const LeseGereralInformation = ({ data, setData }) => {
       <div className="flex flex-col md:flex-row gap-16">
         <div className="w-full">
           <label htmlFor="birthCity">
-            {t('birthCityLabelUnique')} <span className="text-red-500">*</span>
+            Birth City <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -78,7 +78,7 @@ const LeseGereralInformation = ({ data, setData }) => {
         </div>
         <div className="w-full">
           <label htmlFor="birthProvince">
-            {t('birthProvinceLabelUnique')} <span className="text-red-500">*</span>
+           Birth Province <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -92,7 +92,7 @@ const LeseGereralInformation = ({ data, setData }) => {
         </div>
       </div>
       <div className="flex flex-col my-8">
-        <label htmlFor="taxId">{t('taxIdLabelUnique')}</label>
+        <label htmlFor="taxId">Tax Id Code</label>
         <input
           type="text"
           onChange={handleChange}
@@ -102,11 +102,11 @@ const LeseGereralInformation = ({ data, setData }) => {
           className="border-[1px] border-[#DBDADE] mr-8 outline-none my-3 px-4 py-3 rounded-md placeholder:text-[#DBDADE] w-full md:w-[calc(50%-2rem)]"
         />
         <p className="text-xs text-[#4b465cab]">
-          {t('taxIdHintUnique')}
+        sixteen alphanumeric characters
         </p>
       </div>
       <div className="flex flex-col mb-8 w-full">
-        <label htmlFor="address">{t('addressLabelUnique')}</label>
+        <label htmlFor="address">Street Address</label>
         <input
           type="text"
           onChange={handleChange}
@@ -119,7 +119,7 @@ const LeseGereralInformation = ({ data, setData }) => {
       </div>
       <div className="flex flex-col md:flex-row gap-16 mb-8">
         <div className="w-full">
-          <label htmlFor="city">{t('cityLabelUnique')}</label>
+          <label htmlFor="city">City</label>
           <input
             type="text"
             onChange={handleChange}
@@ -131,7 +131,7 @@ const LeseGereralInformation = ({ data, setData }) => {
           />
         </div>
         <div className="w-full">
-          <label htmlFor="state">{t('stateLabelUnique')}</label>
+          <label htmlFor="state">State / Province</label>
           <input
             type="text"
             onChange={handleChange}
@@ -145,7 +145,7 @@ const LeseGereralInformation = ({ data, setData }) => {
       </div>
       <div className="flex flex-col md:flex-row gap-16 mb-8">
         <div className="w-full">
-          <label htmlFor="zip">{t('zipLabelUnique')}</label>
+          <label htmlFor="zip">Postal code</label>
           <input
             type="text"
             id="zip"
@@ -157,7 +157,7 @@ const LeseGereralInformation = ({ data, setData }) => {
           />
         </div>
         <div className="w-full">
-          <label htmlFor="country">{t('countryLabelUnique')}</label>
+          <label htmlFor="country">Country</label>
           <input
             type="text"
             id="country"
@@ -171,7 +171,7 @@ const LeseGereralInformation = ({ data, setData }) => {
       </div>
       <div className="flex flex-col md:flex-row gap-16 mb-8">
         <div className="w-full">
-          <label htmlFor="phone">{t('phoneLabelUnique')}</label>
+          <label htmlFor="phone">Phone Number</label>
           <input
             type="tel"
             id="phone"
@@ -183,7 +183,7 @@ const LeseGereralInformation = ({ data, setData }) => {
           />
         </div>
         <div className="w-full">
-          <label htmlFor="email">{t('emailLabelUnique')}</label>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"

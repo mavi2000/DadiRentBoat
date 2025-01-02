@@ -134,23 +134,23 @@ const RecreationalVehicleRentalAgreement = () => {
     <div className="bg-white px-[3%] md:px-[6%] py-8 text-[#4B465C]">
       <img src={logo} alt="logo" className="size-[150px] mx-auto" />
       <h1 className="text-center font-semibold text-2xl mt-12 uppercase">
-        {t('pleasureVesselRentalAgreementTitleUnique')}
+      PLEASURE VESSEL RENTAL AGREEMENT
       </h1>
       <hr className="border-none h-[1px] bg-[#DBDADE] my-8" />
       <p className="text-lg mb-12">
-        {t('rentalAgreementIntroUnique')}
+      With this rental contract, the Lessee requests the company DaDi Rent Srls (lessor) to rent the Recreational Vessel to him , under the following conditions:
       </p>
       <p>
-        {t('typeOfBoatLabelUnique')} <span className="text-red-500">*</span>
+      TYPE OF BOAT <span className="text-red-500">*</span>
       </p>
       <p className="bg-[#F5F5F5] text-[#4B465C] border-[1px] border-[#DBDADE] w-full md:w-3/5 my-3 px-4 py-3 rounded-md">
-        {t('anninaBoatDescriptionUnique')}
+      Annina - open seaghost 550
       </p>
-      <p className="text-xs">{t('boatSelectionNoteUnique')}</p>
+      <p className="text-xs">Indicare il mezzo scelto per il noleggio</p>
       <form ref={formRef} onSubmit={handleSubmit}>
         <LeseGereralInformation data={data} setData={setData} />
         <p className="text-lg mb-12">
-          {t('lesseeDocumentCopyNoteUnique')}
+    Copy or scan of the Lessee's identity document, with his consent, is acquired by the Lessor for the purposes indicated in the attached Personal Data Processing Information pursuant to current regulations.
         </p>
         <TakePhoto data={data} setData={setData} />
         <CrewGuestList data={data} setData={setData} />
